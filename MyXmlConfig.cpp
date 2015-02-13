@@ -592,8 +592,13 @@ MyXmlConfig::getDesktopSize(int &dw, int &dh, int &ww, int &wh)
     r = dsp.GetClientArea();
     wxSize sz = tlw->GetSize();
     wxSize clsz = tlw->GetClientSize();
+#ifdef __WXMSW__
+    ww = r.GetWidth();
+    wh = r.GetHeight();
+#else
     ww = r.GetWidth() - (sz.GetWidth() - clsz.GetWidth());
     wh = r.GetHeight() - (sz.GetHeight() - clsz.GetHeight());
+#endif
     ::myLogTrace(MYTRACETAG, wxT("Display: %dx%d, Workarea: %dx%d (netto: %d,%d)"),
             dw, dh, r.GetWidth(), r.GetHeight(), ww, wh);
 }

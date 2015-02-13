@@ -1524,6 +1524,8 @@ MySession::startXserver()
             wxWinCmd << wxT(" -nolisten tcp");
             wxWinCmd << getXfontPath(m_eXarch);
             wxWinCmd << m_pCfg->sGetXserverParams(true);
+            if (!m_pCfg->bGetVirtualDesktop()) 
+                wxWinCmd << wxT(" -multiwindow "); 
             {
                 wxString title = m_pCfg->sGetUsername();
                 if (m_pCfg->bGetGuestMode()) {
