@@ -1447,6 +1447,7 @@ MySession::unhideNXWin()
 {
     if (XARCH_CYGWIN == m_eXarch) {
         // Required only for NXWin - Xming shows up by itself
+        DWORD  stored_nxserver_version = ::RegisterWindowMessage(wxT("STORED_NXSERVER_VERSION")); 
         HWND h = ::GetTopWindow(0);
         while (h) {
             wxString wclass;
@@ -1458,6 +1459,8 @@ MySession::unhideNXWin()
                 if ((int)pid == m_iXserverPID) {
                     // Trigger unhiding of fullscreen NXWin
                     SendMessage(h, WM_USER + 1, 0, 0);
+                    // Trigger for worked close button NXWin
+                    ::SendMessage(h, stored_nxserver_version, 1, 1);
                     break;
                 }
             }
