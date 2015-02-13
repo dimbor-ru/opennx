@@ -1,0 +1,10 @@
+# x y opts name
+#
+# opts can be:
+#  v = visible
+#  V = invisible
+#  e = show extension
+#  E = hide extension
+#  - = none
+500 150 E OpenSC.webloc
+500 275 E OpenNX.pkg

@@ -1,0 +1,176 @@
+#!/bin/sh
+
+set -e
+
+BUILDDIR=`pwd`
+cd `dirname $0`/../..
+TOPSRC=`pwd`
+cd $BUILDDIR
+if test -z "$DEST" ; then
+    DEST=$BUILDDIR/dist
+fi
+if test -z "$PFX" ; then
+    PFX=/Library/OpenNX
+fi
+ALLPKG="nxcomp nxproxy nxssh"
+CACHEDIR=$HOME/savebuild
+CACHEDBUILD=$CACHEDIR/nx-prebuild.tgz
+
+NEEDREBUILD=yes
+if [ -f $CACHEDBUILD ] ; then
+    NEEDREBUILD=no
+	tar xzf $CACHEDBUILD
+	for TARBALL in `$TOPSRC/getnxsrcpkg -l $ALLPKG` ; do
+		test -f $TARBALL || NEEDREBUILD=yes
+	done
+	if [ $NEEDREBUILD = yes ] ; then
+		rm -rf *
+	fi
+fi
+
+fetch() {
+	if [ -n "`which wget`" ] ; then
+		wget -q $1
+	else
+		if [ -n "`which curl`" ] ; then
+			curl -s -f -L -o `echo "$1"|sed -e 's!.*/\([^?]*\).*!\1!'` "$1"
+		else
+			echo "Need wget or curl" >&2
+			exit 1
+		fi
+	fi
+}
+
+if [ $NEEDREBUILD = yes ] ; then
+	$TOPSRC/getnxsrcpkg $ALLPKG
+	for pkg in $ALLPKG ; do
+        tar xzf ${pkg}-*.tar.gz
+	done
+
+    # Prerequisite: libjpeg (for x86: libjpeg-turbo)
+    test -f libjpeg-turbo-1.1.1.tar.gz || fetch http://downloads.sourceforge.net/project/libjpeg-turbo/1.1.1/libjpeg-turbo-1.1.1.tar.gz
+    tar xzf libjpeg-turbo-1.1.1.tar.gz
+    cd libjpeg-turbo-1.1.1
+    CFLAGS="-O3 -m32" CXXFLAGS="-O3 -m32" LDFLAGS="-m32" ./configure \
+            --prefix=$PFX --libdir=$PFX/lib/private --disable-static --enable-shared
+	mkdir -p $DEST$PFX/include $DEST$PFX/lib/private/{ppc,i386}
+	make && make DESTDIR=$DEST install-libLTLIBRARIES
+    mv $DEST$PFX/lib/private/libjpeg.62.0.0.dylib $DEST$PFX/lib/private/i386/libjpeg.62.dylib
+    rm -f $DEST$PFX/lib/private/*.dylib $DEST$PFX/lib/private/libturbojpeg.la
+	cd ..
+    # Prerequisite: libjpeg (for PPC: the original)
+	test -f jpegsrc.v6b.tar.gz || fetch http://downloads.sourceforge.net/project/libjpeg/libjpeg/6b/jpegsrc.v6b.tar.gz
+	tar xzf jpegsrc.v6b.tar.gz
+	cd jpeg-6b
+	patch -p1 < $TOPSRC/patches/jpeg-autoconf.patch
+	./configure \
+        	--prefix=$PFX --libdir=$PFX/lib/private --disable-static --enable-shared
+	make CFLAGS="-arch ppc $OSX_SDKFLAGS" CXXFLAGS="-arch ppc $OSX_SDKFLAGS" LDFLAGS="-arch ppc" DESTDIR=$DEST install-lib
+    mv $DEST$PFX/lib/private/libjpeg.62.dylib $DEST$PFX/lib/private/ppc/
+	cd ..
+    # Create universal libjpeg
+    lipo -create -arch i386 $DEST$PFX/lib/private/i386/* -arch ppc $DEST$PFX/lib/private/ppc/* \
+            -output $DEST$PFX/lib/private/libjpeg.62.dylib
+    rm -rf $DEST$PFX/lib/private/ppc $DEST$PFX/lib/private/i386
+	# Prerequisite: libpng
+	test -f libpng-1.2.44.tar.gz || fetch 'http://prdownloads.sourceforge.net/libpng/libpng-1.2.44.tar.gz?download'
+	tar xzf libpng-1.2.44.tar.gz
+	cd libpng-1.2.44
+	CFLAGS="-arch i386 -arch ppc $OSX_SDKFLAGS" LDFLAGS="-arch i386 -arch ppc" ./configure \
+        	--prefix=$PFX --enable-static --disable-shared --disable-dependency-tracking
+	make DESTDIR=$DEST install
+	cd ..
+
+	ncver=`ls nxcomp-*.tar.gz|perl -ne 'printf("%02d%02d%02d%02d\n",$1,$2,$3,$4)if(/nxcomp-(\d+)\.(\d+)\.(\d+)-(\d+)\.tar.*/);'`
+	for pkg in nxcomp nxproxy ; do
+    		cd $pkg
+    		for p in $TOPSRC/patches/${pkg}-*.patch ; do
+        		bn=`basename $p`
+				if [ $bn = nxcomp-gcc44.patch -a $ncver -ge 03040006 ] ; then
+            			echo === Skipping $bn in $pkg
+        		else
+            			echo === Applying $bn in $pkg
+            			patch -p1 < $p
+        		fi
+    		done
+            test -f configure.in -a -f configure.ac && rm -f configure.in
+    		autoreconf -f -i
+    		cargs=
+    		cenv="CFLAGS=\"$OSX_SDKFLAGS\" CXXFLAGS=\"$OSX_SDKFLAGS\""
+    		margs=
+    		case $pkg in
+        		nxcomp)
+                        cenv="CFLAGS=\"$OSX_SDKFLAGS\" CXXFLAGS=\"$OSX_SDKFLAGS\" LDFLAGS=-L$DEST$PFX/lib/private"
+            			cargs="--with-libjpeg=$DEST$PFX --with-libpng=$DEST$PFX"
+            			;;
+    		esac
+    		echo === Configuring $pkg ...
+    		echo $cenv ./configure --prefix=$PFX $cargs
+    		eval $cenv ./configure --prefix=$PFX $cargs
+    		echo === Building $pkg ...
+    		echo make $margs
+    		make $margs
+    		echo === Installing $pkg ...
+    		echo make DESTDIR=$DEST $margs install
+    		make DESTDIR=$DEST $margs install
+    		cd ..
+    		echo === Build of $pkg complete
+	done
+
+	cd nxssh
+	patch -p1 < $TOPSRC/patches/openssh-scard-pin.patch
+	patch -p1 < $TOPSRC/patches/nxssh-dynopensc.patch
+	autoreconf -f -i
+	# When building nxssh on OSX10.6, we need to forcibly add -lresolv
+	R=
+	case "`uname -r`" in
+		10.*)
+			R="-lresolv"
+			;;
+	esac
+    echo === Configuring nxssh ...
+	echo LIBS="$R" \
+	LDFLAGS="-L$DEST$PFX/lib -L$DEST$PFX/lib/private" \
+	CPPFLAGS="-I$TOPSRC" \
+	./configure --prefix=$PFX \
+  		--with-opensc=$BUILDDIR/../scbuild/dist$PFX \
+  		--enable-opensc-dynamic \
+  		--with-cflags="-arch i386 -arch ppc $OSX_SDKFLAGS" \
+  		--with-ldflags="-arch i386 -arch ppc $OSX_SDKFLAGS"
+	LIBS="$R" \
+	LDFLAGS="-L$DEST$PFX/lib -L$DEST$PFX/lib/private" \
+	CPPFLAGS="-I$TOPSRC" \
+	./configure --prefix=$PFX \
+  		--with-opensc=$BUILDDIR/../scbuild/dist$PFX \
+  		--enable-opensc-dynamic \
+  		--with-cflags="-arch i386 -arch ppc $OSX_SDKFLAGS" \
+  		--with-ldflags="-arch i386 -arch ppc $OSX_SDKFLAGS"
+    echo === Building nxssh ...
+	make
+	cp nxssh $DEST$PFX/bin/nxssh
+	cd ..
+    mkdir -p $CACHEDIR
+	tar czf $CACHEDBUILD .
+else
+	mkdir -p $DEST$PFX/include $DEST$PFX/lib/private/{ppc,i386}
+    make -C libjpeg-turbo-1.1.1 DESTDIR=$DEST install-libLTLIBRARIES
+    mv $DEST$PFX/lib/private/libjpeg.62.0.0.dylib $DEST$PFX/lib/private/i386/libjpeg.62.dylib
+    rm -f $DEST$PFX/lib/private/*.dylib $DEST$PFX/lib/private/libturbojpeg.la
+	make -C jpeg-6b DESTDIR=$DEST install-lib
+    mv $DEST$PFX/lib/private/libjpeg.62.dylib $DEST$PFX/lib/private/ppc/
+    lipo -create -arch i386 $DEST$PFX/lib/private/i386/* -arch ppc $DEST$PFX/lib/private/ppc/* \
+            -output $DEST$PFX/lib/private/libjpeg.62.dylib
+    rm -rf $DEST$PFX/lib/private/ppc $DEST$PFX/lib/private/i386
+	make -C libpng-1.2.44 DESTDIR=$DEST install
+	make -C nxcomp DESTDIR=$DEST install
+	make -C nxproxy DESTDIR=$DEST install
+	cp nxssh/nxssh $DEST$PFX/bin/nxssh
+fi
+
+rm -rf $DEST$PFX/{include,etc,share} \
+       $DEST$PFX/lib/*.la \
+       $DEST$PFX/lib/*.a \
+       $DEST$PFX/lib/pkgconfig \
+       $DEST$PFX/bin/esd* \
+       $DEST$PFX/bin/*-config \
+       $DEST$PFX/bin/sf*

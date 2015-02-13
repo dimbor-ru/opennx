@@ -1,0 +1,629 @@
+diff -urwN xc-orig/config/cf/host.def xc/config/cf/host.def
+--- xc-orig/config/cf/host.def	1970-01-01 01:00:00 +0100
++++ xc/config/cf/host.def	2009-08-05 13:36:23 +0200
+@@ -0,0 +1 @@
++
+diff -urwN xc-orig/lib/X11/XlibConf.h xc/lib/X11/XlibConf.h
+--- xc-orig/lib/X11/XlibConf.h	1970-01-01 01:00:00 +0100
++++ xc/lib/X11/XlibConf.h	2009-08-05 13:37:03 +0200
+@@ -0,0 +1,7 @@
++/* Defines needed to use Xlib from non-imake projects */
++#ifndef XTHREADS
++#define XTHREADS
++#endif
++#ifndef XUSE_MTSAFE_API
++#define XUSE_MTSAFE_API
++#endif
+diff -urwN xc-orig/programs/Imakefile xc/programs/Imakefile
+--- xc-orig/programs/Imakefile	2009-08-05 13:01:30 +0200
++++ xc/programs/Imakefile	2009-08-05 13:36:22 +0200
+@@ -129,7 +129,7 @@
+ #endif
+ 
+ #if BuildServersOnly || !BuildClients
+-SUBDIRS = $(XSSRCDIR) $(XKBCOMPDIR) xauth
++SUBDIRS = $(XSSRCDIR) $(XKBCOMPDIR) xauth xset
+ #else
+ SUBDIRS = \
+ 	appres bdftopcf bitmap \
+diff -urwN xc-orig/programs/xset/CharSet.h xc/programs/xset/CharSet.h
+--- xc-orig/programs/xset/CharSet.h	1970-01-01 01:00:00 +0100
++++ xc/programs/xset/CharSet.h	2009-08-05 13:36:22 +0200
+@@ -0,0 +1,77 @@
++/* $Xorg: CharSet.h,v 1.4 2001/02/09 02:03:51 xorgcvs Exp $ */
++
++/* 
++
++Copyright 1988, 1998  The Open Group
++
++Permission to use, copy, modify, distribute, and sell this software and its
++documentation for any purpose is hereby granted without fee, provided that
++the above copyright notice appear in all copies and that both that
++copyright notice and this permission notice appear in supporting
++documentation.
++
++The above copyright notice and this permission notice shall be included in
++all copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
++OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
++AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
++
++Except as contained in this notice, the name of The Open Group shall not be
++used in advertising or otherwise to promote the sale, use or other dealings
++in this Software without prior written authorization from The Open Group.
++
++*/
++
++/* $XFree86: xc/lib/Xmu/CharSet.h,v 1.7 2001/01/17 19:42:53 dawes Exp $ */
++
++/*
++ * The interfaces described by this header file are for miscellaneous utilities
++ * and are not part of the Xlib standard.
++ */
++
++#ifndef _XMU_CHARSET_H_
++#define _XMU_CHARSET_H_
++
++#include <X11/Xfuncproto.h>
++
++_XFUNCPROTOBEGIN
++
++void XmuCopyISOLatin1Lowered
++(
++ char		*dst_return,
++ _Xconst char	*src
++ );
++
++void XmuCopyISOLatin1Uppered
++(
++ char		*dst_return,
++ _Xconst char	*src
++ );
++
++int XmuCompareISOLatin1
++(
++ _Xconst char	*first,
++ _Xconst char	*second
++ );
++
++void XmuNCopyISOLatin1Lowered
++(
++ char		*dst_return,
++ _Xconst char	*src,
++ int		 size
++ );
++
++void XmuNCopyISOLatin1Uppered
++(
++ char		*dst_return,
++ _Xconst char	*src,
++ int		size
++ );
++
++_XFUNCPROTOEND
++
++#endif /* _XMU_CHARSET_H_ */
+diff -urwN xc-orig/programs/xset/DefErrMsg.c xc/programs/xset/DefErrMsg.c
+--- xc-orig/programs/xset/DefErrMsg.c	1970-01-01 01:00:00 +0100
++++ xc/programs/xset/DefErrMsg.c	2009-08-05 13:36:22 +0200
+@@ -0,0 +1,173 @@
++/* $Xorg: DefErrMsg.c,v 1.4 2001/02/09 02:03:52 xorgcvs Exp $ */
++
++/*
++
++Copyright 1988, 1998  The Open Group
++
++Permission to use, copy, modify, distribute, and sell this software and its
++documentation for any purpose is hereby granted without fee, provided that
++the above copyright notice appear in all copies and that both that
++copyright notice and this permission notice appear in supporting
++documentation.
++
++The above copyright notice and this permission notice shall be included in
++all copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
++OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
++AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
++
++Except as contained in this notice, the name of The Open Group shall not be
++used in advertising or otherwise to promote the sale, use or other dealings
++in this Software without prior written authorization from The Open Group.
++
++*/
++/* $XFree86: xc/lib/Xmu/DefErrMsg.c,v 1.7 2001/01/17 19:42:54 dawes Exp $ */
++
++#ifdef HAVE_CONFIG_H
++#include <config.h>
++#endif
++#include <stdio.h>
++#define NEED_EVENTS
++#include <X11/Xlibint.h>
++#include <X11/Xproto.h>
++#include "Error.h"
++#include "SysUtil.h"
++
++/*
++ * XmuPrintDefaultErrorMessage - print a nice error that looks like the usual 
++ * message.  Returns 1 if the caller should consider exitting else 0.
++ */
++int
++XmuPrintDefaultErrorMessage(Display *dpy, XErrorEvent *event, FILE *fp)
++{
++    char buffer[BUFSIZ];
++    char mesg[BUFSIZ];
++    char number[32];
++    char *mtype = "XlibMessage";
++    register _XExtension *ext = (_XExtension *)NULL;
++    _XExtension *bext = (_XExtension *)NULL;
++    XGetErrorText(dpy, event->error_code, buffer, BUFSIZ);
++    XGetErrorDatabaseText(dpy, mtype, "XError", "X Error", mesg, BUFSIZ);
++    (void) fprintf(fp, "%s:  %s\n  ", mesg, buffer);
++    XGetErrorDatabaseText(dpy, mtype, "MajorCode", "Request Major code %d", 
++	mesg, BUFSIZ);
++    (void) fprintf(fp, mesg, event->request_code);
++    if (event->request_code < 128) {
++	XmuSnprintf(number, sizeof(number), "%d", event->request_code);
++	XGetErrorDatabaseText(dpy, "XRequest", number, "", buffer, BUFSIZ);
++    } else {
++	/* XXX this is non-portable */
++	for (ext = dpy->ext_procs;
++	     ext && (ext->codes.major_opcode != event->request_code);
++	     ext = ext->next)
++	  ;
++	if (ext)
++	  XmuSnprintf(buffer, sizeof(buffer), "%s", ext->name);
++	else
++	    buffer[0] = '\0';
++    }
++    (void) fprintf(fp, " (%s)", buffer);
++    fputs("\n  ", fp);
++    if (event->request_code >= 128) {
++	XGetErrorDatabaseText(dpy, mtype, "MinorCode", "Request Minor code %d",
++			      mesg, BUFSIZ);
++	(void) fprintf(fp, mesg, event->minor_code);
++	if (ext) {
++	    XmuSnprintf(mesg, sizeof(mesg),
++			"%s.%d", ext->name, event->minor_code);
++	    XGetErrorDatabaseText(dpy, "XRequest", mesg, "", buffer, BUFSIZ);
++	    (void) fprintf(fp, " (%s)", buffer);
++	}
++	fputs("\n  ", fp);
++    }
++    if (event->error_code >= 128) {
++	/* kludge, try to find the extension that caused it */
++	buffer[0] = '\0';
++	for (ext = dpy->ext_procs; ext; ext = ext->next) {
++	    if (ext->error_string) 
++		(*ext->error_string)(dpy, event->error_code, &ext->codes,
++				     buffer, BUFSIZ);
++	    if (buffer[0]) {
++		bext = ext;
++		break;
++	    }
++	    if (ext->codes.first_error &&
++		ext->codes.first_error < event->error_code &&
++		(!bext || ext->codes.first_error > bext->codes.first_error))
++		bext = ext;
++	}    
++	if (bext)
++	    XmuSnprintf(buffer, sizeof(buffer), "%s.%d", bext->name,
++			event->error_code - bext->codes.first_error);
++	else
++	    strcpy(buffer, "Value");
++	XGetErrorDatabaseText(dpy, mtype, buffer, "", mesg, BUFSIZ);
++	if (mesg[0]) {
++	    fputs("  ", fp);
++	    (void) fprintf(fp, mesg, event->resourceid);
++	    fputs("\n", fp);
++	}
++	/* let extensions try to print the values */
++	for (ext = dpy->ext_procs; ext; ext = ext->next) {
++	    if (ext->error_values)
++		(*ext->error_values)(dpy, event, fp);
++	}
++    } else if ((event->error_code == BadWindow) ||
++	       (event->error_code == BadPixmap) ||
++	       (event->error_code == BadCursor) ||
++	       (event->error_code == BadFont) ||
++	       (event->error_code == BadDrawable) ||
++	       (event->error_code == BadColor) ||
++	       (event->error_code == BadGC) ||
++	       (event->error_code == BadIDChoice) ||
++	       (event->error_code == BadValue) ||
++	       (event->error_code == BadAtom)) {
++	if (event->error_code == BadValue)
++	    XGetErrorDatabaseText(dpy, mtype, "Value", "Value 0x%x",
++				  mesg, BUFSIZ);
++	else if (event->error_code == BadAtom)
++	    XGetErrorDatabaseText(dpy, mtype, "AtomID", "AtomID 0x%x",
++				  mesg, BUFSIZ);
++	else
++	    XGetErrorDatabaseText(dpy, mtype, "ResourceID", "ResourceID 0x%x",
++				  mesg, BUFSIZ);
++	(void) fprintf(fp, mesg, event->resourceid);
++	fputs("\n  ", fp);
++    }
++    XGetErrorDatabaseText(dpy, mtype, "ErrorSerial", "Error Serial #%d", 
++	mesg, BUFSIZ);
++    (void) fprintf(fp, mesg, event->serial);
++    fputs("\n  ", fp);
++    XGetErrorDatabaseText(dpy, mtype, "CurrentSerial", "Current Serial #%d",
++	mesg, BUFSIZ);
++    (void) fprintf(fp, mesg, NextRequest(dpy)-1);
++    fputs("\n", fp);
++    if (event->error_code == BadImplementation) return 0;
++    return 1;
++}
++
++
++/*
++ * XmuSimpleErrorHandler - ignore errors for XQueryTree, XGetWindowAttributes,
++ * and XGetGeometry; print a message for everything else.  In all case, do
++ * not exit.
++ */
++int
++XmuSimpleErrorHandler(Display *dpy, XErrorEvent *errorp)
++{
++    switch (errorp->request_code) {
++      case X_QueryTree:
++      case X_GetWindowAttributes:
++        if (errorp->error_code == BadWindow) return 0;
++	break;
++      case X_GetGeometry:
++	if (errorp->error_code == BadDrawable) return 0;
++	break;
++    }
++    /* got a "real" X error */
++    return XmuPrintDefaultErrorMessage (dpy, errorp, stderr);
++}	
+diff -urwN xc-orig/programs/xset/Error.h xc/programs/xset/Error.h
+--- xc-orig/programs/xset/Error.h	1970-01-01 01:00:00 +0100
++++ xc/programs/xset/Error.h	2009-08-05 13:36:22 +0200
+@@ -0,0 +1,59 @@
++/* $Xorg: Error.h,v 1.5 2001/02/09 02:03:52 xorgcvs Exp $ */
++
++/*
++ 
++Copyright 1988, 1998  The Open Group
++
++Permission to use, copy, modify, distribute, and sell this software and its
++documentation for any purpose is hereby granted without fee, provided that
++the above copyright notice appear in all copies and that both that
++copyright notice and this permission notice appear in supporting
++documentation.
++
++The above copyright notice and this permission notice shall be included in
++all copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
++OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
++AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
++
++Except as contained in this notice, the name of The Open Group shall not be
++used in advertising or otherwise to promote the sale, use or other dealings
++in this Software without prior written authorization from The Open Group.
++
++*/
++/* $XFree86: xc/lib/Xmu/Error.h,v 1.5 2001/01/17 19:42:55 dawes Exp $ */
++
++/*
++ * The interfaces described by this header file are for miscellaneous utilities
++ * and are not part of the Xlib standard.
++ */
++
++#ifndef _XMU_ERROR_H_
++#define _XMU_ERROR_H_
++
++#include <stdio.h>
++#include <X11/Xlib.h>
++#include <X11/Xfuncproto.h>
++
++_XFUNCPROTOBEGIN
++
++int XmuPrintDefaultErrorMessage
++(
++ Display		*dpy,
++ XErrorEvent		*event,
++ FILE			*fp
++ );
++
++int XmuSimpleErrorHandler
++(
++ Display		*dpy,
++ XErrorEvent		*errorp
++ );
++
++_XFUNCPROTOEND
++
++#endif /* _XMU_ERROR_H_ */
+diff -urwN xc-orig/programs/xset/Imakefile xc/programs/xset/Imakefile
+--- xc-orig/programs/xset/Imakefile	2009-03-18 18:13:34 +0100
++++ xc/programs/xset/Imakefile	2009-08-05 21:18:27 +0200
+@@ -19,10 +19,19 @@
+     XPRINTDEFINES = -DBUILD_PRINTSUPPORT
+ #endif
+ 
++#if HasSnprintf
++   MISC_DEFINES = -DHAS_SNPRINTF
++#else
++   MISC_INCLUDES = -I$(LIBSRC)/misc
++#endif
++
++           SRCS = xset.c DefErrMsg.c Lower.c
++           OBJS = xset.o DefErrMsg.o Lower.o
++       INCLUDES = $(MISC_INCLUDES)
+         DEFINES = ExtensionDefines DPMSDefines \
+ 		  FontCacheExtensionDefines \
+-		  XkbDefines $(XPRINTDEFINES)
+-        DEPLIBS = $(DEPXMUULIB) $(DEPXLIB) $(DEPXF86LIBS) $(DEPFONTLIBS)
+-LOCAL_LIBRARIES = $(XMUULIB) $(XF86LIBS) $(FONTLIBS) $(XPRINTLIBS) $(XLIB)
++		  XkbDefines $(XPRINTDEFINES) $(MISC_DEFINES)
++        DEPLIBS = $(DEPXLIB) $(DEPXF86LIBS) $(DEPFONTLIBS)
++LOCAL_LIBRARIES = $(XF86LIBS) $(FONTLIBS) $(XPRINTLIBS) $(XLIB)
+ 
+-SimpleProgramTarget(xset)
++ComplexProgramTarget(xset)
+diff -urwN xc-orig/programs/xset/Lower.c xc/programs/xset/Lower.c
+--- xc-orig/programs/xset/Lower.c	1970-01-01 01:00:00 +0100
++++ xc/programs/xset/Lower.c	2009-08-05 13:36:22 +0200
+@@ -0,0 +1,164 @@
++/* $Xorg: Lower.c,v 1.4 2001/02/09 02:03:53 xorgcvs Exp $ */
++
++/* 
++ 
++Copyright 1988, 1998  The Open Group
++
++Permission to use, copy, modify, distribute, and sell this software and its
++documentation for any purpose is hereby granted without fee, provided that
++the above copyright notice appear in all copies and that both that
++copyright notice and this permission notice appear in supporting
++documentation.
++
++The above copyright notice and this permission notice shall be included in
++all copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
++OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
++AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
++
++Except as contained in this notice, the name of The Open Group shall not be
++used in advertising or otherwise to promote the sale, use or other dealings
++in this Software without prior written authorization from The Open Group.
++
++*/
++
++/* $XFree86: xc/lib/Xmu/Lower.c,v 1.11 2001/07/25 15:04:50 dawes Exp $ */
++
++#define  XK_LATIN1
++#ifdef HAVE_CONFIG_H
++#include <config.h>
++#endif
++#include <X11/keysymdef.h>
++#include "CharSet.h"
++#include "SysUtil.h"
++
++#include <stdio.h>
++
++#ifndef HAS_SNPRINTF
++#undef SCOPE
++#define SCOPE static
++#include "snprintf.c"
++#endif
++
++#include <stdarg.h>
++
++/*
++ * ISO Latin-1 case conversion routine
++ */
++#define XmuTolower(c)							 \
++((c) >= XK_a && (c) <= XK_z ?						 \
++ (c) : (c) >= XK_A && (c) <= XK_Z ?					 \
++ (c) + (XK_a - XK_A) : (c) >= XK_Agrave && (c) <= XK_Odiaeresis ?	 \
++ (c) + (XK_agrave - XK_Agrave) : (c) >= XK_Ooblique && (c) <= XK_Thorn ? \
++ (c) + (XK_oslash - XK_Ooblique) :					 \
++ (c))
++
++#define XmuToupper(c)							 \
++((c) >= XK_A && (c) <= XK_Z ?						 \
++ (c) : (c) >= XK_a && (c) <= XK_z ?					 \
++ (c) - (XK_a - XK_A) : (c) >= XK_agrave && (c) <= XK_odiaeresis ?	 \
++ (c) - (XK_agrave - XK_Agrave) : (c) >= XK_oslash && (c) <= XK_thorn ?	 \
++ (c) - (XK_oslash - XK_Ooblique) :					 \
++ (c))
++
++/*
++ * Implementation
++ */
++void
++XmuCopyISOLatin1Lowered(char *dst, _Xconst char *src)
++{
++  register unsigned char *dest, *source;
++
++  for (dest = (unsigned char *)dst, source = (unsigned char *)src;
++       *source;
++       source++, dest++)
++    *dest = XmuTolower(*source);
++  *dest = '\0';
++}
++
++void
++XmuCopyISOLatin1Uppered(char *dst, _Xconst char *src)
++{
++  register unsigned char *dest, *source;
++
++  for (dest = (unsigned char *)dst, source = (unsigned char *)src;
++       *source;
++       source++, dest++)
++    *dest = XmuToupper(*source);
++  *dest = '\0';
++}
++
++int
++XmuCompareISOLatin1(_Xconst char *first, _Xconst char *second)
++{
++  register unsigned char *ap, *bp;
++
++  for (ap = (unsigned char *)first, bp = (unsigned char *)second;
++       *ap && *bp && XmuTolower(*ap) == XmuTolower(*bp);
++       ap++, bp++)
++    ;
++
++  return ((int)XmuTolower(*ap) - (int)XmuTolower(*bp));
++}
++
++void
++XmuNCopyISOLatin1Lowered(char *dst, _Xconst char *src, register int size)
++{
++  register unsigned char *dest, *source;
++
++  if (size > 0)
++    {
++      for (dest = (unsigned char *)dst, source = (unsigned char *)src;
++	   *source && size > 1;
++	   source++, dest++, size--)
++	*dest = XmuTolower(*source);
++      *dest = '\0';
++    }
++}
++
++void
++XmuNCopyISOLatin1Uppered(char *dst, _Xconst char *src, register int size)
++{
++  register unsigned char *dest, *source;
++
++  if (size > 0)
++    {
++      for (dest = (unsigned char *)dst, source = (unsigned char *)src;
++	   *source && size > 1;
++	   source++, dest++, size--)
++	*dest = XmuToupper(*source);
++      *dest = '\0';
++    }
++}
++
++int
++XmuSnprintf(char *str, int size, _Xconst char *fmt, ...)
++{
++  va_list ap;
++  int retval;
++
++  if (size <= 0)
++    return (size);
++
++  va_start(ap, fmt);
++
++#if 0
++  retval = vsprintf(str, fmt, ap);
++  if (retval >= size)
++    {
++      fprintf(stderr, "WARNING: buffer overflow detected!\n");
++      fflush(stderr);
++      abort();
++    }
++#else
++  retval = vsnprintf(str, size, fmt, ap);
++#endif
++
++  va_end(ap);
++
++  return (retval);
++}
+diff -urwN xc-orig/programs/xset/SysUtil.h xc/programs/xset/SysUtil.h
+--- xc-orig/programs/xset/SysUtil.h	1970-01-01 01:00:00 +0100
++++ xc/programs/xset/SysUtil.h	2009-08-05 13:50:56 +0200
+@@ -0,0 +1,60 @@
++/* $Xorg: SysUtil.h,v 1.4 2001/02/09 02:03:53 xorgcvs Exp $ */
++
++/*
++
++Copyright 1989, 1998  The Open Group
++
++Permission to use, copy, modify, distribute, and sell this software and its
++documentation for any purpose is hereby granted without fee, provided that
++the above copyright notice appear in all copies and that both that
++copyright notice and this permission notice appear in supporting
++documentation.
++
++The above copyright notice and this permission notice shall be included in
++all copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
++OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
++AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
++
++Except as contained in this notice, the name of The Open Group shall not be
++used in advertising or otherwise to promote the sale, use or other dealings
++in this Software without prior written authorization from The Open Group.
++
++*/
++/* $XFree86: xc/lib/Xmu/SysUtil.h,v 1.9 2001/12/14 19:55:55 dawes Exp $ */
++
++#ifndef _SYSUTIL_H_
++#define _SYSUTIL_H_
++
++#include <X11/Xfuncproto.h>
++
++_XFUNCPROTOBEGIN
++
++int XmuGetHostname
++(
++    char		*buf_return,
++    int			maxlen
++);
++
++#ifndef _XMU_H_
++int XmuSnprintf
++(
++ char			*str,
++ int			size,
++ _Xconst char		*fmt,
++    ...
++ )
++#if defined(__GNUC__) && \
++    ((__GNUC__ > 2) || ((__GNUC__ == 2) && (__GNUC_MINOR__ > 4)))
++__attribute((format(printf,3,4)))
++#endif
++;
++#endif
++
++_XFUNCPROTOEND
++
++#endif /* _SYSUTIL_H_ */
+diff -urwN xc-orig/programs/xset/xset.c xc/programs/xset/xset.c
+--- xc-orig/programs/xset/xset.c	2009-03-18 18:13:34 +0100
++++ xc/programs/xset/xset.c	2009-08-05 13:36:22 +0200
+@@ -68,7 +68,7 @@
+ #include <X11/keysym.h>
+ #include <X11/Xproto.h>
+ #include <X11/Xutil.h>
+-#include <X11/Xmu/Error.h>
++#include "Error.h"
+ #ifdef MITMISC
+ #include <X11/extensions/MITMisc.h>
+ #endif
+@@ -98,7 +98,7 @@
+ #include <X11/keysym.h>
+ #include <X11/Xproto.h>
+ #include <X11/Xutil.h>
+-#include <X11/Xmu/Error.h>
++#include "Error.h"
+ #ifdef MITMISC
+ #include <X11/extensions/MITMisc.h>
+ #endif

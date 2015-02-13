@@ -1,0 +1,29 @@
+diff -urw xc-orig/programs/Xserver/hw/xwin/InitOutput.c xc/programs/Xserver/hw/xwin/InitOutput.c
+--- xc-orig/programs/Xserver/hw/xwin/InitOutput.c	2010-02-26 01:08:16.471542311 +0100
++++ xc/programs/Xserver/hw/xwin/InitOutput.c	2010-02-26 01:25:24.370543791 +0100
+@@ -1180,8 +1180,10 @@
+ winCheckDisplayNumber ()
+ {
+   int			nDisp;
++  int           i;
+   HANDLE		mutex;
+   char			name[MAX_PATH];
++  char *        fs = "";
+   char *		pszPrefix = '\0';
+   OSVERSIONINFO		osvi = {0};
+ 
+@@ -1207,8 +1209,13 @@
+       pszPrefix = "Global\\";
+     }
+ 
++  for (i = 0; i < g_iNumScreens; ++i)
++      if (g_ScreenInfo[i].fFullScreen) {
++          fs = "FS";
++          break;
++      }
+   /* Setup Cygwin/X specific part of name */
+-  snprintf (name, sizeof(name), "%sCYGWINX_DISPLAY:%d", pszPrefix, nDisp);
++  snprintf (name, sizeof(name), "%sXMING_DISPLAY%s:%d", pszPrefix, fs, nDisp);
+ 
+   /* Windows automatically releases the mutex when this process exits */
+   mutex = CreateMutex (NULL, FALSE, name);

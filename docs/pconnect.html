@@ -1,0 +1,268 @@
+<!-- Creator     : groff version 1.21 -->
+<!-- CreationDate: Thu Jun 23 03:43:04 2011 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>PCONNECT</title>
+
+</head>
+<body>
+
+<h1 align="center">PCONNECT</h1>
+
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#OPTIONS">OPTIONS</a><br>
+<a href="#ENVIRONMENT">ENVIRONMENT</a><br>
+<a href="#BUGS">BUGS</a><br>
+<a href="#AUTHOR">AUTHOR</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
+
+<hr>
+
+
+<h2>NAME
+<a name="NAME"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">pconnect
+&minus; Proxy helper for nxssh</p>
+
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>pconnect
+[-dnhs45] [-R&nbsp;</b><i>resolve</i><b>]
+[-p&nbsp;</b><i>local-port</i><b>] [-H
+[</b><i>user</i><b>@]</b><i>proxy-server</i><b>[:</b><i>port</i><b>]]
+[-S
+[</b><i>user</i><b>@]</b><i>socks-server</i><b>[:</b><i>port</i><b>]]</b>
+<i>host port</i></p>
+
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><i><b>pconnect</b></i>
+provides an external proxy command for nxssh.</p>
+
+<h2>OPTIONS
+<a name="OPTIONS"></a>
+</h2>
+
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p style="margin-top: 1em">-d</p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p style="margin-top: 1em">Enable debug output.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p>-n</p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Connect directly without a proxy.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p>-h</p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Connect via a HTTP proxy.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p>-s</p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Connect via a SOCKS proxy.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p>-4</p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Use SOCKS4 protocol. Valid only, if using a SOCKS
+proxy.</p> </td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p>-5</p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Use SOCKS5 protocol. Valid only, if using a SOCKS
+proxy.</p> </td></tr>
+</table>
+
+<p style="margin-left:11%;">-R resolve</p>
+
+<p style="margin-left:22%;">Use <i>resolve</i> method.
+Valid only, if using a SOCKS proxy. Possible values for
+<i>resolve</i> are
+<b>local</b>,&nbsp;<b>remote&nbsp;</b>and&nbsp;<b>both</b>.
+If an IP address is specified, that address is used as
+nameserver.</p>
+
+<p style="margin-left:11%;">-p local-port</p>
+
+<p style="margin-left:22%;">Listen on <i>local-port</i>
+instead of forwarding stdin and stdout.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p>-H</p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Specify hostname and optionally port and user for
+connecting to a HTTP proxy. The default for <i>port</i> is
+<b>80</b>. The default for <i>user</i> is <b>none</b>.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p>-S</p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Specify hostname and optionally port and user for
+connecting to a SOCKS proxy. The default for <i>port</i> is
+<b>1080</b>. The default for <i>user</i> is <b>none</b>.</p></td></tr>
+</table>
+
+<h2>ENVIRONMENT
+<a name="ENVIRONMENT"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">HTTP_PROXY</p>
+
+<p style="margin-left:22%;">If set, <b>-H</b> can be
+omitted.</p>
+
+<p style="margin-left:11%;">SOCKS5_SERVER, SOCKS4_SERVER,
+SOCKS_SERVER</p>
+
+<p style="margin-left:22%;">If set, <b>-S</b> can be
+omitted.</p>
+
+<p style="margin-left:11%;">SOCKS5_RESOLVE, SOCKS4_RESOLVE,
+SOCKS_RESOLVE</p>
+
+<p style="margin-left:22%;">Can be set to the same value
+like the <b>-R</b> parameter.</p>
+
+<p style="margin-left:11%;">SOCKS5_USER, CONNECT_USER,
+LOGNAME, USER</p>
+
+<p style="margin-left:22%;">The username for SOCKS5
+authentication. Variables are checked in the specified
+sequence.</p>
+
+<p style="margin-left:11%;">SOCKS5_PASSWORD</p>
+
+<p style="margin-left:22%;">If set, this is used for SOCKS5
+authentication.</p>
+
+<p style="margin-left:11%;">HTTP_PROXY_USER, CONNECT_USER,
+LOGNAME, USER</p>
+
+<p style="margin-left:22%;">The username for HTTP proxy
+authentication. Variables are checked in the specified
+sequence.</p>
+
+<p style="margin-left:11%;">HTTP_PROXY_PASSWORD,
+CONNECT_PASSWORD</p>
+
+<p style="margin-left:22%;">If set, this is used for HTTP
+proxy authentication.</p>
+
+<p style="margin-left:11%;">SSH_ASKPASS</p>
+
+<p style="margin-left:22%;">If set, specifies the full path
+to a GUI program for fetching a password from the user.</p>
+
+<p style="margin-left:11%;">DISPLAY</p>
+
+<p style="margin-left:22%;">Must be set on UNIX machines,
+in order to facilitate ssh-askpass.</p>
+
+<h2>BUGS
+<a name="BUGS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">None so
+far.</p>
+
+<h2>AUTHOR
+<a name="AUTHOR"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">Fritz Elfert
+&lt;felfert at users dot sourceforge dot net&gt;</p>
+
+<h2>SEE ALSO
+<a name="SEE ALSO"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>ssh</b>(1)</p>
+<hr>
+</body>
+</html>

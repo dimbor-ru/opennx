@@ -1,0 +1,658 @@
+diff -urwN nxcomp-orig/configure.ac nxcomp/configure.ac
+--- nxcomp-orig/configure.ac	2012-02-20 18:19:57.606376552 +0100
++++ nxcomp/configure.ac	2012-02-20 22:58:38.504797724 +0100
+@@ -52,6 +52,15 @@
+         ;;
+ esac
+ 
++dnl set default visibility
++fe_CHECK_FLAG([C],[CFLAGS],[-fvisibility=hidden])
++fe_CHECK_FLAG([C],[CFLAGS],[-fvisibility-inlines-hidden])
++fe_CHECK_FLAG([C++],[CXXFLAGS],[-fvisibility=hidden])
++fe_CHECK_FLAG([C++],[CXXFLAGS],[-fvisibility-inlines-hidden])
++CXXFLAGS="$CXXFLAGS $ac_checked_CXXFLAGS"
++CFLAGS="$CFLAGS $ac_checked_CFLAGS"
++AC_DEFINE_UNQUOTED([NXCOMP_DLL_BUILDING],[1],[Define, if building shared lib])
++
+ dnl Special handling if nx-X11 exists
+ if test -d "../nx-X11/include" ; then
+     CXXFLAGS="$CXXFLAGS -I../nx-X11/exports/include"
+diff -urwN nxcomp-orig/configure.in nxcomp/configure.in
+--- nxcomp-orig/configure.in	2010-03-01 18:18:59.000000000 +0100
++++ nxcomp/configure.in	1970-01-01 01:00:00.000000000 +0100
+@@ -1,393 +0,0 @@
+-dnl Process this file with autoconf to produce a configure script.
+-
+-dnl Prolog
+-
+-AC_INIT(NX.h)
+-AC_PREREQ(2.13)
+-
+-dnl Set our default compilation flags.
+-
+-CXXFLAGS="-O3 -fno-rtti -fno-exceptions"
+-CFLAGS="-O3"
+-
+-dnl Reset default linking directives.
+-
+-LIBSTATIC=""
+-LIBSHARED=""
+-
+-dnl Prefer headers and libraries from nx-X11, if present.
+-
+-if test -d "../nx-X11/include" ; then
+-    CXXFLAGS="$CXXFLAGS -I../nx-X11/exports/include"
+-    CFLAGS="$CFLAGS -I../nx-X11/exports/include"
+-    LIBS="$LIBS -L../nx-X11/exports/lib"
+-fi
+-
+-dnl Check whether --with-ipaq was given.
+-
+-if test "${with_ipaq}" = yes; then
+-  echo -e "enabling IPAQ configuration"
+-  CXX="arm-linux-c++"
+-  CC="arm-linux-gcc"
+-  unset ac_cv_prog_armcxx
+-  unset ac_cv_prog_armcc
+-  unset ac_cv_prog_CXXCPP
+-  AC_CHECK_PROG([armcxx],["$CXX"],[yes],[no],[$PATH])
+-  AC_CHECK_PROG([armcc],["$CC"],[yes],[no],[$PATH])
+-  if test $armcxx = "yes" && test $armcc = "yes" ; then
+-    ac_cv_prog_CXX="$CXX"
+-    ac_cv_prog_CC="$CC"
+-  else
+-    AC_MSG_ERROR(Installation or configuration problem. Cannot find compiler for arm-linux.)
+-  fi
+-else
+-  unset ac_cv_prog_CXX
+-  unset ac_cv_prog_CC
+-  unset ac_cv_prog_CXXCPP
+-fi  
+-
+-dnl Check for programs.
+-
+-AC_PROG_CXX
+-AC_PROG_CC
+-AC_LANG_CPLUSPLUS
+-
+-dnl Check whether option -Wno-deprecated
+-dnl is needed by GCC compiler.
+-
+-AC_MSG_CHECKING([whether compiler needs -Wno-deprecated])
+-gcc_version=`${CC} --version | grep 'gcc (GCC) [[3-4]].' | head -n 1`
+-case "${gcc_version}" in
+-     gcc*)
+-        AC_MSG_RESULT([yes])
+-        CXXFLAGS="$CXXFLAGS -Wno-deprecated"
+-        ;;
+-
+-     *)
+-        AC_MSG_RESULT([no])
+-        ;;
+-esac
+-
+-AC_MSG_CHECKING([whether compiler accepts -Wmissing-declarations])
+-gcc_version=`${CC} --version | grep 'gcc (GCC) [[3-4]].' | head -n 1`
+-case "${gcc_version}" in
+-     gcc*)
+-        AC_MSG_RESULT([no])
+-        ;;
+-
+-     *)
+-        AC_MSG_RESULT([yes])
+-        CXXFLAGS="$CXXFLAGS -Wmissing-declarations"
+-        ;;
+-esac
+-
+-dnl Check for BSD compatible install.
+-
+-AC_PROG_INSTALL
+-
+-dnl Check for extra header files.
+-
+-AC_PATH_XTRA
+-
+-dnl Custom addition.
+-
+-ac_help="$ac_help
+-  --with-symbols          add the -g flag to produce the debug symbols
+-  --with-use-malloc       add the __USE_MALLOC flag to avoid the STL allocators
+-  --with-info             define INFO at compile time to get basic log output
+-  --with-valgrind         clean up allocated buffers to avoid valgrind warnings
+-  --with-version          use this version for produced libraries
+-
+-  --with-static-png       enable static linking of PNG library
+-  --with-static-jpeg      enable static linking of JPEG library
+-  --with-static-z         enable static linking of Z library"
+-
+-dnl Check to see if we're running under Cygwin32.
+-
+-AC_DEFUN(nxconf_CYGWIN32,
+-[AC_CACHE_CHECK(for Cygwin32 environment, nxconf_cv_cygwin32,
+-[AC_TRY_COMPILE(,[return __CYGWIN32__;],
+-nxconf_cv_cygwin32=yes, nxconf_cv_cygwin32=no)
+-rm -f conftest*])
+-CYGWIN32=
+-test "$nxconf_cv_cygwin32" = yes && CYGWIN32=yes])
+-nxconf_CYGWIN32
+-
+-dnl Check whether we're building on a AMD64.
+-
+-AC_DEFUN(nxconf_AMD64,
+-[AC_CACHE_CHECK(for Amd64 environment, nxconf_cv_amd64,
+-[AC_TRY_COMPILE(,[return (__amd64__ || __x86_64__);],
+-nxconf_cv_amd64=yes, nxconf_cv_amd64=no)
+-rm -f conftest*])
+-AMD64=
+-test "$nxconf_cv_amd64" = yes && AMD64=yes])
+-nxconf_AMD64
+-
+-dnl Check for Darwin environment.
+-
+-AC_DEFUN(nxconf_DARWIN,
+-[AC_CACHE_CHECK(for Darwin environment, nxconf_cv_darwin,
+-[AC_TRY_COMPILE(,[return __APPLE__;],
+-nxconf_cv_darwin=yes, nxconf_cv_darwin=no)
+-rm -f conftest*])
+-DARWIN=
+-test "$nxconf_cv_darwin" = yes && DARWIN=yes])
+-nxconf_DARWIN
+-
+-dnl Check to see if we're running under Solaris.
+-
+-AC_DEFUN(nxconf_SUN,
+-[AC_CACHE_CHECK(for Solaris environment, nxconf_cv_sun,
+-[AC_TRY_COMPILE(,[return __sun;],
+-nxconf_cv_sun=yes, nxconf_cv_sun=no)
+-rm -f conftest*])
+-SUN=
+-test "$nxconf_cv_sun" = yes && SUN=yes])
+-nxconf_SUN
+-
+-dnl Check to see if we're running under FreeBSD.
+-
+-AC_DEFUN(nxconf_FreeBSD,
+-[AC_CACHE_CHECK(for FreeBSD environment, nxconf_cv_freebsd,
+-[AC_TRY_COMPILE(,[return __FreeBSD__;],
+-nxconf_cv_freebsd=yes, nxconf_cv_freebsd=no)
+-rm -f conftest*])
+-FreeBSD=
+-test "$nxconf_cv_freebsd" = yes && FreeBSD=yes])
+-nxconf_FreeBSD
+-
+-dnl Build PIC libraries.
+-
+-if test "$CYGWIN32" != yes -a "$DARWIN" != yes; then
+-  CXXFLAGS="$CXXFLAGS -fPIC"
+-  CFLAGS="$CFLAGS -fPIC"
+-fi
+-
+-dnl Solaris requires the socket and gcc_s libs explicitly linked.
+-dnl Note also that headers from default /usr/openwin/include/X11
+-dnl cause a warning due to pragma in Xmd.h.
+-
+-if test "$SUN" = yes; then
+-  LIBS="$LIBS -L/usr/sfw/lib -lsocket "
+-  CXXFLAGS="$CXXFLAGS -I/usr/sfw/include"
+-  CFLAGS="$CFLAGS -I/usr/sfw/include"
+-fi
+-
+-dnl On FreeBSD search libraries and includes under /usr/local.
+-
+-if test "$FreeBSD" = yes; then
+-  LIBS="$LIBS -L/usr/local/lib"
+-  CXXFLAGS="$CXXFLAGS -I/usr/local/include"
+-  CFLAGS="$CFLAGS -I/usr/local/include"
+-fi
+-
+-dnl Under Darwin we don't have support for -soname option and
+-dnl we need the -bundle flag. Under Solaris, instead, we need
+-dnl the options -G -h.
+-
+-if test "$DARWIN" = yes; then
+-  LDFLAGS="$LDFLAGS -bundle"
+-elif test "$SUN" = yes; then
+-  LDFLAGS="$LDFLAGS -G -h \$(LIBLOAD)"
+-else
+-  LDFLAGS="$LDFLAGS -Wl,-soname,\$(LIBLOAD)"
+-fi
+-
+-dnl Check to see if in_addr_t is defined.
+-dnl Could use a specific configure test.
+-
+-AC_DEFUN(nxconf_INADDRT,
+-[AC_CACHE_CHECK(for in_addr_t, nxconf_cv_inaddrt,
+-[AC_TRY_COMPILE([#include <netinet/in.h>],[in_addr_t t; t = 1; return t;],
+-nxconf_cv_inaddrt=yes, nxconf_cv_inaddrt=no)
+-rm -f conftest*])
+-INADDRT=
+-test "$nxconf_cv_inaddrt" = yes && INADDRT=yes])
+-nxconf_INADDRT
+-
+-dnl If in_addr_t is not defined use unsigned int.
+-
+-if test "$INADDRT" != yes ; then
+-  echo -e "using unsigned int for type in_addr_t"
+-  CXXFLAGS="$CXXFLAGS -DIN_ADDR_T=unsigned"
+-  CFLAGS="$CFLAGS -DIN_ADDR_T=unsigned"
+-else
+-  CXXFLAGS="$CXXFLAGS -DIN_ADDR_T=in_addr_t"
+-  CFLAGS="$CFLAGS -DIN_ADDR_T=in_addr_t"
+-fi
+-
+-dnl Check whether --with-version was given.
+-
+-AC_SUBST(LIBVERSION)
+-AC_SUBST(VERSION)
+-if test "${with_version}" = yes; then
+-  VERSION=${ac_option}
+-else
+-  VERSION=`cat VERSION`
+-fi
+-echo -e "compiling version ${VERSION}"
+-
+-LIBVERSION=`echo ${VERSION} | cut -d '.' -f 1`
+-
+-CXXFLAGS="$CXXFLAGS -DVERSION=\\\"${VERSION}\\\""
+-CFLAGS="$CFLAGS -DVERSION=\\\"${VERSION}\\\""
+-
+-dnl Check whether --with-static-png was given and
+-dnl add -lpng or libpng.a to linking.
+-
+-if test "${with_static_png}" = yes; then
+-  echo -e "enabling static linking of PNG library"
+-  if test "$SUN" = yes && test -f "/usr/sfw/lib/libpng.a"; then
+-    LIBSTATIC="$LIBSTATIC /usr/sfw/lib/libpng.a"
+-  else
+-    if test -f "/usr/lib/libpng.a" ; then
+-      LIBSTATIC="$LIBSTATIC /usr/lib/libpng.a"
+-    else
+-      if test -f "/usr/local/lib/libpng.a" ; then
+-        echo -e "assuming libpng.a in /usr/local/lib"
+-        LIBSTATIC="$LIBSTATIC /usr/local/lib/libpng.a"
+-      else
+-        echo -e "Warning: assuming libpng.a in the local path"
+-        LIBSTATIC="$LIBSTATIC libpng.a"
+-      fi
+-    fi
+-  fi
+-else
+-  echo -e "enabling dynamic linking of PNG library"
+-  LIBSHARED="$LIBSHARED -lpng"
+-fi
+-
+-dnl Check whether --with-static-jpeg was given and
+-dnl add -ljpeg or libjpeg.a to linking.
+-
+-if test "${with_static_jpeg}" = yes; then
+-  echo -e "enabling static linking of JPEG library"
+-  if test "$SUN" = yes && test -f "/usr/sfw/lib/libjpeg.a"; then
+-    LIBSTATIC="$LIBSTATIC /usr/sfw/lib/libjpeg.a"
+-  else
+-    if test -f "/usr/lib/libjpeg.a" ; then
+-      LIBSTATIC="$LIBSTATIC /usr/lib/libjpeg.a"
+-    else
+-      if test -f "/usr/local/lib/libjpeg.a" ; then
+-        echo -e "assuming libjpeg.a in /usr/local/lib"
+-        LIBSTATIC="$LIBSTATIC /usr/local/lib/libjpeg.a"
+-      else
+-        echo -e "Warning: assuming libjpeg.a in the local path"
+-        LIBSTATIC="$LIBSTATIC libjpeg.a"
+-      fi
+-    fi
+-  fi
+-else
+-  echo -e "enabling dynamic linking of JPEG library"
+-  LIBSHARED="$LIBSHARED -ljpeg"
+-fi
+-
+-dnl Check whether --with-static-z was given and
+-dnl add -lz or libz.a to linking.
+-
+-if test "${with_static_z}" = yes; then
+-  echo -e "enabling static linking of Z library"
+-  if test "$SUN" = yes && test -f "/usr/sfw/lib/libz.a"; then
+-    LIBSTATIC="$LIBSTATIC /usr/sfw/lib/libz.a"
+-  else
+-    if test -f "/usr/lib/libz.a" ; then
+-      LIBSTATIC="$LIBSTATIC /usr/lib/libz.a"
+-    else
+-      if test -f "/usr/local/lib/libz.a" ; then
+-        echo -e "assuming libz.a in /usr/local/lib"
+-        LIBSTATIC="$LIBSTATIC /usr/local/lib/libz.a"
+-      else
+-        echo -e "Warning: assuming libz.a in the local path"
+-        LIBSTATIC="$LIBSTATIC libz.a"
+-      fi
+-    fi
+-  fi
+-else
+-  echo -e "enabling dynamic linking of Z library"
+-  LIBSHARED="$LIBSHARED -lz"
+-fi
+-
+-dnl Finally compose the LIB variable.
+-
+-if test "$DARWIN" = yes ; then
+-  LIBS="$LIBS $LIBSTATIC $LIBSHARED"
+-elif test "$SUN" = yes ; then
+-  LIBS="$LIBS $LIBSTATIC $LIBSHARED"
+-else
+-  LIBS="$LIBS $LIBSTATIC -shared $LIBSHARED"
+-fi
+-
+-dnl Check whether --with-symbols or --without-symbols was
+-dnl given and set the required optimization level.
+-
+-if test "${with_symbols}" = yes; then
+-  echo -e "enabling production of debug symbols"
+-  CXXFLAGS="-g $CXXFLAGS"
+-  CFLAGS="-g $CFLAGS"
+-else
+-  echo -e "disabling production of debug symbols"
+-fi
+-
+-dnl Check whether --with-use-malloc or --without-use-malloc
+-dnl was given.
+-
+-if test "${with_use_malloc}" = yes; then
+-  echo -e "disabling use of the STL allocators"
+-  CXXFLAGS="$CXXFLAGS -D__USE_MALLOC"
+-else
+-  echo -e "enabling use of the STL allocators"
+-fi
+-
+-dnl Check whether --with-info or --without-info was given.
+-
+-if test "${with_info}" = yes; then
+-  echo -e "enabling info output in the log file"
+-  CXXFLAGS="$CXXFLAGS -DINFO"
+-  CFLAGS="$CFLAGS -DINFO"
+-else
+-  echo -e "disabling info output in the log file"
+-fi
+-
+-dnl Check whether --with-valgrind or --without-valgrind was given.
+-
+-if test "${with_valgrind}" = yes; then
+-  echo -e "enabling valgrind memory checker workarounds"
+-  CXXFLAGS="$CXXFLAGS -DVALGRIND"
+-  CFLAGS="$CFLAGS -DVALGRIND"
+-else
+-  echo -e "disabling valgrind memory checker workarounds"
+-fi
+-
+-dnl Find makedepend somewhere.
+-
+-AC_SUBST(MAKEDEPEND)
+-
+-if test -x "../nx-X11/config/makedepend/makedepend" ; then
+-  MAKEDEPEND=../nx-X11/config/makedepend/makedepend
+-else
+-  if test -x "/usr/X11R6/bin/makedepend" ; then
+-    MAKEDEPEND=/usr/X11R6/bin/makedepend
+-  else
+-    if test -x "/usr/openwin/bin/makedepend" ; then
+-      MAKEDEPEND=/usr/openwin/bin/makedepend
+-    else
+-      MAKEDEPEND=/usr/bin/makedepend
+-    fi
+-  fi
+-fi
+-
+-dnl Determine what to build based on the platform.
+-dnl Override the LIBS settings on Cygwin32 so that
+-dnl we always link with the exact set of libraries.
+-
+-AC_SUBST(ALL)
+-
+-if test "$CYGWIN32" = yes; then
+-    ALL="\$(LIBCYGARCHIVE) \$(LIBCYGSHARED) \$(LIBARCHIVE)"
+-    LIBS="-lstdc++ -lpng -ljpeg -lz"
+-else
+-    ALL="\$(LIBFULL) \$(LIBLOAD) \$(LIBSHARED) \$(LIBARCHIVE)"
+-fi
+-
+-AC_OUTPUT(Makefile)
+diff -urwN nxcomp-orig/NX.h nxcomp/NX.h
+--- nxcomp-orig/NX.h	2012-02-20 18:20:24.559375350 +0100
++++ nxcomp/NX.h	2012-02-20 22:57:28.518800840 +0100
+@@ -18,6 +18,29 @@
+ #ifndef NX_H
+ #define NX_H
+ 
++#if defined _WIN32 || defined __CYGWIN__
++# define NXCOMP_DLL_IMPORT __declspec(dllimport)
++# define NXCOMP_DLL_EXPORT __declspec(dllexport)
++# define NXCOMP_DLL_LOCAL
++#else
++# if __GNUC__ >= 4
++#  define NXCOMP_DLL_IMPORT __attribute__ ((visibility ("default")))
++#  define NXCOMP_DLL_EXPORT __attribute__ ((visibility ("default")))
++#  define NXCOMP_DLL_LOCAL  __attribute__ ((visibility ("hidden")))
++# else
++#  define NXCOMP_DLL_IMPORT
++#  define NXCOMP_DLL_EXPORT
++#  define NXCOMP_DLL_LOCAL
++# endif
++#endif
++
++#ifdef NXCOMP_DLL_BUILDING
++# define NXCOMP_API NXCOMP_DLL_EXPORT
++#else
++# define NXCOMP_API NXCOMP_DLL_IMPORT
++#endif
++#define NXCOMP_LOCAL NXCOMP_DLL_LOCAL
++
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
+@@ -83,7 +106,7 @@
+  * done after having created a pair of connected sockets.
+  */
+ 
+-extern int NXTransCreate(int fd, int mode, const char *options);
++extern NXCOMP_API int NXTransCreate(int fd, int mode, const char *options);
+ 
+ /*
+  * Tell the proxy to use the second descriptor as its own end of
+@@ -93,7 +116,7 @@
+  * possible, will trigger the use of the memory-to-memory transport.
+  */
+ 
+-extern int NXTransAgent(int fd[2]);
++extern NXCOMP_API int NXTransAgent(int fd[2]);
+ 
+ /*
+  * Prepare the file sets and the timeout for a later execution of
+@@ -104,7 +127,7 @@
+  * pointers are passed.
+  */
+ 
+-extern int NXTransPrepare(int *maxfds, fd_set *readfds,
++extern NXCOMP_API int NXTransPrepare(int *maxfds, fd_set *readfds,
+                               fd_set *writefds, struct timeval *timeout);
+ 
+ /*
+@@ -112,7 +135,7 @@
+  * pending data.
+  */
+ 
+-extern int NXTransSelect(int *result, int *error, int *maxfds, fd_set *readfds,
++extern NXCOMP_API int NXTransSelect(int *result, int *error, int *maxfds, fd_set *readfds,
+                              fd_set *writefds, struct timeval *timeout);
+ 
+ /*
+@@ -122,7 +145,7 @@
+  * the other NX resources.
+  */
+ 
+-extern int NXTransExecute(int *result, int *error, int *maxfds, fd_set *readfds,
++extern NXCOMP_API int NXTransExecute(int *result, int *error, int *maxfds, fd_set *readfds,
+                               fd_set *writefds, struct timeval *timeout);
+ 
+ /*
+@@ -130,7 +153,7 @@
+  * its descriptors.
+  */
+ 
+-extern int NXTransContinue(struct timeval *timeout);
++extern NXCOMP_API int NXTransContinue(struct timeval *timeout);
+ 
+ /*
+  * Perform I/O on the given descriptors. If memory-to-memory trans-
+@@ -140,14 +163,14 @@
+  * ing network operation will be performed.
+  */
+ 
+-extern int NXTransRead(int fd, char *data, int size);
+-extern int NXTransWrite(int fd, char *data, int size);
+-extern int NXTransReadable(int fd, int *readable);
++extern NXCOMP_API int NXTransRead(int fd, char *data, int size);
++extern NXCOMP_API int NXTransWrite(int fd, char *data, int size);
++extern NXCOMP_API int NXTransReadable(int fd, int *readable);
+ 
+-extern int NXTransReadVector(int fd, struct iovec *iovdata, int iovsize);
+-extern int NXTransWriteVector(int fd, struct iovec *iovdata, int iovsize);
++extern NXCOMP_API int NXTransReadVector(int fd, struct iovec *iovdata, int iovsize);
++extern NXCOMP_API int NXTransWriteVector(int fd, struct iovec *iovdata, int iovsize);
+ 
+-extern int NXTransClose(int fd);
++extern NXCOMP_API int NXTransClose(int fd);
+ 
+ /*
+  * Return true if the NX transport is running. The fd parameter can
+@@ -155,7 +178,7 @@
+  * NX_FD_ANY.
+  */
+ 
+-extern int NXTransRunning(int fd);
++extern NXCOMP_API int NXTransRunning(int fd);
+ 
+ /*
+  * Close down the NX transport and free all the allocated resources.
+@@ -164,7 +187,7 @@
+  * start the tear down procedure.
+  */
+ 
+-extern int NXTransDestroy(int fd);
++extern NXCOMP_API int NXTransDestroy(int fd);
+ 
+ /*
+  * Tell to the proxy how to handle the standard POSIX signals. For
+@@ -233,7 +256,7 @@
+  * ialize the NX transport.
+  */
+  
+-extern int NXTransSignal(int signal, int action);
++extern NXCOMP_API int NXTransSignal(int signal, int action);
+ 
+ /*
+  * Return a value between 0 and 9 indicating the congestion level
+@@ -241,7 +264,7 @@
+  * the link is congested and no further data can be sent.
+  */
+ 
+-extern int NXTransCongestion(int fd);
++extern NXCOMP_API int NXTransCongestion(int fd);
+ 
+ /*
+  * Let the application to be notified by the proxy when an event oc-
+@@ -276,7 +299,7 @@
+  * wrapper.
+  */
+ 
+-extern int NXTransHandler(int fd, int type, void (*handler)(void *parameter,
++extern NXCOMP_API int NXTransHandler(int fd, int type, void (*handler)(void *parameter,
+                               int reason), void *parameter);
+ 
+ /*
+@@ -292,21 +315,21 @@
+  *                      the agent.
+  */
+ 
+-extern int NXTransPolicy(int fd, int type);
++extern NXCOMP_API int NXTransPolicy(int fd, int type);
+ 
+ /*
+  * Query the number of bytes that have been accumulated for a deferred
+  * flush.
+  */
+ 
+-extern int NXTransFlushable(int fd);
++extern NXCOMP_API int NXTransFlushable(int fd);
+ 
+ /*
+  * Tell to the NX transport to write all the accumulated data to the
+  * remote proxy.
+  */
+ 
+-extern int NXTransFlush(int fd);
++extern NXCOMP_API int NXTransFlush(int fd);
+ 
+ /*
+  * Create a new channel of the given type. It returns 1 on success,
+@@ -386,7 +409,7 @@
+  * mentation of _XSelect() in nx-X11/lib/X11/XlibInt.c for an example.
+  */
+ 
+-extern int NXTransChannel(int fd, int channelfd, int type);
++extern NXCOMP_API int NXTransChannel(int fd, int channelfd, int type);
+ 
+ /*
+  * Return the name of the files used by the proxy for the current session.
+@@ -408,41 +431,41 @@
+  * pointer.
+  */
+ 
+-extern const char *NXTransFile(int type);
++extern NXCOMP_API const char *NXTransFile(int type);
+ 
+ /*
+  * Return the time in milliseconds elapsed since the last call to this
+  * same function.
+  */
+ 
+-extern long NXTransTime(void);
++extern NXCOMP_API long NXTransTime(void);
+ 
+ /*
+  * Other interfaces to the internal transport functions.
+  */
+ 
+-extern int NXTransProxy(int fd, int mode, const char *display);
++extern NXCOMP_API int NXTransProxy(int fd, int mode, const char *display);
+ 
+-extern int NXTransClient(const char *display);
++extern NXCOMP_API int NXTransClient(const char *display);
+ 
+-extern int NXTransDialog(const char *caption, const char *message,
++extern NXCOMP_API int NXTransDialog(const char *caption, const char *message,
+                            const char *window, const char *type, int local,
+                                const char *display);
+ 
+-extern int NXTransAlert(int code, int local);
++extern NXCOMP_API int NXTransAlert(int code, int local);
+ 
+-extern int NXTransWatchdog(int timeout);
++extern NXCOMP_API int NXTransWatchdog(int timeout);
+ 
+-extern int NXTransKeeper(int caches, int images, const char *root);
++extern NXCOMP_API int NXTransKeeper(int caches, int images, const char *root);
+ 
+-extern void NXTransExit(int code) __attribute__((noreturn));
++extern NXCOMP_API void NXTransExit(int code) __attribute__((noreturn));
+ 
+-extern int NXTransParseCommandLine(int argc, const char **argv);
+-extern int NXTransParseEnvironment(const char *env, int force);
++extern NXCOMP_API int NXTransParseCommandLine(int argc, const char **argv);
++extern NXCOMP_API int NXTransParseEnvironment(const char *env, int force);
+ 
+-extern void NXTransCleanup(void) __attribute__((noreturn));
++extern NXCOMP_API void NXTransCleanup(void) __attribute__((noreturn));
+ 
+-extern int NXTransRate(void);
++extern NXCOMP_API int NXTransRate(void);
+ 
+ #ifdef __cplusplus
+ }

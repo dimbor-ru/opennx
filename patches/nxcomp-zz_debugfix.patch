@@ -1,0 +1,13 @@
+diff -urw nxcomp-orig/Agent.h nxcomp/Agent.h
+--- nxcomp-orig/Agent.h	2012-03-15 15:29:41.093400194 +0100
++++ nxcomp/Agent.h	2012-03-15 15:31:29.322395371 +0100
+@@ -205,7 +205,7 @@
+   {
+     #if defined(TEST) || defined(INFO)
+     *logofs << "Agent: proxyCanRead() is "
+-            << ((int) FD_ISSET(proxy -> getFd(), readSet)
++            << ((int) FD_ISSET(proxy -> getFd(), readSet))
+             << ".\n" << logofs_flush;
+     #endif
+ 
+Only in nxcomp-orig: .Agent.h.swp

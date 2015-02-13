@@ -1,0 +1,83 @@
+#!/bin/sh
+set -e
+#
+# Since samba links shared libs against internal static libs, we
+# build libsmbclient separately for each architecture, install
+# into temporary destinations and finally combine the .dylibs
+# with lipo
+#
+if [ $# != 2 ] ; then
+    echo "Usage: buildsmbclient <PREFIX> <DSTDIR>" >&2
+    exit 1
+fi
+PFX="$1"
+WDIR=`pwd`
+TDIR="$WDIR/libsmbclient.$$"
+cd "$2"
+IDIR="`pwd`"
+cd "$WDIR"
+
+cleanup() {
+    cd "$WDIR"
+    rm -rf "$TDIR"
+}
+trap cleanup EXIT
+
+CACHEDIR=$HOME/savebuild
+CACHEDBUILD=$CACHEDIR/smbc-prebuild.tgz
+
+fetch() {
+	if [ -n "`which wget`" ] ; then
+		wget $1
+	else
+		if [ -n "`which curl`" ] ; then
+			curl -f -L -o `echo "$1"|sed -e 's!.*/\([^?]*\).*!\1!'` "$1"
+		else
+			echo "Need wget or curl" >&2
+			exit 1
+		fi
+	fi
+}
+
+if [ -f $CACHEDBUILD ] ; then
+	tar xzCf $IDIR $CACHEDBUILD
+else
+	mkdir -p "$TDIR"
+	cd "$TDIR"
+	TGZ=samba-latest.tar.gz
+	DLURL="http://www.samba.org/ftp/samba/$TGZ"
+
+	test -f $TGZ || fetch "$DLURL"
+	SRC=`tar tzf $TGZ|tail -1|cut -d/ -f1`
+	tar xzf $TGZ
+	cd $SRC/source3
+	CFLAGS="-arch i386" LDFLAGS="-arch i386" ./configure \
+    		--prefix=$PFX \
+    		--with-configdir=/etc \
+    		--disable-swat \
+    		--without-readline \
+    		--without-wbclient \
+    		--without-libnetapi \
+		--without-libsmbsharemodes \
+		--without-winbind \
+		--without-pam_smbpass \
+    		--with-static-libs=libtalloc,libtdb \
+		--with-libsmbclient
+	make libsmbclient && mv bin bin-i386
+	make clean
+	sed -e s/i386/ppc/g < config.status | sh
+	make libsmbclient
+	mkdir -p "$IDIR"
+	TOARCH=
+	for lib in bin/libsmbclient.dylib* ; do
+    		bn=`basename $lib`
+    		TOARCH="$TOARCH $bn"
+    		if [ -L $lib ] ; then
+        		cp $lib "$IDIR/$bn"
+    		else
+        		lipo -create bin-i386/$bn $lib -output "$IDIR/$bn"
+    		fi
+	done
+    mkdir -p $CACHEDIR
+	tar czCf $IDIR $CACHEDBUILD $TOARCH
+fi

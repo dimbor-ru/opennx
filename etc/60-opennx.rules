@@ -1,0 +1,2 @@
+SUBSYSTEM=="usb_device", GROUP="opennx", MODE="0664"
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", GROUP="opennx", MODE="0664"

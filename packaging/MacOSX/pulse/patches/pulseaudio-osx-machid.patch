@@ -1,0 +1,73 @@
+diff -urw pulseaudio-or/configure pulseaudio/configure
+--- pulseaudio-or/configure	2011-12-09 01:23:37.492318311 +0100
++++ pulseaudio/configure	2012-01-30 01:03:46.861586823 +0100
+@@ -20582,7 +20582,7 @@
+     # How do I check a framework "library" - AC_CHECK_LIB prob. won't work??, just assign LIBS & hope
+     ac_fn_c_check_header_mongrel "$LINENO" "/Developer/Headers/FlatCarbon/CoreServices.h" "ac_cv_header__Developer_Headers_FlatCarbon_CoreServices_h" "$ac_includes_default"
+ if test "x$ac_cv_header__Developer_Headers_FlatCarbon_CoreServices_h" = xyes; then :
+-  LIBS="$LIBS -framework CoreServices"
++  LIBS="$LIBS -framework IOKit -framework CoreServices"
+ else
+   as_fn_error $? "CoreServices.h header file not found" "$LINENO" 5
+ 
+diff -urw pulseaudio-or/configure.ac pulseaudio/configure.ac
+--- pulseaudio-or/configure.ac	2011-12-09 01:15:50.450339133 +0100
++++ pulseaudio/configure.ac	2012-01-30 01:02:13.674590980 +0100
+@@ -471,8 +471,17 @@
+ if test "x$os_is_darwin" = "x1" ; then
+     AC_MSG_CHECKING([looking for Apple CoreService Framework])
+     # How do I check a framework "library" - AC_CHECK_LIB prob. won't work??, just assign LIBS & hope
++    # Actually, this check is wrong too, because it assumes that Xcode is installed at the default
++    # location. Xcode is relocatable - it's installer allows it to be installed anywhere - not
++    # only below /Developer ... Furthermore, the question above indicates, that the person who asked
++    # did not understand the concept of OSX framworks at all. Those are *not* libraries, but
++    # *bundles* of various requisites (which *might* contain libs). The -framework parameter on
++    # OSX is more like a combination of the conventional -L and -I parameters.
++    # In my (FE's) opinion, this check is completely redundant. Either you *do* have Xcode which
++    # *always* includes the basic frameworks, or you *dont* in which case you would not even have
++    # basic build tools like gcc!
+     AC_CHECK_HEADER([/Developer/Headers/FlatCarbon/CoreServices.h],
+-        [LIBS="$LIBS -framework CoreServices"],
++        [LIBS="$LIBS -framework IOKit -framework CoreServices"],
+         [AC_MSG_ERROR([CoreServices.h header file not found])]
+     )
+ 
+diff -urw pulseaudio-orig/src/pulsecore/core-util.c pulseaudio/src/pulsecore/core-util.c
+--- pulseaudio-or/src/pulsecore/core-util.c	2011-12-09 01:14:05.131343828 +0100
++++ pulseaudio/src/pulsecore/core-util.c	2012-01-30 00:23:36.752694276 +0100
+@@ -111,6 +111,7 @@
+ #include <mach/thread_act.h>
+ #include <mach/thread_policy.h>
+ #include <sys/sysctl.h>
++#include <IOKit/IOKitLib.h>
+ #endif
+ 
+ #ifdef HAVE_DBUS
+@@ -2717,6 +2721,19 @@
+      * since it fits perfectly our needs and is not as volatile as the
+      * hostname which might be set from dhcp. */
+ 
++#ifdef OS_IS_DARWIN
++    /* Of course, the above is valid only if we *do* have D-Bus - which
++     * is not the case on OSX or Windows... On OSX, we have something even
++     * better: A real machine UUID. */
++    char uuid[38] = "00000000-0000-0000-0000-000000000000";
++    io_registry_entry_t ioRegistryRoot =
++        IORegistryEntryFromPath(kIOMasterPortDefault, "IOService:/");
++    CFStringRef uuidCf =
++        (CFStringRef)IORegistryEntryCreateCFProperty(ioRegistryRoot, CFSTR(kIOPlatformUUIDKey), kCFAllocatorDefault, 0);
++    IOObjectRelease(ioRegistryRoot);
++    CFStringGetCString(uuidCf, uuid, sizeof(uuid), kCFStringEncodingMacRoman);
++    return pa_sprintf_malloc("%s", uuid);
++#else
+     if ((f = pa_fopen_cloexec(PA_MACHINE_ID, "r")) ||
+         (f = pa_fopen_cloexec(PA_MACHINE_ID_FALLBACK, "r"))) {
+         char ln[34] = "", *r;
+@@ -2729,6 +2746,7 @@
+         if (r && ln[0])
+             return pa_utf8_filter(ln);
+     }
++#endif
+ 
+     if ((h = pa_get_host_name_malloc()))
+         return h;

@@ -1,0 +1,12 @@
+diff -urw nxcomp-orig/Loop.cpp nxcomp/Loop.cpp
+--- nxcomp-orig/Loop.cpp	2008-04-14 15:39:06.000000000 +0200
++++ nxcomp/Loop.cpp	2009-05-12 18:18:03.831276831 +0200
+@@ -10979,7 +10979,7 @@
+                                       packMethod == PACK_LOSSLESS ||
+                                           packMethod == PACK_ADAPTIVE)
+   {
+-    char *dash = rindex(opt, '-');
++    const char *dash = rindex(opt, '-');
+ 
+     if (dash != NULL && strlen(dash) == 2 &&
+             *(dash + 1) >= '0' && *(dash + 1) <= '9')

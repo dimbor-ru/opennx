@@ -1,0 +1,70 @@
+diff -urw xc-orig/programs/Xserver/hw/xwin/InitOutput.c xc/programs/Xserver/hw/xwin/InitOutput.c
+--- xc-orig/programs/Xserver/hw/xwin/InitOutput.c	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/InitOutput.c	2010-02-23 01:08:11.897702327 +0100
+@@ -130,7 +130,7 @@
+ 
+ #ifdef RELOCATE_PROJECTROOT
+ const char *
+-winGetBaseDir(void);
++winGetBaseDir(int getreal);
+ #endif
+ 
+ /*
+@@ -384,17 +384,26 @@
+ 
+ #ifdef RELOCATE_PROJECTROOT
+ const char * 
+-winGetBaseDir(void)
++winGetBaseDir(int getreal)
+ {
+     static BOOL inited = FALSE;
+     static char buffer[MAX_PATH];
++    static char buffer2[MAX_PATH];
+     if (!inited)
+     {
+         char *fendptr;
++        DWORD size = 0;
++        buffer[0] = '\0';
++        if (NULL != getenv("XMING_BASEDIR"))
++            strncpy(buffer2, getenv("XMING_BASEDIR"), sizeof(buffer2));
++        if ('\0' == buffer[0]) {
+         HMODULE module = GetModuleHandle(NULL);
+-        DWORD size = GetModuleFileName(module, buffer, sizeof(buffer));
+-        if (sizeof(buffer) > 0)
+-            buffer[sizeof(buffer)-1] = 0;
++            size = GetModuleFileName(module, buffer, sizeof(buffer));
++        }
++        if (0 < sizeof(buffer))
++            buffer[sizeof(buffer)-1] = '\0';
++        if (0 < sizeof(buffer2))
++            buffer2[sizeof(buffer2)-1] = '\0';
+     
+         fendptr = buffer + size;
+         while (fendptr > buffer)
+@@ -408,7 +417,7 @@
+         }
+         inited = TRUE;
+     }
+-    return buffer;
++    return getreal ? buffer : buffer2;
+ }
+ #endif
+ 
+@@ -418,7 +427,7 @@
+     BOOL changed_fontpath = FALSE;
+     MessageType font_from = X_DEFAULT;
+ #ifdef RELOCATE_PROJECTROOT
+-    const char *basedir = winGetBaseDir();
++    const char *basedir = winGetBaseDir(0);
+     size_t basedirlen = strlen(basedir);
+ #endif
+ 
+@@ -724,7 +733,7 @@
+         if (sizeof(xkbbasedir) > 0)
+             xkbbasedir[sizeof(xkbbasedir)-1] = 0;
+         XkbBaseDirectory = xkbbasedir;
+-	XkbBinDirectory = basedir;
++        XkbBinDirectory = winGetBaseDir(1);
+     }
+ #endif /* XKB */
+ #endif /* RELOCATE_PROJECTROOT */

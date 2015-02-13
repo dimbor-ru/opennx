@@ -1,0 +1,75 @@
+diff -urw nxcomp-orig/configure.ac nxcomp/configure.ac
+--- nxcomp-orig/configure.ac	2012-06-02 19:25:37.410568618 +0200
++++ nxcomp/configure.ac	2012-06-02 21:11:09.199371807 +0200
+@@ -111,6 +111,14 @@
+ )
+ 
+ AC_CHECK_LIB([png],[png_set_expand],[LIBPNG="-lpng"])
++save_LDFLAGS="$LDFLAGS"
++LDFLAGS="$LDFLAGS $LIBPNG"
++AC_LINK_IFELSE(AC_LANG_PROGRAM([[#include <png.h>]],[[
++png_const_structp pngPtr = 0L;
++png_const_infop infoPtr = 0L;
++png_get_color_type(pngPtr, infoPtr);]]),
++[AC_DEFINE(HAVE_PNG_GET_COLOR_TYPE,1,[Have png_get_color_type])])
++LDFLAGS="$save_LDFLAGS"
+ AC_CHECK_LIB([jpeg],[jpeg_read_header],[LIBJPEG="-ljpeg"])
+ 
+ AC_ARG_ENABLE([static-png], AS_HELP_STRING([--enable-static-png], [Link against static libpng (Default: NO)]),
+diff -urw nxcomp-orig/Pgn.cpp nxcomp/Pgn.cpp
+--- nxcomp-orig/Pgn.cpp	2010-03-01 18:18:59.000000000 +0100
++++ nxcomp/Pgn.cpp	2012-06-02 21:11:17.311174166 +0200
+@@ -414,10 +414,17 @@
+ 
+   png_read_info(pngPtr, infoPtr);
+ 
++#ifdef HAVE_PNG_GET_COLOR_TYPE
++  if (png_get_color_type(pngPtr, infoPtr) == PNG_COLOR_TYPE_PALETTE)
++  {
++    png_set_expand(pngPtr);
++  }
++#else
+   if (infoPtr -> color_type == PNG_COLOR_TYPE_PALETTE)
+   {
+     png_set_expand(pngPtr);
+   }
++#endif
+ 
+   //
+   // data points to dstBuf which is
+@@ -565,10 +572,17 @@
+ 
+   png_read_info( pngPtr, infoPtr ) ;
+ 
++#ifdef HAVE_PNG_GET_COLOR_TYPE
++  if (png_get_color_type(pngPtr, infoPtr) == PNG_COLOR_TYPE_PALETTE)
++  {
++    png_set_expand(pngPtr);
++  }
++#else
+   if (infoPtr -> color_type == PNG_COLOR_TYPE_PALETTE)
+   {
+     png_set_expand(pngPtr);
+   }
++#endif
+ 
+   //
+   // PixelPtr points to dstBuf which is
+@@ -709,10 +723,17 @@
+   png_read_info(pngPtr, infoPtr) ;
+ 
+ 
++#ifdef HAVE_PNG_GET_COLOR_TYPE
++  if (png_get_color_type(pngPtr, infoPtr) == PNG_COLOR_TYPE_PALETTE)
++  {
++    png_set_expand(pngPtr);
++  }
++#else
+   if (infoPtr -> color_type == PNG_COLOR_TYPE_PALETTE)
+   {
+     png_set_expand(pngPtr);
+   }
++#endif
+ 
+   //
+   // data points to dstBuf which is

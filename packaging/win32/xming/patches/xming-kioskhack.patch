@@ -1,0 +1,99 @@
+diff -urw xc-orig/programs/Xserver/hw/xwin/InitOutput.c xc/programs/Xserver/hw/xwin/InitOutput.c
+--- xc-orig/programs/Xserver/hw/xwin/InitOutput.c	2012-03-16 14:45:50.640342810 +0100
++++ xc/programs/Xserver/hw/xwin/InitOutput.c	2012-03-16 16:11:04.331114818 +0100
+@@ -97,6 +97,7 @@
+ extern FARPROC			g_fpTrackMouseEvent;
+ extern Bool			g_fNoHelpMessageBox;                     
+ extern Bool			g_fSilentDupError;                     
++extern int			g_iKioskX;
+   
+   
+ /*
+@@ -797,6 +798,10 @@
+       /* We have to flag this as an explicit screen, even though it isn't */
+       g_ScreenInfo[0].fExplicitScreen = TRUE;
+     }
++    if (getenv("NX_KIOSK_X") != NULL)
++    {
++        g_iKioskX = atoi(getenv("NX_KIOSK_X"));
++    }
+ }
+ 
+ 
+diff -urw xc-orig/programs/Xserver/hw/xwin/winglobals.c xc/programs/Xserver/hw/xwin/winglobals.c
+--- xc-orig/programs/Xserver/hw/xwin/winglobals.c	2012-03-16 14:45:50.650342808 +0100
++++ xc/programs/Xserver/hw/xwin/winglobals.c	2012-03-16 16:11:04.332114818 +0100
+@@ -79,6 +79,7 @@
+ Bool		g_fSilentDupError = FALSE;
+ Bool		g_fNoIcons = FALSE;
+ 
++int		    g_iKioskX = 0;
+ 
+ /*
+  * Global variables for dynamically loaded libraries and
+diff -urw xc-orig/programs/Xserver/hw/xwin/win.h xc/programs/Xserver/hw/xwin/win.h
+--- xc-orig/programs/Xserver/hw/xwin/win.h	2012-03-16 14:45:50.653342808 +0100
++++ xc/programs/Xserver/hw/xwin/win.h	2012-03-16 16:11:04.334114818 +0100
+@@ -206,6 +206,9 @@
+ #define WM_TRAYICON		(WM_USER + 1000)
+ #define WM_INIT_SYS_MENU	(WM_USER + 1001)
+ #define WM_GIVEUP		(WM_USER + 1002)
++/* defined in winclipboardwndproc.c #define WM_USER_PASTE_COMPLETE		(WM_USER + 1003) */
++/* defined in winclipboardwndproc.c #define WM_USER_SET_FILTER          (WM_USER + 1004) */
++#define WM_USER_SET_KIOSK	(WM_USER + 1005)
+ 
+ 
+ /* Local includes */
+diff -urw xc-orig/programs/Xserver/hw/xwin/winmouse.c xc/programs/Xserver/hw/xwin/winmouse.c
+--- xc-orig/programs/Xserver/hw/xwin/winmouse.c	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/winmouse.c	2012-03-16 16:11:04.335114818 +0100
+@@ -218,11 +218,26 @@
+  * Enqueue a mouse button event
+  */
+ 
++extern winScreenInfo g_ScreenInfo[];
++extern int           g_iLastScreen;
++extern int           g_iKioskX;
++
+ void
+ winMouseButtonsSendEvent (int iEventType, int iButton)
+ {
+   xEvent		xCurrentEvent;
+ 
++  if (g_iKioskX) {
++      int FS = (-1 == g_iLastScreen) ? g_ScreenInfo[0].fFullScreen : g_ScreenInfo[g_iLastScreen].fFullScreen;
++      if (FS) {
++          int x = -1;
++          int y = -1;
++          miPointerPosition(&x, &y);
++          if ((0 == y) && ((g_iKioskX - 1) == x))
++              return;
++      }
++  }
++
+   /* Load an xEvent and enqueue the event */
+   xCurrentEvent.u.u.type = iEventType;
+ #if defined(XFree86Server) && defined(XINPUT)
+diff -urw xc-orig/programs/Xserver/hw/xwin/winwndproc.c xc/programs/Xserver/hw/xwin/winwndproc.c
+--- xc-orig/programs/Xserver/hw/xwin/winwndproc.c	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/winwndproc.c	2012-03-16 16:12:07.167112017 +0100
+@@ -66,6 +66,7 @@
+ extern HWND			g_hwndKeyboardFocus;
+ extern Bool			g_fSoftwareCursor;
+ extern DWORD			g_dwCurrentThreadID;
++extern int          g_iKioskX;
+ 
+ 
+ /*
+@@ -1234,6 +1235,11 @@
+ 	}
+       break;
+ 
++    case WM_USER_SET_KIOSK:
++      g_iKioskX = (int)wParam;
++      ErrorF ("Setting Kiosk X to %d\n", g_iKioskX);
++      return 0;
++
+     case WM_ENDSESSION:
+     case WM_GIVEUP:
+       /* Delete the tray Icon */

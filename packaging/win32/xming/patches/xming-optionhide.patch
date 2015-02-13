@@ -1,0 +1,254 @@
+diff -urw xc-orig/programs/Xserver/hw/xwin/InitInput.c xc/programs/Xserver/hw/xwin/InitInput.c
+--- xc-orig/programs/Xserver/hw/xwin/InitInput.c	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/InitInput.c	2010-02-23 03:52:52.416690572 +0100
+@@ -42,8 +42,8 @@
+  * Local function prototypes
+  */
+ 
+-#ifdef XWIN_CLIPBOARD
+ DISPATCH_PROC(winProcEstablishConnection);
++#ifdef XWIN_CLIPBOARD
+ DISPATCH_PROC(winProcQueryTree);
+ DISPATCH_PROC(winProcSetSelectionOwner);
+ #endif
+@@ -60,12 +60,13 @@
+  * References to external symbols
+  */
+ 
++extern int g_iNumScreens;
+ #ifdef HAS_DEVWINDOWS
+ extern int			g_fdMessageQueue;
+ #endif
+ extern Bool			g_fXdmcpEnabled;
+-#ifdef XWIN_CLIPBOARD
+ extern winDispatchProcPtr	winProcEstablishConnectionOrig;
++#ifdef XWIN_CLIPBOARD
+ extern winDispatchProcPtr	winProcQueryTreeOrig;
+ #endif
+ #ifdef XKB
+@@ -176,6 +177,41 @@
+ }
+ 
+ 
++void
++winDelayedShowWindow()
++{
++    int i;
++    ErrorF ("winDelayedShowWindow\n");
++    for (i = 0; i < g_iNumScreens; ++i) {
++        if ((g_ScreenInfo[i].pScreen) && g_ScreenInfo[i].fHideInitial) {
++            HWND hwnd = (winGetScreenPriv(g_ScreenInfo[i].pScreen))->hwndScreen;
++            ErrorF ("winDelayedShowWindow FG %d\n", i);
++            ShowWindow(hwnd, g_ScreenInfo[i].origShowWindowMode);
++            SetForegroundWindow(hwnd);
++            LockSetForegroundWindow(LSFW_LOCK);
++            SetFocus(hwnd);
++        }
++    }
++}
++
++#ifndef XWIN_CLIPBOARD
++int
++winProcEstablishConnection (ClientPtr client)
++{
++  int ret;
++
++  ErrorF ("winProcEstablishConnection - Hello\n");
++
++  winDelayedShowWindow();
++
++  /* Unwrap the original function, call it, and return */
++  InitialVector[2] = winProcEstablishConnectionOrig;
++  ret = (*winProcEstablishConnectionOrig) (client);
++  winProcEstablishConnectionOrig = NULL;
++  return ret;
++}
++#endif
++
+ /* See Porting Layer Definition - p. 17 */
+ void
+ InitInput (int argc, char *argv[])
+@@ -186,7 +222,6 @@
+   winDebug ("InitInput\n");
+ #endif
+ 
+-#ifdef XWIN_CLIPBOARD
+   /*
+    * Wrap some functions at every generation of the server.
+    */
+@@ -195,6 +230,7 @@
+       winProcEstablishConnectionOrig = InitialVector[2];
+       InitialVector[2] = winProcEstablishConnection;
+     }
++#ifdef XWIN_CLIPBOARD
+   if (g_fXdmcpEnabled
+       && ProcVector[X_QueryTree] != winProcQueryTree)
+     {
+diff -urw xc-orig/programs/Xserver/hw/xwin/InitOutput.c xc/programs/Xserver/hw/xwin/InitOutput.c
+--- xc-orig/programs/Xserver/hw/xwin/InitOutput.c	2010-02-23 03:37:20.167701044 +0100
++++ xc/programs/Xserver/hw/xwin/InitOutput.c	2010-02-23 03:51:21.386686516 +0100
+@@ -856,6 +856,10 @@
+ 	  "\tEXPERIMENTAL: Run the internal window manager.\n");
+ #endif
+ 
++  ErrorF ("-hide\n"
++	  "\tInitially hide root window, then show it on first X11 client connect.\n"
++	  "\tUsed only in fullscreen and windowed mode.\n");
++
+   ErrorF ("-[no]keyhook\n"
+ 	  "\tGrab special windows key combinations like Alt-Tab or the Menu\n"
+ 	  "\tkey.  These keys are discarded by default.\n");
+diff -urw xc-orig/programs/Xserver/hw/xwin/winclipboardwrappers.c xc/programs/Xserver/hw/xwin/winclipboardwrappers.c
+--- xc-orig/programs/Xserver/hw/xwin/winclipboardwrappers.c	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/winclipboardwrappers.c	2010-02-23 03:51:21.387687551 +0100
+@@ -177,6 +177,8 @@
+  * an external client has connected.
+  */
+ 
++extern void winDelayedShowWindow();
++
+ int
+ winProcEstablishConnection (ClientPtr client)
+ {
+@@ -186,6 +188,8 @@
+ 
+   ErrorF ("winProcEstablishConnection - Hello\n");
+ 
++  winDelayedShowWindow();
++  
+   /* Do nothing if clipboard is not enabled */
+   if (!g_fClipboard)
+     {
+diff -urw xc-orig/programs/Xserver/hw/xwin/wincreatewnd.c xc/programs/Xserver/hw/xwin/wincreatewnd.c
+--- xc-orig/programs/Xserver/hw/xwin/wincreatewnd.c	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/wincreatewnd.c	2010-02-23 03:51:21.388687818 +0100
+@@ -120,13 +120,15 @@
+ #ifdef XWIN_NATIVEGDI
+     case WIN_SERVER_SHADOW_GDI:
+       /* Show the window */
+-      ShowWindow (*phwnd, SW_SHOWMAXIMIZED);
++      ShowWindow (*phwnd, pScreenInfo->fHideInitial ? SW_HIDE : SW_SHOWMAXIMIZED);
++      pScreenInfo->origShowWindowMode = SW_SHOWMAXIMIZED;
+       break;
+ #endif
+ 
+     default:
+       /* Hide the window */
+-      ShowWindow (*phwnd, SW_SHOWNORMAL);
++      ShowWindow (*phwnd, pScreenInfo->fHideInitial ? SW_HIDE : SW_SHOWNORMAL);
++      pScreenInfo->origShowWindowMode = SW_SHOWNORMAL;
+       break;
+     }
+ 
+@@ -134,6 +136,7 @@
+   UpdateWindow (*phwnd);
+ 
+   /* Attempt to bring our window to the top of the display */
++  if (!pScreenInfo->fHideInitial)
+   BringWindowToTop (*phwnd);
+ 
+   return TRUE;
+@@ -373,7 +376,8 @@
+   if (fForceShowWindow)
+   {
+       ErrorF("winCreateBoundingWindowWindowed - Setting normal windowstyle\n");
+-      ShowWindow(*phwnd, SW_SHOW);      
++      ShowWindow(*phwnd, pScreenInfo->fHideInitial ? SW_HIDE : SW_SHOW);
++      pScreenInfo->origShowWindowMode = SW_SHOW;
+   }
+ 
+   /* Get the client area coordinates */
+@@ -468,8 +472,10 @@
+ #endif
+       ShowWindow (*phwnd, SW_HIDE);
+     }
+-  else
+-    ShowWindow (*phwnd, SW_SHOWNORMAL);
++  else {
++    ShowWindow(*phwnd, pScreenInfo->fHideInitial ? SW_HIDE : SW_SHOWNORMAL);
++    pScreenInfo->origShowWindowMode = SW_SHOWNORMAL;
++  }
+   if (!UpdateWindow (*phwnd))
+     {
+       ErrorF ("winCreateBoundingWindowWindowed - UpdateWindow () failed\n");
+@@ -485,6 +491,7 @@
+ #ifdef XWIN_MULTIWINDOW
+       && !pScreenInfo->fMultiWindow
+ #endif
++      && !pScreenInfo->fHideInitial
+       )
+     {
+       if (!BringWindowToTop (*phwnd))
+diff -urw xc-orig/programs/Xserver/hw/xwin/win.h xc/programs/Xserver/hw/xwin/win.h
+--- xc-orig/programs/Xserver/hw/xwin/win.h	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/win.h	2010-02-23 03:51:21.388687818 +0100
+@@ -444,6 +444,10 @@
+ 
+   /* Did the user explicitly set this screen? */
+   Bool			fExplicitScreen;
++
++  /* Did the user requested to nitially hide our window? */
++  Bool			fHideInitial;
++  DWORD			origShowWindowMode;
+ } winScreenInfo, *winScreenInfoPtr;
+ 
+ 
+diff -urw xc-orig/programs/Xserver/hw/xwin/winprocarg.c xc/programs/Xserver/hw/xwin/winprocarg.c
+--- xc-orig/programs/Xserver/hw/xwin/winprocarg.c	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/winprocarg.c	2010-02-23 03:51:21.389687596 +0100
+@@ -209,6 +209,7 @@
+       g_ScreenInfo[i].fUseUnixKillKey = WIN_DEFAULT_UNIX_KILL;
+       g_ScreenInfo[i].fIgnoreInput = FALSE;
+       g_ScreenInfo[i].fExplicitScreen = FALSE;
++      g_ScreenInfo[i].fHideInitial = FALSE;
+     }
+ 
+   /* Signal that the default screens have been initialized */
+@@ -597,6 +598,32 @@
+     }
+ 
+   /*
++   * Look for the '-hide' argument
++   */
++  if (IS_OPTION ("-hide"))
++    {
++      /* Is this parameter attached to a screen or is it global? */
++      if (-1 == g_iLastScreen)
++	{
++	  int			j;
++
++	  /* Parameter is for all screens */
++	  for (j = 0; j < MAXSCREENS; j++)
++	    {
++	      g_ScreenInfo[j].fHideInitial = TRUE;
++	    }
++	}
++      else
++	{
++	  /* Parameter is for a single screen */
++          g_ScreenInfo[g_iLastScreen].fHideInitial = TRUE;
++	}
++
++      /* Indicate that we have processed this argument */
++      return 1;
++    }
++
++  /*
+    * Look for the '-lesspointer' argument
+    */
+   if (IS_OPTION ("-lesspointer"))
+diff -urw xc-orig/programs/Xserver/Imakefile xc/programs/Xserver/Imakefile
+--- xc-orig/programs/Xserver/Imakefile	2010-02-23 03:37:20.151687345 +0100
++++ xc/programs/Xserver/Imakefile	2010-02-23 03:51:21.389687596 +0100
+@@ -1046,9 +1046,9 @@
+ # if defined(GlxUseWindows) && GlxUseWindows
+ XWINGL32 = -lopengl32
+ # endif
+-XWINW32  = -lgdi32 -lws2_32 $(XWINGL32) $(PTHREADLIB) 
++XWINW32  = -luser32 -lgdi32 -lws2_32 $(XWINGL32) $(PTHREADLIB) 
+ #else
+-XWINW32  = -lgdi32
++XWINW32  = -luser32 -lgdi32
+ #endif
+ XWINSYSLIBS = $(FONTLIBS) $(LDPRELIBS) $(XWINX11) $(SYSLIBS) $(XWINW32)
+ 

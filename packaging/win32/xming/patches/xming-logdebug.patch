@@ -1,0 +1,34 @@
+diff -urw xc-orig/programs/Xserver/Imakefile xc/programs/Xserver/Imakefile
+--- xc-orig/programs/Xserver/Imakefile	2011-12-11 01:39:54.142570606 +0100
++++ xc/programs/Xserver/Imakefile	2011-12-11 01:50:12.251543048 +0100
+@@ -1046,7 +1046,7 @@
+ # if defined(GlxUseWindows) && GlxUseWindows
+ XWINGL32 = -lopengl32
+ # endif
+-XWINW32  = -luser32 -lgdi32 -lws2_32 $(XWINGL32) $(PTHREADLIB) 
++XWINW32  = -lkernel32 -luser32 -lgdi32 -lws2_32 $(XWINGL32) $(PTHREADLIB) 
+ #else
+ XWINW32  = -luser32 -lgdi32
+ #endif
+diff -urw xc-orig/programs/Xserver/os/log.c xc/programs/Xserver/os/log.c
+--- xc-orig/programs/Xserver/os/log.c	2009-03-18 18:13:46.000000000 +0100
++++ xc/programs/Xserver/os/log.c	2011-12-11 01:56:18.599526714 +0100
+@@ -95,6 +95,7 @@
+ 
+ #ifdef WIN32
+ #include <process.h>
++#include <windows.h>
+ #define getpid(x) _getpid(x)
+ #endif
+ 
+@@ -270,6 +271,10 @@
+     if ((verb < 0 || logVerbosity >= verb) && len > 0)
+ 	fwrite(tmpBuffer, len, 1, stderr);
+     if ((verb < 0 || logFileVerbosity >= verb) && len > 0) {
++#ifdef WIN32
++        // Copy everything to windows debug buffer
++        OutputDebugStringA(tmpBuffer);
++#endif
+ 	if (logFile) {
+ 	    fwrite(tmpBuffer, len, 1, logFile);
+ 	    if (logFlush) {

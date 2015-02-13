@@ -1,0 +1,69 @@
+diff -urw xc-orig/Imakefile xc/Imakefile
+--- xc-orig/Imakefile	2009-03-18 18:13:23.000000000 +0100
++++ xc/Imakefile	2010-02-20 16:30:25.965264944 +0100
+@@ -18,12 +18,16 @@
+ #if BuildFonts
+         FONTSDIR = fonts
+ #endif
+-#ifndef Win32Architecture
++#if defined(mingwArchitecture) || !defined(Win32Architecture)
+ #if BuildDocs
+         DOCSDIR = doc
+ #endif
+         NLSSUBDIR = nls
+ #endif
++#else
++#ifdef mingwArchitecture
++        NLSSUBDIR = nls
++#endif
+ #endif
+ 
+         SUBDIRS = include config lib $(NLSSUBDIR) \
+diff -urw xc-orig/nls/Compose/Imakefile xc/nls/Compose/Imakefile
+--- xc-orig/nls/Compose/Imakefile	2009-03-18 18:13:20.000000000 +0100
++++ xc/nls/Compose/Imakefile	2010-02-20 16:24:42.442511645 +0100
+@@ -6,7 +6,7 @@
+ 
+ XCOMM $XFree86: xc/nls/Compose/Imakefile,v 1.20 2002/05/31 18:45:52 dawes Exp $
+ 
+-#ifndef Win32Architecture
++#if defined(mingwArchitecture) || !defined(Win32Architecture)
+ # define ComposeTarget(name)						@@\
+ all:: name.ct								@@\
+ 	MakeDir($(BUILDI18NDIR)/name)				@@\
+diff -urw xc-orig/nls/Imakefile xc/nls/Imakefile
+--- xc-orig/nls/Imakefile	2009-03-18 18:13:20.000000000 +0100
++++ xc/nls/Imakefile	2010-02-20 16:24:42.443510864 +0100
+@@ -28,7 +28,7 @@
+ #define R63Compat YES
+ #endif
+ 
+-#ifndef Win32Architecture
++#if defined(mingwArchitecture) || !defined(Win32Architecture)
+ #if R63Compat
+ # define LTarget(name)							@@\
+ CppFileTarget(name.l1,name,$(DEFINES),NullParameter)			@@\
+diff -urw xc-orig/nls/XI18N_OBJS/Imakefile xc/nls/XI18N_OBJS/Imakefile
+--- xc-orig/nls/XI18N_OBJS/Imakefile	2009-03-18 18:13:20.000000000 +0100
++++ xc/nls/XI18N_OBJS/Imakefile	2010-02-20 16:24:42.443510864 +0100
+@@ -6,7 +6,7 @@
+ 
+ XCOMM $XFree86: xc/nls/XI18N_OBJS/Imakefile,v 1.6 2002/12/17 03:41:53 dawes Exp $
+ 
+-#ifndef Win32Architecture
++#if defined(mingwArchitecture) || !defined(Win32Architecture)
+ # define XI18NTarget(name)						@@\
+ all:: name								@@\
+ 	MakeDir($(BUILDI18NDIR)/name)					@@\
+diff -urw xc-orig/nls/XLC_LOCALE/Imakefile xc/nls/XLC_LOCALE/Imakefile
+--- xc-orig/nls/XLC_LOCALE/Imakefile	2009-03-18 18:13:20.000000000 +0100
++++ xc/nls/XLC_LOCALE/Imakefile	2010-02-20 16:24:42.443510864 +0100
+@@ -7,7 +7,7 @@
+ 
+   WCHAR32 = HasWChar32
+ 
+-#ifndef Win32Architecture
++#if defined(mingwArchitecture) || !defined(Win32Architecture)
+ # define LTarget(name)							@@\
+ all:: name.lt								@@\
+ 									@@\

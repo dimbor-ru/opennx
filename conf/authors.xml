@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This is used for generating the ChangeLog with svn2cl -->
+<authors>
+    <author uid="aderigs">
+        Achim Derigs &lt;aderigs@users.sf.net&gt;
+    </author>
+    <author uid="felfert">
+        Fritz Elfert &lt;felfert@users.sf.net&gt;
+    </author>
+    <author uid="medozas">
+        Michael Kromer &lt;medozas@users.sf.net&gt;
+    </author>
+</authors>

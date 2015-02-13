@@ -1,0 +1,30 @@
+diff -urw nxcomp-orig/Agent.h nxcomp/Agent.h
+--- nxcomp-orig/Agent.h	2010-02-06 10:58:17.000000000 +0100
++++ nxcomp/Agent.h	2010-02-06 10:58:31.000000000 +0100
+@@ -147,7 +147,7 @@
+     canRead_ = (proxy != NULL ? proxy -> canRead(localFd_) : 0);
+   }
+ 
+-  int remoteCanRead(const fd_set * const readSet)
++  int remoteCanRead(fd_set *readSet)
+   {
+     #if defined(TEST) || defined(INFO)
+     *logofs << "Agent: remoteCanRead() is " <<
+@@ -161,7 +161,7 @@
+                 transport_ -> dequeuable() != 0);
+   }
+ 
+-  int remoteCanWrite(const fd_set * const writeSet)
++  int remoteCanWrite(fd_set *writeSet)
+   {
+     #if defined(TEST) || defined(INFO)
+     *logofs << "Agent: remoteCanWrite() is " <<
+@@ -201,7 +201,7 @@
+     return (proxy -> canRead());
+   }
+ 
+-  int proxyCanRead(const fd_set * const readSet)
++  int proxyCanRead(fd_set *readSet)
+   {
+     #if defined(TEST) || defined(INFO)
+     *logofs << "Agent: proxyCanRead() is "

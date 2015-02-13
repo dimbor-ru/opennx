@@ -1,0 +1,3 @@
+#etc/udev/rules.d
+usr/bin
+usr/lib/opennx/lib

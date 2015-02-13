@@ -1,0 +1,15 @@
+diff -urwN libpng-1.2.40-orig/configure libpng-1.2.40/configure
+--- libpng-1.2.40-orig/configure	2009-09-10 13:39:04.000000000 +0200
++++ libpng-1.2.40/configure	2010-10-25 01:29:18.782195099 +0200
+@@ -11447,10 +11447,7 @@
+ if test "$have_ld_version_script" = "yes"; then
+     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for symbol prefix" >&5
+ $as_echo_n "checking for symbol prefix... " >&6; }
+-    SYMBOL_PREFIX=`echo "PREFIX=__USER_LABEL_PREFIX__" \
+-                   | ${CPP-${CC-gcc} -E} - 2>&1 \
+-                   | ${EGREP-grep} "^PREFIX=" \
+-                   | ${SED-sed} "s:^PREFIX=::"`
++    SYMBOL_PREFIX=""
+ 
+     { $as_echo "$as_me:${as_lineno-$LINENO}: result: $SYMBOL_PREFIX" >&5
+ $as_echo "$SYMBOL_PREFIX" >&6; }

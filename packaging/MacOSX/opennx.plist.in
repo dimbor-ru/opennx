@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist SYSTEM "file://localhost/System/Library/DTDs/PropertyList.dtd">
+<plist version="0.9">
+<dict>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.opennx._BUNDLEID_</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>_EXECUTABLE_</string>
+	<key>CFBundleIconFile</key>
+	<string>_ICON_</string>
+	<key>CFBundleName</key>
+	<string>_BNAME_</string>
+	<key>CFBundleDisplayName</key>
+	<string>_BDNAME_</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>_CREATOR_</string>
+	<key>CFBundleVersion</key>
+	<string>@FULLVERSION@</string>
+	<key>CFBundleShortVersionString</key>
+	<string>@FULLVERSION@</string>
+	<key>CFBundleGetInfoString</key>
+	<string>OpenNX version @FULLVERSION@, (C) 2011 The OpenNX Team</string>
+	<key>CFBundleLongVersionString</key>
+	<string>@FULLVERSION@, (C) 2009 The OpenNX Team</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright 2011 The OpenNX Team</string>
+	<key>LSHasLocalizedDisplayName</key>
+	<true/>
+	<key>LSRequiresCarbon</key>
+	<true/>
+	<key>CSResourcesFileMapped</key>
+	<true/>
+        <key>CFBundleLocalizations</key>
+        <array>
+            <string>en</string>
+            <string>de</string>
+        </array>
+</dict>
+</plist>

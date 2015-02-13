@@ -1,0 +1,25 @@
+diff -urw xc-orig/config/cf/mingw.cf xc/config/cf/mingw.cf
+--- xc-orig/config/cf/mingw.cf	2010-03-01 04:25:56.919914196 +0100
++++ xc/config/cf/mingw.cf	2010-03-01 04:41:59.976930858 +0100
+@@ -329,6 +329,9 @@
+ #ifndef BuildXkbcomp
+ # define BuildXkbcomp		YES
+ #endif
++#ifndef BuildFontEncLib
++# define BuildFontEncLib	YES
++#endif
+ 
+ /* XWin Server specific build flags */
+ #ifndef GlxUseWindows
+diff -urw xc-orig/programs/Imakefile xc/programs/Imakefile
+--- xc-orig/programs/Imakefile	2010-03-01 04:25:56.882162887 +0100
++++ xc/programs/Imakefile	2010-03-01 04:38:13.110914496 +0100
+@@ -129,7 +129,7 @@
+ #endif
+ 
+ #if BuildServersOnly || !BuildClients
+-SUBDIRS = $(XSSRCDIR) $(XKBCOMPDIR) xauth xset
++SUBDIRS = $(XSSRCDIR) $(XKBCOMPDIR)  $(MKFONTSCALEDIR) xauth xset
+ #else
+ SUBDIRS = \
+ 	appres bdftopcf bitmap \

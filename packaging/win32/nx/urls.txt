@@ -1,0 +1,3 @@
+http://www.68k.org/~michael/audiofile/audiofile-0.2.6.tar.gz
+http://prdownloads.sourceforge.net/libpng/libpng-1.2.40.tar.gz?download
+http://sourceforge.net/projects/libjpeg-turbo/files/1.1.1/libjpeg-turbo-1.1.1.tar.gz/download

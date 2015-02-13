@@ -1,0 +1,94 @@
+.\" Process this file with
+.\" groff -man -Tascii pconnect.1
+.\"
+.TH PCONNECT 1 "AUGUST 2010" Linux "User Manuals"
+.SH NAME
+pconnect \- Proxy helper for nxssh
+.SH SYNOPSIS
+.B pconnect [-dnhs45]
+.BI [-R \ resolve ]
+.BI [-p \ local-port ]
+.B [-H
+.BI [ user @] proxy-server [: port ]]
+.B [-S
+.BI [ user @] socks-server [: port ]]
+.I host port
+.SH DESCRIPTION
+.B pconnect
+provides an external proxy command for nxssh.
+.SH OPTIONS
+.IP -d
+Enable debug output.
+.IP -n
+Connect directly without a proxy.
+.IP -h
+Connect via a HTTP proxy.
+.IP -s
+Connect via a SOCKS proxy.
+.IP -4
+Use SOCKS4 protocol. Valid only, if using a SOCKS proxy.
+.IP -5
+Use SOCKS5 protocol. Valid only, if using a SOCKS proxy.
+.IP "-R resolve"
+Use
+.I resolve
+method. Valid only, if using a SOCKS proxy. Possible values for
+.I resolve
+are
+.BR local , \ remote \ and \ both .
+If an IP address is specified, that address is used as nameserver.
+.IP "-p local-port"
+Listen on
+.I local-port
+instead of forwarding stdin and stdout.
+.IP -H
+Specify hostname and optionally port and user for connecting
+to a HTTP proxy. The default for
+.I port
+is
+.BR 80 .
+The default for
+.I user
+is
+.BR none .
+.IP -S
+Specify hostname and optionally port and user for connecting
+to a SOCKS proxy. The default for
+.I port
+is
+.BR 1080 .
+The default for
+.I user
+is
+.BR none .
+.SH ENVIRONMENT
+.IP HTTP_PROXY
+If set,
+.B -H
+can be omitted.
+.IP "SOCKS5_SERVER, SOCKS4_SERVER, SOCKS_SERVER"
+If set,
+.B -S
+can be omitted.
+.IP "SOCKS5_RESOLVE, SOCKS4_RESOLVE, SOCKS_RESOLVE"
+Can be set to the same value like the
+.B -R
+parameter.
+.IP "SOCKS5_USER, CONNECT_USER, LOGNAME, USER"
+The username for SOCKS5 authentication. Variables are checked in the specified sequence.
+.IP SOCKS5_PASSWORD
+If set, this is used for SOCKS5 authentication.
+.IP "HTTP_PROXY_USER, CONNECT_USER, LOGNAME, USER"
+The username for HTTP proxy authentication. Variables are checked in the specified sequence.
+.IP "HTTP_PROXY_PASSWORD, CONNECT_PASSWORD"
+If set, this is used for HTTP proxy authentication.
+.IP SSH_ASKPASS
+If set, specifies the full path to a GUI program for fetching a password from the user.
+.IP DISPLAY
+Must be set on UNIX machines, in order to facilitate ssh-askpass.
+.SH BUGS
+None so far.
+.SH AUTHOR
+Fritz Elfert <felfert at users dot sourceforge dot net>
+.SH "SEE ALSO"
+.BR ssh (1)

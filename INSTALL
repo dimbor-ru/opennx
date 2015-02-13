@@ -1,0 +1,94 @@
+This file contains instructions specivic to OpenNX only. Generic
+installation instructions are described in INSTALL.generic.
+
+1. Supported target systems:
+
+This package has been tested on Linux, OpenBSD, Mac OSX and
+Windows (with MinGW)
+
+1. Prerequisites:
+   
+    OpenNX uses wxWidgets, libsmbclient and libcups so you will need the
+    corresponding development packages on your system.
+
+    For building on Windows, you need the latest MinGW/MSYS development
+    system (See http://www.mingw.org). Since currently (Sep. 2008) only old
+    installers are officially available at SourceForge, you probably are
+    better suited when using my custom installer. Fetch it from
+    http://www.fritz-elfert.de/downloads/mingw+msys-092008-setup.exe
+    It contains a complete MinGW/MSYS environment plus a pre-built
+    wxWidgets-2.8.8 framework, containing the patches mentioned below.
+
+    On all other systems, you will just need wxWidgets of
+    version 2.8.9 or later.
+
+    When using an SVN-checkout, in addition, you need GNU autotools,
+    GNU gettext and GNU libtool, svn2cl (and their dependencies, of course)
+    in order to generate the necessary support files.
+
+    You also can cross-build for windows on Fedora F11, using the latest
+    mingw32 cross environment.
+
+2. Configuring the package:
+
+    When using an SVN-checkout, the missing support files can be generated
+    by invoking
+
+        make -f Makefile.am
+
+    This step needs svn access (because it generates the ChangeLog and
+    derives the Build-# from the SVN revision) an is *NOT* necessary when
+    building from a source tarball.
+
+    Normally, you simply will run the command sequence:
+
+        ./configure
+        make
+        make install
+
+    Options to ./configure, specific to OpenNX are:
+
+        Application features:
+        --enable-unicode
+            Enables a unicode build [Default: YES]
+        --enable-staticwx
+            Link against a static wxWidgets lib [Default: NO]
+        --enable-debug
+            Link against a debug wxWidgets lib [Default: NO]
+        --enable-warn
+            Enables some additional compiler warnings [Default: NO]
+        --with-nxproto=x.x.x
+            Can be used to tweak the NX protocol version [Default: 2.1.0]
+
+        Build environment tweaks:
+        --with-samba=DIR
+            Can be used to specify the samba source for finding smbclient.h
+        --with-wxdir=PATH
+            Can be used to specify an uninstalled version of wxWidgets
+        --with-wx-config=CONFIG
+            Can be used to specify a custom wx-config script to use
+    
+    All other (generic) options are documented in the file INSTALL.generic
+
+3. Running OpenNX:
+
+    OpenNX is a drop-in replacement for nxclient. Therefore, in order to be
+    of any practical use, you need the usual NX client environment for your
+    platform. Furthermore, the application binary MUST be named nxclient
+    (because that name is hardcoded in Nomachine's nxssh)! In order to use
+    the SmartCard feature, you also need to rebuild nxssh from source,
+    enabling it's already existing SmartCard feature(s) during
+    nxssh's ./configure. Enabling this feature adds a dependency on
+    openct/opensc (See http://www.opensc-project.org). The SmartCard
+    is currently used for storing the client's SSH key and NOT forwarded
+    thru the NX session.
+
+4. USB forwarding:
+  For those who are curious: There is a configure option named
+  --enable-usbip (Default: NO) which is intended to activate support
+  for USB forwarding. Enabling this will *NOT* work, because it depends on
+  additional software which is *currently* closed source. The additional
+  software will be released to OpenSource in approx. 1 year.
+
+Have fun
+ -Fritz

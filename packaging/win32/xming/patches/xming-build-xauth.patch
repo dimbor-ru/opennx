@@ -1,0 +1,93 @@
+diff -urw xc-noauth/programs/Imakefile xc/programs/Imakefile
+--- xc-noauth/programs/Imakefile	2009-03-18 18:13:38.000000000 +0100
++++ xc/programs/Imakefile	2009-08-02 16:40:15.951112896 +0200
+@@ -129,7 +129,7 @@
+ #endif
+ 
+ #if BuildServersOnly || !BuildClients
+-SUBDIRS = $(XSSRCDIR) $(XKBCOMPDIR)
++SUBDIRS = $(XSSRCDIR) $(XKBCOMPDIR) xauth
+ #else
+ SUBDIRS = \
+ 	appres bdftopcf bitmap \
+diff -urw xc-noauth/programs/xauth/Imakefile xc/programs/xauth/Imakefile
+--- xc-noauth/programs/xauth/Imakefile	2009-03-18 18:13:37.000000000 +0100
++++ xc/programs/xauth/Imakefile	2009-08-02 16:57:42.506366577 +0200
+@@ -5,8 +5,8 @@
+ 
+ XCOMM $XFree86: xc/programs/xauth/Imakefile,v 3.5tsi Exp $
+ 
+-        DEPLIBS = $(DEPXAUTHLIB) $(DEPXMUULIB) $(DEPXLIB)
+-LOCAL_LIBRARIES = $(XAUTHLIB) $(XMUULIB) $(XLIB)
++        DEPLIBS = $(DEPXAUTHLIB) $(DEPXLIB)
++LOCAL_LIBRARIES = $(XAUTHLIB) $(XLIB)
+            SRCS = xauth.c gethost.c process.c parsedpy.c
+            OBJS = xauth.o gethost.o process.o parsedpy.o
+    CONN_DEFINES = $(CONNECTION_FLAGS)
+diff -urw xc-noauth/programs/xauth/parsedpy.c xc/programs/xauth/parsedpy.c
+--- xc-noauth/programs/xauth/parsedpy.c	2009-03-18 18:13:37.000000000 +0100
++++ xc/programs/xauth/parsedpy.c	2009-08-02 16:56:03.724365404 +0200
+@@ -44,7 +44,48 @@
+ #include <sys/utsname.h>		/* for struct utsname */
+ #endif
+ #include <X11/Xauth.h>			/* for FamilyLocal */
++#ifdef __MINGW32__
++# include <X11/Xosdefs.h>
++# include <X11/Xmd.h>
++# include <string.h>
++# include <unistd.h>
++
++# ifdef WIN32
++#  include <X11/Xwinsock.h>
++# endif
++int
++XmuGetHostname(char *buf, int maxlen)
++{
++    int len;
++# ifdef WIN32
++    static WSADATA wsadata;
++
++    if (!wsadata.wVersion && WSAStartup(MAKEWORD(1,1), &wsadata))
++        return -1;
++# endif
++
++# ifdef NEED_UTSNAME
++    /*
++     * same host name crock as in server and xinit.
++     */
++    struct utsname name;
++
++    uname (&name);
++    len = strlen (name.nodename);
++    if (len >= maxlen) len = maxlen - 1;
++    strncpy (buf, name.nodename, len);
++    buf[len] = '\0';
++# else
++    buf[0] = '\0';
++    (void) gethostname (buf, maxlen);
++    buf [maxlen - 1] = '\0';
++    len = strlen(buf);
++# endif /* hpux */
++    return len;
++}
++#else
+ #include <X11/Xmu/SysUtil.h>
++#endif
+ 
+ #if defined(UNIXCONN) || defined(LOCALCONN)
+ #define UNIX_CONNECTION "unix"
+diff -urw xc-noauth/programs/xauth/process.c xc/programs/xauth/process.c
+--- xc-noauth/programs/xauth/process.c	2009-03-18 18:13:37.000000000 +0100
++++ xc/programs/xauth/process.c	2009-08-02 16:40:15.952112883 +0200
+@@ -41,7 +41,11 @@
+ #include <ctype.h>
+ #include <errno.h>
+ #include <sys/stat.h>
++#ifdef __MINGW32__
++# define RETSIGTYPE void
++#else
+ #include <sys/socket.h>
++#endif
+ 
+ #include <signal.h>
+ #include <X11/X.h>			/* for Family constants */

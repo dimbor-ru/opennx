@@ -1,0 +1,83 @@
+#!/usr/bin/perl -w
+
+use strict;
+use Foundation;
+
+sub getPkgInfo($$) {
+    my $pkg = shift;
+    my $key = shift;
+    my $rcpath = '/Library/Receipts/'.$pkg.'.pkg/Contents/Info.plist';
+    my $plist = NSDictionary->dictionaryWithContentsOfFile_($rcpath);
+    if ($plist && $$plist) {
+        my $value = $plist->objectForKey_($key);
+        return $value->description()->UTF8String();
+    }
+    return undef;
+}
+sub vcmp($$) {
+    my $va = shift;
+    my $vb = shift;
+    return -1 unless(defined($va));
+    return 1 unless(defined($vb));
+    my @vaa = split(/\./, $va);
+    my @vab = split(/\./, $vb);
+    while ($#vaa < $#vab) {
+        push @vaa, 0;
+    }
+    while ($#vab < $#vaa) {
+        push @vab, 0;
+    }
+    my $i = 0;
+    foreach (@vaa) {
+        return -1 if ($_ < $vab[$i]);
+        return 1 if ($_ > $vab[$i]);
+        $i++;
+    }
+    return 0;
+}
+
+# Check for installed OpenSC
+#my $opensc = 0;
+#$opensc = 1 if (vcmp(getPkgInfo('OpenSC','CFBundleShortVersionString'), '0.11.8') >= 0);
+#exit(112) unless ($opensc);
+
+# Check for installed X11
+my $x11 = 0;
+my @chklocations = (
+    '/usr/X11R6/bin/X',
+    '/usr/X11R6/bin/quartz-wm',
+    '/usr/bin/quartz-wm',
+    '/opt/X11/bin/quartz-wm'
+);
+foreach (@chklocations) {
+    $x11 = 1 if (-x $_);
+}
+exit(113) unless ($x11);
+
+# Check for any running processes
+my $apprunning = 0;
+my @nxesdpids;
+open (P, "ps xc|") || die "Can't run ps: $!\n";
+while (<P>) {
+    chomp;
+    $apprunning = 1 if (/nxproxy$/);
+    $apprunning = 1 if (/nxservice$/);
+    $apprunning = 1 if (/nxssh$/);
+    $apprunning = 1 if (/opennx$/);
+    $apprunning = 1 if (/watchreader$/);
+    # nxesd and pulseaudio are special:
+    # If it is running AND none of the other
+    # programs are running, then they simply can be killed
+    if (/^(\d+)\s+.+nxesd$/) {
+        push(@nxesdpids, $1);
+    }
+    if (/^(\d+)\s+.+pulseaudio$/) {
+        push(@nxesdpids, $1);
+    }
+}
+close P;
+exit(114) if ($apprunning);
+kill(15, @nxesdpids) if ($#nxesdpids >= 0);
+
+# Everything OK
+exit(0);

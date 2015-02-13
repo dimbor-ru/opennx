@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Type=Application
+Exec=/usr/NX/bin/opennx --wizard
+Icon=opennx-wizard
+Comment=Create a new OpenNX session definition
+Comment[de]=Erstelle eine neue OpenNX Sitzungs-Definition
+Comment[ru]=Создать новую конфигурацию сессии OpenNX
+Name=OpenNX Connection Wizard
+Name[de]=OpenNX Verbindungs-Assistent
+Name[ru]=Мастер подключения OpenNX
+Categories=Network;RemoteAccess;

@@ -1,0 +1,58 @@
+#!/usr/bin/perl
+
+
+sub collecturls {
+    my $url = shift;
+    my $lookfor = shift;
+    my $dst = shift;
+    my %urls;
+    open(P, "wget -q -O - \'$url\'|") || die "Can't run wget: $!\n";
+    while (<P>) {
+        chomp;
+        if (/A\s+HREF="([^"]+)"\s+class=link2/i) {
+            $urls{$1} = 1;
+        }
+        if (/A\s+HREF='([^']+)'\s+class=link2/i) {
+            $urls{$1} = 1;
+        }
+        if (/A\s+HREF='([^']+)'/i) {
+            my $link = $1;
+            if ($link =~ m/$lookfor/) {
+                $urls{$link} = 1;
+            }
+        }
+        if (/A\s+HREF="([^"]+)"/i) {
+            my $link = $1;
+            if ($link =~ m/$lookfor/) {
+                $urls{$link} = 1;
+            }
+        }
+    }
+    close P;
+    my $found = 0;
+    foreach (keys %urls) {
+        my $link = $_;
+        if (/$lookfor/) {
+            $found = $link;
+        }
+    }
+    if ($found) {
+        print "Fetching $found ...";
+        system("wget -q -O $dst \'$found\'");
+        print " done\n";
+        return 1;
+    }
+    foreach (keys %urls) {
+        my $link = $_;
+        if (/\.php/) {
+            print "following: $link\n";
+            $found = collecturls($link, $lookfor, $dst);
+            return 1 if ($found);
+        }
+    }
+    return 0;
+}
+
+#collecturls('http://www.nomachine.com/download-client-windows.php', 'nxclient-[0-9\.-]+exe', 'nxsetup.exe');
+system("wget -q -O nxsetup.exe 'http://www.fritz-elfert.de/downloads/nxclient-3.5.0-9.exe'");
+

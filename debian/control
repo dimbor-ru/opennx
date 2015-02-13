@@ -1,0 +1,16 @@
+Source: opennx
+Section: x11
+Priority: extra
+Maintainer: Achim Derigs <aderigs@users.sourceforge.net>
+Build-Depends: debhelper (>= 7), autotools-dev, subversion-tools, automake, libtool, wx-common, libwxgtk2.8-dev, libxmu-dev, libjpeg62-dev, libpng12-dev, libaudiofile-dev, zip, libpulse-dev, libcurl4-openssl-dev
+Standards-Version: 3.8.2
+Homepage: http://sourceforge.net/projects/opennx
+
+Package: opennx
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, xdg-utils
+Recommends: libopensc2, libsmbclient, cups, wx2.8-i18n, libjpeg-turbo, pulseaudio
+Conflicts: nxclient
+Provides: nxclient
+Description: Open Source NX client
+ OpenNX is an OSS replacement for Nomachine's NX client.

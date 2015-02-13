@@ -1,0 +1,220 @@
+diff -urwN xc-orig/config/cf/mingw.cf xc/config/cf/mingw.cf
+--- xc-orig/config/cf/mingw.cf	2009-03-18 18:13:23.000000000 +0100
++++ xc/config/cf/mingw.cf	2010-03-14 16:43:58.971671393 +0100
+@@ -30,7 +30,7 @@
+ #endif
+ 
+ #ifndef XVendorString
+-# define XVendorString "Colin Harrison"
++# define XVendorString "The OpenNX Project"
+ #endif
+ #ifndef XVendorRelease
+ # define XVendorRelease CygxVersion
+@@ -39,10 +39,10 @@
+ # define XVendorManVersionString CygxManVersionString
+ #endif
+ #ifndef XVendorManNameString
+-# define XVendorManNameString "Xming"
++# define XVendorManNameString "OpenNX Xming"
+ #endif
+ #ifndef XVendorContact
+-# define XVendorContact "http://sourceforge.net/forum/?group_id=156984"
++# define XVendorContact "http://sourceforge.net/projects/opennx/"
+ #endif
+ 
+ /* Operating system strings and version */
+@@ -118,9 +118,9 @@
+ # endif
+ # ifndef DefaultCCOptions
+ #  if defined(UseInstalled)
+-#   define DefaultCCOptions 
++#   define DefaultCCOptions -fno-strict-aliasing
+ #  else
+-#   define DefaultCCOptions GccWarningOptions
++#   define DefaultCCOptions GccWarningOptions -fno-strict-aliasing
+ #  endif
+ # endif
+ # if defined(UseInstalled)
+diff -urwN xc-orig/lib/font/fc/fsconvert.c xc/lib/font/fc/fsconvert.c
+--- xc-orig/lib/font/fc/fsconvert.c	2009-03-18 18:13:18.000000000 +0100
++++ xc/lib/font/fc/fsconvert.c	2010-03-14 16:43:58.972672079 +0100
+@@ -30,6 +30,7 @@
+ #ifdef HAVE_CONFIG_H
+ #include <config.h>
+ #endif
++#include	<stdint.h>
+ #include        <X11/X.h>
+ #include 	<X11/Xtrans/Xtrans.h>
+ #include	<X11/Xpoll.h>
+diff -urwN xc-orig/programs/Xserver/fb/fbcompose.c xc/programs/Xserver/fb/fbcompose.c
+--- xc-orig/programs/Xserver/fb/fbcompose.c	2009-03-18 18:13:39.000000000 +0100
++++ xc/programs/Xserver/fb/fbcompose.c	2010-03-14 16:43:58.975671483 +0100
+@@ -26,6 +26,7 @@
+ #ifdef HAVE_DIX_CONFIG_H
+ #include <dix-config.h>
+ #endif
++#include <stdint.h>
+ 
+ #include "fb.h"
+ 
+diff -urwN xc-orig/programs/Xserver/hw/xwin/Imakefile xc/programs/Xserver/hw/xwin/Imakefile
+--- xc-orig/programs/Xserver/hw/xwin/Imakefile	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/Imakefile	2010-03-14 16:45:44.949905456 +0100
+@@ -23,7 +23,7 @@
+ EXTRADEFINES += -DREAD_FONTDIRS
+ 
+ #if defined(mingwArchitecture)
+-PROJECT_NAME = Xming
++PROJECT_NAME = OpenNX
+ #elif defined(cygwinArchitecture)
+ PROJECT_NAME = Cygwin/X
+ #else
+diff -urwN xc-orig/programs/Xserver/hw/xwin/winmultiwindowicons.c xc/programs/Xserver/hw/xwin/winmultiwindowicons.c
+--- xc-orig/programs/Xserver/hw/xwin/winmultiwindowicons.c	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/winmultiwindowicons.c	2010-03-14 16:43:58.977654347 +0100
+@@ -31,6 +31,7 @@
+ #ifdef HAVE_XWIN_CONFIG_H
+ #include <xwin-config.h>
+ #endif
++#include <stdint.h>
+ #include "win.h"
+ #include "dixevents.h"
+ #include "winmultiwindowclass.h"
+diff -urwN xc-orig/programs/Xserver/hw/xwin/winprocarg.c xc/programs/Xserver/hw/xwin/winprocarg.c
+--- xc-orig/programs/Xserver/hw/xwin/winprocarg.c	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/winprocarg.c	2010-03-14 16:56:55.234654504 +0100
+@@ -1483,7 +1483,7 @@
+ 	    || strlen (argv[i]) > CHARS_PER_LINE)
+ 	  {
+ 	    iCurrLen = 0;
+-	    ++iSize;
++	    iSize += 2;
+ 	  }
+ 	
+ 	/* Add space for item and trailing space */
+@@ -1494,7 +1494,7 @@
+       }
+ 
+   /* Allocate memory for concatenated command line */
+-  g_pszCommandLine = malloc (iSize + 1);
++  g_pszCommandLine = malloc (iSize + 2);
+   if (!g_pszCommandLine)
+     FatalError ("winLogCommandLine - Could not allocate memory for "
+ 		"command line string.  Exiting.\n");
+@@ -1547,7 +1547,9 @@
+   ErrorF ("FreeType2: %d.%d.%d\n", amajor, aminor, apatch);
+   FT_Done_FreeType(library);
+   ErrorF ("Contact: %s\n\n", VENDOR_CONTACT);
+-  if (g_pszCommandLine) ErrorF ("%s\n\n", g_pszCommandLine);
++  if (g_pszCommandLine)
++      ErrorF ("%s was started with the following command line...\n"
++              "%s\n\n", PROJECT_NAME, g_pszCommandLine);
+ }
+ 
+ /*
+diff -urwN xc-orig/programs/Xserver/hw/xwin/XWin.rc xc/programs/Xserver/hw/xwin/XWin.rc
+--- xc-orig/programs/Xserver/hw/xwin/XWin.rc	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/XWin.rc	2010-03-14 16:43:58.978653706 +0100
+@@ -39,8 +39,8 @@
+ #include <winver.h>
+ 
+ #include "../../../../../version.def"
+-#define XW32_VERSIONINFO_NAME "Xming\0"
+-#define XW32_VERSIONINFO_COMMENT "Xming X Server\0"
++#define XW32_VERSIONINFO_NAME "OpenNX Xming\0"
++#define XW32_VERSIONINFO_COMMENT "OpenNX X Server\0"
+ 
+ VS_VERSION_INFO VERSIONINFO
+   FILEVERSION    XW32_VERSION
+@@ -59,9 +59,9 @@
+             VALUE "FileVersion", XW32_VERSION_STRING
+             VALUE "InternalName", XW32_VERSIONINFO_NAME
+             VALUE "OriginalFilename", "Xming.exe\0"
+-            VALUE "CompanyName", "Colin Harrison\0"
++            VALUE "CompanyName", "The OpenNX Project\0"
+             VALUE "LegalCopyright", "Copyright \251 2005-2007 Colin Harrison\0"
+-            VALUE "Info", "http://www.StraightRunning.com/XmingNotes/\0"
++            VALUE "Info", "http://sourceforge.net/projects/opennx/\0"
+             VALUE "Comment", XW32_VERSIONINFO_COMMENT
+         END
+     END
+@@ -154,5 +154,4 @@
+  */
+ 
+ IDI_XWIN		ICON	DISCARDABLE	"X.ico"
+-IDB_XWIN		BITMAP	"X.bmp"
+ CREATEPROCESS_MANIFEST_RESOURCE_ID	RT_MANIFEST "Xming.exe.manifest"
+diff -urwN xc-orig/programs/Xserver/miext/rootless/accel/rlAccel.c xc/programs/Xserver/miext/rootless/accel/rlAccel.c
+--- xc-orig/programs/Xserver/miext/rootless/accel/rlAccel.c	2009-03-18 18:13:47.000000000 +0100
++++ xc/programs/Xserver/miext/rootless/accel/rlAccel.c	2010-03-14 16:43:58.979653414 +0100
+@@ -139,7 +139,7 @@
+ 
+     s = xalloc(sizeof(rlAccelScreenRec));
+     if (!s) return FALSE;
+-    RLACCELREC(pScreen) = s;
++    memcpy(RLACCELREC(pScreen), s, sizeof(rlAccelScreenRec));
+ 
+     // Wrap the screen functions we need
+     s->CreateGC = pScreen->CreateGC;
+diff -urwN xc-orig/programs/Xserver/miext/rootless/rootlessScreen.c xc/programs/Xserver/miext/rootless/rootlessScreen.c
+--- xc-orig/programs/Xserver/miext/rootless/rootlessScreen.c	2009-03-18 18:13:47.000000000 +0100
++++ xc/programs/Xserver/miext/rootless/rootlessScreen.c	2010-03-14 16:43:58.980653890 +0100
+@@ -568,7 +568,7 @@
+ 
+     s = xalloc(sizeof(RootlessScreenRec));
+     if (! s) return FALSE;
+-    SCREENREC(pScreen) = s;
++    memcpy(SCREENREC(pScreen), s, sizeof(RootlessScreenRec));
+ 
+     s->pixmap_data = NULL;
+     s->pixmap_data_size = 0;
+diff -urwN xc-orig/programs/Xserver/miext/rootless/rootlessWindow.c xc/programs/Xserver/miext/rootless/rootlessWindow.c
+--- xc-orig/programs/Xserver/miext/rootless/rootlessWindow.c	2009-03-18 18:13:47.000000000 +0100
++++ xc/programs/Xserver/miext/rootless/rootlessWindow.c	2010-03-14 16:43:58.981653529 +0100
+@@ -66,7 +66,7 @@
+     Bool result;
+     RegionRec saveRoot;
+ 
+-    WINREC(pWin) = NULL;
++    memset(WINREC(pWin), 0, sizeof(WindowRec));
+ 
+     SCREEN_UNWRAP(pWin->drawable.pScreen, CreateWindow);
+ 
+@@ -107,7 +107,7 @@
+ #endif
+ 
+     xfree(winRec);
+-    WINREC(pWin) = NULL;
++    memset(WINREC(pWin), 0, sizeof(WindowRec));
+ }
+ 
+ 
+@@ -353,7 +353,7 @@
+     winRec->pixmap = NULL;
+     winRec->wid = NULL;
+ 
+-    WINREC(pWin) = winRec;
++    memcpy(WINREC(pWin), winRec, sizeof(RootlessWindowRec));
+ 
+ #ifdef SHAPE
+     // Set the frame's shape if the window is shaped
+@@ -370,7 +370,7 @@
+     {
+         RL_DEBUG_MSG("implementation failed to create frame!\n");
+         xfree(winRec);
+-        WINREC(pWin) = NULL;
++        memset(WINREC(pWin), 0, sizeof(WindowRec));
+         return NULL;
+     }
+ 
+@@ -1298,8 +1298,8 @@
+ 
+         /* Switch the frame record from one to the other. */
+ 
+-        WINREC(pWin) = NULL;
+-        WINREC(pTopWin) = winRec;
++        memset(WINREC(pWin), 0, sizeof(WindowRec));
++        memcpy(WINREC(pTopWin), winRec, sizeof(WindowRec));
+ 
+         RootlessInitializeFrame(pTopWin, winRec);
+         RootlessReshapeFrame(pTopWin);

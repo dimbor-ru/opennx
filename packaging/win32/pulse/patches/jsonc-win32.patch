@@ -1,0 +1,49 @@
+diff -urwN json-c-0.9-orig/Makefile.am json-c-0.9/Makefile.am
+--- json-c-0.9-orig/Makefile.am	2009-07-31 04:57:29.000000000 +0200
++++ json-c-0.9/Makefile.am	2011-06-16 03:14:32.751377675 +0200
+@@ -20,7 +20,7 @@
+         json_object_private.h \
+ 	json_tokener.h
+ 
+-libjson_la_LDFLAGS = -version-info 0:1:0
++libjson_la_LDFLAGS = -version-info 0:1:0 -no-undefined
+ 
+ libjson_la_SOURCES = \
+ 	arraylist.c \
+diff -urwN json-c-0.9-orig/mingw32-config.cache json-c-0.9/mingw32-config.cache
+--- json-c-0.9-orig/mingw32-config.cache	1970-01-01 01:00:00.000000000 +0100
++++ json-c-0.9/mingw32-config.cache	2011-06-16 03:19:31.630377501 +0200
+@@ -0,0 +1,3 @@
++ac_cv_func_malloc_0_nonnull='yes'
++ac_cv_func_realloc_0_nonnull='yes'
++lt_cv_deplibs_check_method='pass_all'
+diff -urwN json-c-0.9-orig/printbuf.c json-c-0.9/printbuf.c
+--- json-c-0.9-orig/printbuf.c	2009-07-31 04:10:16.000000000 +0200
++++ json-c-0.9/printbuf.c	2011-06-16 03:14:32.753377675 +0200
+@@ -75,7 +75,7 @@
+ /* CAW: compliant version of vasprintf */
+ static int vasprintf(char **buf, const char *fmt, va_list ap)
+ {
+-#ifndef WIN32
++#ifndef _MSC_VER
+ 	static char _T_emptybuffer = '\0';
+ #endif /* !defined(WIN32) */
+ 	int chars;
+@@ -83,7 +83,7 @@
+ 
+ 	if(!buf) { return -1; }
+ 
+-#ifdef WIN32
++#ifdef _MSC_VER
+ 	chars = _vscprintf(fmt, ap)+1;
+ #else /* !defined(WIN32) */
+ 	/* CAW: RAWR! We have to hope to god here that vsnprintf doesn't overwrite
+@@ -109,7 +109,7 @@
+ int sprintbuf(struct printbuf *p, const char *msg, ...)
+ {
+   va_list ap;
+-  char *t;
++  char *t = NULL;
+   int size;
+   char buf[128];
+ 

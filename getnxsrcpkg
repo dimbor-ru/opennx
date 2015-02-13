@@ -1,0 +1,71 @@
+#!/usr/bin/perl
+
+use File::Basename;
+
+my @urls;
+my $do_fetch = 1;
+my $do_vlist = 0;
+
+while ($#ARGV ge 0) {
+    if ($ARGV[0] =~ m/^-/) {
+        $opt = $ARGV[0];
+        shift(@ARGV);
+        if ($opt eq '-l') {
+            $do_fetch = 0;
+            next;
+        }
+        if ($opt eq '-v') {
+            $do_vlist = 1;
+            $do_fetch = 0;
+            next;
+        }
+    } else {
+        last;
+    }
+}
+
+my $getcmd = 'curl -f -L -s -o ';
+if (`which wget` ne '') {
+    $getcmd = 'wget -q -O ';
+}
+
+open(P, $getcmd . "- https://www.nomachine.com/NX-OSS-sources|") || die "Can't fetch https://www.nomachine.com/NX-OSS-sources: $!\n";
+while (<P>) {
+    if (/a\s+href="([^"]+\.tar\.gz)"/i) {
+        push @urls, $1;
+    }
+}
+close P;
+
+if ($#urls eq 0) {
+    print "Nothing to download\n";
+    exit(0);
+}
+
+foreach (@urls) {
+    my $skipit = 0;
+    my $fn = basename($_);
+    if ($#ARGV ge 0) {
+        $skipit = 1;
+        foreach $req (@ARGV) {
+            $skipit = 0 if ($fn =~ m/^$req\-/);
+        }
+        next if ($skipit);
+    }
+    if ($do_fetch) {
+        print "Fetching $fn ...";
+        system($getcmd . $fn . ' ' . $_);
+        print " done\n";
+    } else {
+        if ($do_vlist) {
+            my $v = $fn;
+            $v =~ s/.*?-([\d\.\-]+)/\1/;
+            $v = basename($v, '.tar.gz', '.tar', '.gz');
+            my $pkg = $fn;
+            $pkg =~ s/(.*?)-[\-\d\.]+.*/\1/;
+            print $pkg . ' ' . $v . ' ' . $_ ."\n";
+        } else {
+            print "$fn\n";
+        }
+    }
+}

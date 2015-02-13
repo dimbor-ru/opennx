@@ -1,0 +1,185 @@
+diff -urw xc-orig/programs/Xserver/hw/xwin/win.h xc/programs/Xserver/hw/xwin/win.h
+--- xc-orig/programs/Xserver/hw/xwin/win.h	2012-02-22 02:29:25.022775626 +0100
++++ xc/programs/Xserver/hw/xwin/win.h	2012-02-22 04:33:57.949268146 +0100
+@@ -448,6 +448,7 @@
+   /* Did the user requested to nitially hide our window? */
+   Bool			fHideInitial;
+   DWORD			origShowWindowMode;
++  Bool          fGrabKeyboard;
+ } winScreenInfo, *winScreenInfoPtr;
+ 
+ 
+diff -urw xc-orig/programs/Xserver/hw/xwin/winkeyhook.c xc/programs/Xserver/hw/xwin/winkeyhook.c
+--- xc-orig/programs/Xserver/hw/xwin/winkeyhook.c	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/winkeyhook.c	2012-02-22 04:35:47.073275339 +0100
+@@ -85,8 +85,7 @@
+       /* Get pointers to our screen privates and screen info */
+       pScreenPriv	= pWinPriv->pScreenPriv;
+       pScreenInfo	= pScreenPriv->pScreenInfo;
+-
+-      if (pScreenInfo->fMultiWindow)
++      if (!pScreenInfo->fGrabKeyboard)
+           fPassAltTab = FALSE;
+     }
+ #endif
+@@ -171,11 +170,13 @@
+     }
+ 
+   /* Install the hook only once */
+-  if (!g_hhookKeyboardLL)
++    if (!g_hhookKeyboardLL) {
+     g_hhookKeyboardLL = SetWindowsHookEx (WH_KEYBOARD_LL,
+ 					  winKeyboardMessageHookLL,
+ 					  g_hInstance,
+ 					  0);
++        ErrorF ("Installing keyboard hook %s\n", ((g_hhookKeyboardLL) ? "ok" : "failed"));;
++    }
+ 
+   return TRUE;
+ }
+@@ -188,7 +189,9 @@
+ void
+ winRemoveKeyboardHookLL ()
+ {
+-  if (g_hhookKeyboardLL)
++  if (g_hhookKeyboardLL) {
+     UnhookWindowsHookEx (g_hhookKeyboardLL);
++    ErrorF ("Uninstalled keyboard hook\n");
++  }
+   g_hhookKeyboardLL = NULL;
+ }
+diff -urw xc-orig/programs/Xserver/hw/xwin/winprefs.c xc/programs/Xserver/hw/xwin/winprefs.c
+--- xc-orig/programs/Xserver/hw/xwin/winprefs.c	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/winprefs.c	2012-02-22 04:33:58.316268169 +0100
+@@ -48,6 +48,8 @@
+ /* Where will the custom menu commands start counting from? */
+ #define STARTMENUID WM_USER
+ 
++#define ID_TOGGLE_KBGRAB STARTMENUID
++
+ /* External global variables */
+ #ifdef XWIN_MULTIWINDOW
+ extern DWORD g_dwCurrentThreadID;
+@@ -66,12 +68,14 @@
+ extern HICON		g_hSmallIconX;
+ 
+ /* Currently in use command ID, incremented each new menu item created */
+-static int g_cmdid = STARTMENUID;
++static int g_cmdid = STARTMENUID + 10;
+ 
+ 
+ /* Defined in DIX */
+ extern char *display;
+ 
++extern Bool g_fKeyboardHookLL;
++
+ /* Local function to handle comma-ified icon names */
+ static HICON
+ LoadImageComma (char *fname, int sx, int sy, int flags);
+@@ -276,7 +280,7 @@
+     DestroyIcon (g_hSmallIconX);  
+ 
+   /* Reset the custom command IDs */
+-  g_cmdid = STARTMENUID;
++    g_cmdid = STARTMENUID + 10;
+ 
+   /* Load the updated resource file */
+   LoadPreferences();
+@@ -323,6 +327,18 @@
+       if (pref.menu[i].menuItem[j].cmd==CMD_ALWAYSONTOP)
+ 	CheckMenuItem (hmenu, pref.menu[i].menuItem[j].commandID, dwExStyle );
+   
++  if (hwnd && g_fKeyboardHookLL) {
++      WindowPtr pWin = GetProp (hwnd, WIN_WINDOW_PROP);
++      winPrivWinPtr pWinPriv = winGetWindowPriv(pWin);
++      /* Get pointers to our screen privates and screen info */
++      winPrivScreenPtr pScreenPriv = pWinPriv->pScreenPriv;
++      winScreenInfo *pScreenInfo = pScreenPriv->pScreenInfo;
++      if (pScreenInfo->fGrabKeyboard)
++          dwExStyle = MF_BYCOMMAND | MF_CHECKED;
++      else
++          dwExStyle = MF_BYCOMMAND | MF_UNCHECKED;
++      CheckMenuItem (hmenu, ID_TOGGLE_KBGRAB, dwExStyle );
++  }
+ }
+     
+ /*
+@@ -343,6 +359,18 @@
+   if (!command)
+     return FALSE;
+ 
++    if (command == ID_TOGGLE_KBGRAB) {
++        if (hwnd) {
++            WindowPtr pWin = GetProp (hwnd, WIN_WINDOW_PROP);
++            winPrivWinPtr pWinPriv = winGetWindowPriv(pWin);
++            /* Get pointers to our screen privates and screen info */
++            winPrivScreenPtr pScreenPriv = pWinPriv->pScreenPriv;
++            winScreenInfo *pScreenInfo = pScreenPriv->pScreenInfo;
++            pScreenInfo->fGrabKeyboard = !pScreenInfo->fGrabKeyboard;
++        }
++        return TRUE;
++    }
++
+   for (i=0; i<pref.menuItems; i++)
+     {
+       m = &(pref.menu[i]);
+@@ -447,6 +475,7 @@
+ 
+ 
+ #ifdef XWIN_MULTIWINDOW
++
+ /*
+  * Add the default or a custom menu depending on the class match
+  */
+@@ -492,6 +521,12 @@
+ 	  free(res_name);
+ 	  free(res_class);
+ 	} /* Found wm_class */
++
++        /* Our internal hardcoded stuff .. */
++        if (g_fKeyboardHookLL) {
++            InsertMenu (sys, 0, MF_BYPOSITION|MF_ENABLED|MF_STRING,
++                    ID_TOGGLE_KBGRAB, "Grab Alt-TAB");
++        }
+     } /* if pwin */
+ 
+   /* Fallback to system default */
+diff -urw xc-orig/programs/Xserver/hw/xwin/winscrinit.c xc/programs/Xserver/hw/xwin/winscrinit.c
+--- xc-orig/programs/Xserver/hw/xwin/winscrinit.c	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/winscrinit.c	2012-02-22 04:33:58.316268169 +0100
+@@ -77,6 +77,7 @@
+ extern miPointerScreenFuncRec	g_winPointerCursorFuncs;
+ extern int			g_iScreenPrivateIndex;
+ extern Bool                     g_fSoftwareCursor;
++extern Bool g_fKeyboardHookLL;
+ 
+ 
+ /*
+@@ -229,6 +230,7 @@
+   pScreenInfo->dwPaddedWidth = PixmapBytePad (pScreenInfo->dwWidth,
+ 					      pScreenInfo->dwBPP);
+ 
++  pScreenInfo->fGrabKeyboard = g_fKeyboardHookLL;
+   /* Call the engine dependent screen initialization procedure */
+   if (!((*pScreenPriv->pwinFinishScreenInit) (index, pScreen, argc, argv)))
+     {
+diff -urw xc-orig/programs/Xserver/hw/xwin/InitInput.c xc/programs/Xserver/hw/xwin/InitInput.c
+--- xc-orig/programs/Xserver/hw/xwin/InitInput.c	2012-03-19 16:31:21.080040361 +0100
++++ xc/programs/Xserver/hw/xwin/InitInput.c	2012-03-19 16:33:36.773034311 +0100
+@@ -72,6 +72,7 @@
+ #ifdef XKB
+ void XkbSetExtension(DeviceIntPtr device, ProcessInputProc proc);
+ #endif
++extern Bool			g_fKeyboardHookLL;
+ 
+ static void
+ winRegisterPointerDevice(DeviceIntPtr device)
+@@ -190,6 +191,8 @@
+             SetForegroundWindow(hwnd);
+             LockSetForegroundWindow(LSFW_LOCK);
+             SetFocus(hwnd);
++            if (g_fKeyboardHookLL)
++                g_fKeyboardHookLL = winInstallKeyboardHookLL ();
+         }
+     }
+ }

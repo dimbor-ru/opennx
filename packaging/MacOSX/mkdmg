@@ -1,0 +1,210 @@
+#!/usr/bin/perl -w
+
+use strict;
+use Getopt::Long;
+use File::Path;
+use File::Basename;
+
+my $SETFILE = '/Developer/Tools/SetFile';
+
+my $verbose = 1;
+my $quiet = ($verbose ? '' : '-quiet');
+my $rmtmp = 0;
+my $over = 0;
+my $mountpoint = '';
+my $bgimg = '';
+my $volicon = '';
+my $volname = 'OpenNX';
+my $tmpdmg = '';
+my $iconsize = 48;
+my $textsize = 12;
+my $foptfile = '';
+my %windowsize = (
+    'w' => 400,
+    'h' => 300,
+);
+my %windowpos = (
+    'x' => 100,
+    'y' => 50,
+);
+my %fopts;
+
+sub chkrun($) {
+    my $cmd = shift;
+    system($cmd);
+    if ($? == -1) {
+        die "aCan't run $cmd: $!\n";
+    } elsif ($? & 127) {
+        die "child died with signal %d, %s coredump\n",
+        ($? & 127),  ($? & 128) ? 'with' : 'without';
+    }
+    if (($? >> 8) != 0) {
+        die "bCan't run $cmd: $!\n";
+    }
+}
+
+sub usage($) {
+    my $err = shift;
+    print STDERR<<EOF
+Usage: [OPTIONS] output.dmg <source folder>
+  Available OPTIONS:
+    -h|--help            Print this text
+    -n|--name NAME       Use specified volume NAME
+    -m|--mountpoint PATH Use specified PATH as temporary mountpoint
+    -b|--bgimage FILE    Use specified FILE as background image.
+    -o|--overwrite       Overwrite the dmg file.
+    -i|--icon FILE       Use specified FILE as volume Icon.
+    -f|--fileopts FILE   Read icon options from specified FILE.
+EOF
+;    exit($err);
+}
+
+sub runscript($) {
+    my $script = shift;
+    print "Running AppleScript:\n", $script, "\n" if ($verbose);
+    open(P, "|osascript") || die "Can't run osascript: $!\n";
+    print P $script;
+    close P;
+}
+
+sub imgsize($) {
+    my $imgfile = shift;
+    my $w = -1;
+    my $h = -1;
+    if ($imgfile ne '') {
+        open(P, "sips -g pixelHeight -g pixelWidth $imgfile 2>/dev/null |");
+        while (<P>) {
+	    chomp;
+            if (/\s*pixelHeight:\s*(\d+)/) {
+                $windowsize{'h'} = int($1);
+            }
+            if (/\s*pixelWidth:\s*(\d+)/) {
+                $windowsize{'w'} = int($1);
+            }
+        }
+        close P;
+    }
+}
+
+sub readfopts() {
+    if ($foptfile ne '') {
+        open(F, "<$foptfile") || die "Can't read $foptfile: $!\n";
+        while (<F>) {
+            chomp;
+            next if (/^\s*$/);
+            next if (/^\s*\#/);
+            if (/^(\d+)\s+(\d+)\s+([EVev\-]+)\s+(.*)$/) {
+                $fopts{$4} = {'x' => $1, 'y' => $2, 'o' => $3};
+            }
+        }
+        close F;
+    }
+}
+
+sub window_bounds() {
+    my $x2 = $windowpos{'x'} + $windowsize{'w'};
+    my $y2 = $windowpos{'y'} + $windowsize{'h'};
+    return $windowpos{'x'} . ", " .
+        $windowpos{'y'} . ", " . $x2 . ", " .  $y2;
+}
+
+sub file_positions() {
+    my $ret = '';
+    foreach (keys %fopts) {
+        $ret .= 'set position of item "' . $_ .
+            '" to {' . ${$fopts{$_}}{'x'} . ', ' . ${$fopts{$_}}{'y'} . "}\n";
+    }
+    return $ret;
+}
+
+sub file_options() {
+    my $ret = '';
+    foreach (keys %fopts) {
+        my $o = ${$fopts{$_}}{'o'};
+        my $f = "$mountpoint/$_";
+        next if ($o eq '-');
+        next if (! -e $f);
+        chkrun($SETFILE.' -a '.$o.' "'.$f.'"');
+    }
+    return $ret;
+}
+
+sub END() {
+    system("sudo hdiutil detach $mountpoint $quiet -force >/dev/null 2>&1");
+    rmtree($mountpoint) if $rmtmp;
+    rmtree($tmpdmg) if ($tmpdmg ne '');
+}
+
+usage(1) unless GetOptions(
+    "name=s"        => \$volname,
+    "bgimg=s"       => \$bgimg,
+    "icon=s"        => \$volicon,
+    "fileoptions=s" => \$foptfile,
+    "overwrite"     => \$over,
+    "help"          => sub { usage(0); },
+);
+if ($#ARGV < 1) {
+    print STDERR "Missing required argument\n";
+    usage(1);
+}
+if ($#ARGV > 1) {
+    print STDERR "Too many arguments\n";
+    usage(1);
+}
+# This MUST be below /Volumes, because Finder expects it there
+$mountpoint = '/Volumes/'.$volname;
+my $out = shift;
+my $src = shift;
+$tmpdmg = "$out$$.dmg";
+unlink($out) if ($over);
+unlink($tmpdmg) if ($over);
+die "Background image does not exist\n" unless (($bgimg eq '') || (-e $bgimg));
+die "Volume icon does not exist\n" unless (($volicon eq '') || (-e $volicon));
+die "Disk image $out already exists\n" if (-e $out);
+die "Source folder $src does not exist" unless (-d $src);
+$rmtmp = (! -d $mountpoint);
+imgsize($bgimg);
+readfopts();
+mkpath($mountpoint, 0, 0755);
+die "Could not create temporary mountpoint $mountpoint: $!\n" unless (-d $mountpoint);
+chkrun("sudo hdiutil create -format UDRW $quiet -mode 0777 -volname '".$volname."' -srcfolder '".$src."' '".$tmpdmg."'");
+chkrun("sudo hdiutil attach '".$tmpdmg."' -mountpoint '".$mountpoint."' -noautoopen $quiet");
+#chkrun("bless --folder '".$mountpoint."' --openfolder '".$mountpoint."'");
+if ($bgimg ne '') {
+    mkpath("$mountpoint/.bg$$", 0, 0755);
+    chkrun('cp "'.$bgimg.'" "'.$mountpoint.'/.bg'.$$.'"');
+    $bgimg = basename($bgimg);
+}
+if ($volicon ne '') {
+    chkrun('cp "'.$volicon.'" "'.$mountpoint.'/.VolumeIcon.icns"');
+    chkrun($SETFILE.' -a C "'.$mountpoint.'"');
+}
+my $script=<<SCRIPT;
+    tell application "Finder"
+        set mountpoint to POSIX file ("$mountpoint" as string) as alias
+        tell folder mountpoint
+            open
+            tell container window
+                set toolbar visible to false
+                set statusbar visible to false
+                set current view to icon view
+                set the bounds to {@{[window_bounds]}}
+            end tell
+            set icon size of the icon view options of container window to $iconsize
+            set text size of the icon view options of container window to $textsize
+            set arrangement of the icon view options of container window to not arranged
+            @{[file_positions]}
+            set the bounds of the container window to {@{[window_bounds]}}
+            set background picture of the icon view options of container window to file ".bg$$:$bgimg" 
+            update without registering applications
+            close
+        end tell
+    end tell
+SCRIPT
+runscript($script);
+file_options();
+if ($bgimg ne '') {
+    chkrun($SETFILE.' -a V "'.$mountpoint.'/.bg'.$$.'"');
+}
+chkrun("sudo hdiutil detach $mountpoint $quiet -force");
+chkrun("sudo hdiutil convert '".$tmpdmg."' $quiet -format UDZO -imagekey zlib-level=9 -o '".$out."'");

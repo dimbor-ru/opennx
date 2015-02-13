@@ -1,0 +1,21 @@
+This directory contains various patches for NoMachine's packages:
+
+<pkgname>-autotools.patch:
+
+ These patches fix the incredibly clumbsy buildr environments of the various
+ packages. All packages (except nxssh) now use a decent autotools setup which
+ solves LOT of build problems (e.g.: building universal binaries on MacOS etc.).
+
+nxcomp-gcc44.patch:
+
+ This patch fixes a compile error with gcc 4.4 on F11
+
+openssh-scard-pin.patch:
+
+ This patch fixes a bug in nxssh. (nxssh did not ask for a SmartCard-PIN)
+
+nxssh-newbuild.patch (currently used on MacOS only):
+
+ This patch adapts nxssh to the new build environment used in opennx.
+
+

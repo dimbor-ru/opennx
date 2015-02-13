@@ -1,0 +1,4820 @@
+2013-11-25 17:58  Fritz Elfert <felfert@users.sf.net>
+
+	* [r729] osdep.c:
+	  Fixed another typo in OSX specific code.
+
+2013-11-25 17:53  Fritz Elfert <felfert@users.sf.net>
+
+	* [r728] packaging/win32/cygnx/getnxsetup:
+	  Update URL of old 3.5.0-9 windows setup.
+
+2013-11-25 17:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r727] osdep.c:
+	  Fixed typo in OSX specific code.
+
+2013-11-25 17:22  Fritz Elfert <felfert@users.sf.net>
+
+	* [r726] packaging/win32/pulse/urls.txt:
+	  Updated download URL for json-c
+
+2013-11-25 15:59  Fritz Elfert <felfert@users.sf.net>
+
+	* [r725] getnxsrcpkg, opennx.spec.in, opennxApp.cpp, opennxApp.h,
+	  osdep.c, packaging/MacOSX/pkgResources/InstallationCheck,
+	  po/de.po, po/ja.po, po/opennx.pot, po/ru.po:
+	  - Updated fetch URL for nomachine sources.
+	  - Support Fedora 19
+	  - Support alternate path for quartz-wm on OSX
+
+2012-08-05 17:52  Fritz Elfert <felfert@users.sf.net>
+
+	* [r724] Makefile.am:
+	  - Honor RPMBUUILD_OPTS during RPM build
+
+2012-08-01 02:48  Fritz Elfert <felfert@users.sf.net>
+
+	* [r723] packaging/win32/xming/Makefile.am:
+	  - Fixed Xming download
+
+2012-08-01 01:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r722] packaging/win32/Makefile.am:
+	  - Quit using isccwrap in mingw build
+
+2012-08-01 01:13  Fritz Elfert <felfert@users.sf.net>
+
+	* [r721] packaging/win32/findrequires.pl.in:
+	  - Do case-insensitive compare while searching for dependencies in
+	  mingw build
+
+2012-07-31 23:52  Fritz Elfert <felfert@users.sf.net>
+
+	* [r720] packaging/win32/cygnx/Makefile.am:
+	  - Fixed fetch of unnounp in nxwin build variant
+
+2012-07-31 13:51  Fritz Elfert <felfert@users.sf.net>
+
+	* [r719] packaging/win32/pulse/patches/libsndfile-win32.patch:
+	  - Added patch for building libsndfile on newer mingw
+
+2012-07-31 04:57  Fritz Elfert <felfert@users.sf.net>
+
+	* [r718] packaging/win32/pulse/Makefile.am:
+	  - Fix build of json-c using latest F17 mingw32-configure
+
+2012-07-31 02:57  Fritz Elfert <felfert@users.sf.net>
+
+	* [r717] packaging/win32/pulse/Makefile.am:
+	  - Fixed minor glitch in makefile
+
+2012-07-31 02:26  Fritz Elfert <felfert@users.sf.net>
+
+	* [r716] Makefile.am:
+	  - Build bin2hdr helper always static
+
+2012-07-31 01:22  Fritz Elfert <felfert@users.sf.net>
+
+	* [r715] configure.ac:
+	  - Use iscc package from OBS as default for mingw cross builds.
+
+2012-07-30 18:53  Fritz Elfert <felfert@users.sf.net>
+
+	* [r714] packaging/MacOSX/Makefile.am:
+	  - OSX-build: Invoke sudo during clean-local only when necessary
+
+2012-07-02 15:56  Fritz Elfert <felfert@users.sf.net>
+
+	* [r713] opennx.spec.in, opennxApp.cpp, opennxApp.h:
+	  - Fix RPM postinstall: create symlink for libpulse
+	  - Disable any GUI dialogs while performing --exportres
+
+2012-06-19 10:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r712] po/LINGUAS, po/ja.po:
+	  - Added japanese translation stubs.
+
+2012-06-02 21:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r711] m4/compat.m4:
+	  - Added missing m4 file
+
+2012-06-02 19:18  Fritz Elfert <felfert@users.sf.net>
+
+	* [r710] configure.ac, m4/flibcurl.m4,
+	  patches/nxcomp-zz_png15.patch, po/de.po:
+	  - Added patch for building against latest libpng on Fedora 17
+
+2012-05-12 22:06  Fritz Elfert <felfert@users.sf.net>
+
+	* [r709] UsbIp.h, mylog.h:
+	  - Fixed compile error on Ubuntu 12.04 due to patched wxWidgets
+
+2012-03-23 18:18  Fritz Elfert <felfert@users.sf.net>
+
+	* [r708] UnixImageSettingsDialog.cpp, UnixImageSettingsDialog.h,
+	  VncImageSettingsDialog.cpp, opennx.pjd, res/opennx.xrc:
+	  - Prevent initial focus from selecting first radiobutton in
+	  custom image settings.
+
+2012-03-22 13:53  Fritz Elfert <felfert@users.sf.net>
+
+	* [r707] ShareProperties.cpp, ShareProperties.h,
+	  ShareProperties_symbols.h, opennx.pjd,
+	  packaging/win32/xming/patches/xming-kbhook.patch, res/opennx.xrc:
+	  - Fixed bug #3509691
+	  - Added missing kbhook in Xming
+
+2012-03-19 10:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r706] packaging/win32/xming/Makefile.am,
+	  packaging/win32/xming/patches/xming-kioskhack.patch:
+	  - Added abiltiy to disable the NX magic pixel in fullscreen mode
+	  (win32)
+
+2012-03-16 13:01  Fritz Elfert <felfert@users.sf.net>
+
+	* [r705] MySession.cpp, SessionProperties.cpp, SessionProperties.h,
+	  SessionProperties_symbols.h, opennx.pjd,
+	  patches/nxcomp-zz_debugfix.patch,
+	  patches/nxcomp-zz_kiosk-hack.patch, po/de.po, po/opennx.pot,
+	  po/ru.po, res/opennx.xrc:
+	  - Fixed german translation (Bugs 3496973 and 3497020).
+	  - Fixed build of nxcomp with INFO logging enabled.
+	  - Added abiltiy to disable the NX magic pixel in fullscreen mode
+	  (not yet working on Windows).
+
+2012-03-14 14:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r704] MySession.cpp, MySession.h, MyXmlConfig.cpp:
+	  - Added workaround for server bug: attach to shadow session
+	  fails, if server's DisplayBase is >= 10000
+	  - Simplified ssh logging
+
+2012-03-12 16:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r703] debian/postinst:
+	  - Added missing symlink for libpulse in debian postinst script
+
+2012-02-24 11:41  Fritz Elfert <felfert@users.sf.net>
+
+	* [r702] debian/rules, tracelogApp.cpp:
+	  - Fixed remote ip regex in tracelog
+	  - Fixed debian build
+
+2012-02-22 14:22  Fritz Elfert <felfert@users.sf.net>
+
+	* [r701] debian/rules:
+	  - Fixed build rule for debian
+
+2012-02-22 11:56  Fritz Elfert <felfert@users.sf.net>
+
+	* [r700] MyIPC.cpp, MyIPC.h:
+	  - Added missing error handling for expired evaluation license on
+	  commercial NX server.
+
+2012-02-22 10:14  Fritz Elfert <felfert@users.sf.net>
+
+	* [r699] debian/rules:
+	  - Fix debian build
+
+2012-02-22 04:21  Fritz Elfert <felfert@users.sf.net>
+
+	* [r698] SessionProperties.cpp, debian/rules,
+	  packaging/win32/xming/Makefile.am,
+	  packaging/win32/xming/patches/xming-kbhook.patch,
+	  patches/nxcomp-irlimit.patch, po/de.po, po/opennx.pot, po/ru.po:
+	  - Fixed keyboard grabbing on Windows
+	  - Added missing irlimit patch
+	  - Fixed debian rules
+
+2012-02-21 09:50  Fritz Elfert <felfert@users.sf.net>
+
+	* [r697] debian/rules, opennx.spec.in:
+	  - Don't apply visibility patch to older nxcomp
+
+2012-02-20 23:30  Fritz Elfert <felfert@users.sf.net>
+
+	* [r696] patches/nxcomp-visibility.patch:
+	  - Added visibility patch
+
+2012-02-20 23:30  Fritz Elfert <felfert@users.sf.net>
+
+	* [r695] debian/rules, opennx.spec.in,
+	  packaging/win32/nx/patches/nxcomp-win32.patch:
+	  - Reduce visibility of symbols in nxcomp
+	  - Clean up win32 patch
+
+2012-02-20 12:37  Fritz Elfert <felfert@users.sf.net>
+
+	* [r694] opennx.spec.in:
+	  - Fix build dependencies on Mandriva 2011
+
+2012-02-20 11:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r693] MyIPC.cpp:
+	  - Handle error 536 (user limit exceeded)
+
+2012-02-20 10:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r692] LoginDialog.cpp, SessionProperties.cpp,
+	  SessionProperties.h, SessionProperties_symbols.h, opennx.pjd,
+	  po/de.po, po/opennx.pot, po/ru.po, res/opennx.xrc:
+	  - Made recently added feature "clear password on abort"
+	  configurable.
+
+2012-02-19 00:47  Fritz Elfert <felfert@users.sf.net>
+
+	* [r691] opennx.spec.in:
+	  - Fixed RPM build
+
+2012-02-19 00:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r690] Makefile.am, debian/rules:
+	  - Removed nxesd from debian build - we use pulseaudio on all
+	  platforms
+
+2012-02-19 00:30  Fritz Elfert <felfert@users.sf.net>
+
+	* [r689] LogDialog_symbols.h, opennx.spec.in, po/de.po,
+	  po/opennx.pot, po/ru.po:
+	  - Remove nxesd from rpm build - we use pulseaudio on all
+	  platforms
+
+2012-02-18 02:36  Fritz Elfert <felfert@users.sf.net>
+
+	* [r688] LogDialog.cpp, MySession.cpp, PulseAudio.cpp,
+	  SessionAdmin.cpp:
+	  - Several Session-Admin related fixes
+
+2012-02-18 00:00  Fritz Elfert <felfert@users.sf.net>
+
+	* [r687] SessionAdmin.cpp, SessionList.cpp:
+	  - Attempt to fix bug #3468859
+
+2012-02-17 21:25  Fritz Elfert <felfert@users.sf.net>
+
+	* [r686] MySession.cpp, MyWizard.cpp, SessionProperties.cpp:
+	  - Fixed bug #3487112
+	  - Decoupled session watch event handling
+
+2012-02-15 17:09  Fritz Elfert <felfert@users.sf.net>
+
+	* [r685] ResumeDialog.cpp:
+	  - Added workaround for http://trac.wxwidgets.org/ticket/10400,
+	  which
+	  strangely affects wxMSW (windows) only.
+
+2012-02-10 17:47  Fritz Elfert <felfert@users.sf.net>
+
+	* [r684] MySession.cpp, MySession.h:
+	  - Properly derive from wxObject
+	  - Better ssh logging
+	  - Minor tweaks
+
+2012-02-09 23:37  Fritz Elfert <felfert@users.sf.net>
+
+	* [r683] KeyDialog.cpp, PanicDialog.h:
+	  - Replaced obsolete paramters (old wxWidgets 2.6 compatibility
+	  stuff)
+
+2012-02-09 23:34  Fritz Elfert <felfert@users.sf.net>
+
+	* [r682] MyDynlib.cpp:
+	  - Added more debug logging
+
+2012-02-09 23:33  Fritz Elfert <felfert@users.sf.net>
+
+	* [r681] WinShare.cpp, WinShare.h:
+	  - Properly derive from wxObject
+	  - Added more debug logging
+
+2012-02-09 23:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r680] MacOSX.c:
+	  - Fixed compile erro on older Macs
+
+2012-02-09 23:29  Fritz Elfert <felfert@users.sf.net>
+
+	* [r679] MyXmlConfig.cpp, MyXmlConfig.h:
+	  - Properly derive from wxObject
+
+2012-02-09 23:27  Fritz Elfert <felfert@users.sf.net>
+
+	* [r678] MyIPC.cpp, MyIPC.h:
+	  - Serialize async events from nxssh
+
+2012-02-05 19:52  Fritz Elfert <felfert@users.sf.net>
+
+	* [r677] MacUninstallApp.cpp, WrappedStatic.cpp, macfindreader.c,
+	  mactestkbd.c, osdep.c, packaging/MacOSX/Makefile.am,
+	  packaging/MacOSX/mkbundle, packaging/MacOSX/opennx.plist.in:
+	  - OSX: Fixed several compile warnings
+	  - OSX: Fixed application bundle IDs
+
+2012-02-05 16:18  Fritz Elfert <felfert@users.sf.net>
+
+	* [r676] MySession.cpp, MySession.h, MyXmlConfig.cpp,
+	  RdpImageSettingsDialog.cpp, RdpImageSettingsDialog.h,
+	  UnixImageSettingsDialog.cpp, UnixImageSettingsDialog.h,
+	  VncImageSettingsDialog.cpp, VncImageSettingsDialog.h:
+	  - Fixed loading of image compression dialogs.
+	  - Fixed parsing of session list when attaching to shadow
+	  sessions.
+	  - Added missing image compression parameters in attach handling
+
+2012-02-05 07:27  Fritz Elfert <felfert@users.sf.net>
+
+	* [r675] MySession.cpp, ResumeDialog.cpp:
+	  - Fixed bug #3473164
+
+2012-02-05 05:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r674] LoginDialog.cpp, Makefile.am, MyXmlConfig.cpp,
+	  MyXmlConfig.h, RdpImageSettingsDialog.cpp,
+	  RdpImageSettingsDialog.h, RdpImageSettingsDialog_symbols.h,
+	  RdpPropertyDialog_symbols.h, ResumeDialog.cpp, ResumeDialog.h,
+	  ResumeDialog_symbols.h, SessionProperties_symbols.h,
+	  TraceLogRemote.cpp, TraceLogRemote.h, TraceLogRemote_symbols.h,
+	  UnixImageSettingsDialog.cpp, UnixImageSettingsDialog.h,
+	  UnixImageSettingsDialog_symbols.h, VncImageSettingsDialog.cpp,
+	  VncImageSettingsDialog.h, VncImageSettingsDialog_symbols.h,
+	  configure.ac, opennx.pjd, opennxApp.cpp,
+	  packaging/win32/opennx.iss, po/de.po, po/opennx.pot, po/ru.po,
+	  res/opennx.xrc, res/tracelog.xrc, tracelog.pjd, tracelogApp.cpp,
+	  tracelogApp.h:
+	  - Massive rework of session config - Attempt to fix Bug #3483356
+	  - Started work on Bug #3473164
+	  - Added remote debugging in win32 tracelog App
+
+2012-02-04 22:32  Fritz Elfert <felfert@users.sf.net>
+
+	* [r673] PulseAudio.cpp, getnxsrcpkg, packaging/MacOSX/buildnx,
+	  packaging/MacOSX/opennx-main.plist.in,
+	  packaging/MacOSX/opennx.plist.in, packaging/MacOSX/pkg.plist.in,
+	  packaging/MacOSX/pulse/Makefile.am,
+	  patches/nxcomp-autotools.patch:
+	  - Misc build fixes for OSX
+	  - Better getnxsrcpkg (can now fetch version-numbers only)
+	  - Added retry loop (3x) in pulseaudio client connect.
+
+2012-01-30 17:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r672] PulseAudio.cpp:
+	  - Fixed win32 build (wrong #defines)
+
+2012-01-30 17:12  Fritz Elfert <felfert@users.sf.net>
+
+	* [r671] MacOSX.c, Makefile.am, MySession.cpp, PulseAudio.cpp,
+	  configure.ac, packaging/MacOSX/Makefile.am,
+	  packaging/MacOSX/buildnx,
+	  packaging/MacOSX/pkgResources/InstallationCheck,
+	  packaging/MacOSX/pulse/Makefile.am,
+	  packaging/MacOSX/pulse/cfg/default.pa,
+	  packaging/MacOSX/pulse/patches/pulseaudio-osx-machid.patch,
+	  packaging/MacOSX/pulse/pulseaudio.shasum,
+	  packaging/MacOSX/pulse/urls.txt:
+	  - Fixed bug #3472968 (crash, if pulseaudio fail to start
+	  or its pid file could not be found)
+	  - Updated to latest PA. Added patch for PA..
+	  - Changes for building on OSX 10.7
+
+2012-01-08 23:34  Fritz Elfert <felfert@users.sf.net>
+
+	* [r670] packaging/MacOSX/buildnx:
+	  - Cleaned up build process for OSX
+
+2012-01-08 19:37  Fritz Elfert <felfert@users.sf.net>
+
+	* [r669] ., opensc, packaging/MacOSX/buildnx,
+	  packaging/MacOSX/pulse:
+	  - MaxOSX: include a custom libjpeg which provides
+	  libjpeg-turbo on intel systems.
+
+2012-01-08 06:34  Fritz Elfert <felfert@users.sf.net>
+
+	* [r668] Makefile.am, PulseAudio.cpp, configure.ac,
+	  packaging/win32/pulse/Makefile.am:
+	  - Fixed pulseaudio startup on win32 (was broken by pulseaudio
+	  changes for OSX)
+	  - Fixed cxx warnings
+	  - Hide pulseaudio console window on win32
+
+2012-01-08 00:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r667] LoginDialog.cpp, MacUninstallApp.cpp, Makefile.am,
+	  PulseAudio.cpp, configure.ac, opennxApp.cpp, opennxApp.h,
+	  packaging/MacOSX/pulse/Makefile.am:
+	  - Fixed behavior on OSX when opening a downloaded
+	  session config for the first time after installation.
+	  - Activated pulseaudio on OSX
+	  - Fixed OSX uninstaller
+	  - Eliminated various compiler warnings
+
+2012-01-06 13:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r666] MacUninstallApp.cpp:
+	  - Don't try to uninstall man direcory
+
+2012-01-06 13:10  Fritz Elfert <felfert@users.sf.net>
+
+	* [r665] LoginDialog.cpp, MyXmlConfig.cpp, opennx.spec.in:
+	  - Added some trace logging for
+
+2012-01-04 19:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r664] opennxApp.cpp:
+	  - Fixed bug #3469356
+
+2012-01-04 04:53  Fritz Elfert <felfert@users.sf.net>
+
+	* [r663] KeyDialog.cpp, PulseAudio.cpp, ResumeDialog.cpp,
+	  XdmPropertyDialog.cpp, watchReaderApp.cpp:
+	  - Eliminated several warnings
+
+2012-01-04 04:48  Fritz Elfert <felfert@users.sf.net>
+
+	* [r662] configure.ac:
+	  - Added even more quoting and workaround for
+	  older wxWidgets in config check for wxRegEx
+
+2012-01-04 04:11  Fritz Elfert <felfert@users.sf.net>
+
+	* [r661] configure.ac:
+	  - Fixed escaping in new configure check
+
+2012-01-04 00:46  Fritz Elfert <felfert@users.sf.net>
+
+	* [r660] SessionList.cpp:
+	  - Fixed bug #3469017
+
+2012-01-03 23:59  Fritz Elfert <felfert@users.sf.net>
+
+	* [r659] configure.ac:
+	  Fixed bug #3468923
+
+2011-12-21 09:58  Fritz Elfert <felfert@users.sf.net>
+
+	* [r658] MySession.cpp, MyXmlConfig.cpp, MyXmlConfig.h,
+	  SessionProperties.cpp, SessionProperties.h,
+	  SessionProperties_symbols.h, opennx.pjd,
+	  packaging/win32/xming/Makefile.am,
+	  packaging/win32/xming/patches/xming-clipfilter.patch,
+	  packaging/win32/xming/patches/xming-logdebug.patch, po/de.po,
+	  po/opennx.pot, po/ru.po, res/opennx.xrc:
+	  - Added debug logging via OutputDebugString in XMing
+	  - Added configurable selection filter in XMing
+	  - Added GUI config option and parameter handling for
+	  selection filter.
+
+2011-12-09 20:41  Fritz Elfert <felfert@users.sf.net>
+
+	* [r657] MyWizard.cpp, MyWizard_symbols.h,
+	  SessionProperties_symbols.h, opennx.pjd, po/de.po, po/opennx.pot,
+	  po/ru.po, res/opennx.xrc:
+	  - Updated Wizard to XDMCP support
+	  - Updated translations
+
+2011-12-09 19:26  Fritz Elfert <felfert@users.sf.net>
+
+	* [r656] KeyDialog.cpp, Makefile.am:
+	  - Removed misleading .pub extension from key-import file selector
+	  - Really fixed linker error on Linux & OSX
+
+2011-12-09 19:09  Fritz Elfert <felfert@users.sf.net>
+
+	* [r655] KeyDialog.cpp, Makefile.am:
+	  - Fixed liker error on Linux and OSX
+	  - Close KeyDialog when clicking Save
+
+2011-12-09 18:07  Fritz Elfert <felfert@users.sf.net>
+
+	* [r654] Makefile.am, MySession.cpp, PulseAudio.cpp, PulseAudio.h,
+	  configure.ac, packaging/win32/Makefile.am,
+	  packaging/win32/opennx.iss, packaging/win32/pulse,
+	  packaging/win32/pulse/Makefile.am,
+	  packaging/win32/pulse/cfg/client.conf,
+	  packaging/win32/pulse/pulseaudio.md5sum,
+	  packaging/win32/pulse/urls.txt, pulseTest.cpp, res/opennx.rc.in:
+	  - Update to latest pulseaudio.
+	  - Don't use nxesd on win32 anymore
+
+2011-12-07 15:39  Fritz Elfert <felfert@users.sf.net>
+
+	* [r653] Makefile.am, MyXmlConfig.cpp, MyXmlConfig.h,
+	  ProxyPropertyDialog.h, ProxyPropertyDialog_symbols.h,
+	  SessionProperties.cpp, SessionProperties_symbols.h,
+	  XdmPropertyDialog.cpp, XdmPropertyDialog.h,
+	  XdmPropertyDialog_symbols.h, opennx.pjd, po/POTFILES.in,
+	  po/de.po, po/opennx.pot, po/ru.po, res/opennx.xrc:
+	  - Added Support for XDM Sessions
+	  - Updated translations
+
+2011-12-06 15:00  Fritz Elfert <felfert@users.sf.net>
+
+	* [r652] MyXmlConfig.cpp, MyXmlConfig.h,
+	  SessionProperties_symbols.h, opennx.pjd, opennxApp.cpp,
+	  res/opennx.xrc:
+	  - Fixed sizer problem in ResumeDialog.
+	  - Added larger values in chache size selectors
+
+2011-12-06 11:58  Fritz Elfert <felfert@users.sf.net>
+
+	* [r651] SessionProperties.h, opennx.pjd:
+	  - Readded lost accessors
+
+2011-12-06 11:18  Fritz Elfert <felfert@users.sf.net>
+
+	* [r650] LoginDialog.cpp, MyXmlConfig.cpp, MyXmlConfig.h,
+	  SessionProperties.cpp, SessionProperties.h,
+	  SessionProperties_symbols.h, opennx.pjd, osdep.c, po/ru.po,
+	  res/opennx.xrc:
+	  - Reverted OSX-related change from rev 649
+	  - Manually applied #3256650
+	  - Added ability to convert login name to lowercase
+	  - Clear password entry in GUI after aborted or failed login.
+
+2011-08-09 11:51  Fritz Elfert <felfert@users.sf.net>
+
+	* [r649] MacOSX.c, mactestkbd.c, osdep.c:
+	  - Attempt to work around broken XKB rule properties on OSX 10.7
+
+2011-06-24 17:16  Fritz Elfert <felfert@users.sf.net>
+
+	* [r648] MySession.cpp, packaging/MacOSX/pulse/Makefile.am,
+	  packaging/win32/nx/nxcomp.md5sum:
+	  - Add custom bindir to path before executing nxssh
+	  - Build optimization for OSX
+
+2011-06-23 17:52  Fritz Elfert <felfert@users.sf.net>
+
+	* [r647] ProxyPropertyDialog.cpp:
+	  - Added missing include
+
+2011-06-23 17:42  Fritz Elfert <felfert@users.sf.net>
+
+	* [r646] ProxyPropertyDialog.cpp, ProxyPropertyDialog.h,
+	  ProxyPropertyDialog_symbols.h, opennx.pjd, res/opennx.xrc:
+	  - Added a link to htmlized pconnect man page in proxy settings
+	  dialog.
+
+2011-06-23 17:07  Fritz Elfert <felfert@users.sf.net>
+
+	* [r645] packaging/MacOSX/Makefile.am:
+	  - Install pconnect man page on OSX
+
+2011-06-23 13:19  Fritz Elfert <felfert@users.sf.net>
+
+	* [r644] Makefile.am, configure.ac, docs, docs/Makefile.am,
+	  docs/pconnect.1, man:
+	  - Renamed subdir man -> docs
+
+2011-06-23 12:07  Fritz Elfert <felfert@users.sf.net>
+
+	* [r643] Makefile.am, configure.ac, man, man/Makefile.am,
+	  man/pconnect.html, packaging/win32/opennx.iss:
+	  - Install a html man page for pconnect
+
+2011-06-23 00:34  Fritz Elfert <felfert@users.sf.net>
+
+	* [r642] packaging/MacOSX/pulse/Makefile.am,
+	  packaging/win32/pulse/Makefile.am, packaging/win32/pulse/cfg,
+	  packaging/win32/pulse/cfg/daemon.conf,
+	  packaging/win32/pulse/cfg/default.pa, po/de.po, po/opennx.pot,
+	  po/ru.po:
+	  - Added missing dist elements
+
+2011-06-22 16:29  Fritz Elfert <felfert@users.sf.net>
+
+	* [r641] extres/svg2icons, getnxsrcpkg, opennx.pjd,
+	  packaging/win32/pulse/Makefile.am,
+	  packaging/win32/pulse/pulseaudio.md5sum,
+	  packaging/win32/pulse/urls.txt, po/de.po, po/opennx.pot,
+	  po/ru.po, res/nx-desktop.png:
+	  - Updated pulseaudio for win32
+	  - Updated translations
+	  - Cleaned up icons
+
+2011-06-22 16:27  Fritz Elfert <felfert@users.sf.net>
+
+	* [r640] Makefile.am, configure.ac, packaging/MacOSX/pulse,
+	  packaging/MacOSX/pulse/Makefile.am,
+	  packaging/MacOSX/pulse/pulseaudio.shasum,
+	  packaging/MacOSX/pulse/urls.txt:
+	  - pulse build tweaks for OSX
+
+2011-06-21 23:01  Fritz Elfert <felfert@users.sf.net>
+
+	* [r639] packaging/MacOSX/Makefile.am,
+	  packaging/MacOSX/pulse/Makefile.am,
+	  packaging/MacOSX/pulse/Makefile.in, packaging/MacOSX/pulse/cfg,
+	  packaging/MacOSX/pulse/cfg/daemon.conf,
+	  packaging/MacOSX/pulse/cfg/default.pa:
+	  - Misc build fixups for pulseaudio on OSX
+
+2011-06-21 13:52  Fritz Elfert <felfert@users.sf.net>
+
+	* [r638] packaging/MacOSX/pulse,
+	  packaging/MacOSX/pulse/Makefile.am,
+	  packaging/MacOSX/pulse/Makefile.in,
+	  packaging/MacOSX/pulse/json-c.shasum,
+	  packaging/MacOSX/pulse/libsamplerate.shasum,
+	  packaging/MacOSX/pulse/libsndfile.shasum,
+	  packaging/MacOSX/pulse/libtool.shasum,
+	  packaging/MacOSX/pulse/patches,
+	  packaging/MacOSX/pulse/patches/speex-crossppc.patch,
+	  packaging/MacOSX/pulse/pulseaudio.shasum,
+	  packaging/MacOSX/pulse/speex.shasum,
+	  packaging/MacOSX/pulse/urls.txt:
+	  - Added pulseaudio subdir
+
+2011-06-19 22:01  Fritz Elfert <felfert@users.sf.net>
+
+	* [r637] packaging/win32, packaging/win32/Makefile.am,
+	  packaging/win32/findrequires.pl.in, packaging/win32/nx,
+	  packaging/win32/nx/Makefile.am,
+	  packaging/win32/nx/libjpeg.md5sum,
+	  packaging/win32/nx/patches/jpeg-ming32.patch,
+	  packaging/win32/nx/patches/nxcomp-win32.patch,
+	  packaging/win32/nx/urls.txt, packaging/win32/pulse,
+	  packaging/win32/pulse/Makefile.am,
+	  packaging/win32/pulse/libatomic_ops.md5sum,
+	  packaging/win32/pulse/patches/pulseaudio-config.patch,
+	  packaging/win32/pulse/patches/pulseaudio-win32.patch,
+	  packaging/win32/pulse/pulseaudio.md5sum,
+	  packaging/win32/pulse/urls.txt:
+	  - win32: Added silent-rules, general cleanup
+	  - win32: Updated to libjpeg-turbo 1.1.1
+	  - win32 pulseaudio: Removed libatomic_ops, build against our own
+	  github fork
+
+2011-06-18 15:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r636] packaging/win32/Makefile.am, packaging/win32/opennx.iss:
+	  - Setup: Add pulseaudio.exe to windows firewall exceptions
+	  - Setup: Add dependencies from pulse libs
+
+2011-06-18 14:24  Fritz Elfert <felfert@users.sf.net>
+
+	* [r635] PulseAudio.cpp:
+	  - Disable cookie auth in pa's esd module.
+
+2011-06-17 11:11  Fritz Elfert <felfert@users.sf.net>
+
+	* [r634] packaging/win32/Makefile.am, packaging/win32/lgpl.rtf,
+	  packaging/win32/opennx.iss, packaging/win32/version.iss:
+	  - Adapted to latest InnoSetup
+
+2011-06-16 15:34  Fritz Elfert <felfert@users.sf.net>
+
+	* [r633] packaging/win32/Makefile.am,
+	  packaging/win32/isccwrap.sh.in, packaging/win32/nx/nxcomp.md5sum,
+	  packaging/win32/nx/nxesd.md5sum,
+	  packaging/win32/nx/nxproxy.md5sum,
+	  packaging/win32/nx/patches/nxcomp-win32.patch,
+	  packaging/win32/nx/patches/nxesd-win32.patch,
+	  packaging/win32/opennx.iss, packaging/win32/pulse,
+	  packaging/win32/pulse/Makefile.am,
+	  packaging/win32/pulse/json-c.md5sum,
+	  packaging/win32/pulse/liboil.md5sum,
+	  packaging/win32/pulse/libsamplerate.md5sum,
+	  packaging/win32/pulse/libsndfile.md5sum,
+	  packaging/win32/pulse/patches/jsonc-win32.patch,
+	  packaging/win32/pulse/patches/liboil-win32.patch,
+	  packaging/win32/pulse/patches/pulseaudio-config.patch,
+	  packaging/win32/pulse/patches/pulseaudio-win32.patch,
+	  packaging/win32/pulse/pulseaudio.md5sum,
+	  packaging/win32/pulse/speex.md5sum,
+	  packaging/win32/pulse/urls.txt:
+	  - Updated win32 build to latest nx components
+	  - Added a working pulseaudio for win32 (Finally!!)
+	  - Note: pulseaudio daemon setup on win32 not yet implemented.
+
+2011-06-13 00:58  Fritz Elfert <felfert@users.sf.net>
+
+	* [r632] MyDynlib.cpp:
+	  - Added workaround for loading cups lib on Mac OSX
+
+2011-06-12 19:20  Fritz Elfert <felfert@users.sf.net>
+
+	* [r631] LoginDialog.cpp, LoginDialog.h, MacOSX.c, Makefile.am,
+	  MySession.cpp, MyWizard.cpp, configure.ac, opennxApp.cpp,
+	  packaging/MacOSX/Makefile.am, trace.h:
+	  - Use Xau lib functions on Unix instead of invoking xauth.
+	  - Revert OSX menu changes, as the break event andling.
+	  - Added special "all" trace tag for enabling all trace regions at
+	  once.
+	  - Misc. OSX related build optimizations.
+
+2011-06-12 19:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r630] po/de.po, po/opennx.pot, po/ru.po:
+	  - Updated translations
+
+2011-06-12 05:36  Fritz Elfert <felfert@users.sf.net>
+
+	* [r629] MacUninstallApp.cpp, MacUninstallApp.h,
+	  packaging/MacOSX/Makefile.am, po/de.po, po/opennx.pot, po/ru.po,
+	  res/about.html, res/de_about.html:
+	  - Made Mac OSX uninstall app working again
+	  - Updated translations
+
+2011-06-12 04:20  Fritz Elfert <felfert@users.sf.net>
+
+	* [r628] opennx.spec.in, po/de.po, po/opennx.pot, po/ru.po:
+	  - Fixed a typo in spec
+	  - Updated translations
+
+2011-06-12 03:53  Fritz Elfert <felfert@users.sf.net>
+
+	* [r627] LoginDialog.cpp, opennx.spec.in:
+	  - Solved compile issue on openSUSE 11.4
+
+2011-06-11 21:42  Fritz Elfert <felfert@users.sf.net>
+
+	* [r626] MacUninstallApp.cpp, Makefile.am, MySession.cpp,
+	  MySession.h, m4/flibcurl.m4, m4/libcurl.m4, macfindreader.c,
+	  opennxApp.cpp, packaging/MacOSX/Makefile.am,
+	  packaging/MacOSX/buildnx, packaging/MacOSX/mkdmg,
+	  patches/jpeg-autoconf.patch:
+	  - Fixed a library interference on Mac OSX with libjpeg and
+	  Apple's ImageIO framework
+	  - Removed build dependencies on opensc and libsmbclient on Mac
+	  OSX
+	  - Started adapting uninstaller to new receipt layout (not
+	  finished yet)
+
+2011-06-09 14:50  Fritz Elfert <felfert@users.sf.net>
+
+	* [r625] MyWizard.cpp, MyWizard.h:
+	  Enable Quit menu item on OSX
+
+2011-06-09 13:17  Fritz Elfert <felfert@users.sf.net>
+
+	* [r624] opennxApp.cpp:
+	  Enable quit menu entry on OSX
+
+2011-05-27 11:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r623] opennxApp.cpp, opennxApp.h:
+	  - Added exportres option
+
+2011-05-26 14:04  Fritz Elfert <felfert@users.sf.net>
+
+	* [r622] Makefile.am, WinShare.cpp, configure.ac, debian/control,
+	  libsmbclient.h, opennx.spec.in, po/de.po, po/opennx.pot,
+	  po/ru.po:
+	  - Remove build dependency on cups-devel and libsmbclient-devel
+
+2011-05-25 16:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r621] LoginDialog.cpp:
+	  - Try solving a compile error on openSUSE 11.4
+
+2011-05-25 14:49  Fritz Elfert <felfert@users.sf.net>
+
+	* [r620] Makefile.am, configure.ac, debian/control, opennx.spec.in,
+	  opensc, opensc/errors.h, opensc/opensc-config.in,
+	  opensc/opensc.h, opensc/pkcs15.h, opensc/scconf.h,
+	  opensc/types.h:
+	  - Remove build dependency on opensc-devel
+
+2011-05-25 13:41  Fritz Elfert <felfert@users.sf.net>
+
+	* [r619] pconnect.c:
+	  - Code cleanup in pconnect
+
+2011-05-21 22:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r618] opennx.spec.in:
+	  - Attempt to fix wxWidgets dependency on openSUSE >= 11.4
+
+2011-05-21 18:50  Fritz Elfert <felfert@users.sf.net>
+
+	* [r617] opennx.spec.in, packaging/MacOSX/buildnx:
+	  - Solved rpath problem with new nxesd build.
+	  - Solved patch issue with new nxesd build on OSX.
+
+2011-05-21 14:21  Fritz Elfert <felfert@users.sf.net>
+
+	* [r616] debian/rules:
+	  - Fixed nxesd patching
+
+2011-05-21 13:12  Fritz Elfert <felfert@users.sf.net>
+
+	* [r615] debian/rules:
+	  - Added missing autoreconf call
+
+2011-05-21 11:50  Fritz Elfert <felfert@users.sf.net>
+
+	* [r614] debian/rules:
+	  - Apply patch for nxesd in debian rules
+
+2011-05-21 10:56  Fritz Elfert <felfert@users.sf.net>
+
+	* [r613] opennx.spec.in, patches/nxesd-3.5-autotools.patch:
+	  - Fixed autotools isuue with nxesd
+
+2011-04-08 10:20  Fritz Elfert <felfert@users.sf.net>
+
+	* [r612] packaging/MacOSX/buildopensc:
+	  - Updated opensc build script for OSX
+
+2011-02-27 14:59  Fritz Elfert <felfert@users.sf.net>
+
+	* [r611] MySession.cpp, MyXmlConfig.cpp, MyXmlConfig.h,
+	  SessionProperties.cpp, SessionProperties.h,
+	  SessionProperties_symbols.h, opennx.pjd, po/de.po, po/opennx.pot,
+	  po/ru.po, res/opennx.xrc:
+	  - Fixed bug #3192411
+	  - Added some translations
+
+2011-02-25 10:59  Fritz Elfert <felfert@users.sf.net>
+
+	* [r610] MySession.cpp:
+	  - Fixed Session resume, Bug-ID: #3190396
+
+2011-02-24 03:07  Fritz Elfert <felfert@users.sf.net>
+
+	* [r609] MySession.cpp, opennxApp.cpp, opennxApp.h:
+	  - Added --autoresume switch.
+
+2011-02-23 19:47  Fritz Elfert <felfert@users.sf.net>
+
+	* [r608] opennx.spec.in:
+	  - Fix lib install path (#3190416)
+
+2011-02-23 17:04  Fritz Elfert <felfert@users.sf.net>
+
+	* [r607] MySession.cpp, ResumeDialog.cpp, po/de.po, po/opennx.pot,
+	  po/ru.po:
+	  - Added translations, misc cosmetics
+
+2011-02-23 16:43  Fritz Elfert <felfert@users.sf.net>
+
+	* [r606] MyIPC.cpp, MyIPC.h, MySession.cpp, MySession.h,
+	  ResumeDialog.cpp, ResumeDialog.h, ResumeDialog_symbols.h,
+	  opennx.pjd, res/opennx.xrc, watchReaderApp.cpp:
+	  - Added "User" column in ResumeDialog
+	  - Added refresh button in ResumeDialog
+	  - Parse user from session list
+	  - Added debug logging in watchReader and ResumeDialog
+	  - Fixed bug in shadow-session attach: wron session ID was
+	  selected.
+	  - Added --resize option to attachsession
+
+2011-02-22 04:00  Fritz Elfert <felfert@users.sf.net>
+
+	* [r605] LibUSB.cpp, SessionProperties.cpp,
+	  UsbFilterDetailsDialog.cpp, UsbFilterDetailsDialog.h,
+	  watchUsbIpApp.cpp, watchUsbIpApp.h:
+	  - USB/IP: Fallback to sysfs, if libusb can't read
+	  device attributes.
+	  - Prepared UsbFilterDetailDialog for context help.
+
+2011-02-21 22:37  Fritz Elfert <felfert@users.sf.net>
+
+	* [r604] SessionProperties.cpp, SessionProperties.h,
+	  SessionProperties_symbols.h, opennx.pjd, po/de.po, po/opennx.pot,
+	  po/ru.po, res/about.html, res/de_about.html, res/opennx.xrc:
+	  - Reduced height of SessionProperties to fit
+	  on smaller displays (Feature request #3186863)
+
+2011-02-21 19:18  Fritz Elfert <felfert@users.sf.net>
+
+	* [r603] AsyncProcess.cpp, AsyncProcess.h, MyIPC.cpp:
+	  - Speedup initial handshake
+
+2011-02-21 17:10  Fritz Elfert <felfert@users.sf.net>
+
+	* [r602] MyIPC.cpp:
+	  - Fixed bug, described in Patch #3183720 - Thanks to
+	  snejok@sf.net
+
+2011-02-21 14:05  Fritz Elfert <felfert@users.sf.net>
+
+	* [r601] extres/xdg/innovidata-opennx-admin.desktop,
+	  extres/xdg/innovidata-opennx-wizard.desktop,
+	  extres/xdg/innovidata-opennx.desktop,
+	  extres/xdg/innovidata-opennx.directory:
+	  - Applied patch #3170414 - Thanks to bigsnejok@sf.net
+
+2010-12-16 15:19  Fritz Elfert <felfert@users.sf.net>
+
+	* [r600] debian/control:
+	  - Added dependencies for liburl on debian
+
+2010-12-16 15:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r599] m4/libcurl.m4, opennx.spec.in:
+	  - Added M$ check for libcurl
+	  - Added RPM dependency for libcurl
+
+2010-12-16 14:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r598] LoginDialog.cpp, Makefile.am, MyXmlConfig.cpp,
+	  MyXmlConfig.h, configure.ac, opennxApp.cpp, opennxApp.h, osdep.c,
+	  po/de.po, po/opennx.pot, po/ru.po, watchUsbIpApp.cpp:
+	  - Added support for fetching session config via https
+	  - Fixed an issue when using USB/IP, configured in a remote
+	  session config.
+	  - Fixed several typos
+	  - Updated translations
+
+2010-12-09 12:26  Fritz Elfert <felfert@users.sf.net>
+
+	* [r597] LoginDialog.cpp, ProxyPropertyDialog.cpp,
+	  ProxyPropertyDialog.h, SessionProperties.cpp, po/de.po:
+	  - Bugfix: Set focus in login dialog, even if session config was
+	  loaded via http
+
+2010-11-30 11:23  Fritz Elfert <felfert@users.sf.net>
+
+	* [r596] packaging/win32/nx/patches/nxcomp-win32.patch:
+	  - Misc fixes for build of nxcom on windows.
+
+2010-11-15 17:54  Fritz Elfert <felfert@users.sf.net>
+
+	* [r595] packaging/win32/xming/Makefile.am,
+	  packaging/win32/xming/patches/xming-build.patch:
+	  - Updated Xming build configuration
+
+2010-11-15 12:21  Fritz Elfert <felfert@users.sf.net>
+
+	* [r594] MyXmlConfig.cpp, po/de.po, po/opennx.pot, po/ru.po:
+	  - Applied Patch #3109454 (Thanks to: snejok AT users.sf.net)
+	  - Updated translations
+
+2010-11-10 17:33  Fritz Elfert <felfert@users.sf.net>
+
+	* [r593] SessionProperties.cpp:
+	  - Fix crash in Session Property Dialog
+
+2010-11-10 13:19  Fritz Elfert <felfert@users.sf.net>
+
+	* [r592] SessionProperties.cpp:
+	  - Fixed crash in Property dialog
+
+2010-10-24 23:58  Fritz Elfert <felfert@users.sf.net>
+
+	* [r591] ForeignFrame.cpp, ForeignFrame.h, SessionAdmin.cpp,
+	  opennxApp.cpp, osdep.c, osdep.h, packaging/win32/nx/Makefile.am,
+	  packaging/win32/nx/libjpeg.md5sum,
+	  packaging/win32/nx/nxcomp.md5sum,
+	  packaging/win32/nx/nxesd.md5sum,
+	  packaging/win32/nx/patches/libpng-exports.patch,
+	  packaging/win32/nx/patches/nxcomp-win32.patch,
+	  packaging/win32/nx/urls.txt:
+	  - Continued work on win32 mingw build
+
+2010-10-23 22:42  Fritz Elfert <felfert@users.sf.net>
+
+	* [r590] KeyDialog.cpp, KeyDialog.h, KeyDialog_symbols.h,
+	  LoginDialog.cpp, LoginDialog.h, Makefile.am,
+	  ProxyPropertyDialog.cpp, ProxyPropertyDialog.h, PulseAudio.cpp,
+	  RdpImageSettingsDialog.cpp, RdpImageSettingsDialog.h,
+	  RdpImageSettingsDialog_symbols.h, RdpPropertyDialog.cpp,
+	  RdpPropertyDialog.h, RdpPropertyDialog_symbols.h,
+	  SessionProperties.cpp, ShareProperties.cpp, ShareProperties.h,
+	  UnixImageSettingsDialog.cpp, UnixImageSettingsDialog.h,
+	  UnixImageSettingsDialog_symbols.h, UsbFilterDetailsDialog.cpp,
+	  UsbFilterDetailsDialog_symbols.h, VncImageSettingsDialog.cpp,
+	  VncImageSettingsDialog.h, VncImageSettingsDialog_symbols.h,
+	  VncPropertyDialog.cpp, VncPropertyDialog.h,
+	  X11PropertyDialog.cpp, X11PropertyDialog.h,
+	  X11PropertyDialog_symbols.h, opennx.pjd, res/opennx.xrc:
+	  - More preparations for context sensitive help
+
+2010-10-23 12:54  Fritz Elfert <felfert@users.sf.net>
+
+	* [r589] .:
+	  - Ignore pulsetest binary in SVN
+
+2010-10-22 01:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r588] SessionProperties.cpp, SessionProperties.h, opennxApp.cpp,
+	  opennxApp.h, po/de.po, po/opennx.pot, po/ru.po:
+	  - Started implementing context help
+
+2010-10-21 22:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r587] LibUSB.cpp, LoginDialog.cpp, MyIPC.cpp, MyIPC.h,
+	  MySession.cpp, MySession.h, ProxyPropertyDialog.cpp,
+	  PulseAudio.cpp, ResumeDialog.cpp, SessionAdmin.cpp,
+	  SessionProperties.cpp, SupressibleMessageDialog.cpp,
+	  SupressibleMessageDialog.h:
+	  - Eliminated several warnings
+	  - Protocol tweaks for NX4
+
+2010-10-21 21:56  Fritz Elfert <felfert@users.sf.net>
+
+	* [r586] packaging/win32/Makefile.am:
+	  - Updated upstream font package
+
+2010-10-21 21:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r585] packaging/win32/findrequires.pl.in:
+	  - Added winspool.drv to system libs
+
+2010-10-21 07:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r584] opennx.spec.in:
+	  - Use absolute path for manpage
+
+2010-10-21 07:14  Fritz Elfert <felfert@users.sf.net>
+
+	* [r583] Makefile.am, configure.ac:
+	  - pulseaudio is optional
+
+2010-10-21 06:52  Fritz Elfert <felfert@users.sf.net>
+
+	* [r582] Makefile.am, MySession.cpp, PulseAudio.cpp, PulseAudio.h,
+	  SessionProperties.cpp, SessionProperties.h, configure.ac,
+	  debian/control, man, man/pconnect.1, opennx.pjd, opennx.spec.in,
+	  po/de.po, po/opennx.pot, po/ru.po, pulseTest.cpp, pulseTest.h:
+	  - Use local pulseaudio if it exists.
+
+2010-10-19 09:43  Fritz Elfert <felfert@users.sf.net>
+
+	* [r581] po/de.po, po/opennx.pot, po/ru.po:
+	  - Updated translations
+
+2010-10-19 09:42  Fritz Elfert <felfert@users.sf.net>
+
+	* [r580] LoginDialog.h, opennxApp.cpp:
+	  - Implement feature request #3089912
+	  - Sort entries in session combobox
+
+2010-10-18 16:30  Fritz Elfert <felfert@users.sf.net>
+
+	* [r579] po/de.po:
+	  - Updated german translation.
+
+2010-10-18 16:22  Fritz Elfert <felfert@users.sf.net>
+
+	* [r578] opennxApp.cpp, po/de.po, po/opennx.pot, po/ru.po:
+	  - Implemented feature request #3089679
+
+2010-10-18 10:41  Fritz Elfert <felfert@users.sf.net>
+
+	* [r577] LoginDialog.cpp, LoginDialog.h:
+	  - Implement feature request #3089552
+
+2010-10-17 23:24  Fritz Elfert <felfert@users.sf.net>
+
+	* [r576] X11PropertyDialog.cpp:
+	  - Actually write X Agent encoding flag to config
+
+2010-10-16 03:24  Fritz Elfert <felfert@users.sf.net>
+
+	* [r575] debian/control:
+	  - Recommend libjpeg-turbo
+
+2010-10-16 01:52  Fritz Elfert <felfert@users.sf.net>
+
+	* [r574] MySession.cpp, MySession.h, ResumeDialog.cpp, po/de.po,
+	  po/opennx.pot, po/ru.po:
+	  - Attempt to fix #3086446
+
+2010-10-14 16:29  Fritz Elfert <felfert@users.sf.net>
+
+	* [r573] MyIPC.cpp, MyIPC.h, MySession.cpp, MySession.h,
+	  MyXmlConfig.cpp, po/de.po, po/opennx.pot, po/ru.po:
+	  - Tweaked protocol version handling
+	  - Updated translations
+
+2010-09-29 10:39  Fritz Elfert <felfert@users.sf.net>
+
+	* [r572] MySession.cpp:
+	  - Fixed logic for setting up ssh proxy
+
+2010-09-28 00:20  Fritz Elfert <felfert@users.sf.net>
+
+	* [r571] debian/control:
+	  - Fix debian build deps
+
+2010-09-27 23:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r570] debian/control, debian/rules:
+	  - More debian build tweaks
+
+2010-09-27 22:46  Fritz Elfert <felfert@users.sf.net>
+
+	* [r569] Makefile.am:
+	  - Tweak OBS debian build
+
+2010-09-27 13:33  Fritz Elfert <felfert@users.sf.net>
+
+	* [r568] Makefile.am, debian/mkchangelog.pl:
+	  - Added debsrc target
+
+2010-09-08 16:00  Fritz Elfert <felfert@users.sf.net>
+
+	* [r567] getnxsrcpkg, opennx.spec.in:
+	  - Print message if no nx sources found on download page.
+
+2010-09-08 12:22  Fritz Elfert <felfert@users.sf.net>
+
+	* [r566] opennx.spec.in, po/de.po, po/opennx.pot, po/ru.po:
+	  - Build on RHEL5.5
+
+2010-09-08 11:52  Fritz Elfert <felfert@users.sf.net>
+
+	* [r565] Makefile.am, configure.ac:
+	  - Fix gettextized build on OSX
+
+2010-09-08 09:09  Fritz Elfert <felfert@users.sf.net>
+
+	* [r564] Makefile.am, configure.ac:
+	  - Install wxWidgets standard translations if building against
+	  static wxWidgets.
+
+2010-09-06 15:24  Fritz Elfert <felfert@users.sf.net>
+
+	* [r563] getnxsrcpkg, packaging/MacOSX/buildnx,
+	  packaging/MacOSX/buildopensc, packaging/MacOSX/buildsmbclient:
+	  - Use curl if wget is unavailble.
+
+2010-09-04 21:56  Fritz Elfert <felfert@users.sf.net>
+
+	* [r562] packaging/MacOSX/buildopensc:
+	  - Fixed opensc build on OSX again
+
+2010-09-04 21:03  Fritz Elfert <felfert@users.sf.net>
+
+	* [r561] packaging/MacOSX/buildopensc:
+	  -Fix opensc build on OSX
+
+2010-09-04 20:03  Fritz Elfert <felfert@users.sf.net>
+
+	* [r560] packaging/MacOSX/OpenSC.webloc, packaging/MacOSX/buildnx,
+	  packaging/MacOSX/buildopensc, packaging/MacOSX/buildsmbclient:
+	  - Build fixes for OSX
+	  - Updated sca links and opensc on OSX
+
+2010-09-04 18:03  Fritz Elfert <felfert@users.sf.net>
+
+	* [r559] packaging/MacOSX/buildnx:
+	  - Fixed MacOS nx build script
+
+2010-09-04 16:36  Fritz Elfert <felfert@users.sf.net>
+
+	* [r558] configure.ac:
+	  - Set default compilers correctly
+
+2010-09-03 18:18  Fritz Elfert <felfert@users.sf.net>
+
+	* [r557] MacOSX.c, Makefile.am, MyValidator.cpp,
+	  SessionProperties.cpp, configure.ac, getnxsrcpkg,
+	  macfindreader.c, packaging/MacOSX/Makefile.am,
+	  packaging/MacOSX/buildnx, packaging/MacOSX/buildopensc,
+	  packaging/MacOSX/buildsmbclient, patches/nxesd-autotools.patch,
+	  patches/nxproxy-autotools.patch:
+	  - Fixes for building on OSX 10.6
+
+2010-09-02 15:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r556] po/de.po, po/ru.po:
+	  - Updated russian and german translations.
+
+2010-08-28 18:47  Fritz Elfert <felfert@users.sf.net>
+
+	* [r555] po/POTFILES.in, po/de.po, po/opennx.pot, po/ru.po:
+	  - Updated POTFILES.in
+	  - Updated russian translation - Thanks to snejok
+
+2010-08-28 18:44  Fritz Elfert <felfert@users.sf.net>
+
+	* [r554] opennxApp.cpp:
+	  - Reordered initialization sequence - Fixes: #3054911
+
+2010-08-24 16:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r553] MySession.cpp:
+	  - Add initial part of message in IDs of supressible dialogs
+
+2010-08-24 14:08  Fritz Elfert <felfert@users.sf.net>
+
+	* [r552] LogDialog.cpp, SessionProperties.cpp, SessionProperties.h,
+	  SessionProperties_symbols.h, opennx.pjd, po/de.po, po/opennx.pot,
+	  po/ru.po, res/opennx.xrc:
+	  - Removed useless GUI font settings
+	  - Added ability to reset supressed message dialogs.
+
+2010-08-23 10:46  Fritz Elfert <felfert@users.sf.net>
+
+	* [r551] packaging/MacOSX/buildnx:
+	  - Missed a version number in libpng change
+
+2010-08-23 10:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r550] packaging/MacOSX/buildnx:
+	  - Update libpng to v1.2.44 for MacOS build
+
+2010-08-20 21:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r549] Makefile.am, MySession.cpp, SupressibleMessageDialog.cpp,
+	  SupressibleMessageDialog.h, SupressibleMessageDialog_symbols.h,
+	  opennx.pjd, opennxApp.cpp, po/de.po, po/opennx.pot, po/ru.po,
+	  res/opennx.xrc:
+	  - Some MessageDialogs now are suppressible.
+
+2010-08-20 21:36  Fritz Elfert <felfert@users.sf.net>
+
+	* [r548] MyXmlConfig.cpp:
+	  - Applied patch #3041611 - Thanks to Iain Nicol
+
+2010-06-20 11:11  Fritz Elfert <felfert@users.sf.net>
+
+	* [r547] opennx.spec.in:
+	  - Fixed post script for Mandriva
+
+2010-06-20 01:48  Fritz Elfert <felfert@users.sf.net>
+
+	* [r546] opennx.spec.in:
+	  - Fixed Mandrake build on OBS
+
+2010-06-19 18:52  Fritz Elfert <felfert@users.sf.net>
+
+	* [r545] patches/nxssh-dynopensc.patch:
+	  - Fixed RPM build on F13
+
+2010-06-19 17:13  Fritz Elfert <felfert@users.sf.net>
+
+	* [r544] opennx.spec.in:
+	  Try to fix build on F13
+
+2010-06-11 15:44  Achim Derigs <aderigs@users.sf.net>
+
+	* [r543] debian/rules:
+	  - Fix has been done in original NX code.
+
+2010-05-15 18:22  Fritz Elfert <felfert@users.sf.net>
+
+	* [r542] po/de.po, po/opennx.pot, po/ru.po:
+	  - Updated translations
+
+2010-05-14 13:18  Fritz Elfert <felfert@users.sf.net>
+
+	* [r541] MyXmlConfig.cpp:
+	  - Tweaked keyboard parameterization again.
+
+2010-05-13 03:14  Fritz Elfert <felfert@users.sf.net>
+
+	* [r540] packaging/MacOSX/buildnx, patches/jpeg-autoconf.patch:
+	  - Use dynamic libjpeg on MacOSX in order
+	  to enable switching to libjpeg-turbo
+	  at runtime.
+
+2010-05-12 22:54  Fritz Elfert <felfert@users.sf.net>
+
+	* [r539] packaging/MacOSX/buildnx:
+	  - Use libjpeg-turbo on MacOSX (x86)
+
+2010-05-12 14:11  Fritz Elfert <felfert@users.sf.net>
+
+	* [r538] opennxApp.cpp:
+	  - Fixed setup of LD_LIBRARY_PATH
+
+2010-05-12 12:48  Fritz Elfert <felfert@users.sf.net>
+
+	* [r537] opennxApp.cpp:
+	  - Fixed bug in detection of libjpeg-turbo
+
+2010-05-12 11:06  Fritz Elfert <felfert@users.sf.net>
+
+	* [r536] LoginDialog.h, opennxApp.cpp, po/de.po, po/opennx.pot,
+	  po/ru.po:
+	  - Fixed errors in turbojpeg detection
+	  - Fixed warning in LoginDialog
+	  - Updated translations
+
+2010-05-12 10:42  Fritz Elfert <felfert@users.sf.net>
+
+	* [r535] opennxApp.cpp, po/de.po, po/opennx.pot:
+	  - Updated detection of libjpeg-turbo
+
+2010-04-28 15:39  Fritz Elfert <felfert@users.sf.net>
+
+	* [r534] opennxApp.cpp:
+	  - If libjpeg-turbo is installed prepend it to
+	  our library path.
+
+2010-04-19 09:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r533] MyXmlConfig.h:
+	  - Corrected method signature for new setters.
+
+2010-04-18 20:11  Fritz Elfert <felfert@users.sf.net>
+
+	* [r532] Makefile.am, MySession.cpp, MyXmlConfig.cpp,
+	  MyXmlConfig.h, ProxyPropertyDialog.cpp, ProxyPropertyDialog.h,
+	  ProxyPropertyDialog_symbols.h, SessionProperties.cpp,
+	  SessionProperties.h, SessionProperties_symbols.h, opennx.pjd,
+	  po/de.po, po/opennx.pot, po/ru.po, res/opennx.xrc:
+	  - Moved proxy settings into a separate dialog
+	  - Added more cofigurables:
+	  Disable DirectDraw (win32 only)
+	  Grab keyboard (win32 only)
+	  Disable deferred updates
+	  - Updated translations
+
+2010-04-16 14:58  Fritz Elfert <felfert@users.sf.net>
+
+	* [r531] opennxApp.cpp:
+	  - Tweaked error handling
+
+2010-04-16 14:05  Fritz Elfert <felfert@users.sf.net>
+
+	* [r530] opennxApp.cpp:
+	  - Try disabling error dialogs
+
+2010-04-16 13:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r529] opennxApp.cpp, opennxApp.h:
+	  - Implemented killerrors option
+
+2010-04-15 10:00  Fritz Elfert <felfert@users.sf.net>
+
+	* [r528] LoginDialog.cpp:
+	  - Implemented autologin with single-session variant.
+
+2010-04-15 09:43  Fritz Elfert <felfert@users.sf.net>
+
+	* [r527] LoginDialog.cpp, LoginDialog.h, opennx.pjd, opennxApp.cpp,
+	  opennxApp.h, po/de.po, po/opennx.pot, po/ru.po:
+	  - Implemented --autologin switch
+
+2010-04-13 02:58  Fritz Elfert <felfert@users.sf.net>
+
+	* [r526] res/de_about.html:
+	  - Added missing attribution in german about text.
+
+2010-04-13 02:25  Fritz Elfert <felfert@users.sf.net>
+
+	* [r525] opennx.pjd, po/de.po, po/opennx.pot, po/ru.po,
+	  res/opennx.xrc:
+	  - Added missing default value of radio button.
+
+2010-04-11 17:57  Fritz Elfert <felfert@users.sf.net>
+
+	* [r524] MySession.cpp:
+	  - Fixed clearSshKeys() on win32.
+
+2010-04-07 13:27  Fritz Elfert <felfert@users.sf.net>
+
+	* [r523] watchUsbIpApp.cpp:
+	  - Fixed device matching syntax
+
+2010-04-07 13:02  Fritz Elfert <felfert@users.sf.net>
+
+	* [r522] watchUsbIpApp.cpp:
+	  - Fixed device matching in watchusbip
+
+2010-04-02 14:50  Fritz Elfert <felfert@users.sf.net>
+
+	* [r521] LoginDialog.cpp, LoginDialog.h:
+	  - Use a timer instead of a separate thread for wtching nxssh
+
+2010-04-01 16:12  Fritz Elfert <felfert@users.sf.net>
+
+	* [r520] LoginDialog.cpp:
+	  - Disable watcher, if Login button is clicked
+
+2010-04-01 12:09  Fritz Elfert <felfert@users.sf.net>
+
+	* [r519] LoginDialog.cpp, LoginDialog.h, configure.ac, opennx.pjd,
+	  opennx.spec.in, po/de.po, po/opennx.pot, po/ru.po:
+	  - Implemented single session support
+
+2010-03-19 21:42  Fritz Elfert <felfert@users.sf.net>
+
+	* [r518] packaging/MacOSX/buildsmbclient:
+	  - Changed samba download URL, since http is currently
+	  broken.
+
+2010-03-19 17:00  Fritz Elfert <felfert@users.sf.net>
+
+	* [r517] packaging/MacOSX/buildnx:
+	  - Skip gcc44 patch if we have a new nxcomp
+
+2010-03-19 16:44  Fritz Elfert <felfert@users.sf.net>
+
+	* [r516] patches/nxcomp-autotools.patch:
+	  - Removed unnecessary changes in autotools patch
+
+2010-03-18 14:19  Fritz Elfert <felfert@users.sf.net>
+
+	* [r515] opennx.spec.in:
+	  - Fixe nxcomp version retrieval
+
+2010-03-15 12:51  Fritz Elfert <felfert@users.sf.net>
+
+	* [r514] opennx.spec.in, po/de.po, po/opennx.pot, po/ru.po:
+	  Don't use gcc4 patch for newer nxcomp
+	  po updates
+
+2010-03-08 00:57  Fritz Elfert <felfert@users.sf.net>
+
+	* [r513] po/de.po, po/opennx.pot, po/ru.po:
+	  - Updated translations for MacUninstall
+
+2010-03-08 00:33  Fritz Elfert <felfert@users.sf.net>
+
+	* [r512] po/de.po, po/opennx.pot, po/ru.po:
+	  - Updated translations
+
+2010-03-08 00:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r511] Makefile.am:
+	  - Fixed failing install of translations on Mac OSX
+
+2010-03-07 23:28  Fritz Elfert <felfert@users.sf.net>
+
+	* [r510] MacUninstallApp.cpp:
+	  - MacUninstall: report result to elevation wrapper
+
+2010-03-07 19:14  Fritz Elfert <felfert@users.sf.net>
+
+	* [r509] MacOSX.c, MacUninstallApp.cpp, MacUninstallApp.h,
+	  Makefile.am, configure.ac, mactestkbd.c,
+	  packaging/MacOSX/Makefile.am:
+	  - Set default protocol version to 3.3.0
+	  - Reworked Mac OSX uninstaller
+	  - Initial attempt of figuring out the keyboard
+	  layout on Mac OSX
+	  - Fixed missing install of translations on MacOSX
+
+2010-03-07 13:30  Fritz Elfert <felfert@users.sf.net>
+
+	* [r508] WrappedStatic.cpp, WrappedStatic.h:
+	  - Use label wrapper on OSX like on windows.
+
+2010-03-07 01:01  Fritz Elfert <felfert@users.sf.net>
+
+	* [r507] MySession.cpp, MyXmlConfig.cpp:
+	  - Fixed .Xauthority location detection.
+	  - Attempt to fix keyboard setup on MacOSX
+
+2010-03-06 17:52  Fritz Elfert <felfert@users.sf.net>
+
+	* [r506] ., LoginDialog.cpp, Makefile.am, MyWizard.cpp, MyWizard.h,
+	  MyWizard_symbols.h, SessionProperties.cpp, WrappedStatic.cpp,
+	  WrappedStatic.h, opennx.pjd, opennxApp.cpp, opennxApp.h,
+	  packaging/win32/Makefile.am, po/de.po, po/opennx.pot, po/ru.po,
+	  res/opennx.xrc:
+	  - If nxproxy is not available, force encryption
+	  enabled, because nxproxy is required for
+	  unencrypted sessions.
+	  - Get rid of ugly looking html widgets in
+	  Connection Wizard.
+	  - Strip selected dlls before generating installer
+	  for win32.
+
+2010-03-04 02:52  Fritz Elfert <felfert@users.sf.net>
+
+	* [r505] LoginDialog.cpp, SessionProperties.cpp:
+	  - Fixed bug in Desktop Icon Creation on Mac OSX
+
+2010-03-03 22:11  Fritz Elfert <felfert@users.sf.net>
+
+	* [r504] LoginDialog.cpp, MySession.cpp, po/de.po, po/opennx.pot,
+	  po/ru.po:
+	  - Fixed bad session parameter for Mac OSX
+
+2010-03-03 21:05  Fritz Elfert <felfert@users.sf.net>
+
+	* [r503] MySession.cpp:
+	  - Fixed bug #2962724, introduced in SVN Rel. #494 when
+	  "cygwinizing" all paths.
+
+2010-03-03 04:21  Fritz Elfert <felfert@users.sf.net>
+
+	* [r502] MySession.cpp, MySession.h, configure.ac, osdep.c,
+	  osdep.h, packaging/win32, packaging/win32/Makefile.am,
+	  packaging/win32/cygnx/Makefile.am,
+	  packaging/win32/isccwrap.sh.in, packaging/win32/nx/Makefile.am,
+	  packaging/win32/opennx.iss, packaging/win32/pulse/Makefile.am,
+	  packaging/win32/xming/Makefile.am, po/de.po, po/opennx.pot,
+	  po/ru.po:
+	  - Check for wget in configure and use result.
+	  - Terminate X on win32 when aborting a connection
+	  - Unhide NXWin programmatically if running fullscreen
+	  - Allow X server to go into foreground
+	  - Fixed packaging with redistributed NX binaries
+	  - Updated translations
+
+2010-03-01 08:10  Fritz Elfert <felfert@users.sf.net>
+
+	* [r501] MySession.cpp, SimpleXauth.cpp,
+	  packaging/win32/Makefile.am, packaging/win32/opennx.iss,
+	  packaging/win32/xming/Makefile.am,
+	  packaging/win32/xming/patches/xming-build-fontutils.patch,
+	  packaging/win32/xming/patches/xming-terminate.patch:
+	  - Removed debug print statements from SimpleXauth
+	  - Fixed environment setup for XAUTHORITY var
+	  - Added workaround for Xming shutdown
+	  - Added fonts in win32 installer
+
+2010-02-28 19:18  Fritz Elfert <felfert@users.sf.net>
+
+	* [r500] configure.ac, packaging/win32,
+	  packaging/win32/Makefile.am, packaging/win32/cygnx/Makefile.am,
+	  packaging/win32/isccwrap.sh.in, po/de.po, po/opennx.pot,
+	  po/ru.po:
+	  - Added wrapper for ISCC running in wine
+	  - Updated translations
+
+2010-02-28 17:40  Fritz Elfert <felfert@users.sf.net>
+
+	* [r499] configure.ac, packaging/win32/cygnx,
+	  packaging/win32/cygnx/Makefile.am, packaging/win32/cygnx/README,
+	  packaging/win32/cygnx/getnxsetup:
+	  - Automated fetch and extraction of Nomachine's
+	  nxclient for windows.
+
+2010-02-28 15:22  Fritz Elfert <felfert@users.sf.net>
+
+	* [r498] packaging/win32/cygnx:
+	  - Added some svn:ignore props
+
+2010-02-28 14:19  Fritz Elfert <felfert@users.sf.net>
+
+	* [r497] SessionAdmin.cpp, SimpleXauth.cpp:
+	  - Eliminated compiler wrnings
+
+2010-02-28 06:16  Fritz Elfert <felfert@users.sf.net>
+
+	* [r496] Makefile.am, po/de.po, po/opennx.pot, po/ru.po:
+	  - Fixed distcheck target
+	  - Updated translations
+
+2010-02-28 06:06  Fritz Elfert <felfert@users.sf.net>
+
+	* [r495] opennxApp.cpp, packaging/MacOSX/buildnx:
+	  - Eliminated a warning in opennxApp
+	  - Updated MacOS build of nx to libpng 1.2.43
+
+2010-02-28 05:36  Fritz Elfert <felfert@users.sf.net>
+
+	* [r494] LogDialog.cpp, Makefile.am, MySession.cpp, MySession.h,
+	  SessionAdmin.cpp, SimpleXauth.cpp, SimpleXauth.h, configure.ac,
+	  osdep.c, osdep.h, packaging/win32/xming/Makefile.am,
+	  packaging/win32/xming/patches/xming-mutex.patch, testxauth.cpp:
+	  - Replaced call external (nx)auth by our own
+	  simplified xauth implementation.
+	  - Optimized SUBDIRS: Only descend into
+	  platform-specific subdirs if necessary.
+	  - Use "cywinized" paths for invoking original
+	  NX binaries on win32
+	  - Eliminated a warning in osdep.c
+	  - Set correct font in LogDialog
+	  - Removed superfluous event Skip() in
+	  SessionAdmin
+
+2010-02-23 08:24  Fritz Elfert <felfert@users.sf.net>
+
+	* [r493] MySession.cpp, MyXmlConfig.cpp:
+	  - Move nookeyhook for NXWin to the end of params.
+
+2010-02-23 03:24  Fritz Elfert <felfert@users.sf.net>
+
+	* [r492] MyXmlConfig.cpp, packaging/win32/opennx.iss,
+	  packaging/win32/xming/Makefile.am,
+	  packaging/win32/xming/patches/xming-envbasedir.patch,
+	  packaging/win32/xming/patches/xming-optionhide.patch:
+	  - Implemented -hide option in Xming. Required only
+	  when using fullscreen mode.
+	  - Dynamically create font-dirs config file for Xming
+	  during setup.
+
+2010-02-21 02:47  Fritz Elfert <felfert@users.sf.net>
+
+	* [r491] opennxApp.cpp:
+	  - Fixed RemoveDesktopEntry and CheckDesktopEntry
+	  implementations for win32.
+
+2010-02-21 02:27  Fritz Elfert <felfert@users.sf.net>
+
+	* [r490] opennxApp.cpp:
+	  - Fixed icon check implementation for MacOSX
+
+2010-02-21 02:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r489] LoginDialog.cpp, SessionProperties.cpp,
+	  SessionProperties.h, SessionProperties_symbols.h, opennx.pjd,
+	  opennxApp.cpp, opennxApp.h, po/de.po, po/opennx.pot, po/ru.po,
+	  res/opennx.xrc:
+	  - Added a checkbox in Environment tab, allowing
+	  a desktop icon to be created/removed.
+	  - Updated translations
+
+2010-02-21 00:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r488] MySession.cpp, MyXmlConfig.cpp:
+	  - Correctly calculate the necessary geometry for
+	  the "available" display size option.
+
+2010-02-20 23:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r487] configure.ac:
+	  - Fixed detection of socklen_t on MacOSX
+
+2010-02-20 20:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r486] Makefile.am, MySession.cpp, MySession.h, MyXmlConfig.cpp,
+	  MyXmlConfig.h, configure.ac, packaging/win32/Makefile.am,
+	  packaging/win32/cygnx, packaging/win32/cygnx/Makefile.am,
+	  packaging/win32/cygnx/README, packaging/win32/opennx.iss,
+	  packaging/win32/xming/Makefile.am,
+	  packaging/win32/xming/patches/xming-build-nls.patch,
+	  packaging/win32/xming/patches/xming-envbasedir.patch, po/de.po,
+	  po/opennx.pot, po/ru.po:
+	  - Fixed Xming build (locale stuff was not built)
+	  - Added ability to set Xming's base directory using
+	  an environment variable.
+	  - Moved all Xming related files into {app}/share/Xming
+	  - Detect at runtime, if we should use Xming or NXWin
+	  - Handle various aspects of calling Xming vs. NXWin in
+	  the session.
+
+2010-02-20 20:41  Fritz Elfert <felfert@users.sf.net>
+
+	* [r485] opennxApp.cpp:
+	  - Elimininated a compiler warning on win32
+
+2010-02-20 20:33  Fritz Elfert <felfert@users.sf.net>
+
+	* [r484] DebugStringGrabber.cpp:
+	  - Eliminated a compiler warning
+
+2010-02-20 20:32  Fritz Elfert <felfert@users.sf.net>
+
+	* [r483] osdep.c, osdep.h:
+	  - Added CreateDetachedProcess for launching a
+	  program on win32 without showing its console
+	  window.
+	  - Added keyboard layout detection for win32
+
+2010-02-20 20:19  Fritz Elfert <felfert@users.sf.net>
+
+	* [r482] pconnect.c:
+	  - Eliminated various warnings
+
+2010-02-11 17:58  Fritz Elfert <felfert@users.sf.net>
+
+	* [r481] packaging/MacOSX/Makefile.am:
+	  - Remove dmgroot after creating the image
+
+2010-02-10 17:36  Fritz Elfert <felfert@users.sf.net>
+
+	* [r480] opennxApp.cpp:
+	  - Added display option in wxCmdLine tweaks
+
+2010-02-10 03:02  Fritz Elfert <felfert@users.sf.net>
+
+	* [r479] packaging/MacOSX/mkdmg:
+	  - More verbose DMG creation.
+
+2010-02-10 00:26  Fritz Elfert <felfert@users.sf.net>
+
+	* [r478] po/de.po, po/opennx.pot, po/ru.po:
+	  - Updated translations
+
+2010-02-10 00:21  Fritz Elfert <felfert@users.sf.net>
+
+	* [r477] opennxApp.cpp:
+	  - Fix for patch #2947960
+
+2010-02-10 00:06  Fritz Elfert <felfert@users.sf.net>
+
+	* [r476] LoginDialog_symbols.h, ProxyPasswordDialog_symbols.h,
+	  ResumeDialog.cpp, ResumeDialog_symbols.h,
+	  VncPropertyDialog_symbols.h, opennx.pjd, po/de.po, po/opennx.pot,
+	  po/ru.po, res/opennx.xrc:
+	  - Various fixes in button labels
+
+2010-02-08 03:01  Fritz Elfert <felfert@users.sf.net>
+
+	* [r475] ConnectDialog_symbols.h, opennx.pjd, res/opennx.xrc:
+	  - Don't resize logo in status dialog as well
+
+2010-02-08 02:57  Fritz Elfert <felfert@users.sf.net>
+
+	* [r474] opennx.pjd, res/opennx.xrc:
+	  - Prevent logo from being resized
+
+2010-02-08 02:20  Fritz Elfert <felfert@users.sf.net>
+
+	* [r473] LoginDialog.cpp, LoginDialog.h, opennx.pjd,
+	  res/opennx.xrc:
+	  - Set logo image to default size
+
+2010-02-08 02:03  Fritz Elfert <felfert@users.sf.net>
+
+	* [r472] LoginDialog.cpp, LoginDialog.h, LoginDialog_symbols.h,
+	  opennx.pjd:
+	  - Add a member var for the logo
+
+2010-02-08 01:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r471] configure.ac:
+	  - Fixe autoreconf failure
+
+2010-02-08 01:46  Fritz Elfert <felfert@users.sf.net>
+
+	* [r470] Makefile.am, MyXmlConfig.cpp, ShareProperties.cpp,
+	  ShareProperties.h, ShareProperties_symbols.h,
+	  UnixImageSettingsDialog.cpp, configure.ac, opennx.pjd, po/de.po,
+	  po/opennx.pot, po/ru.po:
+	  - Start merging various changes from Boris
+
+2010-02-07 22:36  Fritz Elfert <felfert@users.sf.net>
+
+	* [r469] KeyDialog.cpp, SessionProperties.cpp:
+	  - Applied patch 2947084 (deprecated wxOPEN)
+
+2010-02-07 22:02  Fritz Elfert <felfert@users.sf.net>
+
+	* [r468] m4, packaging/MacOSX:
+	  - Updated svn:ignore attribs
+
+2010-02-07 21:39  Fritz Elfert <felfert@users.sf.net>
+
+	* [r467] configure.ac:
+	  - Back-compatible way of enabling silent rules.
+
+2010-02-07 21:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r466] m4/rcversion.m4:
+	  - More generic approach of echoing without LF
+
+2010-02-07 21:37  Fritz Elfert <felfert@users.sf.net>
+
+	* [r465] packaging/MacOSX/Makefile.am,
+	  packaging/MacOSX/buildsmbclient:
+	  - Build fixes for Mac OSX
+
+2010-02-07 15:37  Fritz Elfert <felfert@users.sf.net>
+
+	* [r464] configure.ac:
+	  - Added check for wxLogStream
+
+2010-02-07 14:14  Fritz Elfert <felfert@users.sf.net>
+
+	* [r463] Makefile.am, conf/authors.xml, debian/mkchangelog.pl:
+	  - Generate Changelog with correct committer's name
+
+2010-02-07 13:34  Fritz Elfert <felfert@users.sf.net>
+
+	* [r462] Makefile.am, configure.ac, packaging/MacOSX/buildnx,
+	  patches/nxcomp-autotools.patch, patches/nxcomp-noconst.patch,
+	  patches/nxcompsh-autotools.patch, patches/nxesd-autotools.patch,
+	  patches/nxproxy-autotools.patch,
+	  patches/nxservice-autotools.patch:
+	  - Build fixes for MacOS
+
+2010-02-06 02:10  Fritz Elfert <felfert@users.sf.net>
+
+	* [r461] opennx.spec.in:
+	  - Fixed a conditional in spec
+
+2010-02-06 02:02  Fritz Elfert <felfert@users.sf.net>
+
+	* [r460] opennx.spec.in:
+	  - Trying to fixe multi-distro issues
+
+2010-02-06 01:28  Fritz Elfert <felfert@users.sf.net>
+
+	* [r459] po/de.po, po/opennx.pot, po/ru.po:
+	  - Updated translations
+
+2010-02-06 01:24  Fritz Elfert <felfert@users.sf.net>
+
+	* [r458] opennx.spec.in:
+	  - Added support for Mandriva
+
+2010-02-04 22:02  Fritz Elfert <felfert@users.sf.net>
+
+	* [r457] bin2hdr.cpp:
+	  - Fixed buffer overflow in resource initialization. Thanks to
+	  Fabrice Delbary.
+
+2010-01-31 05:12  Fritz Elfert <felfert@users.sf.net>
+
+	* [r456] opennx.spec.in:
+	  - Fixed nxcomp version number
+
+2010-01-30 03:26  Fritz Elfert <felfert@users.sf.net>
+
+	* [r455] MySession.cpp, MySession.h, ProxyPasswordDialog.cpp,
+	  configure.ac, pconnect.c:
+	  - Made NX protocol version configurable at runtime
+	  - Eleminated several warnings
+
+2010-01-29 12:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r454] MySession.cpp, opennxApp.cpp:
+	  - Added FreeBSD conditonal
+	  - Eliminated some warnings
+
+2010-01-29 11:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r453] configure.ac, osdep.c, pconnect.c:
+	  - Cleaned up code in pconnect.
+
+2010-01-28 15:27  Fritz Elfert <felfert@users.sf.net>
+
+	* [r452] po/de.po, po/opennx.pot, po/ru.po:
+	  - Updated translations
+
+2010-01-27 12:24  Fritz Elfert <felfert@users.sf.net>
+
+	* [r451] AsyncProcess.cpp, LibOpenSC.cpp, LibUSB.cpp, LogNull.h,
+	  LoginDialog.cpp, Makefile.am, MyDynlib.cpp, MyIPC.cpp,
+	  MySession.cpp, MyWizard.cpp, MyXmlConfig.cpp, SessionAdmin.cpp,
+	  SessionList.cpp, SessionProperties.cpp, ShareProperties.cpp,
+	  TextViewer.cpp, UsbIp.cpp, WinShare.cpp, configure.ac, mylog.cpp,
+	  mylog.h, opennxApp.cpp, pwcrypt.cpp, trace.h, tracelogApp.cpp,
+	  watchReaderApp.cpp, watchUsbIpApp.cpp:
+	  - Reworked logging again
+	  We now use our own degug/trace logging, because
+	  braindead Fedora refuses to provide wxWidgets debug libs.
+
+2010-01-24 22:47  Fritz Elfert <felfert@users.sf.net>
+
+	* [r450] Makefile.am, po/POTFILES.in, po/de.po, po/opennx.pot,
+	  po/ru.po:
+	  - Added missing translations.
+
+2010-01-24 21:43  Fritz Elfert <felfert@users.sf.net>
+
+	* [r449] Makefile.am, MySession.cpp, MyXmlConfig.cpp,
+	  MyXmlConfig.h, ProxyPasswordDialog.cpp, ProxyPasswordDialog.h,
+	  ProxyPasswordDialog_symbols.h, SessionProperties.cpp,
+	  SessionProperties.h, SessionProperties_symbols.h, opennx.pjd,
+	  opennxApp.cpp, packaging/win32/nx/patches/nxcomp-win32.patch,
+	  res/opennx.xrc, res/proxypass.png:
+	  - Added GUI elements, config settings and session handling
+	  for HTTP proxy authentication. Fixes: #2879661
+
+2010-01-24 14:32  Fritz Elfert <felfert@users.sf.net>
+
+	* [r448] po/de.po, po/opennx.pot, po/ru.po:
+	  - Update po files
+
+2010-01-24 14:20  Fritz Elfert <felfert@users.sf.net>
+
+	* [r447] Makefile.am, opennxApp.cpp, osdep.c, osdep.h, po/LINGUAS,
+	  po/ru.po, res/about.html, watchReaderApp.cpp, watchUsbIpApp.cpp:
+	  - Added russian translation - Thanks to Boris Savelev
+	  - Only use KDE-specific environment, if actually running inside
+	  a KDE session.
+
+2010-01-15 10:19  Fritz Elfert <felfert@users.sf.net>
+
+	* [r446] opennxApp.cpp:
+	  - Fixed a typo
+
+2010-01-14 13:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r445] po/de.po, po/opennx.pot, watchUsbIpApp.cpp:
+	  - Retry after a delay, if a hotplug event was received and
+	  the corresponding device has not yet shown up in libusb.
+
+2009-10-11 17:10  Fritz Elfert <felfert@users.sf.net>
+
+	* [r444] MySession.cpp:
+	  - Applied fixes for cups startup from Boris Savelev
+	  <bsavelev@users.sf.net>
+
+2009-10-11 15:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r443] MyXmlConfig.cpp:
+	  - Bugfix: SSL encryption flag was not stored in session config.
+
+2009-10-10 16:48  Fritz Elfert <felfert@users.sf.net>
+
+	* [r442] packaging/win32/nx/libpng.md5sum:
+	  - win32: Fixed md5sum of libpng
+
+2009-10-10 14:23  Fritz Elfert <felfert@users.sf.net>
+
+	* [r441] Makefile.am, debian/rules:
+	  - Debian: re-added nxproxy
+
+2009-10-10 13:30  Fritz Elfert <felfert@users.sf.net>
+
+	* [r440] opennx.spec.in:
+	  - RPM: re-added nxproxy
+
+2009-10-10 12:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r439] packaging/MacOSX/buildnx:
+	  - MacOSX: re-added nxproxy
+
+2009-10-10 12:07  Fritz Elfert <felfert@users.sf.net>
+
+	* [r438] packaging/win32/nx:
+	  - Updated svn:ignore attribute
+
+2009-10-10 12:06  Fritz Elfert <felfert@users.sf.net>
+
+	* [r437] packaging/win32/nx/nxproxy.md5sum,
+	  packaging/win32/nx/patches/nxproxy-win32.patch:
+	  - win32: Added patch and md5sum for nxproxy
+
+2009-10-10 12:05  Fritz Elfert <felfert@users.sf.net>
+
+	* [r436] packaging/win32/Makefile.am,
+	  packaging/win32/nx/Makefile.am:
+	  - win32: Added nxproxy
+
+2009-10-07 02:08  Fritz Elfert <felfert@users.sf.net>
+
+	* [r435] packaging/win32/nx:
+	  - Updated svn:ignore attribute
+
+2009-10-07 02:00  Fritz Elfert <felfert@users.sf.net>
+
+	* [r434] packaging/win32/nx/Makefile.am,
+	  packaging/win32/nx/nxcomp.md5sum,
+	  packaging/win32/nx/nxesd.md5sum,
+	  packaging/win32/nx/patches/nxcomp-win32.patch,
+	  packaging/win32/nx/urls.txt:
+	  - win32: Updated to NX 3.4
+
+2009-10-06 16:57  Fritz Elfert <felfert@users.sf.net>
+
+	* [r433] packaging/MacOSX/buildsmbclient,
+	  patches/nxcomp-autotools.patch:
+	  - MacOSX: Update to new NX and Samba
+
+2009-10-05 09:54  Fritz Elfert <felfert@users.sf.net>
+
+	* [r432] opennx.spec.in, po/de.po, po/opennx.pot:
+	  - RPM: Update to NX 3.4
+
+2009-09-30 02:05  Fritz Elfert <felfert@users.sf.net>
+
+	* [r431] configure.ac:
+	  - Added configure options for InnoSetup compiler (win32 target)
+
+2009-09-30 02:03  Fritz Elfert <felfert@users.sf.net>
+
+	* [r430] packaging/win32, packaging/win32/nx,
+	  packaging/win32/nx/Makefile.am:
+	  - Update svn:ignore attrs.
+	  - Fixed mingw clean target
+
+2009-09-30 01:58  Fritz Elfert <felfert@users.sf.net>
+
+	* [r429] packaging/win32/Makefile.am, packaging/win32/lgpl.rtf,
+	  packaging/win32/nx/Makefile.am, packaging/win32/nx/jpeg.md5sum,
+	  packaging/win32/nx/libpng.md5sum,
+	  packaging/win32/nx/patches/jpeg-ming32.patch,
+	  packaging/win32/nx/patches/nxcomp-win32.patch,
+	  packaging/win32/nx/urls.txt, packaging/win32/opennx.iss,
+	  packaging/win32/version.iss:
+	  - MinGW: provide our own libpng and libjpeg for nxcomp
+
+2009-09-27 01:12  Fritz Elfert <felfert@users.sf.net>
+
+	* [r428] packaging/win32/nx/Makefile.am:
+	  - MinGW: Build libaudiofile statically only.
+
+2009-09-24 02:44  Fritz Elfert <felfert@users.sf.net>
+
+	* [r427] SessionAdmin.cpp:
+	  - Fixed #2865041. Thanks to bsavelev@users.sf.net
+
+2009-09-24 02:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r426] Makefile.am:
+	  - Fixed lintian call
+
+2009-09-24 01:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r425] Makefile.am, debian/mkchangelog.pl, debian/rules:
+	  - Added missing user mapping
+
+2009-09-23 17:52  Fritz Elfert <felfert@users.sf.net>
+
+	* [r424] debian/mkchangelog.pl:
+	  - Fixed generation of debian/changelog
+
+2009-09-23 16:54  Fritz Elfert <felfert@users.sf.net>
+
+	* [r423] Makefile.am, debian/changelog, debian/mkchangelog.pl,
+	  debian/rules:
+	  - Debian: Fetch and unpack nx sources outside of
+	  dpkg-buildpackage
+	  Debian: Generate debian/changelog from SVN log
+
+2009-09-23 01:20  Fritz Elfert <felfert@users.sf.net>
+
+	* [r422] ., packaging/win32/nx:
+	  - Added misc svn:ignore props.
+
+2009-09-23 01:12  Fritz Elfert <felfert@users.sf.net>
+
+	* [r421] opennx.pjd, packaging/win32/Makefile.am,
+	  packaging/win32/nx/Makefile.am, po/de.po, po/opennx.pot,
+	  res/nx-desktop.png, res/nx.png, res/opennx-admin.png,
+	  res/opennx-wizard.png, res/opennx.xrc, res/session_new_16.png:
+	  - Updated some icons
+	  - Fixed win32 subdirs im packaging
+
+2009-09-21 15:39  Fritz Elfert <felfert@users.sf.net>
+
+	* [r420] Makefile.am, configure.ac, opennxApp.cpp,
+	  packaging/MacOSX/buildopensc, watchReaderApp.cpp:
+	  - MacOSX: Removed self-built libopensc from package,
+	  as of sca-0.2.7 the bugs in sca have been fixed.
+	  - MacOSX: Added -lresolv to pconnect
+
+2009-09-21 01:54  Fritz Elfert <felfert@users.sf.net>
+
+	* [r419] Makefile.am, configure.ac, packaging/win32/Makefile.am,
+	  packaging/win32/nx, packaging/win32/nx/Makefile.am,
+	  packaging/win32/nx/audiofile.md5sum,
+	  packaging/win32/nx/nxcomp.md5sum,
+	  packaging/win32/nx/nxesd.md5sum, packaging/win32/nx/patches,
+	  packaging/win32/nx/patches/nxcomp-win32.patch,
+	  packaging/win32/nx/patches/nxesd-win32.patch,
+	  packaging/win32/nx/urls.txt, pconnect.c:
+	  - Start building NX stuff on mingw
+
+2009-09-19 04:46  Fritz Elfert <felfert@users.sf.net>
+
+	* [r418] res/about.html, res/de_about.html:
+	  - Updated credits
+	  - Added translation of about.
+
+2009-09-19 00:56  Fritz Elfert <felfert@users.sf.net>
+
+	* [r417] configure.ac:
+	  - Use silent rules
+	  - Removed check for malloc, because it triggers unnecessary
+	  dependencies
+	  on win32
+
+2009-09-16 16:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r416] opennx.pjd, res/opennx.xrc:
+	  - Fixed size of graphic in ConnectDialog
+
+2009-09-14 14:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r415] packaging/MacOSX/pkgResources/License.html:
+	  - MacOSX: consmetic changes (css) to License.html of installer.
+
+2009-09-14 13:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r414] debian/postinst, debian/prerm:
+	  - Debian: Fixed a lib destination in pre/post scripts
+
+2009-09-14 13:26  Fritz Elfert <felfert@users.sf.net>
+
+	* [r413] debian/control, debian/postinst, debian/prerm,
+	  debian/rules, debian/triggers:
+	  - Debian: Adapted to xdg-tools
+
+2009-09-14 10:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r412] opennx.spec.in, po/de.po:
+	  - RPM: removed nxproxy
+	  - Updated translations
+
+2009-09-13 16:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r411] m4/rcversion.m4, packaging/MacOSX/Makefile.am:
+	  - MacOSX: Use full version number in dmg name
+
+2009-09-13 16:02  Fritz Elfert <felfert@users.sf.net>
+
+	* [r410] m4/flags.m4, m4/rcversion.m4, m4/svnrev.m4:
+	  - Set mime-type and eol-style attributes on m4 files
+
+2009-09-13 09:51  Fritz Elfert <felfert@users.sf.net>
+
+	* [r409] packaging/MacOSX/pkgResources/License.html, po/de.po:
+	  - Updated translations
+
+2009-09-13 08:48  Fritz Elfert <felfert@users.sf.net>
+
+	* [r408] po/de.po, po/opennx.pot:
+	  - Updated translations
+
+2009-09-13 07:29  Fritz Elfert <felfert@users.sf.net>
+
+	* [r407] po/de.po:
+	  - Updated translations.
+
+2009-09-13 07:03  Fritz Elfert <felfert@users.sf.net>
+
+	* [r406] packaging/MacOSX/OpenNXAdmin.de.infoplist,
+	  packaging/MacOSX/OpenNXWizard.de.infoplist,
+	  packaging/MacOSX/macuninstall.de.infoplist,
+	  packaging/MacOSX/mkbundle, packaging/MacOSX/opennx.plist.in:
+	  - MacOSX: Localized application names
+
+2009-09-13 01:05  Fritz Elfert <felfert@users.sf.net>
+
+	* [r405] ., packaging/MacOSX/Makefile.am,
+	  packaging/MacOSX/opennx-uninstall,
+	  packaging/MacOSX/rootwrapper.script:
+	  - MacOSX: Removed old uninstall scripts
+
+2009-09-13 00:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r404] packaging/MacOSX/buildnx:
+	  - MacOSX: Removed nxproxy - not needed.
+
+2009-09-13 00:18  Fritz Elfert <felfert@users.sf.net>
+
+	* [r403] MacUninstallApp.cpp, MacUninstallApp.h:
+	  - MacOSX: Improved error handling of uninstaller.
+
+2009-09-12 20:07  Fritz Elfert <felfert@users.sf.net>
+
+	* [r402] MacUninstallApp.cpp, MacUninstallApp.h, Makefile.am,
+	  packaging/MacOSX/Makefile.am, packaging/MacOSX/buildsmbclient,
+	  po/de.po, po/opennx.pot:
+	  - MacOSX: Finished uninstaller
+
+2009-09-12 02:26  Fritz Elfert <felfert@users.sf.net>
+
+	* [r401] MacUninstallApp.cpp, MacUninstallApp.h,
+	  packaging/MacOSX/Makefile.am:
+	  - MacOSX: More work on uninstaller.
+
+2009-09-11 22:28  Fritz Elfert <felfert@users.sf.net>
+
+	* [r400] MacUninstallApp.cpp, MacUninstallApp.h, Makefile.am,
+	  configure.ac, extres/opennx-uninstall.icns,
+	  packaging/MacOSX/mkbundle, packaging/MacOSX/uninstall.icns,
+	  po/POTFILES.in, po/de.po, po/opennx.pot:
+	  - MacOSX: Added uninstaller
+	  - Updated translations
+
+2009-09-09 19:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r399] LogDialog.cpp, MySession.cpp, MySession.h,
+	  SessionAdmin.cpp, SessionAdmin.h, SessionList.cpp, SessionList.h,
+	  configure.ac, opennx.spec.in, po/de.po, po/opennx.pot:
+	  - Reworked SessionAdmin
+	  - Added missing translations
+	  - Added missing configure checks
+	  - Added missing font setup in LogDialog
+
+2009-09-09 03:24  Fritz Elfert <felfert@users.sf.net>
+
+	* [r398] packaging/MacOSX/opennx-uninstall:
+	  - MacOS: delay uninstall script until script wrapper
+	  has terminated.
+
+2009-09-09 03:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r397] packaging/MacOSX/buildnx:
+	  - Removed nxcompsh and nxservice from build scripts
+
+2009-09-09 03:11  Fritz Elfert <felfert@users.sf.net>
+
+	* [r396] MyIPC.cpp, MyIPC.h, MySession.cpp, MySession.h,
+	  opennxApp.cpp, osdep.c, osdep.h, packaging/MacOSX/Makefile.am:
+	  - Changed startup handling of nxesd: Now, we don't
+	  use nxservice anymore as it was a permanent source
+	  of problems on MacOS. This has also the advantage,
+	  that we can get rid of both nxservice and libXcompsh.
+
+2009-09-08 17:39  Fritz Elfert <felfert@users.sf.net>
+
+	* [r395] osdep.c:
+	  - Got rid of hack for evaluating X11 socket path
+
+2009-09-08 13:29  Fritz Elfert <felfert@users.sf.net>
+
+	* [r394] packaging/MacOSX/rootwrapper.script,
+	  packaging/MacOSX/uninstall.icns:
+	  - MacOS: Added an uninstaller
+
+2009-09-08 13:27  Fritz Elfert <felfert@users.sf.net>
+
+	* [r393] osdep.c, packaging/MacOSX/Makefile.am:
+	  - MacOS: Fixed bug in startup of quartz-wm
+
+2009-09-07 21:07  Fritz Elfert <felfert@users.sf.net>
+
+	* [r392] SessionProperties.cpp, SessionProperties.h, opennx.pjd,
+	  po/de.po, po/opennx.pot, res/opennx.xrc:
+	  - Save/Restore font settings
+	  - Fixed positioning of font buttons
+	  - Updated translations
+
+2009-09-07 18:11  Fritz Elfert <felfert@users.sf.net>
+
+	* [r391] packaging/MacOSX/buildnx:
+	  - MacOSX: Build and include libaudiofile in package.
+
+2009-09-07 00:13  Fritz Elfert <felfert@users.sf.net>
+
+	* [r390] Makefile.am, debian/dirs, debian/rules, extres/xdg,
+	  extres/xdg/innovidata-opennx-admin.desktop,
+	  extres/xdg/innovidata-opennx-wizard.desktop,
+	  extres/xdg/innovidata-opennx.desktop,
+	  extres/xdg/innovidata-opennx.directory, opennx.spec.in,
+	  opennxApp.cpp, share/applnk, watchReaderApp.cpp:
+	  - Fixed automatic detection od desktop language on KDE
+	  - Reorganized icons and menu-links
+
+2009-09-06 15:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r389] extres/128x128/apps/nx-desktop.png,
+	  extres/128x128/mimetypes,
+	  extres/128x128/mimetypes/nx-desktop.png,
+	  extres/16x16/apps/nx-desktop.png, extres/16x16/mimetypes,
+	  extres/16x16/mimetypes/nx-desktop.png,
+	  extres/256x256/apps/nx-desktop.png, extres/256x256/mimetypes,
+	  extres/256x256/mimetypes/nx-desktop.png,
+	  extres/32x32/apps/nx-desktop.png, extres/32x32/mimetypes,
+	  extres/32x32/mimetypes/nx-desktop.png,
+	  extres/48x48/apps/nx-desktop.png, extres/48x48/mimetypes,
+	  extres/48x48/mimetypes/nx-desktop.png,
+	  extres/512x512/apps/nx-desktop.png, extres/512x512/mimetypes,
+	  extres/512x512/mimetypes/nx-desktop.png, extres/scalable/apps,
+	  extres/scalable/apps/nx.svg,
+	  extres/scalable/apps/opennx-admin.svg,
+	  extres/scalable/apps/opennx-wizard.svg,
+	  extres/scalable/mimetypes,
+	  extres/scalable/mimetypes/nx-desktop.svg,
+	  extres/scalable/nx-desktop.svg, extres/scalable/nx.svg,
+	  extres/scalable/opennx-admin.svg,
+	  extres/scalable/opennx-wizard.svg:
+	  - Reorganized icons by context
+
+2009-09-06 12:21  Fritz Elfert <felfert@users.sf.net>
+
+	* [r388] opennx.spec.in:
+	  - Only create udev-related stuff, if we build with usbip support.
+
+2009-09-06 12:02  Fritz Elfert <felfert@users.sf.net>
+
+	* [r387] TraceLogFrame.h, trace.h, tracelogApp.h:
+	  - Added missing file headers
+
+2009-09-06 11:59  Fritz Elfert <felfert@users.sf.net>
+
+	* [r386] TraceLogFrame.cpp, tracelogApp.cpp:
+	  - Added missing file headers
+
+2009-09-06 11:34  Fritz Elfert <felfert@users.sf.net>
+
+	* [r385] debian/control:
+	  - Debian: Recommend libopensc2, as it no longer is a hard
+	  dependency.
+
+2009-09-06 07:28  Fritz Elfert <felfert@users.sf.net>
+
+	* [r384] Makefile.am, configure.ac, packaging/MacOSX/Makefile.am,
+	  packaging/MacOSX/OpenSC.webloc, packaging/MacOSX/buildnx,
+	  packaging/MacOSX/mkbundle, packaging/MacOSX/opennx-uninstall,
+	  packaging/MacOSX/pkgResources/InstallationCheck:
+	  - MacOSX: Don't depend on OpenSC anymore (provides own libopensc)
+	  - MacOSX: Updated packaging to new icon locations
+
+2009-09-06 05:33  Fritz Elfert <felfert@users.sf.net>
+
+	* [r383] extres/128x128, extres/128x128/apps,
+	  extres/128x128/apps/nx-desktop.png, extres/128x128/apps/nx.png,
+	  extres/128x128/apps/opennx-admin.png,
+	  extres/128x128/apps/opennx-wizard.png, extres/16x16,
+	  extres/16x16/apps, extres/16x16/apps/nx-desktop.png,
+	  extres/16x16/apps/nx.png, extres/16x16/apps/opennx-admin.png,
+	  extres/16x16/apps/opennx-wizard.png, extres/256x256,
+	  extres/256x256/apps, extres/256x256/apps/nx-desktop.png,
+	  extres/256x256/apps/nx.png, extres/256x256/apps/opennx-admin.png,
+	  extres/256x256/apps/opennx-wizard.png, extres/32x32,
+	  extres/32x32/apps, extres/32x32/apps/nx-desktop.png,
+	  extres/32x32/apps/nx.png, extres/32x32/apps/opennx-admin.png,
+	  extres/32x32/apps/opennx-wizard.png, extres/48x48,
+	  extres/48x48/apps, extres/48x48/apps/nx-desktop.png,
+	  extres/48x48/apps/nx.png, extres/48x48/apps/opennx-admin.png,
+	  extres/48x48/apps/opennx-wizard.png, extres/512x512,
+	  extres/512x512/apps, extres/512x512/apps/nx-desktop.png,
+	  extres/512x512/apps/nx.png, extres/512x512/apps/opennx-admin.png,
+	  extres/512x512/apps/opennx-wizard.png, extres/opennx-wizard.icns,
+	  extres/opennx-wizard.ico, extres/scalable, extres/svg:
+	  - Reorganized icons
+
+2009-09-06 04:29  Fritz Elfert <felfert@users.sf.net>
+
+	* [r382] packaging/MacOSX/folderbg.jpg:
+	  - MacOS: Updated folder backround of dmg.
+
+2009-09-05 04:40  Fritz Elfert <felfert@users.sf.net>
+
+	* [r381] debian/postinst, debian/rules:
+	  - Debian: Use new patch for nxssh.
+
+2009-09-05 03:46  Fritz Elfert <felfert@users.sf.net>
+
+	* [r380] Makefile.am, configure.ac, extres, extres/nx-desktop.icns,
+	  extres/nx-desktop.ico, extres/nx.icns, extres/nx.ico,
+	  extres/opennx-admin.icns, extres/opennx-admin.ico,
+	  extres/opennx-wizard.icns, extres/opennx-wizard.ico, extres/svg,
+	  extres/svg/nx-desktop.svg, extres/svg/nx.svg,
+	  extres/svg/opennx-admin.svg, extres/svg/opennx-wizard.svg,
+	  opennx.spec.in, packaging/MacOSX/Makefile.am,
+	  packaging/MacOSX/buildnx, packaging/win32/findrequires.pl.in,
+	  patches/nxssh-dynopensc.patch, res/lgpl.rtf, res/lgpl.txt,
+	  res/nx-desktop.icns, res/nx-desktop.ico, res/nx.icns, res/nx.ico,
+	  res/opennx-admin.icns, res/opennx-admin.ico,
+	  res/opennx-wizard.icns, res/opennx-wizard.ico, res/opennx.rc.in:
+	  - Implemented dynamic loading of libopensc in nxssh.
+	  - Started reorganizing icons.
+	  - Fixed dependency-check-script for win32
+
+2009-09-04 00:03  Fritz Elfert <felfert@users.sf.net>
+
+	* [r379] SessionAdmin.cpp:
+	  - Fixed activation/deactivation of actions in
+	  SessionAdministrator.
+
+2009-09-03 23:51  Fritz Elfert <felfert@users.sf.net>
+
+	* [r378] MyXmlConfig.cpp:
+	  - Fixed screen geometry handling when using "available" or
+	  "fullscreen" sessions.
+
+2009-09-02 17:09  Fritz Elfert <felfert@users.sf.net>
+
+	* [r377] MyWizard_symbols.h, opennx.pjd, po/de.po, po/opennx.pot,
+	  res/opennx.xrc:
+	  - Updated to DialoGBlocks 4.34 which fixes several translations.
+
+2009-09-01 23:34  Fritz Elfert <felfert@users.sf.net>
+
+	* [r376] MyWizard.cpp, MyWizard.h, VncImageSettingsDialog.cpp,
+	  VncImageSettingsDialog_symbols.h, opennx.pjd, res/opennx.xrc:
+	  - Renumbered widget IDs of Connection Wizard
+
+2009-09-01 23:23  Fritz Elfert <felfert@users.sf.net>
+
+	* [r375] osdep.c:
+	  - MacOS try different locations of quartz-wm
+
+2009-09-01 23:17  Fritz Elfert <felfert@users.sf.net>
+
+	* [r374] SessionProperties.cpp:
+	  - Fixed inresposive display-size combobox when selecting RDP
+
+2009-09-01 02:00  Fritz Elfert <felfert@users.sf.net>
+
+	* [r373] Makefile.am, po/de.po, po/opennx.pot:
+	  - Debian packaging: Explicitely disable signing
+	  - Updated translations
+
+2009-08-31 21:01  Fritz Elfert <felfert@users.sf.net>
+
+	* [r372] Makefile.am, debian/postinst, debian/prerm, opennxApp.cpp:
+	  - Debian packaging fixes (Call lintian correctly)
+	  - Debian packaging (Create group "opennx")
+	  - Fix for KDE4: Desktop-Entries have to be executable
+
+2009-08-30 04:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r371] debian/control, po/de.po, po/opennx.pot:
+	  - Debian: Recommend cups in order to provide a working print
+	  environment
+	  - Updated translations.
+
+2009-08-30 03:27  Fritz Elfert <felfert@users.sf.net>
+
+	* [r370] debian/control, opennxApp.cpp:
+	  - Fixed initial setting of system NX path.
+
+2009-08-23 20:30  Achim Derigs <aderigs@users.sf.net>
+
+	* [r369] debian/changelog, debian/rules:
+	  * Installs desktop menu entries.
+
+2009-08-18 21:50  Fritz Elfert <felfert@users.sf.net>
+
+	* [r368] packaging/win32/pulse/patches/liboil-win32.patch:
+	  - Fixed win32 build of liboil
+
+2009-08-18 05:10  Achim Derigs <aderigs@users.sf.net>
+
+	* [r367] debian/changelog, debian/postinst, debian/prerm,
+	  debian/rules, debian/triggers:
+	  * Triggers link to /usr/lib/libsmbclient.so.*
+
+2009-08-17 06:59  Achim Derigs <aderigs@users.sf.net>
+
+	* [r366] Makefile.am, debian/changelog, debian/control:
+	  * Depends on `libcups2' and `libopensc2' implicitly.
+
+2009-08-15 22:37  Fritz Elfert <felfert@users.sf.net>
+
+	* [r365] packaging/win32/pulse/Makefile.am:
+	  - Provide a dummy pkg-config for pulseaudio on native MinGW
+
+2009-08-15 20:07  Fritz Elfert <felfert@users.sf.net>
+
+	* [r364] packaging/win32/Makefile.am, packaging/win32/pulse,
+	  packaging/win32/pulse/Makefile.am:
+	  - Ignore generated files ins SVN.
+	  - More integration of pulse in win32 build.
+
+2009-08-15 17:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r363] po/de.po, po/opennx.pot:
+	  - Updated translations
+
+2009-08-15 17:27  Fritz Elfert <felfert@users.sf.net>
+
+	* [r362] configure.ac, packaging/win32/pulse/Makefile.am:
+	  - Integrated pulseaudio into win32 build.
+
+2009-08-15 17:14  Fritz Elfert <felfert@users.sf.net>
+
+	* [r361] configure.ac, packaging/win32/Makefile.am,
+	  packaging/win32/pulse, packaging/win32/pulse/Makefile.am,
+	  packaging/win32/pulse/libatomic_ops.md5sum,
+	  packaging/win32/pulse/liboil.md5sum,
+	  packaging/win32/pulse/libsamplerate.md5sum,
+	  packaging/win32/pulse/libsndfile.md5sum,
+	  packaging/win32/pulse/patches,
+	  packaging/win32/pulse/patches/pulseaudio-win32.patch,
+	  packaging/win32/pulse/pulseaudio.md5sum,
+	  packaging/win32/pulse/urls.txt:
+	  - Added first version of pulseaudio
+
+2009-08-14 08:01  Achim Derigs <aderigs@users.sf.net>
+
+	* [r360] Makefile.am, configure.ac, debian/changelog,
+	  debian/changelog.in, debian/control, debian/copyright,
+	  debian/rules:
+	  * Builds Debian package via `make deb'
+
+2009-08-13 06:22  Achim Derigs <aderigs@users.sf.net>
+
+	* [r359] Makefile.am, debian/rules:
+	  * Creates debian/changelog from debian/changelog.in
+
+2009-08-13 05:21  Achim Derigs <aderigs@users.sf.net>
+
+	* [r358] Makefile.am, configure.ac, debian/changelog,
+	  debian/changelog.in, debian/rules:
+	  * Builds Debian package from Makefile target
+
+2009-08-12 19:16  Fritz Elfert <felfert@users.sf.net>
+
+	* [r357] packaging/win32/xming:
+	  - Ignore temporary fils in SVN
+
+2009-08-12 17:56  Fritz Elfert <felfert@users.sf.net>
+
+	* [r356] opennx.pjd, res/opennx.xrc:
+	  - Don't specify a size for LoginDialog's
+	  logo at all - this disables resizing on MacOSX.
+
+2009-08-11 22:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r355] packaging/win32/Makefile.am,
+	  packaging/win32/xming/patches/xming-build-cross.patch, po/de.po,
+	  po/opennx.pot:
+	  - Updated translations
+	  - Fixed dist-platform target for cross MinGW
+
+2009-08-11 22:26  Fritz Elfert <felfert@users.sf.net>
+
+	* [r354] packaging/win32/xming/Makefile.am:
+	  - Fixed a typo
+
+2009-08-11 21:27  Fritz Elfert <felfert@users.sf.net>
+
+	* [r353] packaging/win32/xming/patches/xming-build-cross.patch:
+	  - Fix cross Xming build
+
+2009-08-11 21:22  Fritz Elfert <felfert@users.sf.net>
+
+	* [r352] MySession.cpp, MySession.h, configure.ac,
+	  packaging/win32/xming/Makefile.am:
+	  - Fix crossbuild patches for Xming
+
+2009-08-11 19:11  Fritz Elfert <felfert@users.sf.net>
+
+	* [r351] Makefile.am, configure.ac, m4/Makefile.am,
+	  packaging/win32/Makefile.am:
+	  - Fixed distcheck target
+
+2009-08-10 09:40  Fritz Elfert <felfert@users.sf.net>
+
+	* [r350] Makefile.am, ShareProperties.cpp, VncPropertyDialog.cpp,
+	  configure.ac, m4/Makefile.am, opennx.pjd, opennxApp.cpp, osdep.c,
+	  packaging/win32/Makefile.am, packaging/win32/xming/Makefile.am,
+	  packaging/win32/xming/patches/xming-build-native.patch,
+	  res/opennx.xrc, watchReaderApp.cpp:
+	  - Added some missing includes of config.h
+	  - Made toplevel image of login dialog fixed size
+	  - Fixed a typo in configure.ac
+	  - On MinGW, store long filenames in config file
+	  - Misc changes for Xming native build
+
+2009-08-07 04:06  Fritz Elfert <felfert@users.sf.net>
+
+	* [r349] Makefile.am, configure.ac, packaging/win32/Makefile.am,
+	  packaging/win32/opennx.iss, packaging/win32/xming/Makefile.am,
+	  packaging/win32/xming/patches/xming-build-native.patch:
+	  - Misc changes for building under new MinGW.
+
+2009-08-05 20:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r348] configure.ac, packaging/win32/Makefile.am,
+	  packaging/win32/xming/Makefile.am,
+	  packaging/win32/xming/patches/xming-build-native.patch,
+	  packaging/win32/xming/patches/xming-build-xset.patch:
+	  - Added patches to build Xming on native MinGW
+
+2009-08-02 22:39  Achim Derigs <aderigs@users.sf.net>
+
+	* [r347] debian/changelog, debian/copyright, debian/rules:
+	  Debian GNU/Linux sid
+
+2009-08-02 20:05  Fritz Elfert <felfert@users.sf.net>
+
+	* [r346] TextViewer.cpp:
+	  - Fixed wx version query
+
+2009-08-02 19:46  Fritz Elfert <felfert@users.sf.net>
+
+	* [r345] packaging/win32/xming:
+	  - Ignore generarted files in xming/
+
+2009-08-02 19:41  Fritz Elfert <felfert@users.sf.net>
+
+	* [r344] TextViewer.cpp:
+	  - Don't use wxRICHTEXT_HANDLER_CONVERT_FACENAMES with
+	  older wxWidgets versions
+
+2009-08-02 19:29  Fritz Elfert <felfert@users.sf.net>
+
+	* [r343] configure.ac, packaging/win32/Makefile.am,
+	  packaging/win32/findrequires.pl.in,
+	  packaging/win32/xming/Makefile,
+	  packaging/win32/xming/Makefile.am:
+	  - Replace static Makefile in xming subdir by an
+	  automake generated one.
+
+2009-08-02 18:21  Fritz Elfert <felfert@users.sf.net>
+
+	* [r342] Makefile.am, configure.ac, packaging/win32/Makefile.am:
+	  - Introduced a dist-platform target which builds a
+	  platform-specific package.
+
+2009-08-02 17:36  Fritz Elfert <felfert@users.sf.net>
+
+	* [r341] packaging/win32/xming, packaging/win32/xming/Makefile,
+	  packaging/win32/xming/Xming_69031_source.tar.bz2.md5sum,
+	  packaging/win32/xming/patches,
+	  packaging/win32/xming/patches/xming-build-subsys.patch,
+	  packaging/win32/xming/patches/xming-build-xauth.patch,
+	  packaging/win32/xming/patches/xming-build.patch,
+	  packaging/win32/xming/version.def:
+	  - Added build setup for cross-building Xming on linux
+
+2009-08-01 21:50  Fritz Elfert <felfert@users.sf.net>
+
+	* [r340] po/de.po, po/opennx.pot:
+	  - Updated translations
+
+2009-08-01 21:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r339] configure.ac:
+	  - Disable dependency tracking on MacOSX (compiler flags
+	  don't work together with multiple archs, necessary for
+	  creating universal binaries).
+
+2009-08-01 21:24  Fritz Elfert <felfert@users.sf.net>
+
+	* [r338] packaging/MacOSX/Makefile.am:
+	  - Updated maintainer clean files
+
+2009-08-01 21:16  Fritz Elfert <felfert@users.sf.net>
+
+	* [r337] packaging/MacOSX, packaging/MacOSX/Description.plist:
+	  - Added missing files for MacOSC
+	  - Corrected SVN ignore
+
+2009-08-01 21:05  Fritz Elfert <felfert@users.sf.net>
+
+	* [r336] LogDialog.cpp, TextViewer.cpp, configure.ac, res/lgpl.xml:
+	  - Set a fixed font in LogViewer
+	  - Enable automatic conversion of common fonts in the text viewer
+	  - Changed fonts in lgpl.xml
+	  - Attempt to automatically disable dependency tracking on MacOSX
+
+2009-07-31 01:37  Fritz Elfert <felfert@users.sf.net>
+
+	* [r335] packaging/MacOSX:
+	  - Ignore generated subdirs
+
+2009-07-31 01:34  Fritz Elfert <felfert@users.sf.net>
+
+	* [r334] packaging/MacOSX/Makefile.am:
+	  - Install translation even if NLS is disabled.
+
+2009-07-30 23:02  Fritz Elfert <felfert@users.sf.net>
+
+	* [r333] .:
+	  - Ignore generated files in SVN
+
+2009-07-30 23:00  Fritz Elfert <felfert@users.sf.net>
+
+	* [r332] packaging/MacOSX/opennx-main.plist.in,
+	  packaging/MacOSX/opennx.plist.in:
+	  - Set proper localization info in Info.plist
+
+2009-07-30 19:26  Fritz Elfert <felfert@users.sf.net>
+
+	* [r331] po/de.po:
+	  - Corrected some translations.
+
+2009-07-30 18:34  Fritz Elfert <felfert@users.sf.net>
+
+	* [r330] .:
+	  - Ignore generated files in SVN
+
+2009-07-30 18:32  Fritz Elfert <felfert@users.sf.net>
+
+	* [r329] Makefile.am, packaging/MacOSX/Makefile.am,
+	  packaging/MacOSX/mkbundle, po/de.po, po/opennx.pot:
+	  - Various minor fixes for packaging on MacOSX
+
+2009-07-30 12:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r328] LibOpenSC.cpp, MacOSX.c, Makefile.am, opennxApp.cpp,
+	  packaging/MacOSX/Makefile.am, packaging/MacOSX/buildnx,
+	  watchReaderApp.cpp:
+	  - Fixed library path in build of nxssh on MacOSX
+	  - Use Message.app for showing message in watchreader on MacOSX
+	  - Hide watchreader from Dock on MacOSX
+
+2009-07-30 00:06  Achim Derigs <aderigs@users.sf.net>
+
+	* [r327] debian/changelog, debian/rules:
+	  - Packaging for Debian GNU/Linux sid
+
+2009-07-29 23:04  Achim Derigs <aderigs@users.sf.net>
+
+	* [r326] debian, debian/changelog, debian/compat, debian/control,
+	  debian/copyright, debian/dirs, debian/rules:
+	  - Packaging for Debian GNU/Linux sid
+
+2009-07-29 21:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r325] LibOpenSC.cpp, LibOpenSC.h, Makefile.am, configure.ac,
+	  macfindreader.c, opennxApp.cpp, opennxApp.h,
+	  packaging/MacOSX/Makefile.am, packaging/MacOSX/buildnx,
+	  packaging/MacOSX/buildopensc,
+	  packaging/MacOSX/opensc-config.tmpl:
+	  - Added helper macfindreader helper application for
+	  MacOSX. Unfortunately, pcsc (and therefore opensc)
+	  is helplessly broken on MacOSX (at least on 10.4).
+	  - Added own build of opensc - same reason.
+
+2009-07-29 13:40  Fritz Elfert <felfert@users.sf.net>
+
+	* [r324] opennxApp.cpp, watchReaderApp.cpp:
+	  - Removed special settings in MacOS environment - no longer
+	  needed.
+
+2009-07-28 18:18  Fritz Elfert <felfert@users.sf.net>
+
+	* [r323] MyWizard.cpp:
+	  - Set background color of wxHtml windows.
+
+2009-07-26 15:50  Fritz Elfert <felfert@users.sf.net>
+
+	* [r322] packaging/MacOSX:
+	  - Ignore generated files in SVN
+
+2009-07-26 15:41  Fritz Elfert <felfert@users.sf.net>
+
+	* [r321] Makefile.am, configure.ac, packaging/MacOSX/Makefile.am,
+	  packaging/MacOSX/buildsmbclient,
+	  packaging/MacOSX/pkgResources/InstallationCheck:
+	  - Moved all MacOSX packaging rules into a
+	  separate makefile
+	  - Don't complain about running nxesd during install
+
+2009-07-26 04:43  Fritz Elfert <felfert@users.sf.net>
+
+	* [r320] configure.ac, packaging/MacOSX/libsmbclient.h:
+	  - Set default prefix on MacOSX to /Library/OpenNX
+	  - Provide own libsmbclient.h on MacOSX
+
+2009-07-26 03:48  Fritz Elfert <felfert@users.sf.net>
+
+	* [r319] LibOpenSC.cpp, LibUSB.cpp, LogNull.h, Makefile.am,
+	  MyDynlib.cpp, MySession.cpp, MyXmlConfig.cpp, TextViewer.cpp,
+	  WinShare.cpp, opennxApp.cpp, packaging/MacOSX/buildsmbclient,
+	  packaging/MacOSX/mkdmg, po/de.po, po/opennx.pot, pwcrypt.cpp,
+	  tracelogApp.cpp, watchReaderApp.cpp, watchUsbIpApp.cpp:
+	  - Build and include our own libsmbclient on MacOSX
+	  - Use custom LogNull for supressing error messages
+	  while retaining trace- and debug messages.
+
+2009-07-24 19:05  Fritz Elfert <felfert@users.sf.net>
+
+	* [r318] MySession.cpp:
+	  - Added missing setting of DISPLAY envvar on win32
+
+2009-07-24 12:22  Fritz Elfert <felfert@users.sf.net>
+
+	* [r317] packaging/MacOSX/pkgResources/InstallationCheck:
+	  - Accept /usr/bin/quartz-wm for a valid WM in InstallationCheck
+
+2009-07-24 12:11  Fritz Elfert <felfert@users.sf.net>
+
+	* [r316]
+	  packaging/MacOSX/pkgResources/English.lproj/InstallationCheck.strings,
+	  packaging/MacOSX/pkgResources/German.lproj/InstallationCheck.strings:
+	  - Converted InstallationCheck string ressources to UTF16
+
+2009-07-23 19:05  Fritz Elfert <felfert@users.sf.net>
+
+	* [r315] MyDynlib.cpp, opennxApp.cpp, watchReaderApp.cpp:
+	  - Fixed several platform macros on MacOS.
+
+2009-07-21 15:41  Fritz Elfert <felfert@users.sf.net>
+
+	* [r314] Makefile.am:
+	  - Added MacOS specific scripts to dist
+
+2009-07-21 02:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r313] Makefile.am, packaging/MacOSX/OpenSC.webloc,
+	  packaging/MacOSX/fileopts, packaging/MacOSX/folderbg.jpg,
+	  packaging/MacOSX/mkdmg, packaging/MacOSX/volicon.icns,
+	  packaging/MacOSX/volicon.png:
+	  - Added target for building a dmg on MacOS
+
+2009-07-18 14:32  Fritz Elfert <felfert@users.sf.net>
+
+	* [r312] LibOpenSC.cpp, Makefile.am, opennxApp.cpp,
+	  watchReaderApp.cpp:
+	  - Tracing for OpenSC on MacOS
+
+2009-07-18 13:42  Fritz Elfert <felfert@users.sf.net>
+
+	* [r311] Makefile.am:
+	  - MacOS packaging tweaks
+
+2009-07-18 13:00  Fritz Elfert <felfert@users.sf.net>
+
+	* [r310] Makefile.am, opennxApp.cpp,
+	  packaging/MacOSX/opennx-uninstall:
+	  - Add OpenSC libray path on MacOSC
+	  - Add uninstall script on OpenNX
+
+2009-07-18 02:22  Fritz Elfert <felfert@users.sf.net>
+
+	* [r309] packaging/MacOSX/pkgResources/English.lproj,
+	  packaging/MacOSX/pkgResources/English.lproj/InstallationCheck.strings,
+	  packaging/MacOSX/pkgResources/German.lproj,
+	  packaging/MacOSX/pkgResources/German.lproj/InstallationCheck.strings,
+	  packaging/MacOSX/pkgResources/InstallationCheck,
+	  packaging/MacOSX/pkgResources/InstallationCheck.strings:
+	  - More packaging stuff for MacOSX
+
+2009-07-18 01:12  Fritz Elfert <felfert@users.sf.net>
+
+	* [r308] MacOSX.c, Makefile.am, MyDynlib.cpp,
+	  SessionProperties.cpp, configure.ac, opennxApp.cpp, osdep.c,
+	  packaging/MacOSX/opennx-main.plist.in,
+	  packaging/MacOSX/pkg.plist.in, packaging/MacOSX/pkgResources,
+	  packaging/MacOSX/pkgResources/InstallationCheck,
+	  packaging/MacOSX/pkgResources/InstallationCheck.strings:
+	  - More MacOSX specific stuff
+
+2009-07-17 12:44  Fritz Elfert <felfert@users.sf.net>
+
+	* [r307] SessionProperties.cpp:
+	  - Remove About tab in SessionProperties on MacOS
+
+2009-07-17 12:08  Fritz Elfert <felfert@users.sf.net>
+
+	* [r306] LoginDialog.cpp, LoginDialog.h, Makefile.am,
+	  opennxApp.cpp, opennxApp.h,
+	  packaging/MacOSX/opennx-main.plist.in:
+	  - Handle MacOpenFile correctly
+	  - Fixed main bundle
+
+2009-07-17 04:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r305] Makefile.am, MyXmlConfig.cpp, configure.ac, opennxApp.cpp,
+	  opennxApp.h, osdep.c, packaging/MacOSX/buildnx,
+	  packaging/MacOSX/mkbundle, packaging/MacOSX/opennx-main.plist.in,
+	  packaging/MacOSX/opennx.plist.in, watchReaderApp.cpp,
+	  watchUsbIpApp.cpp:
+	  - Misc adaptions for MacOS
+
+2009-07-16 15:39  Fritz Elfert <felfert@users.sf.net>
+
+	* [r304] SessionProperties.cpp, packaging/MacOSX/mkbundle:
+	  - Geometry tweaks on MacOS
+
+2009-07-16 14:39  Fritz Elfert <felfert@users.sf.net>
+
+	* [r303] SessionProperties.cpp, opennx.pjd, res/opennx.xrc:
+	  - Try rendering about correctly on MacOS
+
+2009-07-16 14:16  Fritz Elfert <felfert@users.sf.net>
+
+	* [r302] opennx.pjd, res/opennx.xrc:
+	  - Expand about html window in SessionProperties
+
+2009-07-16 11:27  Fritz Elfert <felfert@users.sf.net>
+
+	* [r301] patches/README:
+	  - Added a short description of the various patches
+
+2009-07-16 11:11  Fritz Elfert <felfert@users.sf.net>
+
+	* [r300] packaging/MacOSX/buildnx, patches/nxcomp-autotools.patch,
+	  patches/nxcompsh-autotools.patch, patches/nxesd-autotools.patch,
+	  patches/nxproxy-autotools.patch,
+	  patches/nxservice-autotools.patch, patches/nxssh-newbuild.patch:
+	  - Provide patches for properly building the NX binaries
+	  as universal binaries
+
+2009-07-15 22:04  Fritz Elfert <felfert@users.sf.net>
+
+	* [r299] Makefile.am:
+	  - Remove MacOS bundles in clean target
+
+2009-07-15 11:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r298] Makefile.am, SessionAdmin.cpp, configure.ac, osdep.c,
+	  packaging/MacOSX/admin.plist.in, packaging/MacOSX/mkbundle,
+	  packaging/MacOSX/opennx.plist.in,
+	  packaging/MacOSX/wizard.plist.in:
+	  - Simplified MacOS bundle creation
+	  - Fixed XDarwin startup (wm was missing)
+
+2009-07-15 10:06  Fritz Elfert <felfert@users.sf.net>
+
+	* [r297] ., Makefile.am, configure.ac, packaging/MacOSX:
+	  - Ignore generated MacOS bundles in SVN
+	  - Conditionally add OS-dependant files in resource zip
+
+2009-07-15 00:59  Fritz Elfert <felfert@users.sf.net>
+
+	* [r296] Info.plist.in, Makefile.am, configure.ac, macos, osdep.c,
+	  packaging/MacOSX, packaging/MacOSX/admin.plist.in,
+	  packaging/MacOSX/opennx.plist.in,
+	  packaging/MacOSX/wizard.plist.in:
+	  - Simplified X11 startup on MacOSX
+	  - Added conditional target for bundle creation on MacOSX
+
+2009-07-14 01:37  Fritz Elfert <felfert@users.sf.net>
+
+	* [r295] configure.ac:
+	  - Disable dependency tracking - does not work with
+	  universal binaries on MacOSX
+
+2009-07-13 23:03  Fritz Elfert <felfert@users.sf.net>
+
+	* [r294] Makefile.am, configure.ac:
+	  - Fixed native Windows build on MinGW/MSYS (missing dependencies)
+
+2009-07-10 12:46  Fritz Elfert <felfert@users.sf.net>
+
+	* [r292] INSTALL:
+	  - Updated build instructions
+
+2009-07-10 12:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r291] MyIPC.cpp:
+	  - WOrkaround for newer nxnodes SMB negotiation
+
+2009-07-09 06:39  Fritz Elfert <felfert@users.sf.net>
+
+	* [r290] MySession.cpp:
+	  - Added missing endl
+
+2009-07-08 18:22  Fritz Elfert <felfert@users.sf.net>
+
+	* [r289] po/de.po, po/opennx.pot:
+	  - Update translations
+
+2009-07-08 18:20  Fritz Elfert <felfert@users.sf.net>
+
+	* [r288] MySession.cpp:
+	  - Don't initialize cups/smb if it is globally disabled.
+
+2009-07-08 12:23  Fritz Elfert <felfert@users.sf.net>
+
+	* [r287] po/de.po, po/opennx.pot:
+	  - Updated translations
+
+2009-07-08 12:20  Fritz Elfert <felfert@users.sf.net>
+
+	* [r286] MySession.cpp:
+	  - Add permission to print for root from localhost without
+	  authentication
+
+2009-07-08 11:50  Fritz Elfert <felfert@users.sf.net>
+
+	* [r285] MySession.cpp, MyXmlConfig.cpp, opennxApp.cpp,
+	  opennxApp.h:
+	  - Fixed multiple flaws in CUPS setup
+
+2009-07-08 08:59  Fritz Elfert <felfert@users.sf.net>
+
+	* [r284] MySession.cpp:
+	  - Authenticate when probing local cupsd
+	  - Start a separate local instance of cupsd for each user
+
+2009-07-07 18:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r283] MySession.cpp:
+	  - Allow access to local cups for the whole local subnet
+
+2009-07-02 16:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r282] m4/flags.m4:
+	  - Added m4 script for checking compiler flags.
+
+2009-07-01 14:43  Fritz Elfert <felfert@users.sf.net>
+
+	* [r281] AboutDialog.cpp, CardWaiterDialog.cpp, LibOpenSC.cpp,
+	  LibOpenSC.h, Makefile.am, MySession.cpp, MyValidator.cpp,
+	  MyXmlConfig.cpp, SessionAdmin.cpp, SessionProperties.cpp,
+	  UsbFilterDetailsDialog.cpp, UsbIp.cpp, WinShare.cpp,
+	  configure.ac, opennx.pjd, opennxApp.cpp, opennxApp.h, osdep.c,
+	  po/de.po, po/opennx.pot, res/opennx.xrc, watchReaderApp.cpp,
+	  watchUsbIpApp.cpp:
+	  - Added more warning options
+	  - General code cleanup
+	  - Bumped up version to 0.1.16
+
+2009-07-01 11:08  Fritz Elfert <felfert@users.sf.net>
+
+	* [r280] LoginDialog.cpp, MyWizard.cpp, SessionProperties.cpp,
+	  SessionProperties.h, opennx.pjd, opennxApp.cpp, po/de.po,
+	  po/opennx.pot, res/opennx.xrc:
+	  - Bugfix: Changes from the first instance of SessionProperties
+	  (shown from within wizard) were not saved.
+	  - Bugfix: Initial state of SSL encryption checkbox was not
+	  disabled if SmartCard support was enabled.
+	  - Bugfix: Connection speed setting in wizard was not saved.
+
+2009-06-30 10:48  Fritz Elfert <felfert@users.sf.net>
+
+	* [r279] MyXmlConfig.cpp, MyXmlConfig.h, SessionProperties.cpp:
+	  - Bugfix: The first share always got inserted twice
+	  into the list of exported devices.
+
+2009-06-19 13:36  Fritz Elfert <felfert@users.sf.net>
+
+	* [r278] opennx.spec.in, po/de.po, po/opennx.pot:
+	  - Fixed special handling of libusb on FC11
+
+2009-06-19 12:28  Fritz Elfert <felfert@users.sf.net>
+
+	* [r277] LibUSB.cpp, LibUSB.h, SessionProperties.cpp,
+	  opennx.spec.in:
+	  - Added a warning, if libusb is unavailable when adding USB
+	  device filters
+	  - Handle specific setup on FC11, which provides both libusb-1.0
+	  and libusb-0.1.x
+
+2009-06-02 09:53  Fritz Elfert <felfert@users.sf.net>
+
+	* [r276] LoginDialog.cpp:
+	  - Build-fix for mingw32
+
+2009-05-25 14:44  Fritz Elfert <felfert@users.sf.net>
+
+	* [r275] ., LoginDialog.cpp, packaging/win32:
+	  - Allow session config outside of ~/.nx/config to be
+	  specified on the command line
+
+2009-05-25 14:41  Fritz Elfert <felfert@users.sf.net>
+
+	* [r274] Makefile.am, configure.ac, packaging/win32/Makefile.am,
+	  packaging/win32/findrequires.pl.in:
+	  - Additions for building in mingw32 cross build environment
+
+2009-05-14 18:08  Fritz Elfert <felfert@users.sf.net>
+
+	* [r273] configure.ac:
+	  - Fix build in mingw32 cross-compile environment under linux
+
+2009-05-12 16:51  Fritz Elfert <felfert@users.sf.net>
+
+	* [r272] opennxApp.cpp:
+	  - Handle --parent in wxCmdLine workaround.
+
+2009-05-12 16:34  Fritz Elfert <felfert@users.sf.net>
+
+	* [r271] configure.ac, opennx.spec.in, patches/nxcomp-gcc44.patch,
+	  po/de.po, po/opennx.pot:
+	  - Fixed build on FC11
+
+2009-05-07 16:00  Fritz Elfert <felfert@users.sf.net>
+
+	* [r270] MySession.cpp:
+	  - Minor tweaks to restore FreeNX compatibility
+
+2009-05-04 16:53  Fritz Elfert <felfert@users.sf.net>
+
+	* [r269] opennxApp.cpp:
+	  - Removed debugging stuff
+
+2009-05-04 16:51  Fritz Elfert <felfert@users.sf.net>
+
+	* [r268] opennxApp.cpp:
+	  - Added workaround for commandline compatibility.
+
+2009-04-28 22:16  Fritz Elfert <felfert@users.sf.net>
+
+	* [r267] MyIPC.cpp, MySession.cpp:
+	  - Fix support for root shadow sessions
+
+2009-04-26 16:39  Fritz Elfert <felfert@users.sf.net>
+
+	* [r266] po/de.po, po/opennx.pot:
+	  - Updated translations
+
+2009-04-26 16:13  Fritz Elfert <felfert@users.sf.net>
+
+	* [r265] MySession.cpp:
+	  - Fixed abort of session attach.
+
+2009-04-26 04:08  Fritz Elfert <felfert@users.sf.net>
+
+	* [r264] po/de.po:
+	  - Reformatted translations
+
+2009-04-26 04:06  Fritz Elfert <felfert@users.sf.net>
+
+	* [r263] ResumeDialog.cpp, po/de.po, po/opennx.pot:
+	  - Fixed a label
+
+2009-04-25 23:17  Fritz Elfert <felfert@users.sf.net>
+
+	* [r262] MyIPC.cpp, MySession.cpp, MySession.h, MyWizard.cpp,
+	  MyWizard.h, MyXmlConfig.cpp, ResumeDialog.cpp, ResumeDialog.h,
+	  SessionProperties.cpp, opennx.pjd:
+	  - Added shadowing support
+
+2009-04-24 16:04  Fritz Elfert <felfert@users.sf.net>
+
+	* [r261] MyWizard_symbols.h, MyXmlConfig.cpp, MyXmlConfig.h,
+	  SessionProperties.cpp, SessionProperties.h, UsbIp.cpp,
+	  opennx.pjd, po/de.po, po/opennx.pot, res/opennx.xrc:
+	  - Implemented shadow session setup in SessionProperties.cpp
+
+2009-04-23 14:19  Fritz Elfert <felfert@users.sf.net>
+
+	* [r260] opennx.spec.in, po/de.po, po/opennx.pot:
+	  - Fix sles<->suse stuff
+
+2009-04-23 13:39  Fritz Elfert <felfert@users.sf.net>
+
+	* [r259] LoginDialog.cpp, MyXmlConfig.cpp, opennx.spec.in:
+	  - Disable CheckBoxes in LoginDialog if session config is readonly
+	  - SLES ostag has preference over SuSE ostag
+
+2009-04-23 10:49  Fritz Elfert <felfert@users.sf.net>
+
+	* [r258] opennx.spec.in:
+	  - Fixed ostag generation for SLES
+
+2009-04-23 10:46  Fritz Elfert <felfert@users.sf.net>
+
+	* [r257] opennx.spec.in:
+	  - Fixed a typo
+
+2009-04-23 09:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r256] opennx.spec.in:
+	  - Use better method for generating the ostag.
+
+2009-04-22 21:10  Fritz Elfert <felfert@users.sf.net>
+
+	* [r255] watchreader.rc:
+	  - Build fxes for win32
+
+2009-04-22 21:08  Fritz Elfert <felfert@users.sf.net>
+
+	* [r254] Makefile.am, configure.ac, tracelog.rc,
+	  watchReaderApp.cpp:
+	  - Build fxes for win32
+
+2009-04-22 15:41  Fritz Elfert <felfert@users.sf.net>
+
+	* [r253] opennx.spec.in:
+	  - Fix menu creation on SuSE
+
+2009-04-22 14:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r252] opennx.spec.in:
+	  - Don't remove symlinks and shortcuts on update
+
+2009-04-22 12:40  Fritz Elfert <felfert@users.sf.net>
+
+	* [r251] UsbIp.cpp, UsbIp.h:
+	  - Issue a warning, if a device is about to be exported twice.
+
+2009-04-22 10:19  Fritz Elfert <felfert@users.sf.net>
+
+	* [r250] res/about.html:
+	  - Added some credits
+
+2009-04-22 09:59  Fritz Elfert <felfert@users.sf.net>
+
+	* [r249] po/de.po:
+	  - Reformatted translations
+
+2009-04-22 09:58  Fritz Elfert <felfert@users.sf.net>
+
+	* [r248] po/de.po:
+	  - Added missing translations
+
+2009-04-22 09:56  Fritz Elfert <felfert@users.sf.net>
+
+	* [r247] opennxApp.cpp, po/de.po, po/opennx.pot:
+	  - Don't disable SmartCard when libusb is missing.
+
+2009-04-22 09:49  Fritz Elfert <felfert@users.sf.net>
+
+	* [r246] LibUSB.cpp, MyWizard.cpp, opennxApp.cpp, po/de.po,
+	  po/opennx.pot:
+	  - Fixed Wizard: SmartCard support was not stored properly.
+
+2009-04-20 19:21  Fritz Elfert <felfert@users.sf.net>
+
+	* [r245] opennxApp.cpp, po/de.po, po/opennx.pot:
+	  - Added config variable (in ~/.opennx) for USBIP tunnel timeout
+	  (unit: seconds)
+
+2009-04-20 19:03  Fritz Elfert <felfert@users.sf.net>
+
+	* [r244] opennxApp.cpp:
+	  - Better error message in initial usbip export.
+
+2009-04-20 18:42  Fritz Elfert <felfert@users.sf.net>
+
+	* [r243] po/de.po:
+	  
+
+2009-04-20 18:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r242] MyIPC.cpp, MySession.cpp, MySession.h, ResumeDialog.cpp,
+	  ResumeDialog.h, ResumeDialog_symbols.h, opennx.pjd,
+	  opennx.spec.in, po/de.po, po/opennx.pot, res/opennx.xrc:
+	  - Implemented session termination in resume-dialog
+	  - Fixed postinstall issue
+	  - OriginalCompatibility: Show resume dialog only, if
+	  more than one session is suspended or a single session
+	  with a different name exists.
+
+2009-04-20 15:32  Fritz Elfert <felfert@users.sf.net>
+
+	* [r241] opennx.spec.in:
+	  - Fixed a typo in pre/post script
+
+2009-04-20 14:47  Fritz Elfert <felfert@users.sf.net>
+
+	* [r240] opennx.spec.in:
+	  - Handle group{add,del} only at install/uninstall
+	  - Provide nxclient for proper update from repository
+
+2009-04-20 14:13  Fritz Elfert <felfert@users.sf.net>
+
+	* [r239] trace.h:
+	  - Make shure, that trace flags are initialized in
+	  proper sequence. Fixes call of watchusbip returning
+	  with usage output.
+
+2009-04-20 11:39  Fritz Elfert <felfert@users.sf.net>
+
+	* [r238] opennx.spec.in, po/de.po, po/opennx.pot:
+	  - Added rpmbuild option --with forceopt for
+	  making recommended RPM dependencies mandatory.
+
+2009-04-20 02:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r237] MyWizard.cpp, opennx.spec.in:
+	  - Fixed build on FC10
+	  - Fixed bug, wher some settings were not stored properly
+	  in the connection wizard.
+
+2009-04-19 21:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r236] opennx.spec.in:
+	  - Added workaround for broken opensc-config on FC10
+
+2009-04-19 19:28  Fritz Elfert <felfert@users.sf.net>
+
+	* [r235] opennx.spec.in:
+	  - Fixed a typo
+
+2009-04-19 17:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r234] opennx.spec.in, opennxApp.cpp, po/de.po, po/opennx.pot:
+	  - Fixes for SuSE BuildService
+	  - Code cleanup
+
+2009-04-18 20:47  Fritz Elfert <felfert@users.sf.net>
+
+	* [r233] opennx.spec.in:
+	  - Don't BuildRequire wget if --with fetchnx is not given
+	  - Added missing dependency for FC9
+
+2009-04-18 17:32  Fritz Elfert <felfert@users.sf.net>
+
+	* [r232] opennx.spec.in:
+	  - Fixed a typo
+
+2009-04-18 17:23  Fritz Elfert <felfert@users.sf.net>
+
+	* [r231] opennx.spec.in:
+	  - Include ChangeLog in %doc
+
+2009-04-18 17:22  Fritz Elfert <felfert@users.sf.net>
+
+	* [r230] .:
+	  - Ignore generated stuff in svn
+
+2009-04-18 17:19  Fritz Elfert <felfert@users.sf.net>
+
+	* [r229] Makefile.am, opennx.spec.in:
+	  - New rpmbuild option --with fetchnx, activation download of
+	  NX tarballs
+	  - bootstrap target now generates a changelog
+
+2009-04-18 15:09  Fritz Elfert <felfert@users.sf.net>
+
+	* [r228] opennx.spec.in:
+	  - Added a dot after SVN releas to improve readability
+
+2009-04-18 15:08  Fritz Elfert <felfert@users.sf.net>
+
+	* [r227] LibOpenSC.cpp, TextViewer.cpp, UsbFilterDetailsDialog.h,
+	  opennx.spec.in, po/de.po, po/opennx.pot, watchReaderApp.cpp,
+	  watchUsbIpApp.cpp:
+	  - Fixed several compiler warnings
+	  - Provide --with {staticwx,debug,usbip} as rpmbuild parameters
+
+2009-04-17 17:29  Fritz Elfert <felfert@users.sf.net>
+
+	* [r226] opennx.spec.in:
+	  - Fixed a typo
+
+2009-04-17 17:14  Fritz Elfert <felfert@users.sf.net>
+
+	* [r225] opennx.spec.in:
+	  - Create a group opennx and use it with an udev rule to allow
+	  access for libusb
+
+2009-04-17 16:59  Fritz Elfert <felfert@users.sf.net>
+
+	* [r224] Makefile.am, etc, etc/60-opennx.rules:
+	  - Added flags for USBIP and debugging in spec file
+	  - Create a group opennx and use it with an udev rule to allow
+	  access for libusb
+
+2009-04-17 14:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r223] opennx.spec.in:
+	  - Require recommended packages
+
+2009-04-17 12:06  Fritz Elfert <felfert@users.sf.net>
+
+	* [r222] MyDynlib.cpp, MyDynlib.h, opennx.spec.in:
+	  - Added custom lib loader
+	  - Added trigger scriptlet for creating symlinks
+
+2009-04-16 19:18  Fritz Elfert <felfert@users.sf.net>
+
+	* [r221] UsbIp.cpp:
+	  - Fixed a compiler warning
+
+2009-04-16 19:08  Fritz Elfert <felfert@users.sf.net>
+
+	* [r220] LibOpenSC.cpp, LibUSB.cpp, LibUSB.h, Makefile.am,
+	  WinShare.cpp, opennx.spec.in, opennxApp.cpp:
+	  - Added custom lib loader which actually uses /usr/NX/lib[64]
+
+2009-04-16 15:12  Fritz Elfert <felfert@users.sf.net>
+
+	* [r219] opennx.spec.in, po/de.po, po/opennx.pot:
+	  - Create symlinks for optional shared libs under /usr/NX/lib[64]
+
+2009-04-16 11:29  Fritz Elfert <felfert@users.sf.net>
+
+	* [r218] MySession.cpp:
+	  - Implemented an undocumented feature of the original nxclient:
+	  If a file ~/.nx/options exists, it's content is added to the
+	  proxy options.
+
+2009-04-16 10:32  Fritz Elfert <felfert@users.sf.net>
+
+	* [r217] configure.ac, opennx.spec.in, opennxApp.cpp, po/de.po,
+	  po/opennx.pot:
+	  - Added new configure option --(en|dis)able-staticwx in order to
+	  solve confusion with
+	  libtool's --enable-static and --enable-shared.
+	  - Adapted RPM spec to new configure option.
+	  - Several build requirements added for SuSE apply to other
+	  platforms as well: removed %if around them
+	  - If a session config was specified with --session=~/.nx/..., the
+	  tilde was not expanded properly
+
+2009-04-16 01:46  Fritz Elfert <felfert@users.sf.net>
+
+	* [r216] AboutDialog.cpp, AsyncProcess.cpp, LibOpenSC.cpp,
+	  LibUSB.cpp, LoginDialog.cpp, MyIPC.cpp, MySession.cpp,
+	  MyWizard.cpp, MyXmlConfig.cpp, PanicDialog_symbols.h,
+	  QuitDialog_symbols.h, SessionList.cpp, SessionProperties.cpp,
+	  ShareProperties.cpp, UsbIp.cpp, WinShare.cpp, opennxApp.cpp,
+	  trace.h, watchUsbIpApp.cpp:
+	  - Attempt to fix a segfault on openSUSE 11.1
+
+2009-04-16 01:34  Fritz Elfert <felfert@users.sf.net>
+
+	* [r215] AboutDialog.cpp, AsyncProcess.cpp, LibOpenSC.cpp,
+	  LibUSB.cpp, LogDialog.cpp, LogDialog_symbols.h, LoginDialog.cpp,
+	  MyIPC.cpp, MySession.cpp, MyWizard.cpp, MyWizard.h,
+	  MyWizard_symbols.h, MyXmlConfig.cpp,
+	  RdpImageSettingsDialog_symbols.h, RdpPropertyDialog_symbols.h,
+	  ResumeDialog_symbols.h, SessionList.cpp, SessionProperties.cpp,
+	  ShareProperties.cpp, UsbFilterDetailsDialog.cpp, UsbIp.cpp,
+	  VncPropertyDialog_symbols.h, WinShare.cpp, opennxApp.cpp,
+	  trace.h:
+	  - Fixed compile on mingw
+	  - Attempt to fix a segfault on openSUSE 11.1
+
+2009-04-15 18:42  Michael Kromer <medozas@users.sf.net>
+
+	* [r214] opennx.spec.in:
+	  Fixes for SuSE Plattform (spec)
+
+2009-03-25 21:24  Fritz Elfert <felfert@users.sf.net>
+
+	* [r213] opennxApp.cpp:
+	  - Don't activate tracing of watchusbip in release builds
+	  - enclose config file name in double quotes
+
+2009-03-25 18:01  Fritz Elfert <felfert@users.sf.net>
+
+	* [r212] opennxApp.cpp, opennxApp.h, watchUsbIpApp.cpp:
+	  - Fixed hotplug
+
+2009-03-25 16:57  Fritz Elfert <felfert@users.sf.net>
+
+	* [r211] po/de.po, po/opennx.pot:
+	  - Updated translations
+
+2009-03-25 16:48  Fritz Elfert <felfert@users.sf.net>
+
+	* [r210] LibOpenSC.cpp, opennxApp.cpp, watchUsbIpApp.cpp,
+	  watchUsbIpApp.h:
+	  - Start hotplug watcher in opennx
+
+2009-03-25 14:48  Fritz Elfert <felfert@users.sf.net>
+
+	* [r209] CardWaiterDialog.cpp, CardWaiterDialog.h,
+	  CardWaiterDialog_symbols.h, ConnectDialog.h,
+	  ConnectDialog_symbols.h, KeyDialog.cpp, LogDialog.cpp,
+	  RdpImageSettingsDialog.cpp, RdpPropertyDialog.cpp,
+	  ResumeDialog.cpp, TextViewer.cpp, TraceLogFrame.cpp,
+	  UnixImageSettingsDialog.cpp, UsbFilterDetailsDialog.cpp,
+	  UsbFilterDetailsDialog.h, UsbFilterDetailsDialog_symbols.h,
+	  VncImageSettingsDialog.cpp, VncPropertyDialog.cpp,
+	  X11PropertyDialog.cpp, configure.ac, opennx.pjd, res/opennx.xrc:
+	  - Create correct icons in dialog titles
+	  - Use correct title in all dialogs
+
+2009-03-25 13:47  Fritz Elfert <felfert@users.sf.net>
+
+	* [r208] Makefile.am, MyValidator.cpp, UsbFilterDetailsDialog.cpp,
+	  UsbFilterDetailsDialog.h, UsbIp.cpp, UsbIp.h, opennx.pjd,
+	  po/de.po, po/opennx.pot, res/opennx.xrc, watchUsbIpApp.cpp,
+	  watchUsbIpApp.h:
+	  - USBIP hotplug implemented
+
+2009-03-24 16:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r207] opennxApp.cpp:
+	  - Adapted default command socket path to default of usbipd2
+
+2009-03-24 15:22  Fritz Elfert <felfert@users.sf.net>
+
+	* [r206] Icon.cpp, Makefile.am, MyXmlConfig.cpp, UsbIp.cpp,
+	  configure.ac, watchUsbIpApp.cpp, watchUsbIpApp.h:
+	  - Added watchusbip application skeleton.
+
+2009-03-24 15:04  Michael Kromer <medozas@users.sf.net>
+
+	* [r205] opennx.spec.in:
+	  * spec file modification for SuSE/wxGTK
+
+2009-03-24 14:51  Fritz Elfert <felfert@users.sf.net>
+
+	* [r204] opennxApp.cpp:
+	  - Fixed #ifdef
+
+2009-03-24 14:39  Fritz Elfert <felfert@users.sf.net>
+
+	* [r203] opennxApp.cpp:
+	  - 64bit compatibility.
+
+2009-03-24 07:26  Fritz Elfert <felfert@users.sf.net>
+
+	* [r202] AsyncProcess.cpp, ExtHtmlWindow.cpp, LibOpenSC.cpp,
+	  LibOpenSC.h, MySession.cpp, MySession.h, opennxApp.cpp,
+	  opennxApp.h, watchReaderApp.cpp:
+	  - Moved USBIP startup from MySession to main opennxApp
+	  - Moved Cardwatcher startup from MySession to main opennxApp
+
+2009-03-23 18:58  Fritz Elfert <felfert@users.sf.net>
+
+	* [r201] MySession.cpp, UsbIp.cpp, UsbIp.h, opennxApp.cpp:
+	  - Fixed library path problem, introduced with last changes
+	  - Added wait for usbip session-setup during session startup.
+
+2009-03-23 13:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r200] MySession.cpp:
+	  - Added debugging output
+
+2009-03-23 11:13  Fritz Elfert <felfert@users.sf.net>
+
+	* [r199] UsbIp.cpp, UsbIp.h:
+	  - ifdef'd UsbIp code with SUPPORT_USBIP define.
+
+2009-03-23 10:49  Fritz Elfert <felfert@users.sf.net>
+
+	* [r198] LibUSB.h, MySession.cpp, MyXmlConfig.cpp, MyXmlConfig.h,
+	  UsbIp.cpp, UsbIp.h:
+	  - Implemented match code for export-filters.
+
+2009-03-23 07:40  Fritz Elfert <felfert@users.sf.net>
+
+	* [r197] MySession.cpp, SessionProperties.cpp, SessionProperties.h,
+	  SessionProperties_symbols.h, UsbIp.cpp, UsbIp.h, opennx.pjd,
+	  opennxApp.cpp, opennxApp.h, res/opennx.xrc:
+	  - Removed dead hotplug code in opennxApp
+	  - Added device listing code in UsbIp
+	  - Removed debugging dialog in SessionProperties
+
+2009-03-23 06:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r196] LibUSB.cpp, MySession.cpp, MySession.h, MyXmlConfig.cpp,
+	  MyXmlConfig.h, SessionProperties.cpp, SessionProperties.h,
+	  SessionProperties_symbols.h, UsbIp.cpp, UsbIp.h, opennx.pjd,
+	  opennxApp.cpp, opennxApp.h, po/de.po, po/opennx.pot,
+	  res/opennx.xrc:
+	  - More code for UsbIp client interface
+	  - Moved config variables for client socket and usbipd port
+	  into system environment section.
+
+2009-03-23 00:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r195] m4:
+	  - Ignore suse-specific stuff in m4
+
+2009-03-19 11:23  Fritz Elfert <felfert@users.sf.net>
+
+	* [r194] UsbIp.cpp, UsbIp.h:
+	  - Filling UsbIp stubs ...
+
+2009-03-19 09:52  Fritz Elfert <felfert@users.sf.net>
+
+	* [r193] ExtHtmlWindow.cpp, ExtHtmlWindow.h, Makefile.am,
+	  UsbIp.cpp, UsbIp.h:
+	  - Fixed incorrect pragmas in ExtHtmlWindow
+	  - Added UsbIp sekeleton
+
+2009-02-25 22:25  Fritz Elfert <felfert@users.sf.net>
+
+	* [r192] SessionProperties.cpp, UsbFilterDetailsDialog.cpp,
+	  UsbFilterDetailsDialog.h:
+	  - Moved detection of USB devices out of UsbFilterDetailsDialog
+
+2009-02-25 21:30  Fritz Elfert <felfert@users.sf.net>
+
+	* [r191] LoginDialog.cpp, po/de.po, po/opennx.pot:
+	  - Disable loginDialog after hitting Login.
+
+2009-02-25 16:43  Fritz Elfert <felfert@users.sf.net>
+
+	* [r190] MySession.cpp:
+	  - Made OpenNX work with freenx server
+
+2009-02-25 11:50  Fritz Elfert <felfert@users.sf.net>
+
+	* [r189] opennx.spec.in:
+	  - Fixed rpm post script for openSuSE 11.1
+	  - Use SVN revision as rpm release number
+
+2009-02-25 10:27  Fritz Elfert <felfert@users.sf.net>
+
+	* [r188] Makefile.am, po/de.po, po/opennx.pot:
+	  - Fixed distcheck target
+
+2009-02-24 23:22  Fritz Elfert <felfert@users.sf.net>
+
+	* [r187] xh_richtext.h:
+	  - Fixed copilation on windows.
+
+2009-02-24 13:01  Fritz Elfert <felfert@users.sf.net>
+
+	* [r186] Makefile.am, TextViewer.cpp, TextViewer.h,
+	  TextViewer_symbols.h, configure.ac, opennx.pjd, opennxApp.cpp,
+	  res/about.html, res/lgpl.xml, res/opennx.xrc, xh_richtext.cpp,
+	  xh_richtext.h:
+	  - Replaced wxTextCtrl by wxRichTextCtrl in TextViewer
+
+2009-02-23 14:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r185] opennxApp.cpp:
+	  - Fixed loading of external resource
+
+2009-02-23 13:32  Fritz Elfert <felfert@users.sf.net>
+
+	* [r184] bin2hdr.cpp, opennxApp.cpp:
+	  - Added error handling for resource loader
+
+2009-02-23 13:17  Fritz Elfert <felfert@users.sf.net>
+
+	* [r183] po/de.po, po/opennx.pot:
+	  - i18n update
+
+2009-02-23 11:44  Fritz Elfert <felfert@users.sf.net>
+
+	* [r182] MySession.cpp:
+	  - Experimental code for testing
+
+2009-02-23 11:42  Fritz Elfert <felfert@users.sf.net>
+
+	* [r181] po/de.po, po/opennx.pot:
+	  - Added translations
+
+2009-02-22 19:27  Fritz Elfert <felfert@users.sf.net>
+
+	* [r180] MySession.cpp, SessionProperties.cpp, opennx.pjd,
+	  res/opennx.xrc:
+	  - Actually use local usbipd port
+	  - Misc GUI cosmetics
+
+2009-02-22 18:17  Fritz Elfert <felfert@users.sf.net>
+
+	* [r179] MyXmlConfig.cpp, MyXmlConfig.h, SessionProperties.cpp,
+	  SessionProperties.h, SessionProperties_symbols.h, opennx.pjd,
+	  res/opennx.xrc:
+	  - Implemented configuration of local usbipd port
+
+2009-02-22 15:34  Fritz Elfert <felfert@users.sf.net>
+
+	* [r178] configure.ac, opennxApp.cpp:
+	  - Fixed definition of SVNREV in config.h
+	  - Added handling of SVNREV in app-initialization
+
+2009-02-22 15:18  Fritz Elfert <felfert@users.sf.net>
+
+	* [r177] Makefile.am, configure.ac, m4/rcversion.m4, m4/svnrev.m4,
+	  res/about.html, res/opennx.rc.in:
+	  - include SVN revision in version
+	  - misc config tweaks
+
+2009-02-22 06:10  Fritz Elfert <felfert@users.sf.net>
+
+	* [r176] LibUSB.cpp, LibUSB.h, SessionProperties.cpp,
+	  SessionProperties.h, UsbFilterDetailsDialog.cpp,
+	  UsbFilterDetailsDialog.h, configure.ac, opennx.pjd,
+	  opennxApp.cpp, opennxApp.h, res/opennx.xrc:
+	  - Misc tweaks for Windows
+
+2009-02-22 04:11  Fritz Elfert <felfert@users.sf.net>
+
+	* [r175] LibUSB.cpp, LibUSB.h, Makefile.am, MyValidator.cpp,
+	  MyValidator.h, MyXmlConfig.cpp, MyXmlConfig.h,
+	  SessionProperties.cpp, SessionProperties.h,
+	  SessionProperties_symbols.h, ShareProperties.cpp,
+	  ShareProperties.h, ShareProperties_symbols.h,
+	  SmbShareProperties.cpp, SmbShareProperties.h,
+	  SmbShareProperties_symbols.h, UsbFilterDetailsDialog.cpp,
+	  UsbFilterDetailsDialog.h, UsbFilterDetailsDialog_symbols.h,
+	  opennx.pjd, opennx.spec.in, opennxApp.cpp, po/POTFILES.in,
+	  po/de.po, po/opennx.pot, res/opennx.xrc, res/usblocal.png,
+	  res/usbremote.png:
+	  - Implemented editing USB filters
+
+2009-02-20 11:33  Fritz Elfert <felfert@users.sf.net>
+
+	* [r174] LibOpenSC.cpp, opennx.pjd, res/opennx.xrc:
+	  - Added static bitmap in CardWaiterDialog
+	  - Show MessageBox earlier in watchReader
+
+2009-02-20 11:06  Fritz Elfert <felfert@users.sf.net>
+
+	* [r173] po/de.po:
+	  - Fixed a translation
+
+2009-02-20 05:44  Fritz Elfert <felfert@users.sf.net>
+
+	* [r172] watchReaderApp.cpp, watchReaderApp.h:
+	  - Implemented NLS im watchreader
+
+2009-02-20 05:23  Fritz Elfert <felfert@users.sf.net>
+
+	* [r171] .:
+	  - Updated SVN ignore
+
+2009-02-20 05:19  Fritz Elfert <felfert@users.sf.net>
+
+	* [r170] CardWaiter.cpp, CardWaiter.h, CardWaiterDialog.cpp,
+	  CardWaiterDialog.h, CardWaiterDialog_symbols.h,
+	  ConnectDialog_symbols.h, LibOpenSC.cpp, LibOpenSC.h,
+	  LoginDialog.cpp, LoginDialog.h, LoginDialog_symbols.h,
+	  Makefile.am, MyIPC.cpp, MyIPC.h, MySession.cpp, MySession.h,
+	  configure.ac, opennx.pjd, opennx.spec.in, opennxApp.cpp,
+	  po/POTFILES.in, po/de.po, po/opennx.pot, res/opennx.xrc,
+	  watchReaderApp.cpp, watchReaderApp.h:
+	  - Implemented session suspend on unplugging smart card
+	  - Renamed CardWaiter to LibOpenSC
+	  - Started tunnel setup for USBIP
+
+2009-02-19 00:21  Fritz Elfert <felfert@users.sf.net>
+
+	* [r169] CardWaiter.cpp, CardWaiter.h, MySession.cpp,
+	  MyXmlConfig.cpp, MyXmlConfig.h, SessionProperties.cpp,
+	  SessionProperties.h, SessionProperties_symbols.h, opennx.pjd,
+	  opennxApp.cpp, po/de.po, po/opennx.pot, res/opennx.xrc:
+	  - For SmartCard support, check availability of libopensc during
+	  startup
+	  - Added GUI elements for a long existing external proxy option.
+
+2009-02-18 19:37  Fritz Elfert <felfert@users.sf.net>
+
+	* [r168] LibUSB.cpp, LibUSB.h, LoginDialog.cpp, MySession.cpp,
+	  MyXmlConfig.cpp, MyXmlConfig.h, SessionProperties.cpp,
+	  SessionProperties.h, SessionProperties_symbols.h, opennx.pjd,
+	  opennxApp.cpp, opennxApp.h, res/opennx.xrc:
+	  - Completed SmartCard support
+	  - Added UsbDevice handling in config.
+
+2009-02-18 01:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r167] LibUSB.cpp, LibUSB.h, Makefile.am, configure.ac,
+	  opennxApp.cpp, opennxApp.h:
+	  - Started usbip support
+
+2009-02-18 00:28  Fritz Elfert <felfert@users.sf.net>
+
+	* [r166] CardWaiter.cpp, MySession.cpp, TraceLogDialog.cpp,
+	  TraceLogDialog.h, TraceLogDialog_symbols.h, TraceLogFrame.cpp,
+	  TraceLogFrame.h, TraceLogFrame_symbols.h, res/tracelog.xrc,
+	  tracelog.pjd:
+	  - More compatibility changes in CardWaiter
+	  - Auto-resize columns in tracelog app.
+	  - Added Clear menu entry in tracelog app
+
+2009-02-17 22:56  Fritz Elfert <felfert@users.sf.net>
+
+	* [r165] trace.h:
+	  - Added missing include in trace header.
+
+2009-02-17 21:30  Fritz Elfert <felfert@users.sf.net>
+
+	* [r164] CardWaiter.cpp:
+	  - Adapted card detection to older libopensc (for win32)
+
+2009-02-15 14:34  Fritz Elfert <felfert@users.sf.net>
+
+	* [r163] opennx.pjd, res/tracelog.xrc, tracelog.pjd:
+	  - Removed unused resource class
+	  - Updated source templates
+
+2009-02-15 14:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r162] CardWaiter.cpp, CardWaiter.h, CardWaiterDialog.cpp,
+	  CardWaiterDialog.h, MySession.cpp, po/POTFILES.in, po/de.po,
+	  po/opennx.pot:
+	  - Completed implementation of (nx-ssh-level) SmartCard support.
+
+2009-02-15 12:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r161] MySession.cpp:
+	  - Improved logic in Session cleanup
+
+2009-02-14 22:24  Fritz Elfert <felfert@users.sf.net>
+
+	* [r160] CardWaiter.cpp, CardWaiter.h, CardWaiterDialog.cpp,
+	  CardWaiterDialog.h, CardWaiterDialog_symbols.h, Makefile.am,
+	  MySession.cpp, configure.ac, opennx.pjd, res/opennx.xrc:
+	  - Added CardWaiter dialog
+
+2009-02-13 17:04  Fritz Elfert <felfert@users.sf.net>
+
+	* [r159] Makefile.am, MyIPC.cpp, MyIPC.h, MySession.cpp,
+	  opennx.pjd, opennx.spec.in, patches,
+	  patches/openssh-scard-pin.patch, po/de.po, po/opennx.pot:
+	  - Added patch for PIN-Entry of SmartCards
+	  - Handle SmartCard states correctly
+
+2009-02-12 16:05  Fritz Elfert <felfert@users.sf.net>
+
+	* [r158] opennx.spec.in:
+	  - RPM Packaging with SmartCard support enabled
+
+2009-02-12 14:46  Fritz Elfert <felfert@users.sf.net>
+
+	* [r157] ConnectDialog.cpp, ConnectDialog_symbols.h, configure.ac,
+	  opennx.pjd, po/de.po, po/opennx.pot, res/opennx.xrc:
+	  - Updated translations
+	  - Bumped up version
+
+2009-02-12 14:33  Fritz Elfert <felfert@users.sf.net>
+
+	* [r156] Icon.cpp:
+	  - Fixed a compiler warning
+
+2009-02-12 14:13  Fritz Elfert <felfert@users.sf.net>
+
+	* [r155] Makefile.am:
+	  - Fixed distcheck target
+
+2009-02-12 14:12  Fritz Elfert <felfert@users.sf.net>
+
+	* [r154] getnxsrcpkg, opennx.spec.in:
+	  - Adaptions for rpm build on openSuSE 11.1
+
+2009-02-11 12:07  Fritz Elfert <felfert@users.sf.net>
+
+	* [r153] opennxApp.cpp:
+	  - Remove in-memory resources silently on exit.
+
+2009-02-10 23:13  Fritz Elfert <felfert@users.sf.net>
+
+	* [r152] packaging/win32/opennx.iss:
+	  - Download and install latest NX in installer.
+
+2009-02-10 22:30  Fritz Elfert <felfert@users.sf.net>
+
+	* [r151] AboutDialog.cpp, AboutDialog.h, AboutDialog_symbols.h,
+	  ExtHtmlWindow.cpp, SessionAdmin.cpp, SessionAdmin_symbols.h,
+	  SessionProperties.cpp, SessionProperties.h,
+	  SessionProperties_symbols.h, opennx.pjd:
+	  - Revert to ShellExecute() for opening URLs on Windows, because
+	  wxLaunchDefaultBrowser() mostly fails.
+	  - Added OK action in about dialog
+
+2009-02-10 20:44  Fritz Elfert <felfert@users.sf.net>
+
+	* [r150] MyXmlConfig.cpp, MyXmlConfig.h, SessionProperties.cpp:
+	  - Preparations for USBIP support
+
+2009-02-10 20:05  Fritz Elfert <felfert@users.sf.net>
+
+	* [r149] packaging/win32:
+	  - Ignore generated installer
+
+2009-02-10 20:04  Fritz Elfert <felfert@users.sf.net>
+
+	* [r148] AboutDialog.cpp, ConnectDialog.cpp,
+	  DebugStringGrabber.cpp, DebugStringGrabber.h, ExtHtmlWindow.cpp,
+	  ForeignFrame.cpp, Icon.cpp, KeyDialog.cpp, LogDialog.cpp,
+	  LoginDialog.cpp, Makefile.am, MyIPC.cpp, MyIPC.h, MySession.cpp,
+	  MySession.h, MyValidator.cpp, MyWizard.cpp, MyXmlConfig.cpp,
+	  PanicDialog.cpp, QuitDialog.cpp, RdpImageSettingsDialog.cpp,
+	  RdpPropertyDialog.cpp, ResumeDialog.cpp, ResumeDialog.h,
+	  SessionAdmin.cpp, SessionList.cpp, SessionProperties.cpp,
+	  SmbShareProperties.cpp, TextViewer.cpp, TraceLogDialog.cpp,
+	  TraceLogDialog.h, TraceLogDialog_symbols.h, TraceLogFrame.cpp,
+	  TraceLogFrame.h, TraceLogFrame_symbols.h, Translations.dsp,
+	  WinShare.cpp, bin2hdr.dsp, configure.ac, opennx.dsp, opennx.dsw,
+	  opennx.pjd, opennx.rc, opennxApp.cpp, opennxApp.h, packaging,
+	  packaging/win32, packaging/win32/opennx.iss, po/de.po,
+	  po/opennx.pot, pwcrypt.cpp, res/opennx.rc.in, res/opennx.xrc,
+	  res/tracelog.xrc, resource.h, trace.h, tracelog.pjd, tracelog.rc,
+	  tracelogApp.cpp, tracelogApp.h:
+	  - Fixed event types
+	  - Switched to MinGW/gcc build on Windows
+	  - Fixed a memory leak in resource handling
+	  - Added TaskBar icon for view logging on Windows
+	  - First attempt of creating an installer for Windows
+
+2009-02-10 19:46  Fritz Elfert <felfert@users.sf.net>
+
+	* [r147] AsyncProcess.cpp, AsyncProcess.h:
+	  - Fixed event types
+
+2008-10-08 16:10  Fritz Elfert <felfert@users.sf.net>
+
+	* [r146] Makefile.am, configure.ac:
+	  - Fixed build on MacOSX
+
+2008-10-08 11:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r145] WinShare.cpp, configure.ac, opennxApp.cpp, opennxApp.h:
+	  - Fail in configure, if cups.h or libsmbclient.h is missing
+	  - Removed --enable-smartcard configure option, since support
+	  for SmartCards is now checked at runtime (running nxssh).
+
+2008-10-07 08:33  Fritz Elfert <felfert@users.sf.net>
+
+	* [r144] MySession.cpp, MySession.h:
+	  - Convert option filename for nxssh to cygwin syntax on windows.
+
+2008-10-07 05:10  Fritz Elfert <felfert@users.sf.net>
+
+	* [r143] AsyncProcess.cpp:
+	  - Fixed IPC with nxssh on windows.
+
+2008-10-06 18:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r142] MySession.cpp:
+	  - Fixed handling of changed host keys
+
+2008-10-06 13:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r141] SmbShareProperties.cpp, SmbShareProperties.h, opennx.pjd,
+	  res/opennx.xrc:
+	  - Workaround for wxGTK (GTK?) ComboBox bug on FC8
+
+2008-10-06 00:39  Fritz Elfert <felfert@users.sf.net>
+
+	* [r140] opennxApp.cpp:
+	  - Added trace command line option
+	  - Set PATH to nx binaries on windows
+
+2008-09-29 13:33  Fritz Elfert <felfert@users.sf.net>
+
+	* [r139] configure.ac:
+	  - Fixed option setting of wx-config
+
+2008-09-29 11:18  Fritz Elfert <felfert@users.sf.net>
+
+	* [r138] opennx.pjd, res/opennx.xrc, res/usb.png:
+	  - Changed USB icon
+
+2008-09-29 10:29  Fritz Elfert <felfert@users.sf.net>
+
+	* [r137] LoginDialog.cpp, MySession.cpp, po/de.po, po/opennx.pot:
+	  - Updated translations
+
+2008-09-28 19:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r136] res/usbstick.png:
+	  
+
+2008-09-28 19:32  Fritz Elfert <felfert@users.sf.net>
+
+	* [r135] LoginDialog.cpp, Makefile.am, MyIPC.cpp, MyIPC.h,
+	  MySession.cpp, MyWizard.cpp, SessionProperties.cpp,
+	  SessionProperties.h, SessionProperties_symbols.h, configure.ac,
+	  opennx.pjd, opennxApp.cpp, opennxApp.h, po/de.po, res/opennx.xrc:
+	  - Fixed X11 lib recognition
+	  - Automatically detect at runtime if nxssh supports SmartCards
+	  
+
+2008-09-26 23:06  Fritz Elfert <felfert@users.sf.net>
+
+	* [r134] INSTALL:
+	  - Reformatted an updated INSTALL instructions
+
+2008-09-26 22:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r133] SmbShareProperties.cpp, SmbShareProperties.h,
+	  TextViewer.cpp, TextViewer.h, WinShare.h, opennx.pjd,
+	  res/opennx.xrc:
+	  - Fixed textviewer
+	  - Fixed share properties dialog
+
+2008-09-26 19:50  Fritz Elfert <felfert@users.sf.net>
+
+	* [r132] Makefile.am, configure.ac:
+	  - Fixesd SVN properties
+
+2008-09-26 13:21  Fritz Elfert <felfert@users.sf.net>
+
+	* [r131] .:
+	  - Added some SVN ignore properties
+
+2008-09-26 13:16  Fritz Elfert <felfert@users.sf.net>
+
+	* [r130] ., AsyncProcess.cpp, AsyncProcess.h, LoginDialog.cpp,
+	  LoginDialog.h, MySession.cpp, MySession.h, MyXmlConfig.cpp,
+	  MyXmlConfig.h, SessionProperties.cpp, conf, configure.ac, m4,
+	  opennx.pjd, opennxApp.cpp, po, res, res/opennx.xrc:
+	  - New feature: Can open session files from URLs (http and ftp)
+	  - If a session file is readonly, the settings dialog is disabled.
+	  - Removed logo from settings dialog in order to reduce size
+	  - Misc fixes in session error handling
+
+2008-09-25 16:23  Fritz Elfert <felfert@users.sf.net>
+
+	* [r129] ABOUT-NLS, INSTALL, INSTALL.generic, Makefile.am,
+	  MyIPC.cpp, MyIPC.h, MySession.cpp, MySession.h,
+	  SmbShareProperties.cpp, WinShare.cpp, WinShare.h,
+	  conf/config.rpath, configure.ac, m4/Makefile.am, m4/po.m4,
+	  opennx.pjd, opennxApp.cpp, po/ChangeLog, po/Makefile.in.in,
+	  po/Makevars.template, po/Rules-quot, po/boldquot.sed, po/de.po,
+	  po/en@boldquot.header, po/en@quot.header, po/en@quot.po,
+	  po/insert-header.sin, po/quot.sed, po/remove-potcdate.sin,
+	  res/opennx.rc, res/opennx.rc.in:
+	  - Misc changes for MinGW
+
+2008-09-23 19:41  Fritz Elfert <felfert@users.sf.net>
+
+	* [r128] osdep.c:
+	  - Fixed a typo
+
+2008-09-23 19:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r127] opennxApp.cpp:
+	  - Changes for compiling on latest mingw
+
+2007-09-03 20:58  Fritz Elfert <felfert@users.sf.net>
+
+	* [r126] KeyDialog.cpp, opennx.dsp:
+	  - win32 updates
+
+2007-09-01 23:41  Fritz Elfert <felfert@users.sf.net>
+
+	* [r124] macos:
+	  - Added subdir for macos packaging
+
+2007-09-01 23:37  Fritz Elfert <felfert@users.sf.net>
+
+	* [r123] configure.ac, po/de.po:
+	  - Bump up version
+	  - Updated translator mail address
+
+2007-09-01 23:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r122] configure.ac, po/de.po:
+	  - Fixed message-catalog installation
+
+2007-08-30 12:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r114] osdep.c:
+	  - Wait for X11 when launching it on MocOSX
+
+2007-08-29 19:17  Fritz Elfert <felfert@users.sf.net>
+
+	* [r113] configure.ac, osdep.c:
+	  - Added minimalistic X11 autostart for MacOSX
+
+2007-08-29 12:10  Fritz Elfert <felfert@users.sf.net>
+
+	* [r112] po/Makefile.in.in:
+	  - Make po install work with both old and new automake
+
+2007-08-28 17:08  Fritz Elfert <felfert@users.sf.net>
+
+	* [r111] Makefile.am, SessionProperties.cpp, configure.ac,
+	  po/LINGUAS, po/Makefile.in.in, po/Makevars, po/POTFILES.in:
+	  - Fix validator checks on MacOSX
+	  - Use older Makefile.in.in from Mac's fink distro
+	  Newer ones don't work on MacOSX
+	  - Cleaned up POTFILES.in
+
+2007-08-28 16:19  Fritz Elfert <felfert@users.sf.net>
+
+	* [r110] configure.ac:
+	  - Fixed a typo
+
+2007-08-28 15:20  Fritz Elfert <felfert@users.sf.net>
+
+	* [r109] MyIPC.cpp, WinShare.cpp:
+	  - Added traceing in WinShare
+	  - Added error-handling for wxExecute on MacOSX
+
+2007-08-28 15:18  Fritz Elfert <felfert@users.sf.net>
+
+	* [r108] AsyncProcess.cpp:
+	  - Fixed malloc bug on MacOSX
+
+2007-08-27 13:57  Fritz Elfert <felfert@users.sf.net>
+
+	* [r107] Makefile.am:
+	  - Fixed problem with automake >= 1.8 on OpenBSD not creating
+	  mkinstalldirs
+
+2007-08-27 13:01  Fritz Elfert <felfert@users.sf.net>
+
+	* [r106] configure.ac:
+	  Update to 0.13
+
+2007-08-27 12:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r105] configure.ac:
+	  - Fixed a typo.
+
+2007-08-23 11:51  Fritz Elfert <felfert@users.sf.net>
+
+	* [r104] share/applnk/clean, share/applnk/clean/.directory,
+	  share/applnk/clean/opennx-admin.desktop,
+	  share/applnk/clean/opennx-wizard.desktop,
+	  share/applnk/clean/opennx.desktop, share/applnk/mdk,
+	  share/applnk/mdk/menu, share/applnk/mdk/opennx,
+	  share/applnk/mime-kde, share/applnk/mime-kde/nx-session.desktop,
+	  share/applnk/mime-xdg, share/applnk/mime-xdg/opennx.xml,
+	  share/applnk/network, share/applnk/network-gnome,
+	  share/applnk/network-gnome/.directory,
+	  share/applnk/network-gnome/opennx-admin-gnome.desktop,
+	  share/applnk/network-gnome/opennx-gnome.desktop,
+	  share/applnk/network-gnome/opennx-wizard-gnome.desktop,
+	  share/applnk/network-rh8, share/applnk/network-rh8/.directory,
+	  share/applnk/network-rh8/opennx-admin.desktop,
+	  share/applnk/network-rh8/opennx-wizard.desktop,
+	  share/applnk/network-rh8/opennx.desktop,
+	  share/applnk/network/.directory,
+	  share/applnk/network/opennx-admin.desktop,
+	  share/applnk/network/opennx-wizard.desktop,
+	  share/applnk/network/opennx.desktop, share/applnk/x-opennx,
+	  share/applnk/x-opennx-kde, share/applnk/x-opennx-kde/.directory,
+	  share/applnk/x-opennx-kde/opennx-admin-kde.desktop,
+	  share/applnk/x-opennx-kde/opennx-kde.desktop,
+	  share/applnk/x-opennx-kde/opennx-wizard-kde.desktop,
+	  share/applnk/x-opennx/.directory,
+	  share/applnk/x-opennx/opennx-admin.desktop,
+	  share/applnk/x-opennx/opennx-wizard.desktop,
+	  share/applnk/x-opennx/opennx.desktop, share/applnk/xdg-x,
+	  share/applnk/xdg-x/opennx.directory,
+	  share/applnk/xdg-x/opennx.menu:
+	  Added missing applnk stuff
+
+2007-08-23 11:42  Fritz Elfert <felfert@users.sf.net>
+
+	* [r103] .:
+	  Ignore stamp-h
+
+2007-08-23 11:41  Fritz Elfert <felfert@users.sf.net>
+
+	* [r102] ., AboutDialog.cpp, AsyncProcess.cpp, AsyncProcess.h,
+	  ConnectDialog.cpp, ExtHtmlWindow.cpp, ForeignFrame.cpp, Icon.cpp,
+	  Info.plist.in, KeyDialog.cpp, LogDialog.cpp, LoginDialog.cpp,
+	  Makefile.am, MyIPC.cpp, MyIPC.h, MySession.cpp, MySession.h,
+	  MyValidator.cpp, MyValidator.h, MyWizard.cpp, MyWizard.h,
+	  MyXmlConfig.cpp, MyXmlConfig.h, PanicDialog.cpp, QuitDialog.cpp,
+	  RdpImageSettingsDialog.cpp, RdpImageSettingsDialog.h,
+	  RdpPropertyDialog.cpp, RdpPropertyDialog.h, ResumeDialog.cpp,
+	  SessionAdmin.cpp, SessionAdmin.h, SessionList.cpp, SessionList.h,
+	  SessionProperties.cpp, SessionProperties.h,
+	  SmbShareProperties.cpp, SmbShareProperties.h,
+	  SmbShareProperties_symbols.h, VncPropertyDialog.cpp,
+	  VncPropertyDialog.h, WinShare.cpp, X11PropertyDialog.cpp,
+	  bin2hdr.cpp, conf, configure.ac, opennx.dsp, opennx.pjd,
+	  opennx.spec.in, opennxApp.cpp, opennxApp.h, osdep.c, osdep.h,
+	  po/de.po, po/opennx.pot, pwcrypt.cpp, pwcrypt.h,
+	  res/nx-desktop.icns, res/nx.icns, res/opennx-admin.icns,
+	  res/opennx-wizard.icns, res/opennx.xrc, res/smbfolder.png,
+	  share/applnk:
+	  Update to 0.13
+
+2006-12-22 00:32  Fritz Elfert <felfert@users.sf.net>
+
+	* [r101] Makefile.am, po/de.po:
+	  - Exclude .svn subdirs from dist-tarball
+
+2006-12-22 00:25  Fritz Elfert <felfert@users.sf.net>
+
+	* [r100] osdep.c:
+	  - Added some comments in osdep.c
+
+2006-12-21 23:44  Fritz Elfert <felfert@users.sf.net>
+
+	* [r99] Makefile.am, MySession.cpp, configure.ac, opennxApp.cpp,
+	  po/de.po, po/opennx.pot:
+	  - Added missing translations
+	  - Initialize locale search path
+	  - Made NX protocol version configurable
+
+2006-12-21 22:07  Fritz Elfert <felfert@users.sf.net>
+
+	* [r98] Makefile.am, MySession.cpp, MyXmlConfig.cpp,
+	  RdpPropertyDialog.cpp, RdpPropertyDialog.h,
+	  SmbShareProperties.cpp, SmbShareProperties.h,
+	  SmbShareProperties_symbols.h, VncPropertyDialog.cpp,
+	  VncPropertyDialog.h, X11PropertyDialog.cpp, X11PropertyDialog.h,
+	  configure.ac, opennx.pjd, opennxApp.cpp, osdep.c, res/opennx.xrc,
+	  share/cups, share/cups/mime.convs, share/cups/mime.types:
+	  - Added cups config
+	  - Added CUPS-specific options in share dialog
+	  - Populated install target
+	  - Use canonical platform names provided by wx
+
+2006-12-21 09:18  Fritz Elfert <felfert@users.sf.net>
+
+	* [r97] ForeignFrame.cpp, ForeignFrame.h, ForeignFrame_symbols.h,
+	  Makefile.am, MyXmlConfig.cpp, MyXmlConfig.h, PanicDialog.cpp,
+	  PanicDialog.h, PanicDialog_symbols.h, QuitDialog.cpp,
+	  QuitDialog.h, QuitDialog_symbols.h, SessionProperties.cpp,
+	  SessionProperties.h, SessionProperties_symbols.h, opennx.pjd,
+	  opennxApp.cpp, opennxApp.h, osdep.c, osdep.h, res/opennx.xrc,
+	  res/tb_close.png, res/tb_suspend.png, res/tb_terminate.png,
+	  share, share/keyboards, share/keys, share/keys/server.id_dsa.key:
+	  Implemented --dialog stuff (incomplete)
+
+2006-12-20 07:01  Fritz Elfert <felfert@users.sf.net>
+
+	* [r96] AboutDialog.cpp, LoginDialog.cpp, Makefile.am, MyIPC.cpp,
+	  MySession.cpp, MyValidator.cpp, MyWizard.cpp, MyWizard.h,
+	  MyXmlConfig.cpp, SessionList.cpp, SessionProperties.cpp,
+	  SessionProperties.h, SmbShareProperties.cpp,
+	  SmbShareProperties.h, SmbShareProperties_symbols.h,
+	  TextViewer.cpp, WinShare.cpp, WinShare.h, configure.ac,
+	  opennx.pjd, opennxApp.cpp, res/cupsprinter.png,
+	  res/cupssharing.png, res/kill.png, res/new-session.png,
+	  res/nx.xcf, res/opennx-admin.xcf, res/opennx-wizard.xcf,
+	  res/opennx.xrc, res/refresh.png, res/remove.png,
+	  res/session-stats-01.png, res/session-stats-02.png,
+	  res/session-stats-1.png, res/session-stats-2.png,
+	  res/sharing.png, res/shfolder.png, res/shprinter.png,
+	  res/smbfolder.png, res/smbprinter.png, res/smbsharing.png,
+	  res/terminate.png, res/view-log.png, res/warning.png:
+	  - Populated handlers fro CUPS and SMB shared resources
+	  - Added build option for SmartCard support
+	  - Cleaned up resources
+	  - Fixed eol properties
+
+2006-12-18 18:42  Fritz Elfert <felfert@users.sf.net>
+
+	* [r95] MyWizard.cpp, MyXmlConfig.cpp, MyXmlConfig.h,
+	  SessionProperties.cpp, UnixImageSettingsDialog.cpp,
+	  opennxApp.cpp, opennxApp.h, osdep.c, osdep.h:
+	  - Properly determine local keyboard type and locale
+	  - Added misc parameters as session arguments
+
+2006-12-15 17:00  Fritz Elfert <felfert@users.sf.net>
+
+	* [r94] ResumeDialog.cpp, ResumeDialog.h, ResumeDialog_symbols.h,
+	  TextViewer.cpp:
+	  - Fixed properties
+
+2006-12-15 16:53  Fritz Elfert <felfert@users.sf.net>
+
+	* [r93] MySession.cpp, MySession.h, MyXmlConfig.cpp, opennxApp.cpp,
+	  opennxApp.h:
+	  - Added SelfPath
+	  - Determine path for XAUTHORITY
+
+2006-12-15 15:10  Fritz Elfert <felfert@users.sf.net>
+
+	* [r92] xx.cpp:
+	  - removed accidential committed file
+
+2006-12-15 15:10  Fritz Elfert <felfert@users.sf.net>
+
+	* [r91] Makefile.am, MySession.cpp, osdep.c, osdep.h,
+	  res/wizard.png, xx.cpp:
+	  - Determine X11 socket dir and use it for NX_TEMP
+	  - Changed wizard image
+
+2006-12-14 04:05  Fritz Elfert <felfert@users.sf.net>
+
+	* [r90] MySession.cpp, MySession.h:
+	  - nxssh internal proxy working
+
+2006-12-14 02:54  Fritz Elfert <felfert@users.sf.net>
+
+	* [r89] COPYING, INSTALL, Makefile.am, MySession.cpp, MySession.h,
+	  ResumeDialog.cpp, po/de.po, po/opennx.pot:
+	  - Fixed crash in admin mode
+	  - Updated po's
+
+2006-12-14 02:06  Fritz Elfert <felfert@users.sf.net>
+
+	* [r88] ConnectDialog_symbols.h, Makefile.am, MyIPC.cpp,
+	  MySession.cpp, MySession.h, MyXmlConfig.cpp, MyXmlConfig.h,
+	  ResumeDialog.cpp, ResumeDialog.h, ResumeDialog_symbols.h,
+	  TextViewer.h, TextViewer_symbols.h, opennx.pjd, opennxApp.cpp,
+	  res/opennx.xrc:
+	  - Implemented session-takeover and -resume
+
+2006-12-13 18:28  Fritz Elfert <felfert@users.sf.net>
+
+	* [r85] Makefile.am, MyIPC.cpp, MySession.cpp, MySession.h,
+	  ResumeDialog.cpp, ResumeDialog.h, ResumeDialog_symbols.h,
+	  opennx.pjd, res/opennx.xrc:
+	  - Start implementing session resume dialog
+
+2006-12-13 06:14  Fritz Elfert <felfert@users.sf.net>
+
+	* [r84] AboutDialog.h, ConnectDialog.h, ConnectDialog_symbols.h,
+	  Icon.h, LogDialog.h, LoginDialog.h, MyIPC.cpp, MyIPC.h,
+	  MySession.cpp, MySession.h, MyValidator.h, MyWizard.h,
+	  MyXmlConfig.cpp, MyXmlConfig.h, RdpImageSettingsDialog.h,
+	  RdpPropertyDialog.h, SessionAdmin.h, SessionList.h,
+	  SessionProperties.h, SmbShareProperties.h, TextViewer.h,
+	  UnixImageSettingsDialog.h, VncImageSettingsDialog.h,
+	  VncPropertyDialog.h, WinShare.h, X11PropertyDialog.h,
+	  debugleak.h, opennxApp.h, pwcrypt.h:
+	  - Added missing licence headers
+
+2006-12-13 06:13  Fritz Elfert <felfert@users.sf.net>
+
+	* [r83] xx:
+	  - end test
+
+2006-12-13 06:12  Fritz Elfert <felfert@users.sf.net>
+
+	* [r82] xx:
+	  - test
+
+2006-12-12 21:32  Fritz Elfert <felfert@users.sf.net>
+
+	* [r81] MyIPC.cpp, res/about.html:
+	  - Fixed win32 compile error
+	  - Updated URL in about-dialog
+
+2006-12-12 21:24  Fritz Elfert <felfert@users.sf.net>
+
+	* [r80] AboutDialog.cpp, WinShare.cpp, pwcrypt.cpp:
+	  - _T("") -> wxT("")
+
+2006-12-12 20:38  Fritz Elfert <felfert@users.sf.net>
+
+	* [r79] MyIPC.cpp, MyIPC.h, MySession.cpp:
+	  - Parse 287 on stderr
+
+2006-12-12 20:16  Fritz Elfert <felfert@users.sf.net>
+
+	* [r78] res/admin.ico, res/nx-desktop.ico, res/nx.ico, res/nx.png,
+	  res/nx.xcf, res/opennx-admin.ico, res/opennx-admin.xcf,
+	  res/opennx-wizard.ico, res/opennx-wizard.xcf, res/opennx.rc,
+	  res/wizard.ico:
+	  - added icons for win32
+
+2006-12-12 10:43  Fritz Elfert <felfert@users.sf.net>
+
+	* [r77] LogDialog.cpp, LoginDialog.cpp, MyIPC.cpp, MyIPC.h,
+	  MySession.cpp, MySession.h, MyXmlConfig.cpp, MyXmlConfig.h,
+	  SessionAdmin.cpp, SessionAdmin.h, SessionList.cpp, opennx.pjd,
+	  opennxApp.cpp, res/kill.png, res/kill_16.png, res/multimedia.png,
+	  res/new-session.png, res/nx-desktop.png, res/opennx-admin.png,
+	  res/opennx-wizard.png, res/opennx.xrc,
+	  res/osi-certified-72x60.png, res/refresh.png, res/refresh_16.png,
+	  res/remove.png, res/remove_16.png, res/session_log_16.png,
+	  res/session_new_16.png, res/session_terminate_16.png,
+	  res/terminate.png, res/view-log.png:
+	  - Finally a working version ;-)
+
+2006-12-10 04:11  Fritz Elfert <felfert@users.sf.net>
+
+	* [r76] SessionProperties.cpp, opennx.dsp, opennx.pjd,
+	  res/opennx.xrc:
+	  - Recalc about size.
+
+2006-12-10 03:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r75] ExtHtmlWindow.cpp, ExtHtmlWindow.h:
+	  - Added props
+
+2006-12-10 03:43  Fritz Elfert <felfert@users.sf.net>
+
+	* [r74] AboutDialog.cpp, ExtHtmlWindow.cpp, ExtHtmlWindow.h,
+	  Makefile.am, SessionProperties.cpp, SessionProperties.h,
+	  opennx.pjd, res/opennx.xrc:
+	  - Moved ExtHtmlWindow in separate file
+	  - Replaced About button in SessionProperties by separate tab
+
+2006-12-10 02:52  Fritz Elfert <felfert@users.sf.net>
+
+	* [r73] MyXmlConfig.cpp:
+	  - Fixed lien endings
+
+2006-12-10 02:50  Fritz Elfert <felfert@users.sf.net>
+
+	* [r72] TextViewer.cpp, TextViewer.h, TextViewer_symbols.h:
+	  - Fixed svn props
+
+2006-12-10 02:19  Fritz Elfert <felfert@users.sf.net>
+
+	* [r71] TextViewer.cpp:
+	  - Use RTF for GPL display on win32
+
+2006-12-10 02:11  Fritz Elfert <felfert@users.sf.net>
+
+	* [r70] TextViewer.cpp:
+	  - Use RTF for GPL display on win32
+
+2006-12-10 02:07  Fritz Elfert <felfert@users.sf.net>
+
+	* [r69] TextViewer.cpp:
+	  - Fixed line-endings
+
+2006-12-10 02:05  Fritz Elfert <felfert@users.sf.net>
+
+	* [r68] TextViewer.cpp:
+	  set missing eolstyle
+
+2006-12-10 02:03  Fritz Elfert <felfert@users.sf.net>
+
+	* [r67] TextViewer.cpp, TextViewer_symbols.h, opennx.pjd,
+	  res/opennx.xrc:
+	  - Use RTF for GPL display on win32
+
+2006-12-10 01:41  Fritz Elfert <felfert@users.sf.net>
+
+	* [r66] AboutDialog.cpp, Makefile.am, TextViewer.cpp, opennx.pjd,
+	  opennxApp.cpp, opennxApp.h, res/about.html, res/lgpl.txt,
+	  res/opennx.xrc:
+	  - Made textViewer work on Unix
+
+2006-12-10 00:00  Fritz Elfert <felfert@users.sf.net>
+
+	* [r65] res/osi-certified-72x60-t.png:
+	  - Added OSI cert image
+
+2006-12-09 23:54  Fritz Elfert <felfert@users.sf.net>
+
+	* [r64] res/lgpl.rtf, res/lgpl.txt:
+	  - Added LGPL
+
+2006-12-09 23:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r63] res/osi-certified-72x60.png:
+	  - Added OSI cert image
+
+2006-12-09 22:26  Fritz Elfert <felfert@users.sf.net>
+
+	* [r62] KeyDialog.cpp, MyXmlConfig.cpp, SessionProperties.cpp,
+	  SessionProperties.h, opennx.pjd, opennxApp.cpp, res/opennx.xrc:
+	  - Fixed win32 CUPS stuff
+
+2006-12-09 21:46  Fritz Elfert <felfert@users.sf.net>
+
+	* [r61] opennxApp.cpp:
+	  - Corrected application cleanup
+
+2006-12-09 21:40  Fritz Elfert <felfert@users.sf.net>
+
+	* [r60] opennxApp.cpp:
+	  
+
+2006-12-09 21:20  Fritz Elfert <felfert@users.sf.net>
+
+	* [r59] KeyDialog.cpp, KeyDialog.h, KeyDialog_symbols.h,
+	  opennx.pjd, res/opennx.xrc:
+	  - Populated event handlers in KeyDialog
+
+2006-12-09 20:56  Fritz Elfert <felfert@users.sf.net>
+
+	* [r58] KeyDialog.cpp, KeyDialog.h, MyXmlConfig.cpp,
+	  SessionProperties.cpp, opennx.pjd, res/opennx.xrc:
+	  - Populated KeyDialog event handlers
+
+2006-12-09 17:51  Fritz Elfert <felfert@users.sf.net>
+
+	* [r57] opennx.dsp:
+	  - Added KeyDialog
+
+2006-12-09 17:45  Fritz Elfert <felfert@users.sf.net>
+
+	* [r56] KeyDialog.cpp, KeyDialog.h, KeyDialog_symbols.h,
+	  Makefile.am, SessionProperties.cpp, opennx.pjd, res/opennx.xrc:
+	  - Added keyDialog
+
+2006-12-09 05:28  Fritz Elfert <felfert@users.sf.net>
+
+	* [r55] AboutDialog.cpp, AboutDialog_symbols.h,
+	  ConnectDialog_symbols.h, LogDialog_symbols.h, LoginDialog.cpp,
+	  LoginDialog_symbols.h, MyIPC.h, MySession.cpp, MySession.h,
+	  MyValidator.cpp, MyValidator.h, MyWizard.cpp, MyWizard.h,
+	  MyWizard_symbols.h, MyXmlConfig.cpp, MyXmlConfig.h,
+	  RdpImageSettingsDialog_symbols.h, RdpPropertyDialog.cpp,
+	  RdpPropertyDialog.h, RdpPropertyDialog_symbols.h,
+	  SessionAdmin.cpp, SessionAdmin.h, SessionAdmin_symbols.h,
+	  SessionProperties.cpp, SessionProperties.h,
+	  SessionProperties_symbols.h, SmbShareProperties_symbols.h,
+	  TextViewer_symbols.h, UnixImageSettingsDialog_symbols.h,
+	  VncImageSettingsDialog_symbols.h, VncPropertyDialog_symbols.h,
+	  X11PropertyDialog_symbols.h, opennx.pjd, opennxApp.cpp,
+	  res/opennx.xrc:
+	  - Added misc options
+
+2006-12-08 15:42  Fritz Elfert <felfert@users.sf.net>
+
+	* [r54] MySession.cpp, SessionProperties_symbols.h, opennx.pjd,
+	  res/opennx.xrc:
+	  
+
+2006-12-08 15:21  Fritz Elfert <felfert@users.sf.net>
+
+	* [r53] WinShare.cpp:
+	  - Use only __UNIX__ define
+
+2006-12-08 15:19  Fritz Elfert <felfert@users.sf.net>
+
+	* [r52] AboutDialog.cpp, ConnectDialog.cpp, Icon.cpp,
+	  LogDialog.cpp, LoginDialog.cpp, MyIPC.cpp, MySession.cpp,
+	  MyValidator.cpp, MyWizard.cpp, MyXmlConfig.cpp,
+	  RdpImageSettingsDialog.cpp, RdpPropertyDialog.cpp,
+	  SessionAdmin.cpp, SessionList.cpp, SessionProperties.cpp,
+	  SmbShareProperties.cpp, TextViewer.cpp,
+	  UnixImageSettingsDialog.cpp, VncImageSettingsDialog.cpp,
+	  VncPropertyDialog.cpp, WinShare.cpp, X11PropertyDialog.cpp,
+	  bin2hdr.cpp, opennx.pjd, opennxApp.cpp, pwcrypt.cpp, wxprec.cpp:
+	  - Updated licence
+
+2006-12-08 15:04  Fritz Elfert <felfert@users.sf.net>
+
+	* [r51] MyWizard.cpp:
+	  - Fixed creation of desktop entry on win32
+
+2006-12-08 12:43  Fritz Elfert <felfert@users.sf.net>
+
+	* [r50] MyWizard.cpp, MyXmlConfig.cpp, opennx.dsp:
+	  - Ficxed compile errors on windows
+
+2006-12-08 12:29  Fritz Elfert <felfert@users.sf.net>
+
+	* [r49] MyWizard.cpp:
+	  - Fixed win32 compile error
+
+2006-12-08 12:24  Fritz Elfert <felfert@users.sf.net>
+
+	* [r48] ., opennx.dsp, po:
+	  - Renamed to OpenNX
+
+2006-12-08 02:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r47] PackedResources.dsp:
+	  - Removed obsolete stuff
+
+2006-12-08 02:52  Fritz Elfert <felfert@users.sf.net>
+
+	* [r46] Makefile.am, configure.ac, po/Makevars, po/POTFILES.in,
+	  po/de.po, po/opennx.pot, res/mxclient-wizard.png, res/nx.png,
+	  res/opennx-wizard.png:
+	  - Adapted icons
+
+2006-12-08 01:37  Fritz Elfert <felfert@users.sf.net>
+
+	* [r45] Makefile.am, m4/ChangeLog:
+	  - Complete maintainer-clean
+
+2006-12-08 01:22  Fritz Elfert <felfert@users.sf.net>
+
+	* [r44] ChangeLog:
+	  -
+
+2006-12-08 01:21  Fritz Elfert <felfert@users.sf.net>
+
+	* [r43] res/opennx.xrc:
+	  - Renamed to OpenNX
+
+2006-12-08 01:17  Fritz Elfert <felfert@users.sf.net>
+
+	* [r42] Makefile.am, po/POTFILES.in, po/de.po, po/en@quot.po,
+	  po/opennx.pot:
+	  - Renaming to OpenNX
+
+2006-12-08 01:03  Fritz Elfert <felfert@users.sf.net>
+
+	* [r41] opennx.dsp:
+	  - renaming to OpenNX
+
+2006-12-08 01:00  Fritz Elfert <felfert@users.sf.net>
+
+	* [r40] MxSession.cpp, MxSession.h, MxWizard.cpp, MxWizard.h,
+	  MxWizard_symbols.h, MxXmlConfig.cpp, MxXmlConfig.h,
+	  MySession.cpp, MySession.h, MyWizard.cpp, MyWizard.h,
+	  MyWizard_symbols.h, MyXmlConfig.cpp, MyXmlConfig.h:
+	  renaming to OpenNX
+
+2006-12-08 00:58  Fritz Elfert <felfert@users.sf.net>
+
+	* [r39] LoginDialog.cpp, LoginDialog.h, Makefile.am, MxSession.cpp,
+	  MxSession.h, MxWizard.cpp, MxWizard.h, MxXmlConfig.cpp,
+	  MxXmlConfig.h, RdpImageSettingsDialog.cpp,
+	  RdpImageSettingsDialog.h, RdpPropertyDialog.cpp,
+	  RdpPropertyDialog.h, SessionList.cpp, SessionProperties.cpp,
+	  SessionProperties.h, SmbShareProperties.cpp,
+	  SmbShareProperties.h, UnixImageSettingsDialog.cpp,
+	  UnixImageSettingsDialog.h, VncImageSettingsDialog.cpp,
+	  VncImageSettingsDialog.h, VncPropertyDialog.cpp,
+	  VncPropertyDialog.h, X11PropertyDialog.cpp, X11PropertyDialog.h,
+	  opennx.pjd, opennxApp.cpp:
+	  - Renaming to OpenNX
+
+2006-12-08 00:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r38] MxIPC.cpp, MxIPC.h, MxValidator.cpp, MxValidator.h,
+	  MyIPC.cpp, MyIPC.h, MyValidator.cpp, MyValidator.h:
+	  - Renaming to OpenNX
+
+2006-12-08 00:53  Fritz Elfert <felfert@users.sf.net>
+
+	* [r37] Makefile.am, MxIPC.cpp, MxIPC.h, MxSession.cpp,
+	  MxValidator.cpp, MxValidator.h, MxWizard.cpp, MxWizard.h,
+	  RdpPropertyDialog.cpp, SessionProperties.cpp,
+	  SessionProperties.h, SmbShareProperties.cpp, opennx.pjd:
+	  - Renaming to OpenNX
+
+2006-12-08 00:15  Fritz Elfert <felfert@users.sf.net>
+
+	* [r36] AboutDialog_symbols.h, ConnectDialog_symbols.h,
+	  LogDialog_symbols.h, LoginDialog_symbols.h, MxWizard_symbols.h,
+	  RdpImageSettingsDialog_symbols.h, RdpPropertyDialog_symbols.h,
+	  SessionAdmin_symbols.h, SessionProperties_symbols.h,
+	  SmbShareProperties_symbols.h, TextViewer.cpp,
+	  TextViewer_symbols.h, UnixImageSettingsDialog_symbols.h,
+	  VncImageSettingsDialog_symbols.h, VncPropertyDialog_symbols.h,
+	  X11PropertyDialog_symbols.h, opennx.pjd:
+	  - Renaming to OpenNX
+
+2006-12-08 00:07  Fritz Elfert <felfert@users.sf.net>
+
+	* [r35] res/mxclient.rc, res/mxclient.xrc, res/opennx.rc:
+	  - Renaming to OpenNX
+
+2006-12-08 00:04  Fritz Elfert <felfert@users.sf.net>
+
+	* [r34] po/mxclient.pot, po/opennx.pot:
+	  - Renaming to OpenNX
+
+2006-12-08 00:03  Fritz Elfert <felfert@users.sf.net>
+
+	* [r33] res/mxclient-admin.png, res/mxclient.png,
+	  res/opennx-admin.png:
+	  - Renaming to OpenNX
+
+2006-12-07 23:56  Fritz Elfert <felfert@users.sf.net>
+
+	* [r32] Makefile.am, PackedResources.dsp, Translations.dsp,
+	  configure.ac, opennx.dsp, po/POTFILES.in, po/de.po,
+	  po/en@quot.po, po/mxclient.pot, res/mxclient.rc,
+	  res/mxclient.xrc:
+	  - renaming to OpenNX
+
+2006-12-07 23:48  Fritz Elfert <felfert@users.sf.net>
+
+	* [r31] mxclient.dsp, mxclient.dsw, mxclient.pjd, mxclient.rc,
+	  mxclientApp.cpp, mxclientApp.h, opennx.dsp, opennx.dsw,
+	  opennx.pjd, opennx.rc, opennxApp.cpp, opennxApp.h:
+	  - Renaming to OpenNX
+
+2006-12-07 23:43  Fritz Elfert <felfert@users.sf.net>
+
+	* [r30] AboutDialog.cpp, AboutDialog.h, AboutDialog_symbols.h,
+	  Icon.cpp, LogDialog.h, LogDialog_symbols.h, LoginDialog.cpp,
+	  LoginDialog.h, LoginDialog_symbols.h, Makefile.am,
+	  MxValidator.cpp, MxValidator.h, MxWizard.cpp, MxXmlConfig.cpp,
+	  PackedResources.dsp, RdpImageSettingsDialog.h,
+	  RdpImageSettingsDialog_symbols.h, RdpPropertyDialog.h,
+	  RdpPropertyDialog_symbols.h, SessionAdmin.cpp,
+	  SessionProperties.cpp, SessionProperties.h,
+	  SessionProperties_symbols.h, SmbShareProperties.cpp,
+	  SmbShareProperties.h, SmbShareProperties_symbols.h,
+	  TextViewer.cpp, Translations.dsp, UnixImageSettingsDialog.h,
+	  UnixImageSettingsDialog_symbols.h, VncImageSettingsDialog.h,
+	  VncImageSettingsDialog_symbols.h, VncPropertyDialog.h,
+	  VncPropertyDialog_symbols.h, WinShare.cpp, WinShare.h,
+	  X11PropertyDialog.h, X11PropertyDialog_symbols.h, configure.ac,
+	  mxclient.dsp, mxclient.dsw, mxclient.pjd, mxclient.rc,
+	  mxclientApp.cpp, mxclientApp.h, resource.h:
+	  - Renaming project to OpenNX
+
+2006-12-07 05:34  Fritz Elfert <felfert@users.sf.net>
+
+	* [r29] res/about.html:
+	  - Added about
+
+2006-12-07 05:33  Fritz Elfert <felfert@users.sf.net>
+
+	* [r28] TextViewer.cpp, TextViewer.h, TextViewer_symbols.h,
+	  res/built_with_wx.png, res/gnu.png, res/opennx.png:
+	  - Adaptions for NX 2.1
+
+2006-12-07 05:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r27] AboutDialog.cpp, AboutDialog.h, AboutDialog_symbols.h,
+	  ConnectDialog.cpp, ConnectDialog.h, ConnectDialog_symbols.h,
+	  Icon.cpp, LogDialog.cpp, LogDialog.h, LogDialog_symbols.h,
+	  LoginDialog.cpp, LoginDialog.h, LoginDialog_symbols.h,
+	  Makefile.am, MxWizard.cpp, MxWizard.h, MxWizard_symbols.h,
+	  MxXmlConfig.cpp, MxXmlConfig.h, RdpImageSettingsDialog.cpp,
+	  RdpImageSettingsDialog.h, RdpImageSettingsDialog_symbols.h,
+	  RdpPropertyDialog.cpp, RdpPropertyDialog.h,
+	  RdpPropertyDialog_symbols.h, SessionAdmin.cpp, SessionAdmin.h,
+	  SessionAdmin_symbols.h, SessionProperties.cpp,
+	  SessionProperties.h, SessionProperties_symbols.h,
+	  SmbShareProperties.cpp, SmbShareProperties.h,
+	  SmbShareProperties_symbols.h, UnixImageSettingsDialog.cpp,
+	  UnixImageSettingsDialog.h, UnixImageSettingsDialog_symbols.h,
+	  VncImageSettingsDialog.cpp, VncImageSettingsDialog.h,
+	  VncImageSettingsDialog_symbols.h, VncPropertyDialog.cpp,
+	  VncPropertyDialog.h, VncPropertyDialog_symbols.h,
+	  X11PropertyDialog.cpp, X11PropertyDialog.h,
+	  X11PropertyDialog_symbols.h, configure.ac, debugleak.h,
+	  mxclient.pjd, mxclientApp.cpp, mxclientApp.h, res/mxclient.xrc:
+	  - Adaptions for NX 2.1
+
+2006-12-06 03:36  Fritz Elfert <felfert@users.sf.net>
+
+	* [r26] bin2hdr.cpp:
+	  - Corrected svn properties
+
+2006-12-06 03:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r25] LoginDialog.cpp, LoginDialog.h, LoginDialog_symbols.h,
+	  RdpPropertyDialog.cpp, RdpPropertyDialog.h,
+	  RdpPropertyDialog_symbols.h, SessionProperties.cpp,
+	  SessionProperties.h, SessionProperties_symbols.h,
+	  UnixImageSettingsDialog.cpp, UnixImageSettingsDialog.h,
+	  UnixImageSettingsDialog_symbols.h, bin2hdr.cpp, mxclient.pjd,
+	  res/mxclient.xrc:
+	  - Adaption to NX 2.0
+
+2006-12-06 03:21  Fritz Elfert <felfert@users.sf.net>
+
+	* [r24] AboutDialog.cpp, AboutDialog.h, AboutDialog_symbols.h,
+	  ConnectDialog.cpp, ConnectDialog.h, ConnectDialog_symbols.h,
+	  Icon.cpp, Icon.h, LogDialog.cpp, LogDialog.h,
+	  LogDialog_symbols.h, LoginDialog.cpp, LoginDialog.h,
+	  LoginDialog_symbols.h, MxIPC.cpp, MxIPC.h, MxSession.cpp,
+	  MxSession.h, MxValidator.cpp, MxValidator.h, MxWizard.cpp,
+	  MxWizard.h, MxWizard_symbols.h, MxXmlConfig.cpp, MxXmlConfig.h,
+	  RdpImageSettingsDialog.cpp, RdpImageSettingsDialog.h,
+	  RdpImageSettingsDialog_symbols.h, RdpPropertyDialog.cpp,
+	  RdpPropertyDialog.h, RdpPropertyDialog_symbols.h,
+	  SessionAdmin.cpp, SessionAdmin.h, SessionAdmin_symbols.h,
+	  SessionList.cpp, SessionList.h, SessionProperties.cpp,
+	  SessionProperties.h, SessionProperties_symbols.h,
+	  SmbShareProperties.cpp, SmbShareProperties.h,
+	  SmbShareProperties_symbols.h, UnixImageSettingsDialog.cpp,
+	  UnixImageSettingsDialog.h, UnixImageSettingsDialog_symbols.h,
+	  VncImageSettingsDialog.cpp, VncImageSettingsDialog.h,
+	  VncImageSettingsDialog_symbols.h, VncPropertyDialog.cpp,
+	  VncPropertyDialog.h, VncPropertyDialog_symbols.h, WinShare.cpp,
+	  WinShare.h, X11PropertyDialog.cpp, X11PropertyDialog.h,
+	  X11PropertyDialog_symbols.h, bin2hdr.cpp, bin2hdr.dsp,
+	  debugleak.h, md5.c, md5.h, mxclientApp.cpp, mxclientApp.h,
+	  pwcrypt.cpp, pwcrypt.h, resource.h, wxprec.cpp:
+	  - Corrected svn properties
+
+2006-12-05 22:46  Fritz Elfert <felfert@users.sf.net>
+
+	* [r23] MxIPC.cpp, MxSession.cpp, MxXmlConfig.cpp:
+	  - Fixed compiler warnings under MSVC
+
+2006-12-05 20:40  Fritz Elfert <felfert@users.sf.net>
+
+	* [r22] MxIPC.cpp, MxSession.cpp, MxXmlConfig.cpp, mxclientApp.cpp:
+	  - Fixed option write
+
+2006-12-05 18:35  Fritz Elfert <felfert@users.sf.net>
+
+	* [r21] AboutDialog.h, AboutDialog_symbols.h, ConnectDialog.cpp,
+	  ConnectDialog.h, ConnectDialog_symbols.h, Icon.cpp, Icon.h,
+	  LogDialog.cpp, LogDialog.h, LogDialog_symbols.h, LoginDialog.h,
+	  LoginDialog_symbols.h, MxValidator.cpp, MxValidator.h,
+	  MxWizard.h, MxWizard_symbols.h, RdpImageSettingsDialog.cpp,
+	  RdpImageSettingsDialog.h, RdpImageSettingsDialog_symbols.h,
+	  RdpPropertyDialog.cpp, RdpPropertyDialog.h,
+	  RdpPropertyDialog_symbols.h, SessionAdmin.cpp, SessionAdmin.h,
+	  SessionAdmin_symbols.h, SessionList.h, SessionProperties.cpp,
+	  SessionProperties.h, SessionProperties_symbols.h,
+	  SmbShareProperties.cpp, SmbShareProperties.h,
+	  SmbShareProperties_symbols.h, UnixImageSettingsDialog.cpp,
+	  UnixImageSettingsDialog.h, UnixImageSettingsDialog_symbols.h,
+	  VncImageSettingsDialog.cpp, VncImageSettingsDialog.h,
+	  VncImageSettingsDialog_symbols.h, VncPropertyDialog.cpp,
+	  VncPropertyDialog.h, VncPropertyDialog_symbols.h, WinShare.cpp,
+	  WinShare.h, X11PropertyDialog.cpp, X11PropertyDialog.h,
+	  X11PropertyDialog_symbols.h, debugleak.h, md5.h, mxclientApp.h,
+	  pwcrypt.cpp, pwcrypt.h, resource.h, wxprec.cpp:
+	  - Converted CRLF -> LF
+
+2006-12-05 14:44  Fritz Elfert <felfert@users.sf.net>
+
+	* [r20] AboutDialog.cpp, LoginDialog.cpp, MxWizard.cpp,
+	  MxXmlConfig.cpp, SessionList.cpp, mxclientApp.cpp:
+	  - Fixed browser execution
+	  - Replaced wxLogDebug by wxLogTrace everywhere
+	  - Reindented several files
+
+2006-12-05 13:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r19] m4:
+	  - Ignore more intermediate files
+
+2006-12-05 13:29  Fritz Elfert <felfert@users.sf.net>
+
+	* [r18] po:
+	  - Ignore more intermediate files
+
+2006-12-05 13:27  Fritz Elfert <felfert@users.sf.net>
+
+	* [r17] .:
+	  - Ignore more intermediate files
+
+2006-12-05 13:25  Fritz Elfert <felfert@users.sf.net>
+
+	* [r16] ., AboutDialog.cpp, LoginDialog.cpp, Makefile.am,
+	  MxIPC.cpp, MxIPC.h, MxSession.cpp, MxSession.h, MxXmlConfig.cpp,
+	  MxXmlConfig.h, SessionList.cpp, configure.ac, mxclient.pjd,
+	  mxclientApp.cpp, res/mxclient.xrc:
+	  - Ignore more intermediate files
+	  - Implemented 1.5 ssh-chat
+
+2006-12-03 01:01  Fritz Elfert <felfert@users.sf.net>
+
+	* [r15] ., conf, m4:
+	  - Ignore intermediate files
+
+2006-12-03 00:55  Fritz Elfert <felfert@users.sf.net>
+
+	* [r14] ABOUT-NLS, ChangeLog, Makefile.am, bin2hdr.cpp,
+	  conf/config.rpath, configure.ac, m4/ChangeLog, m4/Makefile.am,
+	  m4/po.m4, po/ChangeLog, po/LINGUAS, po/Makefile.in.in,
+	  po/Makevars.template, po/POTFILES.in, po/Rules-quot,
+	  po/boldquot.sed, po/de.po, po/en@boldquot.header,
+	  po/en@quot.header, po/en@quot.po, po/insert-header.sin,
+	  po/mxclient.pot, po/quot.sed, po/remove-potcdate.sin:
+	  - gettextized under OpenBSD
+
+2006-12-02 23:04  Fritz Elfert <felfert@users.sf.net>
+
+	* [r13] .:
+	  - Ignore intermediate files
+
+2006-12-02 23:03  Fritz Elfert <felfert@users.sf.net>
+
+	* [r12] bin2hdr.cpp, bin2hdr.dsp, mxclient.dsp, mxclient.dsw,
+	  mxclientApp.cpp, mxclientApp.h:
+	  - Use in-memory resources
+
+2006-02-14 00:48  Fritz Elfert <felfert@users.sf.net>
+
+	* [r11] po, res:
+	  - Populated ignore attributes
+
+2006-02-14 00:48  Fritz Elfert <felfert@users.sf.net>
+
+	* [r10] res:
+	  - Populated ignore attributes
+
+2006-02-14 00:47  Fritz Elfert <felfert@users.sf.net>
+
+	* [r9] ., locale, res:
+	  - Populated ignore attributes
+
+2006-02-14 00:31  Fritz Elfert <felfert@users.sf.net>
+
+	* [r8] ., AboutDialog.cpp, AboutDialog.h, AboutDialog_symbols.h,
+	  ChangeLog, ConnectDialog.cpp, ConnectDialog.h,
+	  ConnectDialog_symbols.h, Icon.cpp, Icon.h, LogDialog.cpp,
+	  LogDialog.h, LogDialog_symbols.h, LoginDialog.cpp, LoginDialog.h,
+	  LoginDialog_symbols.h, Makefile.am, MxIPC.cpp, MxIPC.h,
+	  MxSession.cpp, MxSession.h, MxValidator.cpp, MxValidator.h,
+	  MxWizard.cpp, MxWizard.h, MxWizard_symbols.h, MxXmlConfig.cpp,
+	  MxXmlConfig.h, PackedResources.dsp, RdpImageSettingsDialog.cpp,
+	  RdpImageSettingsDialog.h, RdpImageSettingsDialog_symbols.h,
+	  RdpPropertyDialog.cpp, RdpPropertyDialog.h,
+	  RdpPropertyDialog_symbols.h, SessionAdmin.cpp, SessionAdmin.h,
+	  SessionAdmin_symbols.h, SessionList.cpp, SessionList.h,
+	  SessionProperties.cpp, SessionProperties.h,
+	  SessionProperties_symbols.h, SmbShareProperties.cpp,
+	  SmbShareProperties.h, SmbShareProperties_symbols.h,
+	  Translations.dsp, UnixImageSettingsDialog.cpp,
+	  UnixImageSettingsDialog.h, UnixImageSettingsDialog_symbols.h,
+	  VncImageSettingsDialog.cpp, VncImageSettingsDialog.h,
+	  VncImageSettingsDialog_symbols.h, VncPropertyDialog.cpp,
+	  VncPropertyDialog.h, VncPropertyDialog_symbols.h, WinShare.cpp,
+	  WinShare.h, X11PropertyDialog.cpp, X11PropertyDialog.h,
+	  X11PropertyDialog_symbols.h, conf, configure.ac, debugleak.h,
+	  locale, m4, m4/ChangeLog, m4/Makefile.am, md5.c, md5.h,
+	  mxclient.dsp, mxclient.dsw, mxclient.pjd, mxclient.rc,
+	  mxclientApp.cpp, mxclientApp.h, po, po/ChangeLog, po/LINGUAS,
+	  po/Makevars, po/POTFILES.in, po/de.po, po/mxclient.pot,
+	  pwcrypt.cpp, pwcrypt.h, res, res/admin.ico, res/kill.png,
+	  res/kill_16.png, res/multimedia.png, res/mxclient-admin.png,
+	  res/mxclient-wizard.png, res/mxclient.png, res/mxclient.rc,
+	  res/mxclient.xrc, res/new-session.png, res/nx-desktop.ico,
+	  res/nx-desktop.png, res/nx.ico, res/nx.png, res/refresh.png,
+	  res/refresh_16.png, res/remove.png, res/remove_16.png,
+	  res/session-stats-01.png, res/session-stats-02.png,
+	  res/session-stats-1.png, res/session-stats-2.png,
+	  res/session_fstats_16.png, res/session_log_16.png,
+	  res/session_new_16.png, res/session_pstats_16.png,
+	  res/session_terminate_16.png, res/sharing.png, res/shbroken.png,
+	  res/shfolder.png, res/shprinter.png, res/terminate.png,
+	  res/view-log.png, res/warning.png, res/wizard.ico,
+	  res/wizard.png, resource.h, wxprec.cpp:
+	  
+

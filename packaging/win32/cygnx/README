@@ -1,0 +1,35 @@
+In order to build an OpenNX installer package which
+uses the original nxssh.exe and nxesd.exe,
+you can do the following:
+
+1. Install the Innosetup Quickstart Package from
+   http://www.jrsoftware.org/isdl.php (On Linux, do this inside wine).
+2. Fetch NoMachine's nxclient windows installer into this directory
+3. Fetch innounp from http://sourceforge.net/projects/innounp/files/
+   and put the innounp.exe into this directory.
+4. Run innounp.exe -x nxclient-x.y.z.exe (On Linux, use wine, e.g.:
+   wine innounp.exe -x nxclient-x.y.z.exe)
+
+After that, you should see a directory named '{app}' which contains
+the package contents.
+
+5. Go to the toplevel and configure OpenNX using the option
+    --with-orignx
+
+   Here is the config cmd which I use on my Fedora:
+
+   mingw32-configure \
+    --enable-staticwx \
+    --with-orignx \
+    --with-dllpath=/usr/i686-pc-mingw32/sys-root/mingw/bin \
+    --with-wx-config=/usr/i686-pc-mingw32/sys-root/mingw/bin/wx-config \
+    --with-wine-iscc="$HOME/.wine/drive_c/Program\ Files/Inno\ Setup\ 5/ISCC.exe"
+
+   mingw32-configure is a wrapper from Fedora's mingw32 environment. Please also
+   note the double-quoting of the iscc path.
+
+6. Run make dist-platform
+
+When running ISCC in wine during the last build step, sometimes ISCC aborts with a
+false "out of memory" error. If that happens, simply run make dist-platform again,
+it should go very quickly, because everything is already built ...

@@ -1,0 +1,30 @@
+diff -urw nxcomp-orig/ServerChannel.cpp nxcomp/ServerChannel.cpp
+--- nxcomp-orig/ServerChannel.cpp	2010-03-01 18:18:59.000000000 +0100
++++ nxcomp/ServerChannel.cpp	2012-03-16 12:32:29.907699513 +0100
+@@ -1415,6 +1415,26 @@
+         // Check if this is an event which we can discard.
+         //
+ 
++        if ((inputOpcode == ButtonPress) || (inputOpcode == ButtonRelease)) {
++            // Ignore clicks in upper right corner, if env var NX_KIOSK_X is set.
++            const char *kxs = getenv("NX_KIOSK_X");
++            if (kxs && strlen(kxs)) {
++                char *eptr;
++                int dpwidth = strtol(kxs, &eptr, 10);
++                if (('\0' == *eptr) && (0 < dpwidth)) {
++                    int rx = -1;
++                    int ry = -1;
++                    if (inputLength > 22) {
++                        rx = GetUINT(inputMessage + 20, bigEndian_);
++                        ry = GetUINT(inputMessage + 22, bigEndian_);
++                    }
++                    if ((0 == ry) && ((dpwidth - 1) == rx)) {
++                        continue;
++                    }
++                }
++            }
++        }
++
+         if ((inputOpcode == Expose && enableExpose_ == 0) ||
+                 (inputOpcode == GraphicsExpose && enableGraphicsExpose_ == 0) ||
+                     (inputOpcode == NoExpose && enableNoExpose_ == 0))

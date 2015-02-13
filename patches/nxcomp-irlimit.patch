@@ -1,0 +1,35 @@
+diff -Naurp nxcomp.orig/Loop.cpp nxcomp/Loop.cpp
+--- nxcomp.orig/Loop.cpp	2010-03-30 15:38:11.000000000 +0200
++++ nxcomp/Loop.cpp	2011-09-23 16:38:36.000000000 +0200
+@@ -3184,6 +3184,19 @@ int NXTransExecute(int *resultFDs, int *
+   return 1;
+ }
+ 
++
++int NXTransRate(void)
++{
++  if (statistics != NULL)
++  {
++    return statistics -> getBitrateInShortFrame();
++  }
++  else
++  {
++    return 0;
++  }
++}
++
+ //
+ // Initialize the connection parameters and
+ // prepare for negotiating the link with the
+diff -Naurp nxcomp.orig/NX.h nxcomp/NX.h
+--- nxcomp.orig/NX.h	2010-01-12 16:32:40.000000000 +0100
++++ nxcomp/NX.h	2011-09-23 16:18:20.000000000 +0200
+@@ -442,6 +442,8 @@ extern int NXTransParseEnvironment(const
+ 
+ extern void NXTransCleanup(void) __attribute__((noreturn));
+ 
++extern int NXTransRate(void);
++
+ #ifdef __cplusplus
+ }
+ #endif

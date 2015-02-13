@@ -1,0 +1,105 @@
+diff -urw libsndfile-1.0.24-orig/tests/write_read_test.c libsndfile-1.0.24/tests/write_read_test.c
+--- libsndfile-1.0.24-orig/tests/write_read_test.c	2011-03-23 10:29:08.000000000 +0100
++++ libsndfile-1.0.24/tests/write_read_test.c	2012-07-31 15:43:01.547999458 +0200
+@@ -30,7 +30,7 @@
+ 
+ #if (defined (WIN32) || defined (_WIN32))
+ #include	<fcntl.h>
+-static int truncate (const char *filename, int ignored) ;
++static int mytruncate (const char *filename, int ignored) ;
+ #endif
+ 
+ #include	<sndfile.h>
+@@ -807,7 +807,7 @@
+ 			} ;
+ 
+ 		/* Truncate the file to zero bytes. */
+-		if (truncate (filename, 0) < 0)
++		if (mytruncate (filename, 0) < 0)
+ 		{	printf ("\n\nLine %d: truncate (%s) failed", __LINE__, filename) ;
+ 			perror (NULL) ;
+ 			exit (1) ;
+@@ -1326,7 +1326,7 @@
+ 			} ;
+ 
+ 		/* Truncate the file to zero bytes. */
+-		if (truncate (filename, 0) < 0)
++		if (mytruncate (filename, 0) < 0)
+ 		{	printf ("\n\nLine %d: truncate (%s) failed", __LINE__, filename) ;
+ 			perror (NULL) ;
+ 			exit (1) ;
+@@ -1845,7 +1845,7 @@
+ 			} ;
+ 
+ 		/* Truncate the file to zero bytes. */
+-		if (truncate (filename, 0) < 0)
++		if (mytruncate (filename, 0) < 0)
+ 		{	printf ("\n\nLine %d: truncate (%s) failed", __LINE__, filename) ;
+ 			perror (NULL) ;
+ 			exit (1) ;
+@@ -2364,7 +2364,7 @@
+ 			} ;
+ 
+ 		/* Truncate the file to zero bytes. */
+-		if (truncate (filename, 0) < 0)
++		if (mytruncate (filename, 0) < 0)
+ 		{	printf ("\n\nLine %d: truncate (%s) failed", __LINE__, filename) ;
+ 			perror (NULL) ;
+ 			exit (1) ;
+@@ -2883,7 +2883,7 @@
+ 			} ;
+ 
+ 		/* Truncate the file to zero bytes. */
+-		if (truncate (filename, 0) < 0)
++		if (mytruncate (filename, 0) < 0)
+ 		{	printf ("\n\nLine %d: truncate (%s) failed", __LINE__, filename) ;
+ 			perror (NULL) ;
+ 			exit (1) ;
+@@ -3402,7 +3402,7 @@
+ 			} ;
+ 
+ 		/* Truncate the file to zero bytes. */
+-		if (truncate (filename, 0) < 0)
++		if (mytruncate (filename, 0) < 0)
+ 		{	printf ("\n\nLine %d: truncate (%s) failed", __LINE__, filename) ;
+ 			perror (NULL) ;
+ 			exit (1) ;
+@@ -3635,7 +3635,7 @@
+ */
+ 
+ static int
+-truncate (const char *filename, int ignored)
++mytruncate (const char *filename, int ignored)
+ {	int fd ;
+ 
+ 	ignored = 0 ;
+diff -urw libsndfile-1.0.24-orig/tests/write_read_test.tpl libsndfile-1.0.24/tests/write_read_test.tpl
+--- libsndfile-1.0.24-orig/tests/write_read_test.tpl	2011-03-23 10:01:02.000000000 +0100
++++ libsndfile-1.0.24/tests/write_read_test.tpl	2012-07-31 15:43:18.280999943 +0200
+@@ -31,7 +31,7 @@
+ 
+ #if (defined (WIN32) || defined (_WIN32))
+ #include	<fcntl.h>
+-static int truncate (const char *filename, int ignored) ;
++static int mytruncate (const char *filename, int ignored) ;
+ #endif
+ 
+ #include	<sndfile.h>
+@@ -806,7 +806,7 @@
+ 			} ;
+ 
+ 		/* Truncate the file to zero bytes. */
+-		if (truncate (filename, 0) < 0)
++		if (mytruncate (filename, 0) < 0)
+ 		{	printf ("\n\nLine %d: truncate (%s) failed", __LINE__, filename) ;
+ 			perror (NULL) ;
+ 			exit (1) ;
+@@ -1039,7 +1039,7 @@
+ */
+ 
+ static int
+-truncate (const char *filename, int ignored)
++mytruncate (const char *filename, int ignored)
+ {	int fd ;
+ 
+ 	ignored = 0 ;

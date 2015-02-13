@@ -1,0 +1,6 @@
+http://www.mega-nerd.com/SRC/libsamplerate-0.1.7.tar.gz
+http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.24.tar.gz
+http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz
+# https://api.opensuse.org/public/source/home:mkbosmans:mingw32:pulseaudio/mingw32-pulseaudio/pulseaudio-1.0-dev-366-g7d918.tar.gz
+http://www.fritz-elfert.de/downloads/pulseaudio-1.0-fe-20111209.tar.gz
+http://www.fritz-elfert.de/downloads/json-c-0.9.tar.gz

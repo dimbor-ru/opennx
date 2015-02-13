@@ -1,0 +1,101 @@
+diff -urwN nxssh-orig/scard.c nxssh/scard.c
+--- nxssh-orig/scard.c	2006-11-07 13:14:42.000000000 +0100
++++ nxssh/scard.c	2009-02-13 16:51:21.000000000 +0100
+@@ -24,6 +24,9 @@
+  */
+ 
+ #include "includes.h"
++#if defined(SMARTCARD)
++int ask_for_pin = 0;
++#endif
+ #if defined(SMARTCARD) && defined(USE_SECTOK)
+ 
+ #include <sys/types.h>
+diff -urwN nxssh-orig/scard.h nxssh/scard.h
+--- nxssh-orig/scard.h	2006-08-05 04:39:40.000000000 +0200
++++ nxssh/scard.h	2009-02-13 15:56:50.000000000 +0100
+@@ -31,6 +31,8 @@
+ #define SCARD_ERROR_NOCARD	-2
+ #define SCARD_ERROR_APPLET	-3
+ 
++extern int ask_for_pin;
++
+ Key	**sc_get_keys(const char *, const char *);
+ void	 sc_close(void);
+ int	 sc_put_key(Key *, const char *);
+diff -urwN nxssh-orig/scard-opensc.c nxssh/scard-opensc.c
+--- nxssh-orig/scard-opensc.c	2007-03-12 21:35:39.000000000 +0100
++++ nxssh/scard-opensc.c	2009-02-13 17:29:21.000000000 +0100
+@@ -124,6 +124,7 @@
+ 	struct sc_pkcs15_prkey_info *key;
+ 	struct sc_pkcs15_object *pin_obj;
+ 	struct sc_pkcs15_pin_info *pin;
++	char *passphrase = NULL;
+ 
+ 	priv = (struct sc_priv_data *) RSA_get_app_data(rsa);
+ 	if (priv == NULL)
+@@ -161,24 +162,47 @@
+ 		goto err;
+ 	}
+ 	pin = pin_obj->data;
++
++	if (sc_pin)
++		passphrase = sc_pin;
++	else if (ask_for_pin) {
++		/* we need a pin but don't have one => ask for the pin */
++		char prompt[64];
++
++		snprintf(prompt, sizeof(prompt), "Enter PIN for %s: ",
++			key_obj->label ? key_obj->label : "smartcard key");
++		passphrase = read_passphrase(prompt, 0);
++		if (!passphrase || !strcmp(passphrase, ""))
++			goto err;
++	} else 
++		/* no pin => error */
++		goto err;
++
+ 	r = sc_lock(card);
+ 	if (r) {
+ 		error("Unable to lock smartcard: %s", sc_strerror(r));
+ 		goto err;
+ 	}
+-	if (sc_pin != NULL) {
+-		r = sc_pkcs15_verify_pin(p15card, pin, sc_pin,
+-					 strlen(sc_pin));
++	r = sc_pkcs15_verify_pin(p15card, pin, passphrase,
++				 strlen(passphrase));
+ 		if (r) {
+ 			sc_unlock(card);
+ 			error("PIN code verification failed: %s",
+ 			      sc_strerror(r));
+ 			goto err;
+ 		}
+-	}
++
+ 	*key_obj_out = key_obj;
++	if (!sc_pin) {
++		memset(passphrase, 0, strlen(passphrase));
++		xfree(passphrase);
++	}
+ 	return 0;
+ err:
++	if (!sc_pin && passphrase) {
++		memset(passphrase, 0, strlen(passphrase));
++		xfree(passphrase);
++	}
+ 	sc_close();
+ 	return -1;
+ }
+diff -urwN nxssh-orig/ssh.c nxssh/ssh.c
+--- nxssh-orig/ssh.c	2007-09-12 14:49:25.000000000 +0200
++++ nxssh/ssh.c	2009-02-13 17:02:43.000000000 +0100
+@@ -1594,6 +1594,9 @@
+ #ifdef SMARTCARD
+ 	Key **keys;
+ 
++	if (!options.batch_mode)
++		ask_for_pin = 1;
++
+ 	if (options.smartcard_device != NULL &&
+ 	    options.num_identity_files < SSH_MAX_IDENTITY_FILES &&
+ 	    (keys = sc_get_keys(options.smartcard_device, NULL)) != NULL) {

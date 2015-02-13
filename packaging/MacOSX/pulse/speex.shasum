@@ -1,0 +1,1 @@
+52daa72572e844e5165315e208da539b2a55c5eb  speex-1.2rc1.tar.gz

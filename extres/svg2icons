@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+# This script converts the various icons from their SVG
+# source format to PNG (for Unix), ICO (for Windows)
+# and ICNS (for Mac). It uses the following tools:
+#
+# rsvg from http://librsvg.sourceforge.net/
+# png2icns from http://icns.sourceforge.net/
+# icoutil from http://www.nongnu.org/icoutils/
+#
+# On Fedora, these are available out of the box in the
+# packages "librsvg2", "icoutils" and "libicns-utils".
+
+SIZES="512 256 128 48 32 16"
+SVGS=`find scalable -name "*.svg"`
+
+function cnv() {
+    SRC=$1
+    MACDST=`basename $SRC .svg`.icns
+    WINDST=`basename $SRC .svg`.ico
+    PNGALL=
+    PNGWIN=
+    for s in $SIZES ; do
+        PNG=`echo $SRC|sed -e "s/scalable/${s}x${s}/" -e 's/\.svg/.png/'`
+        rsvg -w $s -h $s -f png $SRC $PNG
+        PNGALL="$PNGALL $PNG"
+        if [ $s -lt 256 ] ; then
+            PNGWIN="$PNGWIN $PNG"
+        fi
+    done
+    png2icns $MACDST $PNGALL > /dev/null
+    icotool -c -b 24 -o $WINDST $PNGWIN
+}
+
+
+for f in $SVGS ; do
+    cnv $f
+done

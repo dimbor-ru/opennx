@@ -1,0 +1,41 @@
+diff -urw xc-orig/programs/Xserver/dix/dispatch.c xc/programs/Xserver/dix/dispatch.c
+--- xc-orig/programs/Xserver/dix/dispatch.c	2009-03-18 18:13:47.000000000 +0100
++++ xc/programs/Xserver/dix/dispatch.c	2010-03-01 02:03:20.986914924 +0100
+@@ -188,7 +188,7 @@
+ 
+ static int nextFreeClientID; /* always MIN free client ID */
+ 
+-static int	nClients;	/* number of authorized clients */
++volatile int	nClients;	/* number of authorized clients */
+ 
+ _X_EXPORT CallbackListPtr ClientStateCallback;
+ 
+@@ -3617,6 +3617,7 @@
+ 	if (client->clientState != ClientStateInitial &&
+ 	    client->clientState != ClientStateAuthenticating )
+ 	{
++        if (nClients > 0)
+ 	    --nClients;
+ 	}
+     }
+diff -urw xc-orig/programs/Xserver/hw/xwin/winclipboardthread.c xc/programs/Xserver/hw/xwin/winclipboardthread.c
+--- xc-orig/programs/Xserver/hw/xwin/winclipboardthread.c	2009-03-18 18:13:40.000000000 +0100
++++ xc/programs/Xserver/hw/xwin/winclipboardthread.c	2010-03-01 02:03:47.160183052 +0100
+@@ -307,6 +307,17 @@
+   /* Signal that the clipboard client has started */
+   g_fClipboardStarted = TRUE;
+ 
++  /* Hack:
++   * If -reset or -terminate has been specified on the cmdline,
++   * tweak nClients in dix/dispatch.c in order to terminate the
++   * server correctly (we are actually NOT a real client).
++   */
++  extern volatile char dispatchExceptionAtReset;
++  if (dispatchExceptionAtReset) {
++        extern volatile int nClients;
++        nClients--;
++  }
++
+   /* Loop for X events */
+   while (1)
+     {
