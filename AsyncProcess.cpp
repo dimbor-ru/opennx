@@ -211,7 +211,7 @@ AsyncProcess::Print(const wxString &s, bool doLog)
             ::myLogTrace(MYTRACETAG, wxT("Sending: '%s'"), s.c_str());
         else
             ::myLogTrace(MYTRACETAG, wxT("Sending (hidden): '************'"));
-        wxString sbuf = s + wxT("\n");
+        wxString sbuf = s +  (s.IsEmpty() ? wxT("NullCommand\n") : wxT("\n")) ;
         const wxWX2MBbuf buf = wxConvCurrent->cWX2MB(sbuf);
         os->Write(buf, strlen(buf));
         return true;
