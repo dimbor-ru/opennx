@@ -437,6 +437,12 @@ int CreateDetachedProcess(const char *cmdline) {
     if (CreateProcessA(NULL, (char *)cmdline, NULL, NULL,
                 FALSE, dwFlags, NULL, NULL, &si, &pi)) {
         detachedPID = pi.dwProcessId;
+        //{ Djelf
+        if (WaitForSingleObject(pi.hProcess, 500) == 0) {
+            detachedPID = 0;
+            return GetLastError();
+        }
+        //} Djelf
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
         return 0;
