@@ -101,6 +101,7 @@ private:
         STATE_KILL_SESSION,
         STATE_ABORT,
         STATE_FINISH,
+        STATE_WAIT,
     } tConnectState;
 
     wxArrayString m_aParseBuffer;
