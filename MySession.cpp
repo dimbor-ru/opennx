@@ -2220,6 +2220,8 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
         fn.Assign(wxFileName::GetHomeDir());
         ::wxSetEnv(wxT("NX_HOME"), cygPath(fn.GetFullPath()));
         ::wxLogInfo(wxT("env: NX_HOME='%s'"), cygPath(fn.GetFullPath()).c_str());
+        ::wxSetEnv(wxT("HOME"), cygPath(fn.GetFullPath()));
+        ::wxLogInfo(wxT("env: HOME='%s'"), cygPath(fn.GetFullPath()).c_str());
         ::wxSetEnv(wxT("NX_ROOT"), cygPath(m_sUserDir));
         ::wxLogInfo(wxT("env: NX_ROOT='%s'"), cygPath(m_sUserDir).c_str());
         ::wxSetEnv(wxT("NX_SYSTEM"), cygPath(m_sSysDir));
