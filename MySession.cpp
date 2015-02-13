@@ -1017,8 +1017,10 @@ MySession::OnSshEvent(wxCommandEvent &event)
                 if (m_eConnectState == STATE_FINISH) {
                     m_pDlg->SetStatusText(_("Starting session"));
                     msg = wxT("NX> 299 Switch connection to: ");
-                    if ((m_lProtocolVersion > 0x00020000) && m_bSslTunneling) {
-                        msg << wxT("NX mode: encrypted options: nx,options=")
+					if (m_lProtocolVersion > 0x00020000) {
+						msg << wxT("NX mode: ")
+							<< (m_bSslTunneling ? wxT("encrypted") : wxT("unencrypted"))
+							<< wxT(" options: nx,options=")
                             << formatOptFilename() << wxT(":") << m_sSessionDisplay;
                     } else {
                         msg << m_sProxyIP << wxT(":") << m_sProxyPort
@@ -2181,9 +2183,7 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
             }
         }
 
-        if (m_pCfg->bGetEnableSSL())
-            nxsshcmd << wxT(" -B");
-        nxsshcmd << wxT(" -E") << wxT(" nx@") << m_pCfg->sGetServerHost();
+		nxsshcmd << wxT(" -4 -B -E") << wxT(" nx@") << m_pCfg->sGetServerHost();
         m_sHost = m_pCfg->sGetServerHost();
 
         wxString stmp;
