@@ -880,6 +880,16 @@ void opennxApp::OnInitCmdLine(wxCmdLineParser& parser)
         xargv[i] = wxStrdup(as[i].c_str());
     parser.SetCmdLine(as.GetCount(), xargv);
 
+    if (argc==2) {
+        wxString FileStringNXS = argv[1];
+        if ((FileStringNXS.Length()>4)&&(FileStringNXS.Right(4).Lower()==wxT(".nxs"))){
+            wxFile FileNXS;
+            if (FileNXS.Exists(FileStringNXS)){
+                wxString FileStringONX = wxT("--session=")+FileStringNXS;
+                xargv[1]=wxStrdup(FileStringONX.wc_str());
+            }
+        }
+    }
 }
 
 static const wxChar *_dlgTypes[] = {
@@ -1000,6 +1010,8 @@ bool opennxApp::OnCmdLineParsed(wxCmdLineParser& parser)
     if (parser.Found(wxT("waittest")))
         m_bTestCardWaiter = true;
     (void)parser.Found(wxT("session"), &m_sSessionName);
+    if (parser.Found(wxT("session")))
+        m_eMode = MODE_CLIENT_AUTOLOGIN;
     wxString traceTags;
     if (parser.Found(wxT("trace"), &traceTags)) {
         CheckAllTrace(traceTags);
@@ -1110,6 +1122,9 @@ bool opennxApp::realInit()
                 return false;
             }
         case MODE_CLIENT:
+            break;
+        case MODE_CLIENT_AUTOLOGIN:
+            break;
         case MODE_WIZARD:
         case MODE_MAC_WAITOPEN:
             break;
@@ -1246,6 +1261,15 @@ bool opennxApp::realInit()
         if (!wz.Run())
             return false;
         m_sSessionName = wz.sGetConfigName();
+    }
+
+    if (m_eMode == MODE_CLIENT_AUTOLOGIN){
+        m_eMode = MODE_CLIENT;
+        LoginDialog d;
+        d.SetLastSessionFilename(m_sSessionName);
+        d.Create(NULL);
+        d.Run();
+        return false;
     }
 
     LoginDialog d;

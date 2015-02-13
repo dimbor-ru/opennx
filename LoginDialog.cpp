@@ -261,6 +261,12 @@ bool LoginDialog::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const wxStr
     return TRUE;
 }
 
+void LoginDialog::Run()
+{
+    wxCommandEvent event;
+    OnOkClick(event);
+}
+
 /*!
  * Control creation for LoginDialog
  */

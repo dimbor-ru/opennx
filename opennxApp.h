@@ -79,6 +79,7 @@ class opennxApp : public wxApp
         enum mode {
             MODE_INVALID = -1,
             MODE_CLIENT = 0,
+            MODE_CLIENT_AUTOLOGIN,
             MODE_EXPORTRES,
             MODE_ADMIN,
             MODE_WIZARD,

@@ -144,6 +144,7 @@ public:
     // Return filename of last successfully connected config
     wxString GetLastSessionFilename() const { return m_sLastSessionFilename; }
     void SetLastSessionFilename(wxString value) { m_sLastSessionFilename = value; }
+    void Run();
 #ifdef __WXMAC__
     void SelectSession(wxString name);
 #endif
