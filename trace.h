@@ -45,6 +45,7 @@ extern std::vector<std::string> *_allTraceTags;
     static wxArrayString allTraceTags; \
     static void initWxTraceTags() { \
        std::vector<std::string>::iterator i; \
+	   allTraceTags.Add(wxT("All")); \
        for (i = _allTraceTags->begin(); i != _allTraceTags->end(); i++) { \
            wxString tag(i->c_str(), wxConvUTF8); \
            allTraceTags.Add(wxFileName::FileName(tag).GetName()); \

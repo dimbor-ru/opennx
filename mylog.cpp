@@ -83,7 +83,7 @@ void myLogDebug(const wxChar *szFormat, ...)
 
 static void myVLogTrace(const wxChar *mask, const wxChar *szFormat, va_list argptr)
 {
-    if (wxLog::IsAllowedTraceMask(mask) ) {
+    if ((wxLog::IsAllowedTraceMask(mask))  ||  (wxLog::IsAllowedTraceMask(wxT("All")))) {
         wxString msg;
         msg << _T("(") << mask << _T(") ") << wxString::FormatV(szFormat, argptr);
         logit(msg, time(NULL));
