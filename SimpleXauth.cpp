@@ -318,7 +318,7 @@ void SimpleXauthEntry::SetUnix(wxString addr, int display)
     if (au.address)
         delete au.address;
     au.address_length = naddr.Length();
-    au.address = strdup((const char *)naddr.mb_str());
+    au.address = strdup((const char *)naddr.To8BitData());
 }
 
 void SimpleXauthEntry::SetInternet(wxIPV4address addr, int display)
