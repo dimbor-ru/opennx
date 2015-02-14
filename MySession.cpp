@@ -2403,7 +2403,9 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
                             ::wxGetApp().Yield(true);
                         }
                     } else {
+#ifndef __WXMSW__
                         nxssh.Kill();
+#endif
 #ifdef __WXMSW__
                         terminateXserver();
 #endif
