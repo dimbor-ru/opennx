@@ -895,8 +895,11 @@ MyXmlConfig::sGetSessionParams(const long protocolVersion, bool bNew, const wxSt
 # ifdef __UNIX__
     ret << wxT(" --client=\"linux\"");
 # else
-    // << wxT(" --client=\"winnt\"")
+# ifdef __WXMSW__
+    ret << wxT(" --client=\"winnt\"")
+# else
     ret << wxT(" --client=\"linux\"");
+# endif
 # endif
 #endif
     ret << wxT(" --media=\"") << (m_bEnableMultimedia ? 1 : 0) << wxT("\"");
