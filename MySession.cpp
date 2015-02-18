@@ -1848,6 +1848,11 @@ MySession::prepareCups()
     wxFileName::Mkdir(sCupsDir + wxT("certs"), 0700, wxPATH_MKDIR_FULL);
     wxFileName::Mkdir(sCupsDir + wxT("spool") +
             wxFileName::GetPathSeparator() + wxT("tmp"), 0700, wxPATH_MKDIR_FULL);
+#ifdef __UNIX__
+    wxString sSysPPDDir=wxT("/etc/cups/ppd/");
+    wxString sUserPPDDir=sCupsDir+wxT("ppd/");
+    wxFileName::Mkdir(sUserPPDDir, 0755, wxPATH_MKDIR_FULL);
+#endif
     {
         CupsClient cl;
         if (cl.IsAvailable()) {
@@ -1868,6 +1873,13 @@ MySession::prepareCups()
                     tos << wxT("  PageLimit 0") << endl;
                     tos << wxT("  KLimit 0") << endl;
                     tos << wxT("</Printer>") << endl;
+#ifdef __UNIX__
+                    wxString sPPDFName=sSysPPDDir+sa[i].name+wxT(".ppd");
+                    if (::wxFileExists(sPPDFName)) {
+                        wxString sLName=sUserPPDDir+sa[i].name;
+                        ::wxCopyFile(sPPDFName,sLName+wxT("_nxdl.ppd"),true);
+                    }
+#endif
                 }
             }
         } else
@@ -1906,6 +1918,13 @@ MySession::prepareCups()
         tos << wxT("  AuthType none") << endl;
         tos << wxT("  Allow from 127.0.0.0/8") << endl;
         tos << wxT("</Location>") << endl;
+#ifdef __UNIX__
+        tos << wxT("<Location /ppd>") << endl;
+        tos << wxT("  Order Deny,Allow") << endl;
+        tos << wxT("  Deny From All") << endl;
+        tos << wxT("  Allow from 127.0.0.0/8") << endl;
+        tos << wxT("</Location>") << endl;
+#endif
     }
     {
         wxFileOutputStream fos(sCupsDir + wxT("cups-files.conf"));
