@@ -1883,16 +1883,6 @@ MySession::prepareCups()
     {
         wxFileOutputStream fos(sCupsDir + wxT("cupsd.conf"));
         wxTextOutputStream tos(fos);
-        tos << wxT("CacheDir ") << sCupsDir << wxT("cache") << endl;
-        tos << wxT("TempDir ") << sCupsDir << wxT("spool")
-            << wxFileName::GetPathSeparator() << wxT("tmp") << endl;
-        tos << wxT("RequestRoot ") << sCupsDir << wxT("spool") << endl;
-        tos << wxT("ServerRoot ") << m_sUserDir
-            << wxFileName::GetPathSeparator() << wxT("cups") << endl;
-        tos << wxT("ErrorLog ") << sCupsDir << wxT("error_log") << endl;
-        tos << wxT("PageLog ") << sCupsDir << wxT("page_log") << endl;
-        tos << wxT("AccessLog ") << sCupsDir << wxT("access_log") << endl;
-        tos << wxT("PidFile ") << sCupsDir << wxT("cupsd.pid") << endl;
 #ifdef __WXDEBUG__
         tos << wxT("LogLevel debug") << endl;
 #else
@@ -1916,6 +1906,21 @@ MySession::prepareCups()
         tos << wxT("  AuthType none") << endl;
         tos << wxT("  Allow from 127.0.0.0/8") << endl;
         tos << wxT("</Location>") << endl;
+    }
+    {
+        wxFileOutputStream fos(sCupsDir + wxT("cups-files.conf"));
+        wxTextOutputStream tos(fos);
+        tos << wxT("CacheDir ") << sCupsDir << wxT("cache") << endl;
+        tos << wxT("StateDir ") << sCupsDir << wxT("certs") << endl;
+        tos << wxT("TempDir ") << sCupsDir << wxT("spool")
+            << wxFileName::GetPathSeparator() << wxT("tmp") << endl;
+        tos << wxT("RequestRoot ") << sCupsDir << wxT("spool") << endl;
+        tos << wxT("ServerRoot ") << m_sUserDir
+            << wxFileName::GetPathSeparator() << wxT("cups") << endl;
+        tos << wxT("ErrorLog ") << sCupsDir << wxT("error_log") << endl;
+        tos << wxT("PageLog ") << sCupsDir << wxT("page_log") << endl;
+        tos << wxT("AccessLog ") << sCupsDir << wxT("access_log") << endl;
+        tos << wxT("PidFile ") << sCupsDir << wxT("cupsd.pid") << endl;
     }
     {
         wxFileOutputStream fos(sCupsDir + wxT("passwd.md5"));
