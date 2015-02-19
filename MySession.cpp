@@ -1969,8 +1969,14 @@ MySession::prepareCups()
     ::myLogTrace(MYTRACETAG, wxT("Starting '%s'"), cmd.c_str());
     if (::wxExecute(cmd, wxEXEC_ASYNC) <= 0)
         return false;
-    wxThread::Sleep(500);
-    return isCupsRunning();
+    bool ret = false;
+    for (int i=1; i<41; i++) { // multiple pooling for catching of lazy started cupsd
+        wxThread::Sleep(500);
+        ret = isCupsRunning();
+        if (ret)
+            break;
+        }
+    return ret;
 }
 
     void
