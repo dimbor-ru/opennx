@@ -1846,12 +1846,32 @@ void SessionProperties::OnListctrlSmbSharesItemActivated( wxListEvent& event )
 
 void SessionProperties::OnCheckboxCupsenableClick( wxCommandEvent& event )
 {
+    wxString errstr = wxT("");
     CupsClient cl;
-    if (cl.IsAvailable()) {
+    if (!cl.IsAvailable())
+        errstr.Append(wxT("No cups server available;"));
+    if (!wxFileName::IsFileExecutable(m_sCupsPath))
+        errstr.Append(wxString::Format(_T(" %s must be executable (755);"),m_sCupsPath.c_str()));
+    wxString libdirs = wxT("/usr/lib:/usr/lib64:/usr/libexec");
+    wxString ippexec = wxT("");
+    wxStringTokenizer t(libdirs, wxT(":"));
+    while (t.HasMoreTokens()) {
+        wxString tmpstr = t.GetNextToken() + wxT("/cups/backend/ipp");
+        if (wxFileName::FileExists(tmpstr)) {
+            ippexec = tmpstr;
+            break;
+        }
+    }
+    if (ippexec.IsEmpty()) {
+        errstr.Append(wxT(" ipp backend not found;"));
+    } else if (!wxFileName::IsFileExecutable(ippexec)) {
+        errstr.Append(wxString::Format(_T(" CUPS printing support cannot be enabled. Please ensure that permissions for %s are set to 755."),ippexec.c_str()));
+    }
+    if (errstr.IsEmpty()) {
         UpdateDialogConstraints(true);
         CheckChanged();
     } else {
-        ::wxLogWarning(_("No cups server available."));
+        ::wxLogWarning(errstr.c_str());
         wxDynamicCast(event.GetEventObject(), wxCheckBox)->SetValue(false);
         wxDynamicCast(event.GetEventObject(), wxCheckBox)->Enable(false);
         m_bUseCups = false;
