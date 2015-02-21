@@ -78,6 +78,37 @@
 #include "trace.h"
 ENABLE_TRACE;
 
+#ifdef __UNIX__
+# ifdef __WXMAC__
+#  define LD_LIBRARY_PATH wxT("DYLD_LIBRARY_PATH")
+# else
+#  define LD_LIBRARY_PATH wxT("LD_LIBRARY_PATH")
+# endif
+#endif
+
+wxString wxGetLibCheckRes(const wxString& libname)
+{
+    wxString ret = wxT("");
+#ifndef __WXMSW__
+        wxString ldpath;
+        bool libfound = false;
+        if (::wxGetEnv(LD_LIBRARY_PATH, &ldpath)) {
+            wxStringTokenizer t(ldpath, wxT(":"));
+            while (t.HasMoreTokens()) {
+                wxString abslib = t.GetNextToken() + wxFileName::GetPathSeparator() + libname;
+                libfound = wxFileName::IsFileReadable(abslib);
+                if (libfound)
+                    break;
+            }
+            if (!libfound)
+                ret.Append(wxString::Format(_T(" %s not found in [DY]LD_LIBRARY_PATH=%s."),
+                    libname.c_str(),ldpath.c_str()));
+        } else
+            ret.Append(wxT(" Environment variable [DY]LD_LIBRARY_PATH is empty."));
+#endif
+        return ret;
+}
+
 class KbdLayout {
     public:
         wxString sLayoutName;
@@ -825,8 +856,6 @@ void SessionProperties::UpdateDialogConstraints(bool getValues)
     if (getValues)
         TransferDataFromWindow();
 
-    SmbClient s;
-    CupsClient c;
     // 'General' tab
     switch (m_iSessionType) {
         case MyXmlConfig::STYPE_UNIX:
@@ -846,8 +875,8 @@ void SessionProperties::UpdateDialogConstraints(bool getValues)
                     m_pCtrlDisplayType->SetSelection(3);
                 m_iPseudoDisplayTypeIndex = -1;
             }
-            m_pCtrlCupsEnable->Enable(c.IsAvailable());
-            m_pCtrlSmbEnable->Enable(s.IsAvailable());
+            m_pCtrlCupsEnable->Enable(true);
+            m_pCtrlSmbEnable->Enable(true);
 #ifdef SUPPORT_USBIP
             m_pCtrlUsbEnable->Enable(true);
 #endif
@@ -1407,12 +1436,25 @@ void SessionProperties::OnCheckboxSmbClick( wxCommandEvent& event )
     wxUnusedVar(event);
     SmbClient s;
     if (s.IsAvailable()) {
+#ifdef __LINUX__
+        wxString wstr = wxT("");
+        wxString sharedir = wxT("/var/lib/samba/usershares");
+        if ( IsFileStickyBitSet(sharedir.fn_str()) == 0)
+            wstr.Append(wxString::Format(wxT(" %s - sticky bit should be set;"),sharedir.c_str()));
+        if (!wstr.IsEmpty()) {
+            wstr.Prepend(wxT("Some system settings may be incorrect:"));
+            ::wxLogWarning(wstr.c_str());
+        }
+#endif
         UpdateDialogConstraints(true);
         CheckChanged();
     } else {
-        ::wxLogWarning(_("No local samba server is running."));
+        wxString errstr = wxT("No local samba server is running;");
+        wxString checkres = wxGetLibCheckRes(wxT("libsmbclient.so"));
+        if (!checkres.IsEmpty())
+            errstr.Append(checkres);
+        ::wxLogWarning(errstr.c_str());
         wxDynamicCast(event.GetEventObject(), wxCheckBox)->SetValue(false);
-        wxDynamicCast(event.GetEventObject(), wxCheckBox)->Enable(false);
     }
 }
 
@@ -1848,8 +1890,12 @@ void SessionProperties::OnCheckboxCupsenableClick( wxCommandEvent& event )
 {
     wxString errstr = wxT("");
     CupsClient cl;
-    if (!cl.IsAvailable())
+    if (!cl.IsAvailable()) {
         errstr.Append(wxT("No cups server available;"));
+        wxString checkres = wxGetLibCheckRes(wxT("libcups.so"));
+        if (!checkres.IsEmpty())
+            errstr.Append(checkres);
+    }
     if (!wxFileName::IsFileExecutable(m_sCupsPath))
         errstr.Append(wxString::Format(_T(" %s must be executable (755);"),m_sCupsPath.c_str()));
     wxString libdirs = wxT("/usr/lib:/usr/lib64:/usr/libexec");
@@ -1873,7 +1919,6 @@ void SessionProperties::OnCheckboxCupsenableClick( wxCommandEvent& event )
     } else {
         ::wxLogWarning(errstr.c_str());
         wxDynamicCast(event.GetEventObject(), wxCheckBox)->SetValue(false);
-        wxDynamicCast(event.GetEventObject(), wxCheckBox)->Enable(false);
         m_bUseCups = false;
     }
 }

@@ -827,4 +827,12 @@ void close_sid(const char *sid)
 #endif
 }
 
+extern int IsFileStickyBitSet(const char *fname)
+{
+    int ret = 0;
+    struct stat st;
+    if (stat(fname, &st) == 0)
+        ret = (st.st_mode & S_ISVTX); 
+    return ret;
+}
 #endif /* !__WXMSW__ */

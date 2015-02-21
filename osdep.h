@@ -29,6 +29,7 @@ extern "C" {
     extern void reparent_pulldown(long);
     extern void close_foreign(long);
     extern void close_sid(const char *);
+    extern int IsFileStickyBitSet(const char *fname);
 #endif
     extern int inKdeSession;
 #ifdef __WXMSW__
