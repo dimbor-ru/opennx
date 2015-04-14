@@ -108,7 +108,7 @@ IMPLEMENT_APP(opennxApp);
     ,m_bTestCardWaiter(false)
     ,m_bNxProxyAvailable(false)
     ,m_bAutoLogin(false)
-    ,m_bAutoResume(false)
+    ,m_bAutoResume(true)
     ,m_bKillErrors(false)
     ,m_bNoGui(false)
     ,m_pLoginDialog(NULL)
