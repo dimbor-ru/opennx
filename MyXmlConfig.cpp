@@ -610,7 +610,7 @@ MyXmlConfig::sGetSessionParams(const long protocolVersion, bool bNew, const wxSt
     wxUnusedVar(protocolVersion);
     wxString ret = wxEmptyString;
     bool bNeedGeometry = true;
-    int dspw, dsph, clientw, clienth;
+    int dspw, dsph, clientw, clienth, gw, gh;
 
     getDesktopSize(dspw, dsph, clientw, clienth);
     ret << wxString::Format(wxT(" --session=\"%s\""), m_sName.c_str());
@@ -832,31 +832,35 @@ MyXmlConfig::sGetSessionParams(const long protocolVersion, bool bNew, const wxSt
         ret << wxT(" --geometry=\"");
         switch (m_eDisplayType) {
             case DPTYPE_640x480:
-                ret << wxT("640x480\"");
+                gw = 640; gh = 480;
                 break;
             case DPTYPE_800x600:
-                ret << wxT("800x600\"");
+                gw = 800; gh = 600;
                 break;
             case DPTYPE_1024x768:
-                ret << wxT("1024x768\"");
+                gw = 1024; gh = 768;
                 break;
             case DPTYPE_AVAILABLE:
-                ret << wxString::Format(wxT("%dx%d\""), clientw, clienth);
-                break;
-            case DPTYPE_FULLSCREEN:
-                ret << wxString::Format(wxT("%dx%d\""), dspw, dsph)
-                    << wxT(" --fullscreen=\"1\"");
+                gw = clientw; gh = clienth;
                 break;
             case DPTYPE_CUSTOM:
-                ret << wxString::Format(wxT("%dx%d\""), m_iDisplayWidth, m_iDisplayHeight);
+                gw = m_iDisplayWidth; gh = m_iDisplayHeight;
                 break;
             case DPTYPE_REMOTE:
-                ret << wxString::Format(wxT("%dx%d\""), dspw, dsph);
+            case DPTYPE_FULLSCREEN:
+                gw = dspw; gh = dsph;
                 break;
         }
+        ret << wxString::Format(wxT("%dx%d\""), gw, gh);
+        if (m_eDisplayType == DPTYPE_FULLSCREEN)
+            ret << wxT(" --fullscreen=\"1\"");
     }
     if (m_eSessionType != STYPE_SHADOW) {
-        ret << wxT(" --screeninfo=\"") << dspw << wxT("x") << dsph << wxT("x")
+        int dspw2 = dspw, dsph2 = dsph;
+        if ((m_eDesktopType != DTYPE_CUSTOM) || (m_bVirtualDesktop)) {
+            dspw2 = gw; dsph2 =gh;
+        }
+        ret << wxT(" --screeninfo=\"") << dspw2 << wxT("x") << dsph2 << wxT("x")
             << ::wxDisplayDepth() << (m_bDisableRender ? wxEmptyString : wxT("+render"))
             << ((m_eDisplayType == DPTYPE_FULLSCREEN) ? wxT("+fullscreen") : wxEmptyString)
             << wxT("\"");
