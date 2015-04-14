@@ -3,7 +3,7 @@
 ;
 #undef DEBUG
 
-#define APPNAME "OpenNX"
+#define APPNAME "OpenNXCE"
 ; Automatically get version from executable resp. dll
 #define APPEXE "setupdir\bin\opennx.exe"
 #include "version.iss"
@@ -16,8 +16,8 @@
 AppName={#=APPNAME}
 AppVersion={#=APPFULLVER}
 AppVerName={#=APPFULLVERNAME}
-AppPublisher=The OpenNX Team
-AppPublisherURL=http://opennx.net
+AppPublisher=OpenNX Community Edition
+AppPublisherURL=Community from http://unixforum.org
 AppCopyright=(C) 2011 The OpenNX Team
 VersionInfoVersion={#=APPFULLVER}
 DefaultDirName={pf}\{#=APPNAME}

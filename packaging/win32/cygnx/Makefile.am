@@ -1,5 +1,5 @@
-IURAR = innounp029.rar
-IUDIR = innounp%200.29
+IURAR = innounp041.rar
+IUDIR = innounp%200.41
 
 tmpinstall: '{app}'
 	mkdir -p dist/bin dist/lib dist/share

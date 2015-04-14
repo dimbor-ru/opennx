@@ -53,6 +53,5 @@ sub collecturls {
     return 0;
 }
 
-#collecturls('http://www.nomachine.com/download-client-windows.php', 'nxclient-[0-9\.-]+exe', 'nxsetup.exe');
-system("wget -q -O nxsetup.exe 'http://www.fritz-elfert.de/downloads/nxclient-3.5.0-9.exe'");
+system("wget -q -O nxsetup.exe 'http://unixforum.org/up/nxman/NXClientCE-3.5.0-9-r15.0.exe'");
 
