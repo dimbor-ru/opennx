@@ -537,7 +537,7 @@ msgstr "Запрос сессий"
 
 #: MySession.cpp:897
 msgid "Query server-side sessions"
-msgstr "Запрос сессий"
+msgstr "Запрос списка сессий"
 
 #: MySession.cpp:914 MySession.cpp:1018 MySession.cpp:1047
 msgid "Starting session"
@@ -662,7 +662,7 @@ msgstr "Не удалось запустить CUPS"
 
 #: MySession.cpp:2405
 msgid "Called command was: "
-msgstr "Комманда: "
+msgstr "Команда: "
 
 #: MySession.cpp:2406
 msgid "Could not start nxssh."
@@ -723,7 +723,7 @@ msgstr "Напишите имя сессии. Все настройки буду
 
 #: MyWizard_symbols.h:26
 msgid "Insert the name and port of the server you want to connect."
-msgstr "Напишите имя и порт сервера, к которому вы хотите подключиться."
+msgstr "Укажите имя и порт сервера, к которому вы хотите подключиться."
 
 #: MyWizard_symbols.h:27 ProxyPropertyDialog_symbols.h:24
 #: SessionProperties_symbols.h:25 VncPropertyDialog_symbols.h:25
@@ -766,7 +766,7 @@ msgid ""
 "Using OpenNX Client, you can run RDP, VNC and X desktops, depending on what "
 "your service provider has made available."
 msgstr ""
-"Использую OpenNX, вы можете использовать подключение по RDP, VNC и X, в "
+"Используя OpenNX, вы можете использовать подключение по RDP, VNC и X, в "
 "зависимости от того, что вам предоставил провайдер услуги удаленного "
 "доступа. "
 
@@ -804,7 +804,7 @@ msgstr "XFCE"
 
 #: MyWizard_symbols.h:44 SessionProperties_symbols.h:39
 msgid "XDMCP"
-msgstr ""
+msgstr "XDMCP"
 
 #: MyWizard_symbols.h:45 SessionProperties_symbols.h:40
 msgid "Custom"
@@ -881,14 +881,15 @@ msgstr "Окно приложения не найдено"
 #: MyXmlConfig.cpp:1242
 #, c-format
 msgid "Error %d while fetching session configuration"
-msgstr ""
+msgstr "Ошибка %d при получении параметров сессии"
 
 #: MyXmlConfig.cpp:1247
 #, c-format
 msgid ""
 "Error while fetching session configuration:\n"
 "%s"
-msgstr ""
+msgstr "Ошибка при получении параметров сессии"
+"%s"
 
 #: PanicDialog_symbols.h:22
 msgid "&Terminate"
@@ -900,7 +901,7 @@ msgstr "Пароль HTTP прокси - OpenNX"
 
 #: ProxyPasswordDialog_symbols.h:23
 msgid "Please enter your HTTP proxy password"
-msgstr "Пожалуйста, введите пароль вашего HTTP прокси"
+msgstr "Введите пароль вашего HTTP прокси"
 
 #: ProxyPropertyDialog.h:59 ProxyPropertyDialog_symbols.h:22
 #, fuzzy
@@ -929,7 +930,7 @@ msgstr "Команда"
 
 #: ProxyPropertyDialog_symbols.h:31
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: QuitDialog_symbols.h:22
 msgid "&Quit"
@@ -941,7 +942,7 @@ msgstr "Настройка изображения RDP - OpenNX"
 
 #: RdpImageSettingsDialog_symbols.h:23
 msgid "Allowed colors"
-msgstr "Разрешенные палитры"
+msgstr "Разрешенные цвета"
 
 #: RdpImageSettingsDialog_symbols.h:24
 msgid "256"
@@ -968,7 +969,7 @@ msgstr "Кодирование"
 #: VncImageSettingsDialog_symbols.h:24
 #, fuzzy
 msgid "Use JPEG and RGB image compression"
-msgstr "Использовать JPEG сжатие"
+msgstr "Использовать JPEG и RGB сжатие"
 
 #: RdpImageSettingsDialog_symbols.h:30 UnixImageSettingsDialog_symbols.h:25
 #: VncImageSettingsDialog_symbols.h:25
@@ -980,7 +981,7 @@ msgstr "Использовать JPEG сжатие"
 #: VncImageSettingsDialog_symbols.h:26
 #, fuzzy
 msgid "Use RGB image compression only"
-msgstr "Использовать PNG сжатие"
+msgstr "Использовать RGB сжатие"
 
 #: RdpImageSettingsDialog_symbols.h:32 UnixImageSettingsDialog_symbols.h:27
 #: VncImageSettingsDialog_symbols.h:27
@@ -990,7 +991,7 @@ msgstr "Использовать простые растры X"
 #: RdpImageSettingsDialog_symbols.h:33 UnixImageSettingsDialog_symbols.h:28
 #: VncImageSettingsDialog_symbols.h:28
 msgid "Use custom image quality"
-msgstr "Качество изображения"
+msgstr "Настраиваемое качество изображения"
 
 #: RdpImageSettingsDialog_symbols.h:34 SessionProperties_symbols.h:72
 msgid "Cache"
@@ -1081,11 +1082,11 @@ msgstr "&Присоединиться"
 
 #: ResumeDialog.cpp:221 ResumeDialog_symbols.h:27
 msgid "&Resume"
-msgstr "&Вернутся"
+msgstr "&Восстановить"
 
 #: ResumeDialog.cpp:311
 msgid "Do you really want to terminate the selected session?"
-msgstr "Вы уверены что хотите завершить выделенные сессии?"
+msgstr "Вы уверены, что хотите завершить выделенные сессии?"
 
 #: ResumeDialog.cpp:312
 msgid "Terminate session - OpenNX"
@@ -1113,7 +1114,7 @@ msgstr "&Завершить"
 
 #: ResumeDialog_symbols.h:26
 msgid "&Takeover"
-msgstr "&Возобновить"
+msgstr "З&ахватить"
 
 #: ResumeDialog_symbols.h:28
 msgid "&New"
@@ -1250,7 +1251,7 @@ msgstr "Ошибка при загрузке раскладки клавиату
 #: SessionProperties.cpp:1270
 #, c-format
 msgid "Invalid line='%s'"
-msgstr "Ошибочная линия='%s'"
+msgstr "Ошибочная строка='%s'"
 
 #: SessionProperties.cpp:1271
 #, c-format
@@ -1328,7 +1329,7 @@ msgstr "Рабочий стол"
 
 #: SessionProperties_symbols.h:47
 msgid "Display and Keyboard"
-msgstr ""
+msgstr "Экран и клавиатура"
 
 #: SessionProperties_symbols.h:55
 msgid "Use custom settings"
@@ -1339,7 +1340,6 @@ msgid "Modify..."
 msgstr "Изменить..."
 
 #: SessionProperties_symbols.h:57
-#, fuzzy
 msgid "Use custom layout"
 msgstr "Использовать другую раскладку"
 
@@ -1381,19 +1381,19 @@ msgstr "Отключить отложенные обновления экран�
 
 #: SessionProperties_symbols.h:68
 msgid "Clipboard filter"
-msgstr ""
+msgstr "Фильтр буфера обмена"
 
 #: SessionProperties_symbols.h:69
 msgid "Use PRIMARY selection"
-msgstr ""
+msgstr "Использовать PRIMARY буфер"
 
 #: SessionProperties_symbols.h:70
 msgid "Use CLIPBOARD selection"
-msgstr ""
+msgstr "Использовать CLIPBOARD буфер"
 
 #: SessionProperties_symbols.h:71
 msgid "Use both"
-msgstr ""
+msgstr "Использовать оба"
 
 #: SessionProperties_symbols.h:73
 msgid "In memory"
@@ -1440,14 +1440,12 @@ msgid "On disk"
 msgstr "На диске"
 
 #: SessionProperties_symbols.h:84
-#, fuzzy
 msgid "256 Mb"
-msgstr "16 MB"
+msgstr "256 MB"
 
 #: SessionProperties_symbols.h:85
-#, fuzzy
 msgid "512 Mb"
-msgstr "2 MB"
+msgstr "512 MB"
 
 #: SessionProperties_symbols.h:86
 msgid "Clean all cache files"
@@ -1458,14 +1456,12 @@ msgid "Services"
 msgstr "Сервисы"
 
 #: SessionProperties_symbols.h:88
-#, fuzzy
 msgid "Enable SMB sharing"
-msgstr "Включить проброс USB устройств"
+msgstr "Включить проброс SMB"
 
 #: SessionProperties_symbols.h:89
-#, fuzzy
 msgid "Default port"
-msgstr "Принтер по умолчанию"
+msgstr "Порт"
 
 #: SessionProperties_symbols.h:90
 msgid "Enable CUPS printing"
@@ -1537,15 +1533,15 @@ msgstr "Сбросить скрытые сообщения"
 
 #: SessionProperties_symbols.h:108
 msgid "Always use lowercase login name"
-msgstr ""
+msgstr "Логин всегда в нижнем регистре"
 
 #: SessionProperties_symbols.h:109
 msgid "Clear password entry on abort"
-msgstr ""
+msgstr "Очищать пароль при неудаче"
 
 #: SessionProperties_symbols.h:110
 msgid "Disable magic pixel in fullscreen mode"
-msgstr ""
+msgstr "Отключить магич. пиксель на полном экране"
 
 #: SessionProperties_symbols.h:111
 msgid "About"
@@ -1669,7 +1665,7 @@ msgstr "Личный принтер"
 
 #: ShareProperties_symbols.h:41
 msgid "Public printer"
-msgstr "Публичный принтер"
+msgstr "Общий принтер"
 
 #: ShareProperties_symbols.h:42
 msgid ""
@@ -1704,12 +1700,12 @@ msgid ""
 "Please specify the resource name on the remote\n"
 "machine with which this share will be made available."
 msgstr ""
-"Пожалуйста, укажите имя ресурса на удаленной машине\n"
-"в которой этот сетевой ресурс будет доступен."
+"Пожалуйста, укажите имя ресурса на удаленной машине,\n"
+"куда бует открыт доступ."
 
 #: SupressibleMessageDialog.h:53 SupressibleMessageDialog_symbols.h:22
 msgid "SupressibleMessageDialog"
-msgstr ""
+msgstr "Предупреждение"
 
 #: SupressibleMessageDialog_symbols.h:23
 msgid "Do not show this message again"
@@ -1917,11 +1913,11 @@ msgstr "Запустить XSession скрипт"
 
 #: X11PropertyDialog_symbols.h:26
 msgid "Run the following command"
-msgstr "Запустить определенную команду"
+msgstr "Запустить команду"
 
 #: X11PropertyDialog_symbols.h:28
 msgid "New virtual desktop"
-msgstr "Новый рабочий стол"
+msgstr "Виртуальный рабочий стол"
 
 #: X11PropertyDialog_symbols.h:29
 msgid "Floating window"
@@ -1936,9 +1932,8 @@ msgid "Disable taint of X replies"
 msgstr "Отключить taint of X replies"
 
 #: XdmPropertyDialog.h:56 XdmPropertyDialog_symbols.h:22
-#, fuzzy
 msgid "XDM Session Settings - OpenNX"
-msgstr "Настройка RDP сессии - OpenNX"
+msgstr "Настройка XDM сессии - OpenNX"
 
 #: XdmPropertyDialog_symbols.h:24
 msgid "Let the NX server decide"
