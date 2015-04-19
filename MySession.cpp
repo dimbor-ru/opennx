@@ -1649,22 +1649,6 @@ MySession::startProxy()
     popts
         << wxT(",encryption=") << (m_bSslTunneling ? 1 : 0)
         << wxT(",session=session");
-    if (m_lProtocolVersion < 0x00030300) {
-        popts
-#ifdef __WXMAC__
-            << wxT(",client=macosx");
-#else
-# ifdef __UNIX__
-            << wxT(",client=linux");
-# else
-# ifdef __WXMSW__
-            << wxT(",client=winnt");
-# else
-            << wxT(",client=linux");
-# endif
-# endif
-#endif
-    }
     popts << wxT(",id=") << m_sSessionID;
     if (m_bSslTunneling) {
         if (m_lProtocolVersion <= 0x00020000) {
@@ -1673,7 +1657,7 @@ MySession::startProxy()
             popts << wxT(",listen=") << m_sProxyPort;
         }
     } else
-        popts << wxT(",connect=") << m_sHost;
+        popts << wxT(",connect=") << m_sProxyIP;
 
     // Undocumented feature of the original:
     // If a file ~/.nx/options exists, it's content is
@@ -1717,7 +1701,7 @@ MySession::startProxy()
                 << wxFileName::GetPathSeparator() << wxT("nxproxy -S nx,options=")
                 << cygPath(m_sOptFilename) << wxT(":") << m_sSessionDisplay;
             printSsh(wxT("bye"), true, wxT("Options file written, "));
-            if ((m_lProtocolVersion <= 0x00020000) || (!m_bSslTunneling)) {
+            if (m_lProtocolVersion <= 0x00020000) {
                 ::wxLogInfo(wxT("Executing %s"), pcmd.c_str());
 #ifdef __WXMSW__
                 if (m_eXarch == XARCH_XMING)
