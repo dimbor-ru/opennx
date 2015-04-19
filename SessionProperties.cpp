@@ -969,7 +969,7 @@ void SessionProperties::UpdateDialogConstraints(bool getValues)
             m_pCtrlDisplayHeight->Enable(false);
             break;
     }
-    if (m_bUseSmartCard || (!::wxGetApp().NxProxyAvailable())) {
+    if (m_bUseSmartCard) {
         m_pCtrlEnableSSL->SetValue(true);
         m_pCtrlEnableSSL->Enable(false);
         m_bEnableSSL = true;

@@ -502,7 +502,7 @@ void LoginDialog::OnOkClick(wxCommandEvent& event)
                 m_pCurrentCfg->sSetPassword(m_sPassword);
         }
         m_pCurrentCfg->bSetUseSmartCard(m_bUseSmartCard);
-        if (m_bUseSmartCard || (!::wxGetApp().NxProxyAvailable()))
+        if (m_bUseSmartCard)
             m_pCurrentCfg->bSetEnableSSL(true);
 
         // Workaround for a bug-compatibility to original nxclient:
