@@ -838,6 +838,10 @@ msgstr "Доступное пространство"
 msgid "Fullscreen"
 msgstr "Полный экран"
 
+#: tmp
+msgid "No decoration"
+msgstr "Без заголовка"
+
 #: MyWizard_symbols.h:53 SessionProperties_symbols.h:53
 msgid "W"
 msgstr "Ш"

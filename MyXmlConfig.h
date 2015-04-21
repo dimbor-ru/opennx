@@ -128,6 +128,7 @@ class MyXmlConfig
             DPTYPE_AVAILABLE,
             DPTYPE_FULLSCREEN,
             DPTYPE_CUSTOM,
+            DPTYPE_NODECORATION,
             DPTYPE_REMOTE,
         } DisplayType;
 

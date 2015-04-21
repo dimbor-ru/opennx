@@ -841,6 +841,7 @@ MyXmlConfig::sGetSessionParams(const long protocolVersion, bool bNew, const wxSt
                 gw = 1024; gh = 768;
                 break;
             case DPTYPE_AVAILABLE:
+            case DPTYPE_NODECORATION:
                 gw = clientw; gh = clienth;
                 break;
             case DPTYPE_CUSTOM:
@@ -1509,6 +1510,8 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                             m_eDisplayType = DPTYPE_FULLSCREEN;
                         if (tmp == wxT("remote"))
                             m_eDisplayType = DPTYPE_REMOTE;
+                        if (tmp == wxT("nodecoration"))
+                            m_eDisplayType = DPTYPE_NODECORATION;
 
                         m_iDisplayHeight = getLong(opt, wxT("Resolution height"),
                                 m_iDisplayHeight);
@@ -2111,6 +2114,9 @@ MyXmlConfig::SaveToFile()
             break;
         case DPTYPE_REMOTE:
             optval = wxT("remote");
+            break;
+        case DPTYPE_NODECORATION:
+            optval = wxT("nodecoration");
             break;
     }
     sAddOption(g, wxT("Resolution"), optval);

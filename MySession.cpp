@@ -1529,6 +1529,8 @@ MySession::startXserver()
             wxWinCmd << m_pCfg->sGetXserverParams(true);
             if ((m_pCfg->eGetDesktopType() == MyXmlConfig::DTYPE_CUSTOM) && (!m_pCfg->bGetVirtualDesktop()))
                 wxWinCmd << wxT(" -multiwindow ");
+            else if (m_pCfg->eGetDisplayType()==MyXmlConfig::DPTYPE_NODECORATION)
+                wxWinCmd << wxT(" -nodecoration");
             {
                 wxString title = m_pCfg->sGetUsername();
                 if (m_pCfg->bGetGuestMode()) {
