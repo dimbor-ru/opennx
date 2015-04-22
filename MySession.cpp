@@ -1328,6 +1328,8 @@ MySession::parseSessions(bool moreAllowed)
     void
 MySession::startSharing()
 {
+    if (!m_pCfg->bGetUseCups() && !m_pCfg->bGetEnableSmbSharing())
+        return;
     ArrayOfShareGroups sg = m_pCfg->aGetShareGroups();
     wxArrayString used = m_pCfg->aGetUsedShareGroups();
     CupsClient cc;
