@@ -1648,7 +1648,7 @@ MySession::startProxy()
     if (m_pCfg->bGetEnableUSBIP())
         popts << wxT(",http=") << wxConfigBase::Get()->Read(wxT("Config/UsbipPort"), 3420);
 #endif
-    if (m_bEsdRunning && (0 < m_lEsdPort))
+    if ((m_bEsdRunning || m_bNativePARunning) && (0 < m_lEsdPort))
         popts << wxT(",media=") << m_lEsdPort;
     popts
         << wxT(",encryption=") << (m_bSslTunneling ? 1 : 0)
@@ -2094,6 +2094,7 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
     m_bSessionRunning = false;
     m_bCupsRunning = false;
     m_bEsdRunning = false;
+    m_bNativePARunning = false;
     m_lEsdPort = 0;
     m_bAbort = false;
     m_bSessionEstablished = false;
@@ -2309,7 +2310,7 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
         dlg.SetStatusText(wxString::Format(_("Connecting to %s ..."),
                     m_pCfg->sGetServerHost().c_str()));
         if (m_pCfg->bGetEnableMultimedia()) {
-            m_bEsdRunning = false;
+            m_bEsdRunning = false; m_bNativePARunning = false;
             dlg.SetStatusText(_("Preparing multimedia service ..."));
             PulseAudio pa;
             if (pa.IsAvailable()) {
@@ -2318,9 +2319,31 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
                 if (m_lEsdPort < 0)
                     m_lEsdPort = getFirstFreePort(6000);
                 if (0 < m_lEsdPort) {
-                    ::wxLogInfo(wxT("Activating ESD Module in pulseaudio on port %ld"), m_lEsdPort);
-                    if (pa.ActivateEsound(m_lEsdPort)) {
-                        m_bEsdRunning = true;
+                    bool pa_started = false;
+                    if (m_pCfg->bGetEnableNativePA()) {
+                        ::wxLogInfo(wxT("Activating Native Module in pulseaudio on port %ld"), m_lEsdPort);
+                        int pa_rate = 0;
+                        switch (m_pCfg->eGetRatePA()) {
+                            case MyXmlConfig::RATEPA_NORESAMPLE:
+                                pa_rate = 0; break;
+                            case MyXmlConfig::RATEPA_48000:
+                                pa_rate = 48000; break;
+                            case MyXmlConfig::RATEPA_44100:
+                                pa_rate = 44100; break;
+                            case MyXmlConfig::RATEPA_32000:
+                                pa_rate = 32000; break;
+                            case MyXmlConfig::RATEPA_16000:
+                                pa_rate = 16000; break;
+                            case MyXmlConfig::RATEPA_8000:
+                                pa_rate = 8000; break;
+                        }
+                        bool pa_mono =  pa_rate > 0 ? m_pCfg->bGetEnableMonoPA() : false;
+                        pa_started = m_bNativePARunning = pa.ActivateNative(m_lEsdPort, pa_rate, pa_mono);
+                    } else {
+                        ::wxLogInfo(wxT("Activating ESD Module in pulseaudio on port %ld"), m_lEsdPort);
+                        pa_started = m_bEsdRunning = pa.ActivateEsound(m_lEsdPort);
+                    }
+                    if (pa_started) {
                         wxConfigBase::Get()->Write(wxT("State/nxesdPort"), m_lEsdPort);
                         wxConfigBase::Get()->Write(wxT("State/nxesdPID"), -1);
                     } else {
@@ -2330,7 +2353,7 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
                     ::wxLogWarning(_("Could not assign a free port for multimedia support"));
             }
 #ifndef __WXMSW__
-            if (!m_bEsdRunning) {
+            if (!m_bEsdRunning && !m_bNativePARunning) {
                 // Fallback: original old nxesd
                 long esdpid = wxConfigBase::Get()->Read(wxT("State/nxesdPID"), -1);
                 m_lEsdPort = wxConfigBase::Get()->Read(wxT("State/nxesdPort"), -1);

@@ -235,6 +235,8 @@ MyXmlConfig::init()
     m_bDisableXagent = false;
     m_bDisableZlibCompression = false;
     m_bEnableMultimedia = false;
+    m_bEnableNativePA = true;
+    m_bEnableMonoPA = false;
     m_bEnableSmbSharing = false;
     m_bEnableSSL = true;
     m_bEnableUSBIP = false;
@@ -291,6 +293,7 @@ MyXmlConfig::init()
     m_eDisplayType = DPTYPE_AVAILABLE;
     m_eSessionType = STYPE_UNIX;
     m_eXdmMode = XDM_MODE_SERVER;
+    m_eRatePA = RATEPA_NORESAMPLE;
 
     m_sCommandLine = wxEmptyString;
     wxConfigBase::Get()->Read(wxT("Config/CupsPath"), &m_sCupsPath);
@@ -365,6 +368,8 @@ MyXmlConfig::operator =(const MyXmlConfig &other)
     m_bDisableXagent = other.m_bDisableXagent;
     m_bDisableZlibCompression = other.m_bDisableZlibCompression;
     m_bEnableMultimedia = other.m_bEnableMultimedia;
+    m_bEnableNativePA = other.m_bEnableNativePA;
+    m_bEnableMonoPA = other.m_bEnableMonoPA;
     m_bEnableSmbSharing = other.m_bEnableSmbSharing;
     m_bEnableSSL = other.m_bEnableSSL;
     m_bEnableUSBIP = other.m_bEnableUSBIP;
@@ -421,6 +426,7 @@ MyXmlConfig::operator =(const MyXmlConfig &other)
     m_eDisplayType = other.m_eDisplayType;
     m_eSessionType = other.m_eSessionType;
     m_eXdmMode = other.m_eXdmMode;
+    m_eRatePA = other.m_eRatePA;
 
     m_sCommandLine = other.m_sCommandLine;
     m_sCupsPath = other.m_sCupsPath;
@@ -1061,6 +1067,8 @@ MyXmlConfig::operator ==(const MyXmlConfig &other)
     if (m_bDisableXagent != other.m_bDisableXagent) return false;
     if (m_bDisableZlibCompression != other.m_bDisableZlibCompression) return false;
     if (m_bEnableMultimedia != other.m_bEnableMultimedia) return false;
+    if (m_bEnableNativePA != other.m_bEnableNativePA) return false;
+    if (m_bEnableMonoPA != other.m_bEnableMonoPA) return false;
     if (m_bEnableSmbSharing != other.m_bEnableSmbSharing) return false;
     if (m_bEnableSSL != other.m_bEnableSSL) return false;
     if (m_bEnableUSBIP != other.m_bEnableUSBIP) return false;
@@ -1116,6 +1124,7 @@ MyXmlConfig::operator ==(const MyXmlConfig &other)
     if (m_eDisplayType != other.m_eDisplayType) return false;
     if (m_eSessionType != other.m_eSessionType) return false;
     if (m_eXdmMode != other.m_eXdmMode) return false;
+    if (m_eRatePA != other.m_eRatePA) return false;
 
     if (m_sCommandLine != other.m_sCommandLine) return false;
     if (m_sCupsPath != other.m_sCupsPath) return false;
@@ -1712,6 +1721,21 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                         m_iSmbPort = getLong(opt, wxT("SmbDefaultPort"), m_iSmbPort);
                         m_bUseCups = getBool(opt, wxT("IPPPrinting"), m_bUseCups);
                         m_bEnableSmbSharing = getBool(opt, wxT("Shares"), m_bEnableSmbSharing);
+                        m_bEnableNativePA = getBool(opt, wxT("NativePA"), m_bEnableNativePA);
+                        tmp = getString(opt, wxT("RatePA"));
+                        if (tmp == wxT("NoResample"))
+                            m_eRatePA = RATEPA_NORESAMPLE;
+                        if (tmp == wxT("48000"))
+                            m_eRatePA = RATEPA_48000;
+                        if (tmp == wxT("44100"))
+                            m_eRatePA = RATEPA_44100;
+                        if (tmp == wxT("32000"))
+                            m_eRatePA = RATEPA_32000;
+                        if (tmp == wxT("16000"))
+                            m_eRatePA = RATEPA_16000;
+                        if (tmp == wxT("8000"))
+                            m_eRatePA = RATEPA_8000;
+                        m_bEnableMonoPA = getBool(opt, wxT("MonoPA"), m_bEnableMonoPA);
                         opt = opt->GetNext();
                     }
                     cfgnode = cfgnode->GetNext();
@@ -2237,6 +2261,29 @@ MyXmlConfig::SaveToFile()
 
     g = AddGroup(r, wxT("Services"));
     bAddOption(g, wxT("Audio"), m_bEnableMultimedia);
+    bAddOption(g, wxT("NativePA"), m_bEnableNativePA);
+    switch (m_eRatePA) {
+        case RATEPA_NORESAMPLE:
+            optval = wxT("NoResample");
+            break;
+        case RATEPA_48000:
+            optval = wxT("48000");
+            break;
+        case RATEPA_44100:
+            optval = wxT("44100");
+            break;
+        case RATEPA_32000:
+            optval = wxT("32000");
+            break;
+        case RATEPA_16000:
+            optval = wxT("16000");
+            break;
+        case RATEPA_8000:
+            optval = wxT("8000");
+            break;
+    }
+    sAddOption(g, wxT("RatePA"), optval);
+    bAddOption(g, wxT("MonoPA"), m_bEnableMonoPA);
     bAddOption(g, wxT("Shares"), m_bEnableSmbSharing);
     bAddOption(g, wxT("IPPPrinting"), m_bUseCups);
     iAddOption(g, wxT("IPPPort"), m_iCupsPort);

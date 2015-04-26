@@ -257,6 +257,12 @@ BEGIN_EVENT_TABLE( SessionProperties, wxDialog )
 
     EVT_CHECKBOX( XRCID("ID_CHECKBOX_MMEDIA"), SessionProperties::OnCheckboxMmediaClick )
 
+    EVT_CHECKBOX( XRCID("ID_CHECKBOX_NATIVEPA"), SessionProperties::OnCheckboxNativePAClick )
+
+    EVT_COMBOBOX( XRCID("ID_COMBOBOX_RATEPA"), SessionProperties::OnComboboxRatePASelected )
+
+    EVT_CHECKBOX( XRCID("ID_CHECKBOX_MONOPA"), SessionProperties::OnCheckboxMonoPAClick )
+
     EVT_CHECKBOX( XRCID("ID_CHECKBOX_USBENABLE"), SessionProperties::OnCHECKBOXUSBENABLEClick )
 
     EVT_LIST_ITEM_SELECTED( XRCID("ID_LISTCTRL_USBFILTER"), SessionProperties::OnListctrlUsbfilterSelected )
@@ -411,6 +417,14 @@ SessionProperties::CheckChanged()
         // variables on 'Services' tab
         m_pCfg->bSetEnableSmbSharing(m_bEnableSmbSharing);
         m_pCfg->bSetEnableMultimedia(m_bEnableMultimedia);
+        m_pCfg->bSetEnableNativePA(m_bEnableNativePA);
+        m_pCfg->eSetRatePA((MyXmlConfig::RatePA)m_iRatePA);
+//        switch (m_iRatePA) {
+//            case MyXmlConfig::RATEPA_:
+//                m_iRate = ;
+//                break;
+//        }
+        m_pCfg->bSetEnableMonoPA(m_bEnableMonoPA);
         m_pCfg->bSetUseCups(m_bUseCups);
         m_pCfg->iSetCupsPort(m_iCupsPort);
         m_pCfg->iSetSmbPort(m_iSmbPort);
@@ -495,6 +509,9 @@ bool SessionProperties::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const
     m_pCtrlShareModify = NULL;
     m_pCtrlShareDelete = NULL;
     m_pCtrlEnableMultimedia = NULL;
+    m_pCtrlEnableNativePA = NULL;
+    m_pCtrlRatePA = NULL;
+    m_pCtrlEnableMonoPA = NULL;
     m_pCtrlUsbEnable = NULL;
     m_pCtrlUsbFilter = NULL;
     m_pCtrlUsbAdd = NULL;
@@ -568,6 +585,9 @@ bool SessionProperties::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const
             m_pCfg->bSetEnableMultimedia(false);
         }
 #endif
+        m_bEnableNativePA = m_pCfg->bGetEnableNativePA();
+        m_iRatePA = m_pCfg->eGetRatePA();
+        m_bEnableMonoPA = m_pCfg->bGetEnableMonoPA();
 #ifdef __UNIX__
         m_bUseCups = m_pCfg->bGetUseCups();
 #else
@@ -733,6 +753,10 @@ bool SessionProperties::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const
     updateListCtrlColumnWidth(m_pCtrlUsbFilter);
 #endif
 
+#ifdef HAVE_PULSE_PULSEAUDIO_H
+    m_pCtrlEnableMultimedia->Enable(pa.IsAvailable());
+#endif
+
     UpdateDialogConstraints(false);
 
     // Fix broken fonts in Spin-Controls
@@ -752,10 +776,6 @@ bool SessionProperties::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const
     m_pCtrlCupsPath->Enable(false);
     m_pCtrlCupsBrowse->Enable(false);
 #endif
-#ifdef HAVE_PULSE_PULSEAUDIO_H
-    m_pCtrlEnableMultimedia->Enable(pa.IsAvailable());
-#endif
-
 
     ::wxGetApp().EnableContextHelp(this);
     return TRUE;
@@ -987,6 +1007,11 @@ void SessionProperties::UpdateDialogConstraints(bool getValues)
     m_pCtrlSmbPort->Enable(m_bEnableSmbSharing);
     m_pCtrlCupsPort->Enable(m_bUseCups);
 
+    m_pCtrlEnableNativePA->Enable(m_bEnableMultimedia);
+    m_pCtrlRatePA->Enable(m_bEnableMultimedia && m_bEnableNativePA);
+    m_pCtrlEnableMonoPA->Enable(m_bEnableMultimedia && m_bEnableNativePA
+                                && (MyXmlConfig::RATEPA_NORESAMPLE != m_iRatePA));
+
 #ifdef SUPPORT_USBIP
     // 'USB' tab
     m_pCtrlUsbFilter->Enable(m_bEnableUSBIP);
@@ -1036,6 +1061,9 @@ void SessionProperties::CreateControls()
     m_pCtrlShareModify = XRCCTRL(*this, "ID_BUTTON_SMB_MODIFY", wxButton);
     m_pCtrlShareDelete = XRCCTRL(*this, "ID_BUTTON_SMB_DELETE", wxButton);
     m_pCtrlEnableMultimedia = XRCCTRL(*this, "ID_CHECKBOX_MMEDIA", wxCheckBox);
+    m_pCtrlEnableNativePA = XRCCTRL(*this, "ID_CHECKBOX_NATIVEPA", wxCheckBox);
+    m_pCtrlRatePA = XRCCTRL(*this, "ID_COMBOBOX_RATEPA", wxComboBox);
+    m_pCtrlEnableMonoPA = XRCCTRL(*this, "ID_CHECKBOX_MONOPA", wxCheckBox);
     m_pCtrlUsbEnable = XRCCTRL(*this, "ID_CHECKBOX_USBENABLE", wxCheckBox);
     m_pCtrlUsbFilter = XRCCTRL(*this, "ID_LISTCTRL_USBFILTER", wxListCtrl);
     m_pCtrlUsbAdd = XRCCTRL(*this, "ID_BUTTON_USBADD", wxButton);
@@ -1114,6 +1142,12 @@ void SessionProperties::CreateControls()
         FindWindow(XRCID("ID_SPINCTRL_CUPSPORT"))->SetValidator( MyValidator(MyValidator::MYVAL_NUMERIC, & m_iCupsPort) );
     if (FindWindow(XRCID("ID_CHECKBOX_MMEDIA")))
         FindWindow(XRCID("ID_CHECKBOX_MMEDIA"))->SetValidator( wxGenericValidator(& m_bEnableMultimedia) );
+    if (FindWindow(XRCID("ID_CHECKBOX_NATIVEPA")))
+        FindWindow(XRCID("ID_CHECKBOX_NATIVEPA"))->SetValidator( wxGenericValidator(& m_bEnableNativePA) );
+    if (FindWindow(XRCID("ID_COMBOBOX_RATEPA")))
+        FindWindow(XRCID("ID_COMBOBOX_RATEPA"))->SetValidator( wxGenericValidator(& m_iRatePA) );
+    if (FindWindow(XRCID("ID_CHECKBOX_MONOPA")))
+        FindWindow(XRCID("ID_CHECKBOX_MONOPA"))->SetValidator( wxGenericValidator(& m_bEnableMonoPA) );
     if (FindWindow(XRCID("ID_CHECKBOX_USBENABLE")))
         FindWindow(XRCID("ID_CHECKBOX_USBENABLE"))->SetValidator( wxGenericValidator(& m_bEnableUSBIP) );
     if (FindWindow(XRCID("ID_TEXTCTRL_USERDIR")))
@@ -1961,6 +1995,41 @@ void SessionProperties::OnButtonKeymanageClick( wxCommandEvent& event )
  */
 
 void SessionProperties::OnCheckboxMmediaClick( wxCommandEvent& event )
+{
+    wxUnusedVar(event);
+    UpdateDialogConstraints(true);
+    CheckChanged();
+}
+
+
+/*!
+ * wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_CHECKBOX_NATIVEPA
+ */
+
+void SessionProperties::OnCheckboxNativePAClick( wxCommandEvent& event )
+{
+    wxUnusedVar(event);
+    UpdateDialogConstraints(true);
+    CheckChanged();
+}
+
+
+/*!
+ * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_COMBOBOX_RATEPA
+ */
+
+void SessionProperties::OnComboboxRatePASelected( wxCommandEvent& event )
+{
+    wxUnusedVar(event);
+    UpdateDialogConstraints(true);
+    CheckChanged();
+}
+
+/*!
+ * wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_CHECKBOX_MONOPA
+ */
+
+void SessionProperties::OnCheckboxMonoPAClick( wxCommandEvent& event )
 {
     wxUnusedVar(event);
     UpdateDialogConstraints(true);

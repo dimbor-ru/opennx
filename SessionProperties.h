@@ -263,6 +263,15 @@ public:
     /// wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_CHECKBOX_MMEDIA
     void OnCheckboxMmediaClick( wxCommandEvent& event );
 
+    /// wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_CHECKBOX_NATIVEPA
+    void OnCheckboxNativePAClick( wxCommandEvent& event );
+
+    /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_COMBOBOX_RATEPA
+    void OnComboboxRatePASelected( wxCommandEvent& event );
+
+    /// wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_CHECKBOX_MONOPA
+    void OnCheckboxMonoPAClick( wxCommandEvent& event );
+
     /// wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_CHECKBOX_USBENABLE
     void OnCHECKBOXUSBENABLEClick( wxCommandEvent& event );
 
@@ -391,6 +400,9 @@ private:
     wxButton* m_pCtrlShareModify;
     wxButton* m_pCtrlShareDelete;
     wxCheckBox* m_pCtrlEnableMultimedia;
+    wxCheckBox* m_pCtrlEnableNativePA;
+    wxComboBox* m_pCtrlRatePA;
+    wxCheckBox* m_pCtrlEnableMonoPA;
     wxCheckBox* m_pCtrlUsbEnable;
     wxListCtrl* m_pCtrlUsbFilter;
     wxButton* m_pCtrlUsbAdd;
@@ -417,6 +429,8 @@ private:
     bool m_bDisableTcpNoDelay;
     bool m_bDisableZlibCompression;
     bool m_bEnableMultimedia;
+    bool m_bEnableNativePA;
+    bool m_bEnableMonoPA;
     bool m_bEnableSSL;
     bool m_bEnableSmbSharing;
     bool m_bEnableUSBIP;
@@ -455,6 +469,7 @@ private:
     int m_iSavedUsbLocalPort;
     int m_iSessionType;
     int m_iSmbPort;
+    int m_iRatePA;
     int m_iUsbLocalPort;
     wxString m_sCupsPath;
     wxString m_sHostName;

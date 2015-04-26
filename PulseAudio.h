@@ -26,6 +26,8 @@
 #pragma interface "PulseAudio.h"
 #endif
 
+#include "MyXmlConfig.h"
+
 class pawrapper;
 class MyDynamicLibrary;
 
@@ -40,9 +42,22 @@ class PulseAudio {
         bool IsAvailable();
 
         bool ActivateEsound(int port);
+        bool ActivateNative(int port, int rrate, bool mono);
+
+        const int GetEsoundPort() { return m_iPortEsound; }
+        const int GetNativePort() { return m_iPortNative; }
+
+        int FoundModuleIDs(wxString modname, wxString s_argstpl,
+                                wxArrayString &a_indexes, wxArrayString &a_args,
+                                bool HardAccordance);
+        bool UnloadExistingModules(wxString modname, wxString s_argstpl,
+                                bool HardAccordance);
 
     private:
         bool AutoSpawn();
+
+        int m_iPortEsound;
+        int m_iPortNative;
 
         pawrapper *pa;
         MyDynamicLibrary *dll;

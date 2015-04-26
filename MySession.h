@@ -140,6 +140,7 @@ private:
     bool m_bSslTunneling;
     bool m_bSessionRunning;
     bool m_bEsdRunning;
+    bool m_bNativePARunning;
     bool m_bSessionEstablished;
     bool m_bCollectSessions;
     bool m_bCollectConfig;

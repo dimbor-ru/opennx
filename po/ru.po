@@ -1487,6 +1487,22 @@ msgstr "Удалить"
 msgid "Enable multimedia support"
 msgstr "Включить поддержку мультимедиа"
 
+#: by hands
+msgid "Native Pulseaudio"
+msgstr "Нативный Pulseaudio"
+
+#: by hands
+msgid "Rate"
+msgstr "Частота"
+
+#: by hands
+msgid "No change"
+msgstr "Не изменять"
+
+#: by hands
+msgid "Mono"
+msgstr "Моно"
+
 #: SessionProperties_symbols.h:96
 msgid "Enable USB forwarding"
 msgstr "Включить проброс USB устройств"
