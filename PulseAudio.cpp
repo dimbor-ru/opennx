@@ -67,7 +67,6 @@ ENABLE_TRACE;
 #ifdef WITH_PULSEAUDIO
 #include <pulse/pulseaudio.h>
 
-
 typedef pa_threaded_mainloop* (*Tpa_threaded_mainloop_new)(void);
 typedef pa_mainloop_api* (*Tpa_threaded_mainloop_get_api)(pa_threaded_mainloop*);
 typedef int (*Tpa_threaded_mainloop_start)(pa_threaded_mainloop *);
@@ -167,6 +166,11 @@ class pawrapper {
         {
             m_bError = false;
             m_bConnected = false;
+#ifdef __WXMSW__
+            const char * server = "127.0.0.1";
+#else
+            const char * server = NULL;
+#endif
             m_pLoop = Ppa_threaded_mainloop_new();
             m_pApi = Ppa_threaded_mainloop_get_api(m_pLoop);
             m_pContext = Ppa_context_new(m_pApi, "OpenNX");
@@ -175,7 +179,7 @@ class pawrapper {
             do {
                 m_bError = false;
                 ::myLogTrace(MYTRACETAG, wxT("pa_context_connect try %d"), 4 - retry);
-                if (0 <= Ppa_context_connect(m_pContext, NULL /* server */, PA_CONTEXT_NOAUTOSPAWN, NULL)) {
+                if (0 <= Ppa_context_connect(m_pContext, server, PA_CONTEXT_NOAUTOSPAWN, NULL)) {
                     Ppa_threaded_mainloop_start(m_pLoop);
                     while (!(m_bConnected || m_bError))
                         ::wxGetApp().Yield(true);
@@ -187,8 +191,10 @@ class pawrapper {
 
         ~pawrapper()
         {
+#ifndef __WXMSW__
             if (m_bConnected)
                 Ppa_context_disconnect(m_pContext);
+#endif
             Ppa_threaded_mainloop_stop(m_pLoop);
             Ppa_threaded_mainloop_free(m_pLoop);
             if (NULL != m_pContext)
@@ -344,7 +350,7 @@ class pawrapper {
 
             wxString dsink(i->default_sink_name ? i->default_sink_name : "", wxConvUTF8);
             wxString dsrc(i->default_source_name ? i->default_source_name : "", wxConvUTF8);
-            m_DefSink = dsink; m_DefSource = dsrc;
+            m_DefSink = dsink; m_DefSource = dsrc; m_bComplete = true;
         }
 
         void get_module_info_callback(pa_context *c, const pa_module_info *i, int is_last)
@@ -501,13 +507,19 @@ bool PulseAudio::AutoSpawn()
         pacmd << wxFileName::GetPathSeparator() << wxT("bin")
             << wxFileName::GetPathSeparator() << wxT("pulseaudio");
 #  ifdef __WXMSW__
-        pacmd << wxT(".exe");
+        pacmd << wxT(".exe --exit-idle-time=-1 --log-target=file:")
+            << ::wxGetHomeDir() << wxFileName::GetPathSeparator()
+            << wxT(".pulse") <<  wxFileName::GetPathSeparator()
+            << wxT("pa.log");
 #  endif
         ::myLogTrace(MYTRACETAG, wxT("PulseAudio::AutoSpawn: trying to start '%s'"), pacmd.c_str());
 #  ifdef __WXMSW__
-        CreateDetachedProcess((const char *)pacmd.mb_str());
-        // Don't report an error here, as CreateDetachedProcess may
-        // fail if pulseaudio is already running
+        wxProcess *nxpa = wxProcess::Open(pacmd,
+                                        wxEXEC_ASYNC|wxEXEC_MAKE_GROUP_LEADER);
+        if (nxpa) {
+            nxpa->CloseOutput();
+            nxpa->Detach();
+        }
 #  else
         ::wxExecute(pacmd, wxEXEC_ASYNC|wxEXEC_MAKE_GROUP_LEADER);
 #  endif
@@ -653,7 +665,6 @@ bool PulseAudio::ActivateEsound(int port)
     bool res = pa->loadmodule(mname,ma);
     ::myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d"),mname.c_str(), res);
     return res;
-    //wxT("port=(\\d+) listen=(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}) auth-anonymous=1");
 #else
     wxUnusedVar(port);
     return false;
@@ -667,28 +678,56 @@ bool PulseAudio::ActivateNative(int port, int rrate, bool mono)
 #ifdef WITH_PULSEAUDIO
     wxString mname = wxT("module-native-protocol-tcp");
     UnloadExistingModules(wxT("module-esound-protocol-tcp"),wxT(""));
-
     wxString ma = wxString::Format(wxT("port=%d"), port);
     UnloadExistingModules(mname,ma);
-
     wxString mname_fake = wxT("module-null-sink");
     wxString mname_conn = wxT("module-loopback");
     wxString deltpl = wxT("(sink|sink_name|source)=(ts_sender|ts_receiver)");
     UnloadExistingModules(mname_conn,deltpl);
     UnloadExistingModules(mname_fake,deltpl);
-
     ma.Append(wxString::Format(wxT(" listen=127.0.0.1 auth-anonymous=1"), port));
     bool res = pa->loadmodule(mname,ma);
     ::myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
                     mname.c_str(),res,ma.c_str());
     if (!res || (rrate == 0 ))
         return res;
-    wxString dsi,dso;
+#ifndef __WXMSW__
+    wxString dsi,dso; dsi.Empty(); dso.Empty();
     pa->getdefaults(dsi,dso);
-    ::myLogTrace(MYTRACETAG, wxT("Get defaultss: Sink ='%s'; Source ='%s'"),
+    ::myLogTrace(MYTRACETAG, wxT("Get defaults: Sink ='%s'; Source ='%s'"),
                     dsi.c_str(),dso.c_str());
     if ((dsi.IsEmpty()) || (dso.IsEmpty()))
         return true; // modules for resample are optional now
+#else
+    // on win we check availability of sink and source only
+    // because old resample scheme not work
+    // on systems >=w7 is necessary try to load sink and source
+    // separately since audio devices are present according to
+    // speakers/headset/microphone connect status
+    wxArrayString ti, ta;
+    bool IsSink, IsSource;
+    mname = wxT("module-waveout");
+    ma = wxT("sink_name=output");
+    IsSink = (0 < FoundModuleIDs(mname, ma, ti, ta));
+    if (!IsSink) {
+        ma.Append(wxT(" record=0"));
+        IsSink = pa->loadmodule(mname,ma);
+        ::myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
+                    mname.c_str(),IsSink,ma.c_str());
+    }
+    ma = wxT("source_name=input");
+    IsSource = (0 < FoundModuleIDs(mname, ma, ti, ta));
+    if (!IsSource) {
+        ma.Append(wxT(" playback=0"));
+        IsSource = pa->loadmodule(mname,ma);
+        ::myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
+                    mname.c_str(),IsSource,ma.c_str());
+    }
+    res = (IsSink || IsSource);
+    return res;
+#endif
+
+#ifndef __WXMSW__
     wxString ma_fake = wxString::Format(wxT(" rate=%d channels=%s"),rrate,
                                         mono ?wxT("1"):wxT("2"));
 
@@ -711,8 +750,8 @@ bool PulseAudio::ActivateNative(int port, int rrate, bool mono)
     res = pa->loadmodule(mname_conn,ma);
     ::myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
                     mname_conn.c_str(),res,ma.c_str());
-
-
+    return true;
+#endif
 #else
     wxUnusedVar(port,rrate,mono);
     return false;
