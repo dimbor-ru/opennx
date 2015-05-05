@@ -197,9 +197,14 @@ class pawrapper {
 
         bool getdefaults(wxString &Sink, wxString &Source)
         {
-            Sink = m_DefSink;
-            Source = m_DefSource;
-            return true;
+            m_bComplete = false;
+            Ppa_operation_unref(Ppa_context_get_server_info(m_pContext, get_server_info_callback_if, this));
+            bool ret = waitcmd();
+            if (ret && m_bComplete) {
+                Sink = m_DefSink;
+                Source = m_DefSource;
+            }
+            return ret && m_bComplete;
         }
 
         bool findmodules(const wxChar *name, wxArrayString &indexes, wxArrayString &args)
@@ -312,7 +317,6 @@ class pawrapper {
                     break;
                 case PA_CONTEXT_READY:
                     STATE_TRACE("PA_CONTEXT_READY");
-                    Ppa_operation_unref(Ppa_context_get_server_info(m_pContext, get_server_info_callback_if, this));
                     m_bConnected = true;
                     break;
                 case PA_CONTEXT_TERMINATED:
