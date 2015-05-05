@@ -67,6 +67,8 @@ ENABLE_TRACE;
 #ifdef WITH_PULSEAUDIO
 #include <pulse/pulseaudio.h>
 
+#undef PA_ADEBUG
+
 typedef pa_threaded_mainloop* (*Tpa_threaded_mainloop_new)(void);
 typedef pa_mainloop_api* (*Tpa_threaded_mainloop_get_api)(pa_threaded_mainloop*);
 typedef int (*Tpa_threaded_mainloop_start)(pa_threaded_mainloop *);
@@ -599,17 +601,23 @@ int PulseAudio::FoundModuleIDs(wxString modname, wxString s_argstpl,
             continue;
         }
         wxArrayString margs = ::wxStringTokenize(args_args[i]);
+#ifdef PA_ADEBUG
         ::myLogTrace(MYTRACETAG, wxT("Checking mod[%s], in args = '%s';  count = %d "),indexes[i].c_str(), args_args[i].c_str(),margs.GetCount());
+#endif
         if (HardAccordance && (argstpl.GetCount() != margs.GetCount()))
             continue;
         bool Accordance = true;
         for (int j = 0; j < argstpl.GetCount(); j++) {
+#ifdef PA_ADEBUG
             ::myLogTrace(MYTRACETAG, wxT("Checking template '%s'"),argstpl[j].c_str());
+#endif
             re.Compile(argstpl[j], wxRE_ADVANCED);
             bool rfound = false;
             for (int k = 0; k < margs.GetCount(); k++) {
                 rfound = re.Matches(margs[k]);
+#ifdef PA_ADEBUG
                 ::myLogTrace(MYTRACETAG, wxT("Checking arg '%s' -> res = %d"),margs[k].c_str(), rfound);
+#endif
                 if (rfound)
                     break;
             }
