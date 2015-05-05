@@ -1257,7 +1257,7 @@
                                                     <border>5</border>
                                                     <object class="wxCheckBox" name="ID_CHECKBOX_CLEAR_PASSONABORT">
                                                         <label>Clear password entry on abort</label>
-                                                        <checked>1</checked>
+                                                        <checked>0</checked>
                                                     </object>
                                                 </object>
                                                 <object class="sizeritem">

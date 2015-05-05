@@ -465,7 +465,7 @@ SessionProperties::KeyTyped() {
 bool SessionProperties::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const wxString& WXUNUSED(caption), const wxPoint& WXUNUSED(pos), const wxSize& WXUNUSED(size), long WXUNUSED(style) )
 {
     ////@begin SessionProperties member initialisation
-    m_bClearPassOnAbort = true;
+    m_bClearPassOnAbort = false;
     m_bCreateDesktopIcon = false;
     m_bDisableDeferredUpdates = false;
     m_bDisableDirectDraw = false;
