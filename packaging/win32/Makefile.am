@@ -31,8 +31,10 @@ FNT2URL = ftp://ftp.gwdg.de/pub/x11/x.org/pub/X11R7.5/src/font/$(FNT2BALL)
 	$(MAKE) -C pulse tmpdist
 	$(INSTALL_PROGRAM) pulse/dist/bin/*.exe setupdir/bin
 	$(INSTALL_PROGRAM) pulse/dist/bin/*.dll setupdir/bin
+	$(INSTALL_PROGRAM) pulse/dist/bin/*.bat setupdir/bin
 	cp -av pulse/dist/etc setupdir
 	cp -av pulse/dist/lib setupdir
+	cp -av pulse/dist/share setupdir
 	for lang in $(shell cat $(top_srcdir)/po/LINGUAS) ; do \
 		$(INSTALL_DATA) $(localedir)/$$lang/LC_MESSAGES/wxstd.mo \
 			setupdir/share/locale/$$lang/LC_MESSAGES/ ; \
@@ -41,7 +43,9 @@ FNT2URL = ftp://ftp.gwdg.de/pub/x11/x.org/pub/X11R7.5/src/font/$(FNT2BALL)
 	touch $@
 
 .dlldeps: .setupdir findrequires.pl
-	env DEPDEBUG=1 perl findrequires.pl "$(DLLPATH)" setupdir/bin/*.{exe,dll} 2>$@|xargs cp -t setupdir/bin
+	env DEPDEBUG=1 perl findrequires.pl "$(DLLPATH)" setupdir/bin/*.{exe,dll} 2>$@ > .tmplist
+	if [ "$$(stat -c %s .tmplist)" -gt 0 ] ; then xargs -a .tmplist  cp -t setupdir/bin; fi
+	rm .tmplist
 	touch $@
 
 .stripsetup: .setupdir
@@ -77,6 +81,6 @@ $(FNT2DIR): $(FNT2BALL)
 		--with-compression=gzip )
 	touch $@
 
-EXTRA_DIST = opennx.iss
+EXTRA_DIST = opennx.iss version.iss lgpl.rtf
 MAINTAINERCLEANFILES = Makefile.in $(FNT1BALL) $(FNT2BALL)
 CLEANFILES = -r .setupdir .dlldeps .stripsetup setupdir $(FNT1DIR) $(FNT2DIR)
