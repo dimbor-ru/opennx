@@ -915,7 +915,27 @@ MyXmlConfig::sGetSessionParams(const long protocolVersion, bool bNew, const wxSt
 #endif
     ret << wxT(" --media=\"") << (m_bEnableMultimedia ? 1 : 0) << wxT("\"");
     if (m_bEnableMultimedia) {
-        ret << wxT(" --mediahelper=\"esd\"");
+        if (m_bEnableNativePA) {
+            ret << wxT(" --mediahelper=\"pa");
+            if (m_eRatePA != RATEPA_NORESAMPLE) {
+                switch (m_eRatePA) {
+                    case RATEPA_48000:
+                        ret << wxT("-48000"); break;
+                    case RATEPA_44100:
+                        ret << wxT("-44100"); break;
+                    case RATEPA_32000:
+                        ret << wxT("-32000"); break;
+                    case RATEPA_16000:
+                        ret << wxT("-16000"); break;
+                    case RATEPA_8000:
+                        ret << wxT("-8000"); break;
+                }
+                if (m_bEnableMonoPA)
+                        ret << wxT("-1");
+            }
+            ret << wxT("\"");
+        } else
+            ret << wxT(" --mediahelper=\"esd\"");
     }
     // Original always uses those?!
     ret << wxT(" --strict=\"0\"");
