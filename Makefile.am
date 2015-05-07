@@ -208,8 +208,6 @@ tracelogApp.cpp: memres.h
 
 watchUsbIpApp.cpp: memres.h
 
-PulseAudio.cpp: $(PAHEADER)
-
 SUFFIXES = .rc
 
 .rc.o: $(OSRESDEPS)
@@ -322,9 +320,6 @@ dist-platform: $(PLATFORMDIST)
 
 packaging/MacOSX/pulse/include/pulse/pulseaudio.h:
 	$(MAKE) -C packaging/MacOSX/pulse cachedinstall
-
-packaging/win32/pulse/include/pulse/pulseaudio.h:
-	$(MAKE) -C packaging/win32/pulse tmpinstall
 
 EXTRA_DIST = conf/mkinstalldirs  conf/mkinstalldirs  conf/mkinstalldirs  conf/mkinstalldirs  conf/mkinstalldirs  conf/mkinstalldirs conf/config.rpath conf/authors.xml \
 	INSTALL INSTALL.generic COPYING share etc/60-opennx.rules \

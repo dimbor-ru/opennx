@@ -2926,8 +2926,6 @@ tracelogApp.cpp: memres.h
 
 watchUsbIpApp.cpp: memres.h
 
-PulseAudio.cpp: $(PAHEADER)
-
 .rc.o: $(OSRESDEPS)
 	$(AM_V_GEN)$(WX_RESCOMP) -I$(top_builddir) -o $@ $<
 
@@ -3018,9 +3016,6 @@ dist-platform: $(PLATFORMDIST)
 
 packaging/MacOSX/pulse/include/pulse/pulseaudio.h:
 	$(MAKE) -C packaging/MacOSX/pulse cachedinstall
-
-packaging/win32/pulse/include/pulse/pulseaudio.h:
-	$(MAKE) -C packaging/win32/pulse tmpinstall
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
