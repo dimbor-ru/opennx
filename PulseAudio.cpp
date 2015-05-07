@@ -197,8 +197,10 @@ class pawrapper {
             if (m_bConnected)
                 Ppa_context_disconnect(m_pContext);
 #endif
-            Ppa_threaded_mainloop_stop(m_pLoop);
-            Ppa_threaded_mainloop_free(m_pLoop);
+            if (m_pLoop) {
+                Ppa_threaded_mainloop_stop(m_pLoop);
+                Ppa_threaded_mainloop_free(m_pLoop);
+            }
             if (NULL != m_pContext)
                 Ppa_context_unref(m_pContext);
         }
