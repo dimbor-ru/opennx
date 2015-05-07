@@ -712,25 +712,22 @@ bool PulseAudio::ActivateNative(int port, int rrate, bool mono)
     // on systems >=w7 is necessary try to load sink and source
     // separately since audio devices are present according to
     // speakers/headset/microphone connect status
-    wxArrayString ti, ta;
+    // Also these modules always must be reloaded in case
+    // recent jacks reconnection
     bool IsSink, IsSource;
     mname = wxT("module-waveout");
     ma = wxT("sink_name=output");
-    IsSink = (0 < FoundModuleIDs(mname, ma, ti, ta));
-    if (!IsSink) {
-        ma.Append(wxT(" record=0"));
-        IsSink = pa->loadmodule(mname,ma);
-        ::myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
-                    mname.c_str(),IsSink,ma.c_str());
-    }
+    UnloadExistingModules(mname,ma);
+    ma.Append(wxT(" record=0"));
+    IsSink = pa->loadmodule(mname,ma);
+    ::myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
+                mname.c_str(),IsSink,ma.c_str());
     ma = wxT("source_name=input");
-    IsSource = (0 < FoundModuleIDs(mname, ma, ti, ta));
-    if (!IsSource) {
-        ma.Append(wxT(" playback=0"));
-        IsSource = pa->loadmodule(mname,ma);
-        ::myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
-                    mname.c_str(),IsSource,ma.c_str());
-    }
+    UnloadExistingModules(mname,ma);
+    ma.Append(wxT(" playback=0"));
+    IsSource = pa->loadmodule(mname,ma);
+    ::myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
+                mname.c_str(),IsSource,ma.c_str());
     res = (IsSink || IsSource);
     return res;
 #endif
