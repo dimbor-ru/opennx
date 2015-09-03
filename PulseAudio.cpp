@@ -489,7 +489,8 @@ bool PulseAudio::AutoSpawn()
     int retry = 3;
     // On windows and mac, we do our own autospawn
     wxString piddir = ::wxGetHomeDir() + wxFileName::GetPathSeparator()
-        + wxT(".pulse") + wxFileName::GetPathSeparator()
+        + wxT(".config") + wxFileName::GetPathSeparator()
+        + wxT("pulse") + wxFileName::GetPathSeparator()
         + MachineID() + wxT("-runtime");
     wxString pidfile = piddir + wxFileName::GetPathSeparator() + wxT("pid");
     do {
@@ -511,10 +512,11 @@ bool PulseAudio::AutoSpawn()
         pacmd << wxFileName::GetPathSeparator() << wxT("bin")
             << wxFileName::GetPathSeparator() << wxT("pulseaudio");
 #  ifdef __WXMSW__
-        pacmd << wxT(".exe --exit-idle-time=-1 --log-target=file:")
+        pacmd << wxT(".exe --exit-idle-time=-1 --log-target=file:\"")
             << ::wxGetHomeDir() << wxFileName::GetPathSeparator()
-            << wxT(".pulse") <<  wxFileName::GetPathSeparator()
-            << wxT("pa.log");
+            << wxT(".config") << wxFileName::GetPathSeparator()
+            << wxT("pulse") <<  wxFileName::GetPathSeparator()
+            << wxT("pa.log\"");
 #  endif
         ::myLogTrace(MYTRACETAG, wxT("PulseAudio::AutoSpawn: trying to start '%s'"), pacmd.c_str());
 #  ifdef __WXMSW__
