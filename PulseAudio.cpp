@@ -38,7 +38,9 @@
 #endif
 
 #include "PulseAudio.h"
+#ifndef PA_NOLIB
 #include "MyDynlib.h"
+#endif
 
 #include <wx/log.h>
 #include <wx/utils.h>
@@ -69,6 +71,7 @@ ENABLE_TRACE;
 
 #undef PA_ADEBUG
 
+#ifndef PA_NOLIB
 typedef pa_threaded_mainloop* (*Tpa_threaded_mainloop_new)(void);
 typedef pa_mainloop_api* (*Tpa_threaded_mainloop_get_api)(pa_threaded_mainloop*);
 typedef int (*Tpa_threaded_mainloop_start)(pa_threaded_mainloop *);
@@ -139,6 +142,7 @@ static int _set_pasyms(MyDynamicLibrary *dll) {
     LOADPTR(pa_xfree);
     return 1;
 }
+#endif
 
 // On windows, calling ::myLogTrace() from within libpulse's
 // connection loop apparently crashes libpulse for some
@@ -150,6 +154,9 @@ static int _set_pasyms(MyDynamicLibrary *dll) {
 # define STATE_TRACE(msg) ::myLogTrace(MYTRACETAG, wxT(msg))
 #endif
 
+#ifdef PA_NOLIB
+# include "PAWrapperSimple.cpp"
+#else
 class pawrapper {
     private:
         typedef enum {
@@ -463,6 +470,7 @@ class pawrapper {
         wxArrayString m_asIndexes;
         wxArrayString m_asArgs;
 };
+#endif
 
 # if defined(__WXMSW__) || defined(__WXMAC__)
 #  ifdef __WXMAC__
@@ -542,6 +550,7 @@ bool PulseAudio::AutoSpawn()
 #endif // WITH_PULSEAUDIO
 }
 
+#ifndef PA_NOLIB
     PulseAudio::PulseAudio()
 : pa(NULL), dll(NULL), m_bPulseAvailable(false)
 {
@@ -571,12 +580,32 @@ bool PulseAudio::AutoSpawn()
     ::myLogTrace(MYTRACETAG, wxT("No pulseaudio support"));
 #endif
 }
+#else
+    PulseAudio::PulseAudio()
+: pa(NULL), m_bPulseAvailable(false)
+{
+    m_iPortEsound = 0; m_iPortNative = 0;
+# ifdef WITH_PULSEAUDIO
+    if (AutoSpawn()) {
+        pa = new pawrapper();
+        if (pa->isConnected()) {
+            m_bPulseAvailable = true;
+            ::myLogTrace(MYTRACETAG, wxT("connected to pulseaudio daemon"));
+        }
+    }
+# else
+    ::myLogTrace(MYTRACETAG, wxT("No pulseaudio support"));
+# endif
+}
+#endif
 
 PulseAudio::~PulseAudio()
 {
 #ifdef WITH_PULSEAUDIO
     delete pa;
+# ifndef PA_NOLIB
     delete dll;
+# endif
 #endif
 }
 

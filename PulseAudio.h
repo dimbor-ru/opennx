@@ -28,8 +28,14 @@
 
 #include "MyXmlConfig.h"
 
+#ifdef __WXMSW__
+#define PA_NOLIB
+#endif
+
 class pawrapper;
+#ifndef PA_NOLIB
 class MyDynamicLibrary;
+#endif
 
 class PulseAudio {
     public:
@@ -60,7 +66,9 @@ class PulseAudio {
         int m_iPortNative;
 
         pawrapper *pa;
+#ifndef PA_NOLIB
         MyDynamicLibrary *dll;
+#endif
         bool m_bPulseAvailable;
 };
 
