@@ -2312,15 +2312,7 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
         if (m_pCfg->bGetEnableMultimedia()) {
             m_bEsdRunning = false; m_bNativePARunning = false;
             dlg.SetStatusText(_("Preparing multimedia service ..."));
-#ifdef __WXMSW__
-            ::wxUnsetEnv(wxT("HOME"));
-            ::wxLogInfo(wxT("Unset env: HOME"));
             PulseAudio pa;
-            ::wxSetEnv(wxT("HOME"), cygPath(fn.GetFullPath()));
-            ::wxLogInfo(wxT("env: HOME='%s'"), cygPath(fn.GetFullPath()).c_str());
-#else
-            PulseAudio pa;
-#endif
             if (pa.IsAvailable()) {
                 ::wxLogInfo(wxT("using existing pulseaudio"));
                 m_lEsdPort = wxConfigBase::Get()->Read(wxT("State/nxesdPort"), -1);
