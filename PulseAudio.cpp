@@ -501,6 +501,17 @@ bool PulseAudio::AutoSpawn()
         + wxT("pulse") + wxFileName::GetPathSeparator()
         + MachineID() + wxT("-runtime");
     wxString pidfile = piddir + wxFileName::GetPathSeparator() + wxT("pid");
+        wxString pacmd;
+        wxConfigBase::Get()->Read(wxT("Config/SystemNxDir"), &pacmd);
+        pacmd << wxFileName::GetPathSeparator() << wxT("bin")
+            << wxFileName::GetPathSeparator() << wxT("pulseaudio");
+#  ifdef __WXMSW__
+        pacmd << wxT(".exe --exit-idle-time=-1 --log-target=file:\"")
+            << ::wxGetHomeDir() << wxFileName::GetPathSeparator()
+            << wxT(".config") << wxFileName::GetPathSeparator()
+            << wxT("pulse") <<  wxFileName::GetPathSeparator()
+            << wxT("pa.log\"");
+#  endif
     do {
         ::myLogTrace(MYTRACETAG, wxT("PulseAudio::AutoSpawn: checking '%s'"), pidfile.c_str());
         wxFileInputStream sPid(pidfile);
@@ -515,21 +526,11 @@ bool PulseAudio::AutoSpawn()
             }
         }
 
-        wxString pacmd;
-        wxConfigBase::Get()->Read(wxT("Config/SystemNxDir"), &pacmd);
-        pacmd << wxFileName::GetPathSeparator() << wxT("bin")
-            << wxFileName::GetPathSeparator() << wxT("pulseaudio");
-#  ifdef __WXMSW__
-        pacmd << wxT(".exe --exit-idle-time=-1 --log-target=file:\"")
-            << ::wxGetHomeDir() << wxFileName::GetPathSeparator()
-            << wxT(".config") << wxFileName::GetPathSeparator()
-            << wxT("pulse") <<  wxFileName::GetPathSeparator()
-            << wxT("pa.log\"");
-#  endif
         ::myLogTrace(MYTRACETAG, wxT("PulseAudio::AutoSpawn: trying to start '%s'"), pacmd.c_str());
 #  ifdef __WXMSW__
         wxProcess *nxpa = wxProcess::Open(pacmd,
                                         wxEXEC_ASYNC|wxEXEC_MAKE_GROUP_LEADER);
+        wxThread::Sleep(100);
         if (nxpa) {
             nxpa->CloseOutput();
             nxpa->Detach();
@@ -537,7 +538,7 @@ bool PulseAudio::AutoSpawn()
 #  else
         ::wxExecute(pacmd, wxEXEC_ASYNC|wxEXEC_MAKE_GROUP_LEADER);
 #  endif
-        wxThread::Sleep(500);
+        wxThread::Sleep(1000);
     } while (retry-- > 0);
     ::myLogTrace(MYTRACETAG, wxT("PulseAudio::AutoSpawn: spawn failed"));
     return false;
