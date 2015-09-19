@@ -2191,7 +2191,7 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
                     return false;
                 }
             }
-            nxsshcmd << wxT(" -i ") << cygPath(fn.GetFullPath());
+            nxsshcmd << wxT(" -i ") << fn.GetShortPath();
         }
 
         if (m_pCfg->bGetUseProxy()) {
@@ -2227,11 +2227,11 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
         ::wxGetEnv(wxT("PATH"), &stmp);
         // Prepend our system directory, so that pconnect can be found by nxssh (if necessary)
         fn.Assign(m_sSysDir, wxT("bin"));
-        if (!stmp.Contains(fn.GetFullPath())) {
+        if (!stmp.Contains(fn.GetShortPath())) {
 #ifdef __WXMSW__
-            stmp.Prepend(wxT(";")).Prepend(fn.GetFullPath());
+            stmp.Prepend(wxT(";")).Prepend(fn.GetShortPath());
 #else
-            stmp.Prepend(wxT(":")).Prepend(fn.GetFullPath());
+            stmp.Prepend(wxT(":")).Prepend(fn.GetShortPath());
 #endif
 #ifdef __WXMAC__
             stmp.Append(wxT(":/usr/X11R6/bin:/usr/X11/bin"));
@@ -2240,16 +2240,19 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
         }
         ::wxLogInfo(wxT("env: PATH='%s'"), stmp.c_str());
         fn.Assign(wxFileName::GetHomeDir());
-        ::wxSetEnv(wxT("NX_HOME"), cygPath(fn.GetFullPath()));
-        ::wxLogInfo(wxT("env: NX_HOME='%s'"), cygPath(fn.GetFullPath()).c_str());
-        ::wxSetEnv(wxT("HOME"), cygPath(fn.GetFullPath()));
-        ::wxLogInfo(wxT("env: HOME='%s'"), cygPath(fn.GetFullPath()).c_str());
-        ::wxSetEnv(wxT("NX_ROOT"), cygPath(m_sUserDir));
-        ::wxLogInfo(wxT("env: NX_ROOT='%s'"), cygPath(m_sUserDir).c_str());
-        ::wxSetEnv(wxT("NX_SYSTEM"), cygPath(m_sSysDir));
-        ::wxLogInfo(wxT("env: NX_SYSTEM='%s'"), cygPath(m_sSysDir).c_str());
-        ::wxSetEnv(wxT("NX_CLIENT"), cygPath(::wxGetApp().GetSelfPath()));
-        ::wxLogInfo(wxT("env: NX_CLIENT='%s'"), cygPath(::wxGetApp().GetSelfPath()).c_str());
+        ::wxSetEnv(wxT("NX_HOME"), fn.GetShortPath());
+        ::wxLogInfo(wxT("env: NX_HOME='%s'"), fn.GetShortPath().c_str());
+        ::wxSetEnv(wxT("HOME"), fn.GetShortPath());
+        ::wxLogInfo(wxT("env: HOME='%s'"), fn.GetShortPath().c_str());
+        fn.Assign(m_sUserDir);
+        ::wxSetEnv(wxT("NX_ROOT"), fn.GetShortPath());
+        ::wxLogInfo(wxT("env: NX_ROOT='%s'"), fn.GetShortPath().c_str());
+        fn.Assign(m_sSysDir);
+        ::wxSetEnv(wxT("NX_SYSTEM"), fn.GetShortPath());
+        ::wxLogInfo(wxT("env: NX_SYSTEM='%s'"), fn.GetShortPath().c_str());
+        fn.Assign(::wxGetApp().GetSelfPath());
+        ::wxSetEnv(wxT("NX_CLIENT"), fn.GetShortPath());
+        ::wxLogInfo(wxT("env: NX_CLIENT='%s'"), fn.GetShortPath().c_str());
         ::wxSetEnv(wxT("NX_VERSION"), m_sProtocolVersion);
         ::wxLogInfo(wxT("env: NX_VERSION='%s'"), m_sProtocolVersion.c_str());
         if (m_pCfg->eGetDisplayType() == MyXmlConfig::DPTYPE_FULLSCREEN) {
