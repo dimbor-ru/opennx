@@ -14,9 +14,12 @@
 #define ExeFullVersion(Str FileName) \
        Local[0] = GetFileVersion(FileName), Local[0]
        
+#define APPVERSION "729-0.5-r15.1"
 #ifdef APPNAME
 # ifdef APPVERSION
 #  define APPVERNAME APPNAME + ' ' + APPVERSION
+#  define APPFULLVER APPVERSION
+#  define APPFULLVERNAME APPNAME + ' ' + APPFULLVER
 # else
 #  ifdef APPEXE
 #   define APPVERSION ExeVersion(APPEXE)
@@ -26,12 +29,12 @@
 #  endif
 # endif
 # ifdef APPVERSION
-#  define SETUPVNAME APPNAME + '-' + APPVERSION + '-Setup'
+#  define SETUPVNAME APPNAME + '-' + APPVERSION
 # endif
 # ifdef APPFULLVER
-#  define SETUPFVNAME APPNAME + '-' + APPFULLVER + '-Setup'
+#  define SETUPFVNAME APPNAME + '-' + APPFULLVER
 # endif
-# define SETUPNAME APPNAME + '-Setup'
+# define SETUPNAME APPNAME
 #endif
 
 #ifdef CStrings

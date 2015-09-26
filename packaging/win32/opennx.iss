@@ -19,7 +19,7 @@ AppVerName={#=APPFULLVERNAME}
 AppPublisher=OpenNX Community Edition
 AppPublisherURL=Community from http://unixforum.org
 AppCopyright=(C) 2011 The OpenNX Team
-VersionInfoVersion={#=APPFULLVER}
+;VersionInfoVersion={#=APPFULLVER}
 DefaultDirName={pf}\{#=APPNAME}
 DefaultGroupName={#=APPNAME}
 #ifdef DEBUG
