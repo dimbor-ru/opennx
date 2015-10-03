@@ -1542,6 +1542,7 @@ MySession::startXserver()
                 }
                 wxWinCmd << wxT(" -name ") << title << wxT("@") << m_pCfg->sGetServerHost();
             }
+            wxWinCmd << wxT(" -multiplemonitors");
             wxWinCmd << wxT(" ") << dpyStr;
             break;
         case XARCH_XMING:
@@ -1682,6 +1683,9 @@ MySession::startProxy()
     }
 
     popts << wxT(":") << m_sSessionDisplay;
+    /* but in nxclient now is:
+    popts << wxT(",display=:0:") << m_sSessionDisplay;
+    */
     m_sSessionDir = m_sUserDir;
     m_sSessionDir << wxFileName::GetPathSeparator()
         << wxT("S-") << m_sSessionID;
@@ -2288,6 +2292,11 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
 #endif
 
 #ifdef __WXMSW__
+        if (m_eXarch == XARCH_CYGWIN) {
+            wxString srvstr = wxT("server");
+            ::wxSetEnv(wxT("CYGWIN"), srvstr);
+            ::wxLogInfo(wxT("env: CYGWIN='%s'"), srvstr.c_str());
+        }
         if (!startXserver()) {
             ::wxLogError(_("Could not start local X server"));
             return false;

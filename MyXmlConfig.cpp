@@ -479,6 +479,7 @@ MyXmlConfig::sGetProxyParams(const long protocolVersion)
         ;
     // FIXME: use real settings
     ret << wxT(",font=1");
+    ret << wxT(",aux=1");
     return ret;
 }
 
@@ -679,15 +680,15 @@ MyXmlConfig::sGetSessionParams(const long protocolVersion, bool bNew, const wxSt
                     else {
                         bNeedGeometry = false;
                         ret << wxT("application\"");
-                        ret << wxT(" --rootless=\"")
-                            << (m_bVirtualDesktop ? 0 : 1)
-                            << wxT("\" --virtualdesktop=\"")
-                            << (m_bVirtualDesktop ? 1 : 0)
-                            << wxT("\" --application=\"")
+                        ret    << wxT(" --application=\"")
                             << UrlEsc(m_sCommandLine) << wxT("\"");
                     }
                     break;
             }
+            ret << wxT(" --rootless=\"")
+                << (m_bVirtualDesktop ? 0 : 1)
+                << wxT("\" --virtualdesktop=\"")
+                << (m_bVirtualDesktop ? 1 : 0) << wxT("\"");
             if (m_bUseCustomImageEncoding) {
                 ret << wxT(" --imagecompressionmethod=\"") << m_iImageEncoding << wxT("\"")
                     << wxT(" --imagecompressionlevel=\"")
@@ -956,6 +957,9 @@ MyXmlConfig::sGetXserverParams(bool forNXWin)
     getDesktopSize(dspw, dsph, clientw, clienth);
 
     if (forNXWin) {
+      if ((m_eDesktopType == MyXmlConfig::DTYPE_CUSTOM) && !m_bVirtualDesktop)
+        ret << wxT(" -screen 0 640x480");
+      else
         switch (m_eDisplayType) {
             case MyXmlConfig::DPTYPE_640x480:
                 ret << wxT(" -screen 0 640x480");
