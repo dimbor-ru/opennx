@@ -45,6 +45,7 @@ int inKdeSession = 0;
 #include <tlhelp32.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 static char _kbd[_MAX_PATH+1];
 
@@ -411,6 +412,50 @@ long getppid()
     }	
     FreeLibrary(hKernel32);
     return ppid;
+}
+
+int getpidof(const char *exename)
+{
+    HINSTANCE hKernel32;
+    HANDLE hSnapShot;
+    PROCESSENTRY32 procentry;
+    int pid = 0;
+
+    /* ToolHelp Function Pointers.*/
+    HANDLE (WINAPI *lpfCreateToolhelp32Snapshot)(DWORD,DWORD);
+    BOOL (WINAPI *lpfProcess32First)(HANDLE,LPPROCESSENTRY32);
+    BOOL (WINAPI *lpfProcess32Next)(HANDLE,LPPROCESSENTRY32);
+
+    if ((hKernel32 = LoadLibraryA("kernel32.dll")) == NULL)
+        return 0;
+    lpfCreateToolhelp32Snapshot= (HANDLE(WINAPI *)(DWORD,DWORD))
+        GetProcAddress(hKernel32, "CreateToolhelp32Snapshot");
+    lpfProcess32First= (BOOL(WINAPI *)(HANDLE,LPPROCESSENTRY32))
+        GetProcAddress(hKernel32, "Process32First");
+    lpfProcess32Next= (BOOL(WINAPI *)(HANDLE,LPPROCESSENTRY32))
+        GetProcAddress(hKernel32, "Process32Next");
+    if (lpfProcess32Next == NULL || lpfProcess32First == NULL || lpfCreateToolhelp32Snapshot == NULL) {
+        FreeLibrary(hKernel32);
+        return 0;
+    }
+    hSnapShot = lpfCreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if (hSnapShot == INVALID_HANDLE_VALUE) {
+        FreeLibrary(hKernel32);
+        return 0;
+    }
+    memset((LPVOID)&procentry,0,sizeof(PROCESSENTRY32));
+    procentry.dwSize = sizeof(PROCESSENTRY32);
+    if (lpfProcess32First(hSnapShot, &procentry)) {
+        do {
+            if (strcmp(exename,(char *)procentry.szExeFile) == 0) {
+                pid =  procentry.th32ProcessID;
+                break;
+            }
+            procentry.dwSize = sizeof(PROCESSENTRY32);
+        } while (lpfProcess32Next(hSnapShot, &procentry));
+    }	
+    FreeLibrary(hKernel32);
+    return pid;
 }
 
 static DWORD detachedPID = 0;

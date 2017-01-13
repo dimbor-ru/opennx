@@ -34,6 +34,7 @@ extern "C" {
     extern int inKdeSession;
 #ifdef __WXMSW__
     extern long getppid();
+    extern int getpidof(const char *exename);
     extern int checkMultiMonitors();
     extern int CreateDetachedProcess(const char *cmdline);
     extern int GetDetachedPID();

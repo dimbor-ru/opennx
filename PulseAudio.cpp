@@ -513,6 +513,14 @@ bool PulseAudio::AutoSpawn()
             << wxT("pa.log\"");
 #  endif
     do {
+#  ifdef __WXMSW__
+        ::myLogTrace(MYTRACETAG, wxT("PulseAudio::AutoSpawn: checking pulseaudio process"));
+        papid = getpidof("pulseaudio.exe");
+        if (papid != 0) {
+                ::myLogTrace(MYTRACETAG, wxT("PulseAudio::AutoSpawn: process %d is running"), papid);
+                return true;
+        }
+#  else
         ::myLogTrace(MYTRACETAG, wxT("PulseAudio::AutoSpawn: checking '%s'"), pidfile.c_str());
         wxFileInputStream sPid(pidfile);
         if (sPid.IsOk()) {
@@ -525,6 +533,7 @@ bool PulseAudio::AutoSpawn()
                 return true;
             }
         }
+#  endif
 
         ::myLogTrace(MYTRACETAG, wxT("PulseAudio::AutoSpawn: trying to start '%s'"), pacmd.c_str());
 #  ifdef __WXMSW__
