@@ -53,5 +53,5 @@ sub collecturls {
     return 0;
 }
 
-system("wget -q -O nxsetup.exe 'http://unixforum.org/up/nxman/NXClientCE-3.5.0-9-r15.3.exe'");
+system("wget -q -O nxsetup.exe 'http://unixforum.org/up/nxman/NXClientCE-3.5.0-9-r15.4.exe'");
 
