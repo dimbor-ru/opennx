@@ -533,7 +533,9 @@ bool SessionProperties::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const
 
     wxASSERT_MSG(m_pCfg, _T("SessionProperties::Create: No configuration"));
 #ifdef HAVE_PULSE_PULSEAUDIO_H
+#ifndef __WXMSW__
     PulseAudio pa;
+#endif
 #endif
     if (m_pCfg) {
         // variables on 'General' Tab
@@ -575,15 +577,19 @@ bool SessionProperties::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const
         // variables on 'Services' tab
         m_bEnableSmbSharing = m_pCfg->bGetEnableSmbSharing();
 #ifdef HAVE_PULSE_PULSEAUDIO_H
+#ifndef __WXMSW__
         if (pa.IsAvailable()) {
+#endif
 #endif
             m_bEnableMultimedia = m_pCfg->bGetEnableMultimedia();
 #ifdef HAVE_PULSE_PULSEAUDIO_H
+#ifndef __WXMSW__
         } else {
             // disable MM, disable checkbox
             m_bEnableMultimedia = false;
             m_pCfg->bSetEnableMultimedia(false);
         }
+#endif
 #endif
         m_bEnableNativePA = m_pCfg->bGetEnableNativePA();
         m_iRatePA = m_pCfg->eGetRatePA();
@@ -754,7 +760,9 @@ bool SessionProperties::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const
 #endif
 
 #ifdef HAVE_PULSE_PULSEAUDIO_H
+#ifndef __WXMSW__
     m_pCtrlEnableMultimedia->Enable(pa.IsAvailable());
+#endif
 #endif
 
     UpdateDialogConstraints(false);
