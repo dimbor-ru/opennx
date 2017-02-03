@@ -1,5 +1,5 @@
-%define version 0.16
-%define svnrev 729
+%define version 0.6
+%define svnrev 0
 
 # Build-time configuration
 # use wxWidgets debug libs
