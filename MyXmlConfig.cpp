@@ -562,7 +562,7 @@ MyXmlConfig::UrlEsc(const wxString &s)
     size_t len = s.Length();
     wxString ret;
     for (size_t i = 0; i < len; i++) {
-        switch (s[i]) {
+        switch ((wchar_t)s[i]) {
             case wxT(' '):
             case wxT(':'):
             case wxT('"'):
@@ -588,7 +588,7 @@ MyXmlConfig::getDesktopSize(int &dw, int &dh, int &ww, int &wh)
     // decorations) where our toplevel dialog are shown.
     wxWindow *tlw = ::wxGetApp().GetTopWindow();
     if (NULL == tlw) {
-        ::wxLogError(_("Could not find application window"));
+        wxLogError(_("Could not find application window"));
         return;
     }
     int dspidx = wxDisplay::GetFromWindow(tlw);
@@ -606,8 +606,8 @@ MyXmlConfig::getDesktopSize(int &dw, int &dh, int &ww, int &wh)
     ww = r.GetWidth() - (sz.GetWidth() - clsz.GetWidth());
     wh = r.GetHeight() - (sz.GetHeight() - clsz.GetHeight());
 #endif
-    ::myLogTrace(MYTRACETAG, wxT("Display: %dx%d, Workarea: %dx%d (netto: %d,%d)"),
-            dw, dh, r.GetWidth(), r.GetHeight(), ww, wh);
+    myLogTrace(MYTRACETAG, wxT("Display: %dx%d, Workarea: %dx%d (netto: %d,%d)"),
+            dw, dh, (int)r.GetWidth(), (int)r.GetHeight(), ww, wh);
 }
 
 // Retrieve parameters for startsession command
@@ -1201,7 +1201,7 @@ MyXmlConfig::LoadFromFile(const wxString &filename)
         }
         delete f;
     }
-    ::myLogTrace(MYTRACETAG, wxT("Reading %s"), filename.c_str());
+    myLogTrace(MYTRACETAG, wxT("Reading %s"), filename.c_str());
     wxFileInputStream fis(filename);
     if (loadFromStream(fis, false)) {
         m_sName = wxFileName(filename).GetName();
@@ -1256,7 +1256,7 @@ MyXmlConfig::LoadFromURL(const wxString &filename)
     curl_easy_setopt(c, CURLOPT_WRITEDATA, &mos);
     curl_easy_setopt(c, CURLOPT_ERRORBUFFER, ebuf);
     curl_easy_setopt(c, CURLOPT_WRITEFUNCTION, CurlWriteCallback);
-    ::myLogTrace(MYTRACETAG, wxT("Fetching %s"), filename.c_str());
+    myLogTrace(MYTRACETAG, wxT("Fetching %s"), filename.c_str());
     CURLcode r = curl_easy_perform(c);
     if (0 == r) {
         off_t len = mos.TellO();
@@ -1266,7 +1266,7 @@ MyXmlConfig::LoadFromURL(const wxString &filename)
                 curl_easy_getinfo(c, CURLINFO_RESPONSE_CODE, &rcode);
             }
             if (200 == rcode) {
-                ::myLogTrace(MYTRACETAG, wxT("Fetching %s"), filename.c_str());
+                myLogTrace(MYTRACETAG, wxT("Fetching %s"), filename.c_str());
                 char * const data = new char[len];
                 mos.CopyTo(data, len);
                 wxMemoryInputStream mis(data, len);
@@ -1285,12 +1285,12 @@ MyXmlConfig::LoadFromURL(const wxString &filename)
                 }
                 delete data;
             } else {
-                ::wxLogError(_("Error %d while fetching session configuration"), rcode);
+                wxLogError(_("Error %d while fetching session configuration"), rcode);
             }
         }
     } else {
         wxString msg(ebuf, *wxConvCurrent);
-        ::wxLogError(_("Error while fetching session configuration:\n%s"), msg.c_str());
+        wxLogError(_("Error while fetching session configuration:\n%s"), msg.c_str());
     }
     curl_easy_cleanup(c);
 # else
@@ -1300,7 +1300,7 @@ MyXmlConfig::LoadFromURL(const wxString &filename)
         if (!url.IsOk())
             return false;
     }
-    ::myLogTrace(MYTRACETAG, wxT("Fetching %s"), filename.c_str());
+    myLogTrace(MYTRACETAG, wxT("Fetching %s"), filename.c_str());
     wxInputStream *is = url.GetInputStream();
     if (is && loadFromStream(*is, false)) {
         wxURI uri(filename);
@@ -1425,7 +1425,7 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
 
                         tmp = getString(opt, wxT("Clipboard filter"), wxEmptyString);
                         if (!tmp.IsEmpty()) {
-                            ::myLogTrace(MYTRACETAG, wxT("read: Clipboard filter '%s'"), tmp.c_str());
+                            myLogTrace(MYTRACETAG, wxT("read: Clipboard filter '%s'"), tmp.c_str());
                             if (tmp.CmpNoCase(wxT("primary")) == 0) {
                                 m_iClipFilter = 0;
                             }
@@ -1435,7 +1435,7 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                             if (tmp.CmpNoCase(wxT("both")) == 0) {
                                 m_iClipFilter = 2;
                             }
-                            ::myLogTrace(MYTRACETAG, wxT("read: m_iClipFilter=%d"), m_iClipFilter);
+                            myLogTrace(MYTRACETAG, wxT("read: m_iClipFilter=%d"), (int)m_iClipFilter);
                         }
                         m_bUseProxy = getBool(opt, wxT("Enable HTTP proxy"), m_bUseProxy);
                         m_bExternalProxy = getBool(opt, wxT("Enable external proxy"), m_bExternalProxy);
@@ -2038,7 +2038,7 @@ MyXmlConfig::iAddOption(wxXmlNode *group, const wxString &name, const long val)
 {
     wxXmlNode *n = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("option"));
     n->AddProperty(new wxXmlProperty(wxT("key"), name, NULL));
-    n->AddProperty(new wxXmlProperty(wxT("value"), wxString::Format(wxT("%d"), val), NULL));
+    n->AddProperty(new wxXmlProperty(wxT("value"), wxString::Format(wxT("%d"), (int)val), NULL));
     group->AddChild(n);
 }
 
@@ -2143,7 +2143,7 @@ MyXmlConfig::SaveToFile()
     switch (m_eDisplayType) {
         case DPTYPE_CUSTOM:
             optval = wxString::Format(wxT("%dx%d"),
-                    m_iDisplayWidth, m_iDisplayHeight);
+                    (int)m_iDisplayWidth, (int)m_iDisplayHeight);
             break;
         case DPTYPE_640x480:
             optval = wxT("640x480");
@@ -2318,7 +2318,7 @@ MyXmlConfig::SaveToFile()
         iAddOption(g, wxT("Share number"), m_iUsedShareGroups);
         wxString sDefaultPrinter = wxEmptyString; 
         for (i = 0; i < m_aUsedShareGroups.GetCount(); i++) {
-            optval = wxString::Format(wxT("Share%d"), i);
+            optval = wxString::Format(wxT("Share%d"), (int)i);
             sAddOption(g, optval, m_aUsedShareGroups[i]);
             switch (findShare(optval).m_eType) {
                 case SharedResource::SHARE_UNKNOWN:
@@ -2461,7 +2461,7 @@ MyXmlConfig::SaveToFile()
     sAddOption(g, wxT("Server"), m_sVncHostName);
     optval = m_bVncRememberPassword ? encodeString(m_sVncPassword) : wxT("");
     sAddOption(g, wxT("Password"), optval);
-    optval = wxString::Format(wxT(":%d"), m_iVncDisplayNumber);
+    optval = wxString::Format(wxT(":%d"), (int)m_iVncDisplayNumber);
     sAddOption(g, wxT("Display"), optval);
 
     for (i = 0; i < m_aShareGroups.GetCount(); i++) {
@@ -2524,7 +2524,7 @@ MyXmlConfig::SaveToFile()
         if (secondline++) {
             // Replace 1st line with non-standard NXclient doctype
             len -= (secondline - data);
-            ::myLogTrace(MYTRACETAG, wxT("Writing '%s'"), m_sFileName.c_str());
+            myLogTrace(MYTRACETAG, wxT("Writing '%s'"), m_sFileName.c_str());
             wxFile f;
             if (!f.Create(m_sFileName, true, wxS_IRUSR|wxS_IWUSR)) {
                 delete data;

@@ -263,7 +263,7 @@ void SessionAdmin::ShowSessionStats(long item, bool full)
 #endif
         if (ok) {
             // Wait until file starts changing
-            ::myLogTrace(MYTRACETAG, wxT("wait for change of stats"));
+            myLogTrace(MYTRACETAG, wxT("wait for change of stats"));
             while (ok) {
                 md5stats2 = Md5OfFile(fn.GetFullPath());
                 if (md5stats1 != md5stats2)
@@ -273,7 +273,7 @@ void SessionAdmin::ShowSessionStats(long item, bool full)
             }
             // Wait until file stopped changing
             wxThread::Sleep(100);
-            ::myLogTrace(MYTRACETAG, wxT("wait for settling stats"));
+            myLogTrace(MYTRACETAG, wxT("wait for settling stats"));
             while (ok) {
                 md5stats1 = Md5OfFile(fn.GetFullPath());
                 if (md5stats1 == md5stats2)
@@ -323,7 +323,7 @@ void SessionAdmin::OnSessionList(wxCommandEvent& event)
         case SessionList::SessionChanged:
             s = wxDynamicCast((void *)event.GetClientData(), MySession);
             idx = m_SessionListCtrl->FindItem(-1, (long)s);
-            ::myLogTrace(MYTRACETAG, wxT("state changed: %d"), idx);
+            myLogTrace(MYTRACETAG, wxT("state changed: %d"), (int)idx);
             if (idx != -1) {
                 m_SessionListCtrl->SetItem(idx, 3, s->sGetCreationTime());
                 m_SessionListCtrl->SetItem(idx, 4, s->sGetPID());

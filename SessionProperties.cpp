@@ -698,7 +698,7 @@ bool SessionProperties::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const
         SmbClient sc;
         CupsClient cc;
         ArrayOfShareGroups sg = m_pCfg->aGetShareGroups();
-        ArrayOfShares sa = sc.GetShares();
+        ArrayOfShares sa  = sc.GetShares();
         WX_APPEND_ARRAY(sa, cc.GetShares());
         wxArrayString usg = m_pCfg->aGetUsedShareGroups();
         for (i = 0; i < sg.GetCount(); i++) {
@@ -714,19 +714,19 @@ bool SessionProperties::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const
                             case SharedResource::SHARE_UNKNOWN:
                                 break;
                             case SharedResource::SHARE_SMB_DISK:
-                                ::myLogTrace(MYTRACETAG, wxT("%s"), sg[i].toString().c_str());
+                                myLogTrace(MYTRACETAG, wxT("%s"), sg[i].toString().c_str());
                                 lidx = m_pCtrlSmbShares->InsertItem(0, sg[i].m_sShareName, 1);
                                 m_pCtrlSmbShares->SetItem(lidx, 1, sg[i].m_sAlias);
                                 m_pCtrlSmbShares->SetItem(lidx, 2, comment);
                                 break;
                             case SharedResource::SHARE_SMB_PRINTER:
-                                ::myLogTrace(MYTRACETAG, wxT("%s"), sg[i].toString().c_str());
+                                myLogTrace(MYTRACETAG, wxT("%s"), sg[i].toString().c_str());
                                 lidx = m_pCtrlSmbShares->InsertItem(0, sg[i].m_sShareName, 2);
                                 m_pCtrlSmbShares->SetItem(lidx, 1, sg[i].m_sDriver);
                                 m_pCtrlSmbShares->SetItem(lidx, 2, comment);
                                 break;
                             case SharedResource::SHARE_CUPS_PRINTER:
-                                ::myLogTrace(MYTRACETAG, wxT("%s"), sg[i].toString().c_str());
+                                myLogTrace(MYTRACETAG, wxT("%s"), sg[i].toString().c_str());
                                 lidx = m_pCtrlSmbShares->InsertItem(0, sg[i].m_sShareName, 3);
                                 m_pCtrlSmbShares->SetItem(lidx, 1, sg[i].m_sDriver);
                                 m_pCtrlSmbShares->SetItem(lidx, 2, comment);
@@ -736,7 +736,7 @@ bool SessionProperties::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const
                     }
                 }
                 if (0 > lidx) {
-                    ::myLogTrace(MYTRACETAG, wxT("Broken '%s'"), sg[i].toString().c_str());
+                    myLogTrace(MYTRACETAG, wxT("Broken '%s'"), sg[i].toString().c_str());
                     lidx = m_pCtrlSmbShares->InsertItem(0, sg[i].m_sShareName, 0);
                     m_pCtrlSmbShares->SetItem(lidx, 1, sg[i].m_sAlias);
                     m_pCtrlSmbShares->SetItem(lidx, 2, comment);
@@ -822,12 +822,12 @@ void SessionProperties::updateListCtrlColumnWidth(wxListCtrl *ctrl)
 void SessionProperties::appendUsbDevice(SharedUsbDevice &dev, int aidx)
 {
     long idx;
-    wxString lbl = (-1 == dev.m_iVendorID) ? wxT("*") : wxString::Format(wxT("%04X"), dev.m_iVendorID);
+    wxString lbl = (-1 == dev.m_iVendorID) ? wxT("*") : wxString::Format(wxT("%04X"), (int)dev.m_iVendorID);
     idx = m_pCtrlUsbFilter->InsertItem(m_pCtrlUsbFilter->GetItemCount(),
             lbl, (dev.m_eMode == SharedUsbDevice::MODE_REMOTE) ? 1 : 0);
-    lbl = (-1 == dev.m_iProductID) ? wxT("*") : wxString::Format(wxT("%04X"), dev.m_iProductID);
+    lbl = (-1 == dev.m_iProductID) ? wxT("*") : wxString::Format(wxT("%04X"), (int)dev.m_iProductID);
     m_pCtrlUsbFilter->SetItem(idx, 1, lbl);
-    lbl = (-1 == dev.m_iClass) ? wxT("*") : wxString::Format(wxT("%02X"), dev.m_iClass);
+    lbl = (-1 == dev.m_iClass) ? wxT("*") : wxString::Format(wxT("%02X"), (int)dev.m_iClass);
     m_pCtrlUsbFilter->SetItem(idx, 2, lbl);
     lbl = dev.toShortString().IsEmpty() ? wxT("*") : dev.toShortString();
     m_pCtrlUsbFilter->SetItem(idx, 3, lbl);
@@ -856,7 +856,7 @@ SessionProperties::InstallOnCharHandlers(wxWindow *w /* = NULL*/)
                 if (v->IsKindOf(CLASSINFO(MyValidator)))
                     wxDynamicCast(v, MyValidator)->SetKeyTyped(this);
                 else
-                    ::wxLogError(wxT("Detected %s window with validator other than MyValidator!"),
+                    wxLogError(wxT("Detected %s window with validator other than MyValidator!"),
                             w->IsKindOf(CLASSINFO(wxTextCtrl)) ? wxT("wxTextCtrl") : wxT("wxSpinCtrl"));
             } else {
 #ifdef __WXMAC__
@@ -864,7 +864,7 @@ SessionProperties::InstallOnCharHandlers(wxWindow *w /* = NULL*/)
                 if (w->GetName().IsEmpty() || w->GetName().IsSameAs(wxT("text")))
                     continue;
 #endif
-                ::wxLogError(wxT("Detected %s (name=%s) window without validator!"),
+                wxLogError(wxT("Detected %s (name=%s) window without validator!"),
                         (w->IsKindOf(CLASSINFO(wxTextCtrl)) ? wxT("wxTextCtrl") : wxT("wxSpinCtrl")),
                         (w->GetName().IsEmpty() ? wxEmptyString : w->GetName().c_str()));
             }
@@ -1309,7 +1309,7 @@ SessionProperties::readKbdLayouts()
         << wxFileName::GetPathSeparator() << wxT("keyboards");
     wxFileInputStream fis(kbdCfg);
     if (!fis.IsOk()) {
-        ::wxLogError(_("Error while reading keyboard table"));
+        wxLogError(_("Error while reading keyboard table"));
         return false;
     }
     wxTextInputStream tis(fis);
@@ -1459,7 +1459,7 @@ void SessionProperties::OnButtonCachecleanClick( wxCommandEvent& event )
     if (d.ShowModal() == wxID_YES) {
         wxString userDir;
         if (wxConfigBase::Get()->Read(wxT("Config/UserNxDir"), &userDir)) {
-            ::myLogTrace(MYTRACETAG, wxT("cleaning cache"));
+            myLogTrace(MYTRACETAG, wxT("cleaning cache"));
             wxDir ud;
             if (ud.Open(userDir)) {
                 CacheCleaner cc(userDir);
@@ -1485,7 +1485,7 @@ void SessionProperties::OnCheckboxSmbClick( wxCommandEvent& event )
             wstr.Append(wxString::Format(wxT(" %s - sticky bit should be set;"),sharedir.c_str()));
         if (!wstr.IsEmpty()) {
             wstr.Prepend(wxT("Some system settings may be incorrect:"));
-            ::wxLogWarning(wstr.c_str());
+            wxLogWarning(wstr.c_str());
         }
 #endif
         UpdateDialogConstraints(true);
@@ -1495,7 +1495,7 @@ void SessionProperties::OnCheckboxSmbClick( wxCommandEvent& event )
         wxString checkres = wxGetLibCheckRes(wxT("libsmbclient.so"));
         if (!checkres.IsEmpty())
             errstr.Append(checkres);
-        ::wxLogWarning(errstr.c_str());
+        wxLogWarning(errstr.c_str());
         wxDynamicCast(event.GetEventObject(), wxCheckBox)->SetValue(false);
     }
 }
@@ -1550,7 +1550,7 @@ void SessionProperties::OnButtonSmbAddClick( wxCommandEvent& event )
         }
         CheckChanged();
     } else {
-        ::wxLogWarning(_("No sharable resources found"));
+        wxLogWarning(_("No sharable resources found"));
     }
 }
 
@@ -1664,7 +1664,7 @@ void SessionProperties::OnDeleteClick( wxCommandEvent& event )
                     m_pCfg->sGetName().c_str()), _("Delete Session"),
                 wxICON_QUESTION|wxYES_NO|wxNO_DEFAULT) == wxYES) {
         ::wxGetApp().RemoveDesktopEntry(m_pCfg);
-        ::myLogTrace(MYTRACETAG, wxT("Removing '%s'"), m_pCfg->sGetFileName().c_str());
+        myLogTrace(MYTRACETAG, wxT("Removing '%s'"), m_pCfg->sGetFileName().c_str());
         ::wxRemoveFile(m_pCfg->sGetFileName());
         EndModal(wxID_CLEAR);
     }
@@ -1959,7 +1959,7 @@ void SessionProperties::OnCheckboxCupsenableClick( wxCommandEvent& event )
         UpdateDialogConstraints(true);
         CheckChanged();
     } else {
-        ::wxLogWarning(errstr.c_str());
+        wxLogWarning(errstr.c_str());
         wxDynamicCast(event.GetEventObject(), wxCheckBox)->SetValue(false);
         m_bUseCups = false;
     }
@@ -2166,12 +2166,12 @@ void SessionProperties::OnButtonUsbaddClick( wxCommandEvent& event )
 #ifdef SUPPORT_USBIP
     USB u;
     if (!u.IsAvailable()) {
-        ::wxLogWarning(_("libusb is not available. No USB devices will be exported"));
+        wxLogWarning(_("libusb is not available. No USB devices will be exported"));
         return;
     }
     ArrayOfUSBDevices a = u.GetDevices();
     if (a.IsEmpty()) {
-        ::wxLogWarning(_("No USB devices available."));
+        wxLogWarning(_("No USB devices available."));
         return;
     }
     UsbFilterDetailsDialog d(this);
@@ -2235,9 +2235,9 @@ void SessionProperties::OnButtonUsbmodifyClick( wxCommandEvent& event )
         SharedUsbDevice dev = m_aUsbForwards[aidx];
         UsbFilterDetailsDialog d(this);
         d.SetDialogMode(UsbFilterDetailsDialog::MODE_EDIT);
-        d.SetVendorID((-1 == dev.m_iVendorID) ? wxT("") : wxString::Format(wxT("%04X"), dev.m_iVendorID));
-        d.SetProductID((-1 == dev.m_iProductID) ? wxT("") : wxString::Format(wxT("%04X"), dev.m_iProductID));
-        d.SetDeviceClass((-1 == dev.m_iClass) ? wxT("") : wxString::Format(wxT("%02X"), dev.m_iClass));
+        d.SetVendorID((-1 == dev.m_iVendorID) ? wxT("") : wxString::Format(wxT("%04X"), (int)dev.m_iVendorID));
+        d.SetProductID((-1 == dev.m_iProductID) ? wxT("") : wxString::Format(wxT("%04X"), (int)dev.m_iProductID));
+        d.SetDeviceClass((-1 == dev.m_iClass) ? wxT("") : wxString::Format(wxT("%02X"), (int)dev.m_iClass));
         d.SetVendor(dev.m_sVendor);
         d.SetProduct(dev.m_sProduct);
         d.SetSerial(dev.m_sSerial);
@@ -2267,11 +2267,11 @@ void SessionProperties::OnButtonUsbmodifyClick( wxCommandEvent& event )
             dev.m_sSerial = d.GetSerial();
             dev.m_eMode = d.GetForwarding() ? SharedUsbDevice::MODE_REMOTE : SharedUsbDevice::MODE_LOCAL;
             m_aUsbForwards[aidx] = dev;
-            wxString lbl = (-1 == dev.m_iVendorID) ? wxT("*") : wxString::Format(wxT("%04X"), dev.m_iVendorID);
+            wxString lbl = (-1 == dev.m_iVendorID) ? wxT("*") : wxString::Format(wxT("%04X"), (int)dev.m_iVendorID);
             m_pCtrlUsbFilter->SetItem(idx, 0, lbl, (dev.m_eMode == SharedUsbDevice::MODE_REMOTE) ? 1 : 0);
-            lbl = (-1 == dev.m_iProductID) ? wxT("*") : wxString::Format(wxT("%04X"), dev.m_iProductID);
+            lbl = (-1 == dev.m_iProductID) ? wxT("*") : wxString::Format(wxT("%04X"), (int)dev.m_iProductID);
             m_pCtrlUsbFilter->SetItem(idx, 1, lbl);
-            lbl = (-1 == dev.m_iClass) ? wxT("*") : wxString::Format(wxT("%02X"), dev.m_iClass);
+            lbl = (-1 == dev.m_iClass) ? wxT("*") : wxString::Format(wxT("%02X"), (int)dev.m_iClass);
             m_pCtrlUsbFilter->SetItem(idx, 2, lbl);
             lbl = dev.toShortString().IsEmpty() ? wxT("*") : dev.toShortString();
             m_pCtrlUsbFilter->SetItem(idx, 3, lbl);

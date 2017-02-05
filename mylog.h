@@ -31,9 +31,19 @@
 # endif
 #endif
 
+#if !wxCHECK_VERSION(3, 0, 0)
+
 extern void myLogDebug(const wxChar *szFormat, ...);
 extern void myLogTrace(const wxChar *mask, const wxChar *szFormat, ...) WX_ATTRIBUTE_PRINTF_2;
 extern void myLogTrace(wxTraceMask mask, const wxChar *szFormat, ...) WX_ATTRIBUTE_PRINTF_2;
 
-#endif
-    // _MYLOG_H_
+#else // !wxCHECK_VERSION(3, 0, 0)
+
+void logit(const wxChar *szString, time_t WXUNUSED(t));
+#define myLogDebug(...) logit(wxString::Format(__VA_ARGS__), time(NULL))
+void myLogTrace_(const wxChar *mask, const wxChar *szFormat);
+void myLogTrace_(wxTraceMask mask, const wxChar *szFormat);
+#define myLogTrace(m, ...) myLogTrace_(m, wxString::Format(__VA_ARGS__))
+
+#endif // !wxCHECK_VERSION(3, 0, 0)
+#endif // _MYLOG_H_

@@ -82,7 +82,7 @@ MyIPC::MyIPC()
 
 MyIPC::~MyIPC()
 {
-    ::myLogTrace(MYTRACETAG, wxT("~MyIPC() called"));
+    myLogTrace(MYTRACETAG, wxT("~MyIPC() called"));
     Detach();
     delete m_re;
 }
@@ -90,7 +90,7 @@ MyIPC::~MyIPC()
     void
 MyIPC::Detach()
 {
-    ::myLogTrace(MYTRACETAG, wxT("Detach() called"));
+    myLogTrace(MYTRACETAG, wxT("Detach() called"));
     m_cEvhMutex.Lock();
     m_pEvtHandler = NULL;
     m_cEvhMutex.Unlock();
@@ -200,7 +200,7 @@ MyIPC::OnTerminate(wxCommandEvent &event)
 {
     switch (m_eType) {
         case TypeNone:
-            ::myLogTrace(MYTRACETAG, wxT("process terminated"));
+            myLogTrace(MYTRACETAG, wxT("process terminated"));
             if (m_pEvtHandler) {
                 wxCommandEvent upevent(wxEVT_GENERIC, wxID_ANY);
                 upevent.SetInt(ActionTerminated);
@@ -208,7 +208,7 @@ MyIPC::OnTerminate(wxCommandEvent &event)
             }
             break;
         case TypeSsh:
-            ::myLogTrace(MYTRACETAG, wxT("nxssh terminated"));
+            myLogTrace(MYTRACETAG, wxT("nxssh terminated"));
             if (m_pEvtHandler) {
                 wxCommandEvent upevent(wxEVT_NXSSH, wxID_ANY);
                 upevent.SetInt(ActionTerminated);
@@ -227,7 +227,7 @@ MyIPC::OnOutReceived(wxCommandEvent &event)
 
     switch (m_eType) {
         case TypeNone:
-            ::myLogTrace(MYTRACETAG, wxT("process O: '%s'"), msg.c_str());
+            myLogTrace(MYTRACETAG, wxT("process O: '%s'"), msg.c_str());
             if (m_pEvtHandler) {
                 wxCommandEvent upevent(wxEVT_GENERIC, wxID_ANY);
                 upevent.SetInt(ActionStdout);
@@ -241,7 +241,7 @@ MyIPC::OnOutReceived(wxCommandEvent &event)
             if (msg.StartsWith(wxT("FREENX>")))
                     msg = msg.Mid(4);
             code = parseCode(msg);
-            ::myLogTrace(MYTRACETAG, wxT("nxssh O[%04d]: '%s'"), code, msg.c_str());
+            myLogTrace(MYTRACETAG, wxT("nxssh O[%04d]: '%s'"), code, msg.c_str());
             if (m_pEvtHandler) {
                 wxCommandEvent upevent(wxEVT_NXSSH, wxID_ANY);
                 upevent.SetInt(ActionLog);
@@ -662,7 +662,7 @@ MyIPC::OnErrReceived(wxCommandEvent &event)
 
     switch (m_eType) {
         case TypeNone:
-            ::myLogTrace(MYTRACETAG, wxT("process E: '%s'"), msg.c_str());
+            myLogTrace(MYTRACETAG, wxT("process E: '%s'"), msg.c_str());
             if (m_pEvtHandler) {
                 wxCommandEvent upevent(wxEVT_GENERIC, wxID_ANY);
                 upevent.SetInt(ActionStderr);
@@ -672,7 +672,7 @@ MyIPC::OnErrReceived(wxCommandEvent &event)
             break;
         case TypeSsh:
             code = parseCode(msg);
-            ::myLogTrace(MYTRACETAG, wxT("nxssh E[%04d]: '%s'"), code, msg.c_str());
+            myLogTrace(MYTRACETAG, wxT("nxssh E[%04d]: '%s'"), code, msg.c_str());
             if (m_pEvtHandler) {
                 wxCommandEvent upevent(wxEVT_NXSSH, wxID_ANY);
                 upevent.SetInt(ActionLog);

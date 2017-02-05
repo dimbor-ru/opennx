@@ -130,7 +130,7 @@ bool pulseTest::OnInit()
         ldpath += wxT(";");
     ldpath = tmp + wxT("\\bin");
     if (!::wxSetEnv(wxT("PATH"), ldpath)) {
-        ::wxLogSysError(wxT("Can not set PATH"));
+        wxLogSysError(wxT("Can not set PATH"));
         return false;
     }
 #endif
@@ -154,7 +154,7 @@ bool pulseTest::OnInit()
     ldpath += wxT(":/Library/OpenSC/lib");
 # endif
     if (!::wxSetEnv(LD_LIBRARY_PATH, ldpath)) {
-        ::wxLogSysError(wxT("Can not set LD_LIBRARY_PATH"));
+        wxLogSysError(wxT("Can not set LD_LIBRARY_PATH"));
         return false;
     }
 #endif

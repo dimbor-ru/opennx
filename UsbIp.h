@@ -97,7 +97,8 @@ class UsbIpDevice : public wxObject {
 
         wxString toString() const;
         wxString GetUsbBusID() const {
-            return wxString::Format(wxT("%d-%d"), m_iUsbBusnum, m_iUsbDevnum);
+            return wxString::Format(wxT("%d-%d"),
+                                    (int)m_iUsbBusnum, (int)m_iUsbDevnum);
         }
         const wxString& GetUsbIpBusID() const { return m_sUsbIpBusId; }
 

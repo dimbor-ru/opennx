@@ -141,7 +141,7 @@ void watchReaderApp::OnInitCmdLine(wxCmdLineParser& parser)
     // On Unix, --display is a toolkit option
     wxRegEx re(wxT("^--((reader)|(pid)|(trace))$"));
 #endif
-    wxArrayString as(argc, (const wxChar **)argv);
+    wxArrayString as = argv.GetArguments();
     for (i = 1; i < as.GetCount(); i++) {
         if (re.Matches(as[i])) {
             if ((i + 1) < as.GetCount()) {
@@ -152,7 +152,7 @@ void watchReaderApp::OnInitCmdLine(wxCmdLineParser& parser)
     }
     wxChar **xargv = new wxChar* [as.GetCount()];
     for (i = 0; i < as.GetCount(); i++)
-        xargv[i] = wxStrdup(as[i].c_str());
+        xargv[i] = wxStrdup(as[i].wx_str());
     parser.SetCmdLine(as.GetCount(), xargv);
 }
 
@@ -202,7 +202,7 @@ bool watchReaderApp::OnInit()
         ldpath += wxT(";");
     ldpath = tmp + wxT("\\bin");
     if (!::wxSetEnv(wxT("PATH"), ldpath)) {
-        ::wxLogSysError(wxT("Can not set PATH"));
+        wxLogSysError(wxT("Can not set PATH"));
         return false;
     }
 #endif
@@ -226,7 +226,7 @@ bool watchReaderApp::OnInit()
     ldpath += wxT(":/Library/OpenSC/lib");
 # endif
     if (!::wxSetEnv(LD_LIBRARY_PATH, ldpath)) {
-        ::wxLogSysError(wxT("Can not set LD_LIBRARY_PATH"));
+        wxLogSysError(wxT("Can not set LD_LIBRARY_PATH"));
         return false;
     }
 #endif
@@ -252,10 +252,10 @@ bool watchReaderApp::OnInit()
         // on MacOS, we use the --dialog functionality of opennx
         wxConfigBase::Get()->Read(wxT("Config/SystemNxDir"), &tmp);
         tmp << wxFileName::GetPathSeparator() << wxT("Message.app");
-        ::myLogTrace(MYTRACETAG, wxT("Executing %s"), tmp.c_str());
+        myLogTrace(MYTRACETAG, wxT("Executing %s"), tmp.c_str());
         ::wxExecute(tmp);
 #else
-        ::myLogTrace(MYTRACETAG, wxT("Showing info dialog"));
+        myLogTrace(MYTRACETAG, wxT("Showing info dialog"));
         wxMessageBox(
                 _("OpenNX session has been suspended, because\nthe authenticating smart card has been removed."),
                 _("Smart card removed"), wxOK|wxICON_INFORMATION);

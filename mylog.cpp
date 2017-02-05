@@ -42,8 +42,10 @@
 // Since those are available in debug builds only, we use
 // our own framework here in order enable tracing even in
 // releas builds.
-
-static void logit(const wxChar *szString, time_t WXUNUSED(t))
+#if !wxCHECK_VERSION(3, 0, 0)
+static
+#endif
+void logit(const wxChar *szString, time_t WXUNUSED(t))
 {
     wxString str;
 #ifdef __WXMSW__
@@ -67,6 +69,24 @@ static void logit(const wxChar *szString, time_t WXUNUSED(t))
 # endif
 #endif
 }
+
+#if wxCHECK_VERSION(3, 0, 0)
+void myLogTrace_(const wxChar *mask, const wxChar *szFormat)
+{
+    if ((wxLog::IsAllowedTraceMask(mask))  ||  (wxLog::IsAllowedTraceMask(wxT("All")))) {
+        wxString msg;
+        msg << _T("(") << mask << _T(") ") << szFormat;
+        logit(msg, time(NULL));
+    }
+}
+
+void myLogTrace_(wxTraceMask mask, const wxChar * szFormat)
+{
+    if ((wxLog::GetTraceMask() & mask) == mask)
+        logit(szFormat, time(NULL));
+}
+
+#else //wxCHECK_VERSION(3, 0, 0)
 
 static void myVLogDebug(const wxChar *szFormat, va_list argptr)
 {
@@ -111,3 +131,5 @@ void myLogTrace(wxTraceMask mask, const wxChar *szFormat, ...)
     myVLogTrace(mask, szFormat, argptr);
     va_end(argptr);
 }
+
+#endif  //wxCHECK_VERSION(3, 0, 0)

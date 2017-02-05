@@ -102,9 +102,9 @@ class ProcessWatcher : public wxThreadHelper
                     while ((!m_bOk) && GetThread()->IsRunning())
                         wxThread::Sleep(100);
                     if (!m_bOk)
-                        ::myLogTrace(MYTRACETAG, wxT("ssh watch thread terminated unexpectedly"));
+                        myLogTrace(MYTRACETAG, wxT("ssh watch thread terminated unexpectedly"));
                 } else
-                    ::myLogTrace(MYTRACETAG, wxT("could not create ssh watch thread"));
+                    myLogTrace(MYTRACETAG, wxT("could not create ssh watch thread"));
             }
 
         virtual ~ProcessWatcher()
@@ -245,7 +245,7 @@ bool watchUsbIpApp::OnCmdLineParsed(wxCmdLineParser& parser)
                 OnCmdLineError(parser);
                 return false;
             }
-            ::myLogDebug(wxT("Trace for '%s' enabled"), tag.c_str());
+            myLogDebug(wxT("Trace for '%s' enabled"), tag.c_str());
             wxLog::AddTraceMask(tag);
         }
     }
@@ -262,7 +262,7 @@ bool watchUsbIpApp::OnInit()
         while (t.HasMoreTokens()) {
             wxString tag = t.GetNextToken();
             if (allTraceTags.Index(tag) != wxNOT_FOUND) {
-                ::myLogDebug(wxT("Trace for '%s' enabled"), tag.c_str());
+                myLogDebug(wxT("Trace for '%s' enabled"), tag.c_str());
                 wxLog::AddTraceMask(tag);
             }
         }
@@ -327,7 +327,7 @@ bool watchUsbIpApp::OnInit()
         resok = true;
     }
     if (!resok) {
-        ::wxLogFatalError(wxT("Could not load application resource."));
+        wxLogFatalError(wxT("Could not load application resource."));
         return false;
     }
 
@@ -339,12 +339,12 @@ bool watchUsbIpApp::OnInit()
         return false;
 
     if (m_sSessionID.IsEmpty()) {
-        ::wxLogError(_("An empty session ID is not allowed"));
+        wxLogError(_("An empty session ID is not allowed"));
         return false;
     }
 
     if ((!m_pSessionCfg) || (!m_pSessionCfg->IsValid())) {
-        ::wxLogError(_("Could not load session config file"));
+        wxLogError(_("Could not load session config file"));
         return false;
     }
     wxFileName tmpfn(m_pSessionCfg->sGetFileName());
@@ -370,14 +370,14 @@ bool watchUsbIpApp::OnInit()
             // SetTopWindow(m_pDialog);
             usbip->SetEventHandler(m_pDialog);
             if (!usbip->RegisterHotplug()) {
-                ::wxLogError(_("Could not register at usbipd2! No hotplugging functionality."));
+                wxLogError(_("Could not register at usbipd2! No hotplugging functionality."));
                 m_pDialog->Destroy();
                 return false;
             }
             m_pUsbIp = usbip;
         }
     } else
-        ::wxLogError(_("Could not connect to usbipd2! No hotplugging functionality."));
+        wxLogError(_("Could not connect to usbipd2! No hotplugging functionality."));
 #ifdef __UNIX__
     signal(SIGTERM, terminate);
     signal(SIGINT, terminate);
@@ -389,7 +389,7 @@ bool watchUsbIpApp::OnInit()
 void watchUsbIpApp::OnSshDied(wxCommandEvent &event)
 {
     wxUnusedVar(event);
-    ::myLogTrace(MYTRACETAG, wxT("nxssh has terminated"));
+    myLogTrace(MYTRACETAG, wxT("nxssh has terminated"));
     m_pDialog->Destroy();
 }
 
@@ -430,20 +430,20 @@ void watchUsbIpApp::OnHotplug(HotplugEvent &event)
     }
     if (NULL == sdev) {
         m_pUsbIp->SendHotplugResponse(event.GetCookie());
-        ::wxLogError(_("Got hotplug event, but device is not available in libusb"));
+        wxLogError(_("Got hotplug event, but device is not available in libusb"));
         return;
     }
     if (found) {
         // Found device in session config. Silently act on configuration
-        ::myLogTrace(MYTRACETAG, wxT("Found device in session config action=%s"),
+        myLogTrace(MYTRACETAG, wxT("Found device in session config action=%s"),
                 doexport ? wxT("export") : wxT("local"));
         if (!m_pUsbIp->SendHotplugResponse(event.GetCookie()))
-            ::wxLogError(_("Could not send hotplug response"));
+            wxLogError(_("Could not send hotplug response"));
     } else {
         // Device not in session config. Ask user
-        m_pDialog->SetVendorID(wxString::Format(wxT("%04X"), sdev->m_iVendorID));
-        m_pDialog->SetProductID(wxString::Format(wxT("%04X"), sdev->m_iProductID));
-        m_pDialog->SetDeviceClass(wxString::Format(wxT("%02X"), sdev->m_iClass));
+        m_pDialog->SetVendorID(wxString::Format(wxT("%04X"), (int)sdev->m_iVendorID));
+        m_pDialog->SetProductID(wxString::Format(wxT("%04X"), (int)sdev->m_iProductID));
+        m_pDialog->SetDeviceClass(wxString::Format(wxT("%02X"), (int)sdev->m_iClass));
         m_pDialog->SetVendor(sdev->m_sVendor);
         m_pDialog->SetProduct(sdev->m_sProduct);
         m_pDialog->SetSerial(sdev->m_sSerial);
@@ -454,8 +454,8 @@ void watchUsbIpApp::OnHotplug(HotplugEvent &event)
 
         if (wxID_OK == result) {
             doexport = m_pDialog->GetForwarding();
-            ::myLogTrace(MYTRACETAG, wxT("Dialog OK, store=%d action=%s"),
-                    m_pDialog->GetStoreFilter(), doexport ? wxT("export") : wxT("local"));
+            myLogTrace(MYTRACETAG, wxT("Dialog OK, store=%d action=%s"),
+                    (int)m_pDialog->GetStoreFilter(), doexport ? wxT("export") : wxT("local"));
             if (m_pDialog->GetStoreFilter()) {
                 ArrayOfUsbForwards a = m_pSessionCfg->aGetUsbForwards();
                 SharedUsbDevice dev;
@@ -492,25 +492,25 @@ void watchUsbIpApp::OnHotplug(HotplugEvent &event)
                 if (!found) {
                     a.Add(dev);
                     m_pSessionCfg->aSetUsbForwards(a);
-                    ::myLogTrace(MYTRACETAG, wxT("saving to %s"), m_pSessionCfg->sGetFileName().c_str());
+                    myLogTrace(MYTRACETAG, wxT("saving to %s"), m_pSessionCfg->sGetFileName().c_str());
                     if (!m_pSessionCfg->SaveToFile())
-                        ::wxLogError(_("Could not save session config"));
+                        wxLogError(_("Could not save session config"));
                 }
             }
-            ::myLogTrace(MYTRACETAG, wxT("action=%s"), doexport ? wxT("export") : wxT("local"));
+            myLogTrace(MYTRACETAG, wxT("action=%s"), doexport ? wxT("export") : wxT("local"));
         }
     }
     delete sdev;
     if (doexport) {
         if (!m_pUsbIp->ExportDevice(event.GetBusID()))
-            ::wxLogError(_("Could not export USB device"));
+            wxLogError(_("Could not export USB device"));
     }
 }
 
 void watchUsbIpApp::Terminate()
 {
     ::wxMutexGuiEnter();
-    ::myLogTrace(MYTRACETAG, wxT("Terminate()"));
+    myLogTrace(MYTRACETAG, wxT("Terminate()"));
     wxCommandEvent ev(wxEVT_PROCESS_DIED, wxID_ANY);
     ev.SetInt(0);
     AddPendingEvent(ev);

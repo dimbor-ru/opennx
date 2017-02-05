@@ -653,7 +653,7 @@ void MyValidator::OnChar(wxKeyEvent& event)
                     chOk = (wxIsalnum(keyCode) || (keyCode == _T('.')) || (keyCode == _T('-')));
                     break;
                 case MYVAL_FILENAME:
-                    chOk = (wxFileName::GetForbiddenChars().Find(keyCode) == -1);
+                    chOk = (wxFileName::GetForbiddenChars().Find((wchar_t)keyCode) == -1);
                     break;
             }
             if (!chOk) {

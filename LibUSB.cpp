@@ -71,7 +71,8 @@ USBDevice::USBDevice(int v, int p, unsigned char c) {
 
 wxString USBDevice::toString() {
     wxString ret = wxString::Format(wxT("%d-%d %04X/%04X/%02X"),
-            m_iBusNum, m_iDevNum, m_iVendor, m_iProduct, m_iClass);
+            (int)m_iBusNum, (int)m_iDevNum, (int)m_iVendor,
+            (int)m_iProduct, (int)m_iClass);
     if (!m_sVendor.IsEmpty())
         ret.Append(wxT(" ")).Append(m_sVendor);
     if (!m_sProduct.IsEmpty())
@@ -171,7 +172,7 @@ void USB::adddev(MyDynamicLibrary *dll, struct usb_device *dev, unsigned char dc
         d.m_sSerial = readSysfs(d.m_iBusNum, d.m_iDevNum, wxT("serial"));
     }
 
-    ::myLogTrace(MYTRACETAG, wxT("Device found: %s"), d.toString().c_str());
+    myLogTrace(MYTRACETAG, wxT("Device found: %s"), d.toString().c_str());
     m_aDevices.Add(d);
     pfnusb_close(udev);
 #else
@@ -259,7 +260,7 @@ ArrayOfUSBDevices USB::GetDevices() {
 }
 
 bool USB::IsAvailable() {
-    ::myLogTrace(MYTRACETAG, wxT("USB::IsAvailable() = %s"), m_bAvailable ? wxT("true") : wxT("false"));
+    myLogTrace(MYTRACETAG, wxT("USB::IsAvailable() = %s"), m_bAvailable ? wxT("true") : wxT("false"));
     return m_bAvailable;
 }
 

@@ -64,7 +64,7 @@ DECLARE_DYNAMIC_CLASS(myRichTextCtrl);
         if (f) {
             wxInputStream *is = f->GetStream();
             if (is->IsOk()) {
-                success = GetBuffer().LoadFile(*is, fileType);
+                success = GetBuffer().LoadFile(*is, (wxRichTextFileType)fileType);
                 if (success)
                     m_filename = filename;
             }

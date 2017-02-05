@@ -367,7 +367,7 @@ void ShareProperties::CreateControls()
                     break;
             }
         } else {
-            ::wxLogMessage(_("No shares found"));
+            wxLogMessage(_("No shares found"));
             m_pCtrlLocalShares->Enable(false);
             m_pCtrlMountPoint->Enable(false);
             m_pCtrlUsername->Enable(false);
@@ -499,11 +499,11 @@ void ShareProperties::OnOkClick( wxCommandEvent& event )
         ShareGroup g;
         SharedResource *res = wxDynamicCast(m_pCtrlLocalShares->GetClientData(m_pCtrlLocalShares->GetSelection()), SharedResource);
         wxASSERT(res);
-        ::myLogTrace(MYTRACETAG, wxT("selected: %d %p"), event.GetInt(), res);
+        myLogTrace(MYTRACETAG, wxT("selected: %d %p"), (int)event.GetInt(), res);
 
         g.m_eType = res->sharetype;
         g.m_sShareName = res->name;
-        g.m_sGroupName = wxString::Format(wxT("Share%d"), sg.GetCount());
+        g.m_sGroupName = wxString::Format(wxT("Share%d"), (int)sg.GetCount());
         g.m_bDefault = false;
         switch (res->sharetype) {
             case SharedResource::SHARE_UNKNOWN:

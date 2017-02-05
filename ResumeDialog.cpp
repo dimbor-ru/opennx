@@ -191,7 +191,7 @@ ResumeDialog::AddSession(const wxString& name, const wxString& state, const wxSt
         for (int i = 0; i < m_pCtrlSessions->GetColumnCount(); i++)
             m_pCtrlSessions->SetColumnWidth(i, wxLIST_AUTOSIZE);
         if ((m_lActiveSession < 0) || (name == m_sPreferredSession)) {
-            ::myLogTrace(MYTRACETAG, wxT("autoselect preferred=%d"), idx);
+            myLogTrace(MYTRACETAG, wxT("autoselect preferred=%d"), (int)idx);
             wxListItem info;
             info.m_itemId = idx;
             info.m_mask = wxLIST_MASK_STATE;
@@ -204,7 +204,7 @@ ResumeDialog::AddSession(const wxString& name, const wxString& state, const wxSt
             m_sSelectedId = id;
         }
     } else {
-        ::wxLogError(_("Could not add session list item"));
+        wxLogError(_("Could not add session list item"));
     }
 }
 
@@ -228,7 +228,7 @@ ResumeDialog::SetAttachMode(bool b)
 void ResumeDialog::OnListctrlSessionsSelected( wxListEvent& event )
 {
     m_lActiveSession = event.GetIndex();
-    ::myLogTrace(MYTRACETAG, wxT("clickselect=%d"), m_lActiveSession);
+    myLogTrace(MYTRACETAG, wxT("clickselect=%d"), (int)m_lActiveSession);
     wxListItem info;
     info.SetId(m_lActiveSession);
     info.SetMask(wxLIST_MASK_TEXT);
@@ -267,7 +267,7 @@ void ResumeDialog::OnListctrlSessionsSelected( wxListEvent& event )
     info.SetColumn(7);
     m_pCtrlSessions->GetItem(info);
     m_sSelectedId = info.GetText();
-    ::myLogTrace(MYTRACETAG, wxT("Selected session ID=%s"), m_sSelectedId.c_str());
+    myLogTrace(MYTRACETAG, wxT("Selected session ID=%s"), m_sSelectedId.c_str());
     event.Skip();
 }
 

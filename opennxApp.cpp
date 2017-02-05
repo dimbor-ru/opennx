@@ -326,7 +326,7 @@ opennxApp::CreateDesktopEntry(MyXmlConfig *cfg)
         if (::wxDirExists(path)) {
             wxFile f;
             wxString fn = path + wxT("/") + cfg->sGetName() + wxT(".desktop");
-            ::myLogTrace(MYTRACETAG, wxT("Creating '%s'"), fn.c_str());
+            myLogTrace(MYTRACETAG, wxT("Creating '%s'"), fn.c_str());
             if (f.Create(fn, true,
                         wxS_IRUSR|wxS_IWUSR|wxS_IXUSR|wxS_IRGRP|wxS_IROTH)) {
                 f.Write(dtEntry);
@@ -351,7 +351,7 @@ opennxApp::RemoveDesktopEntry(MyXmlConfig *cfg)
     if (SHGetSpecialFolderPath(NULL, dtPath, CSIDL_DESKTOPDIRECTORY, FALSE)) {
         wxString lpath = wxString::Format(wxT("%s\\%s.lnk"),
                 dtPath, cfg->sGetName().c_str());
-        ::myLogTrace(MYTRACETAG, wxT("Removing '%s'"), lpath.c_str());
+        myLogTrace(MYTRACETAG, wxT("Removing '%s'"), lpath.c_str());
         ::wxRemoveFile(lpath);
     }
 #endif
@@ -594,12 +594,12 @@ opennxApp::preInit()
                 for (i = 0; candidates[i]; i++) {
                     if (wxFileName::FileExists(candidates[i])) {
                         tmp = candidates[i];
-                        ::wxLogWarning(_("Found a CUPS daemon binary in %s, however it is not executable.\nIn order to use CUPS printing, you need to fix its permissions."), tmp.c_str());
+                        wxLogWarning(_("Found a CUPS daemon binary in %s, however it is not executable.\nIn order to use CUPS printing, you need to fix its permissions."), tmp.c_str());
                         break;
                     }
                 }
                 if (tmp.IsEmpty())
-                    ::wxLogWarning(_("Could not find any CUPS daemon binary.\nIn order to use CUPS printing, you need to install cups."));
+                    wxLogWarning(_("Could not find any CUPS daemon binary.\nIn order to use CUPS printing, you need to install cups."));
                 tmp = wxEmptyString;
             }
         }
@@ -632,7 +632,7 @@ opennxApp::preInit()
         ldpath += wxT(";");
     ldpath = tmp + wxT("\\bin");
     if (!::wxSetEnv(wxT("PATH"), ldpath)) {
-        ::wxLogSysError(wxT("Can not set PATH"));
+        wxLogSysError(wxT("Can not set PATH"));
         return false;
     }
 #endif
@@ -681,7 +681,7 @@ opennxApp::preInit()
 # endif
     ::myLogDebug(wxT("%s='%s'"), LD_LIBRARY_PATH, ldpath.c_str());
     if (!::wxSetEnv(LD_LIBRARY_PATH, ldpath)) {
-        ::wxLogSysError(wxT("Cannot set LD_LIBRARY_PATH"));
+        wxLogSysError(wxT("Cannot set LD_LIBRARY_PATH"));
         return false;
     }
 #endif
@@ -866,7 +866,7 @@ void opennxApp::OnInitCmdLine(wxCmdLineParser& parser)
     // On Unix, --display is a toolkit option
     wxRegEx re(wxT("^--((exportres)|(cacert)|(caption)|(style)|(dialog)|(message)|(parent)|(session)|(window)|(trace))$"));
 #endif
-    wxArrayString as(argc, (const wxChar **)argv);
+    wxArrayString as = argv.GetArguments();
     for (i = 1; i < as.GetCount(); i++) {
         if (re.Matches(as[i])) {
             if ((i + 1) < as.GetCount()) {
@@ -877,7 +877,7 @@ void opennxApp::OnInitCmdLine(wxCmdLineParser& parser)
     }
     wxChar **xargv = new wxChar* [as.GetCount()];
     for (i = 0; i < as.GetCount(); i++)
-        xargv[i] = wxStrdup(as[i].c_str());
+        xargv[i] = wxStrdup(as[i].wx_str());
     parser.SetCmdLine(as.GetCount(), xargv);
 
     if (argc==2) {
@@ -886,7 +886,7 @@ void opennxApp::OnInitCmdLine(wxCmdLineParser& parser)
             wxFile FileNXS;
             if (FileNXS.Exists(FileStringNXS)){
                 wxString FileStringONX = wxT("--session=")+FileStringNXS;
-                xargv[1]=wxStrdup(FileStringONX.wc_str());
+                xargv[1]=wxStrdup(FileStringONX.wx_str());
             }
         }
     }
@@ -1319,7 +1319,7 @@ bool opennxApp::OnInit()
         UsbIp usbip;
         if (usbip.Connect(usock)) {
             size_t i, j, k;
-            ::myLogTrace(MYTRACETAG, wxT("connected to usbipd2"));
+            myLogTrace(MYTRACETAG, wxT("connected to usbipd2"));
             usbip.SetSession(m_sSessionID);
             ArrayOfUsbForwards af = m_pSessionCfg->aGetUsbForwards();
             ArrayOfUsbIpDevices aid = usbip.GetDevices();
@@ -1331,32 +1331,32 @@ bool opennxApp::OnInit()
             for (i = 0; i < af.GetCount(); i++)
                 if (SharedUsbDevice::MODE_REMOTE == af[i].m_eMode) {
                     if (!LibUSBAvailable()) {
-                        ::wxLogError(_("libusb is not available. No USB devices will be exported"));
+                        wxLogError(_("libusb is not available. No USB devices will be exported"));
                         m_bRequireStartUsbIp = false;
                         break;
                     }
-                    ::myLogTrace(MYTRACETAG, wxT("possibly exported USB device: %04x/%04x %s"),
+                    myLogTrace(MYTRACETAG, wxT("possibly exported USB device: %04x/%04x %s"),
                             af[i].m_iVendorID, af[i].m_iProductID, af[i].toShortString().c_str());
                     for (j = 0; j < ad.GetCount(); j++)
                         if (af[i].MatchHotplug(ad[j])) {
-                            ::myLogTrace(MYTRACETAG, wxT("Match on USB dev %s"), ad[j].toString().c_str());
+                            myLogTrace(MYTRACETAG, wxT("Match on USB dev %s"), ad[j].toString().c_str());
                             for (k = 0; k < aid.GetCount(); k++) {
                                 if (aid[k].GetUsbBusID().IsSameAs(ad[j].GetBusID())) {
                                     wxString exBusID = aid[k].GetUsbIpBusID();
-                                    ::myLogTrace(MYTRACETAG, wxT("Exporting usbup-busid %s (libusb-busid %s)"),
+                                    myLogTrace(MYTRACETAG, wxT("Exporting usbup-busid %s (libusb-busid %s)"),
                                             exBusID.c_str(), ad[j].GetBusID().c_str());
                                     if (!usbip.WaitForSession(usessionTO)) {
-                                        ::wxLogError(_("USBIP tunnel registration timeout"));
+                                        wxLogError(_("USBIP tunnel registration timeout"));
                                         m_bRequireStartUsbIp = false;
                                     }
                                     if (!usbip.ExportDevice(exBusID))
-                                        ::wxLogError(_("Unable to export USB device %s"), af[i].toShortString().c_str());
+                                        wxLogError(_("Unable to export USB device %s"), af[i].toShortString().c_str());
                                 }
                             }
                         }
                 }
         } else {
-            ::wxLogError(_("Could not connect to usbipd2. No USB devices will be exported"));
+            wxLogError(_("Could not connect to usbipd2. No USB devices will be exported"));
             m_bRequireStartUsbIp = false;
         }
     }
@@ -1384,13 +1384,13 @@ bool opennxApp::OnInit()
             m_pSessionCfg->sSetFileName(cfgname);
             m_pSessionCfg->SaveToFile();
         }
-        ::myLogTrace(MYTRACETAG, wxT("cfgfile='%s'"), cfgname.c_str());
+        myLogTrace(MYTRACETAG, wxT("cfgfile='%s'"), cfgname.c_str());
         watchcmd << wxT(" -s ") << m_sSessionID << wxT(" -p ")
             << m_nNxSshPID << wxT(" -c \"") << cfgname << wxT("\"");
 #ifdef __WXDEBUG__
         watchcmd << wxT(" --trace=UsbIp,watchUsbIpApp");
 #endif
-        ::myLogTrace(MYTRACETAG, wxT("starting %s"), watchcmd.c_str());
+        myLogTrace(MYTRACETAG, wxT("starting %s"), watchcmd.c_str());
         {
             wxLogNull noerrors;
             ::wxExecute(watchcmd);
@@ -1400,7 +1400,8 @@ bool opennxApp::OnInit()
     }
 #endif
     if (m_bRequireWatchReader) {
-        ::myLogTrace(MYTRACETAG, wxT("require Watchreader: m_iReader = %d, m_nNxSshPID = %ld"), m_iReader, m_nNxSshPID);
+        myLogTrace(MYTRACETAG, wxT("require Watchreader: m_iReader = %d, m_nNxSshPID = %ld"),
+                    (int)m_iReader, (int)m_nNxSshPID);
         if (-1 != m_iReader) {
             wxLogNull noerrors;
             wxString appDir;
@@ -1414,7 +1415,7 @@ bool opennxApp::OnInit()
 #endif
             wxString watchcmd = fn.GetShortPath();
             watchcmd << wxT(" -r ") << m_iReader << wxT(" -p ") << m_nNxSshPID;
-            ::myLogTrace(MYTRACETAG, wxT("executing %s"), watchcmd.c_str());
+            myLogTrace(MYTRACETAG, wxT("executing %s"), watchcmd.c_str());
             ::wxExecute(watchcmd);
         }
     }
@@ -1452,15 +1453,15 @@ void opennxApp::SetSessionCfg(MyXmlConfig &cfg)
 /// Respond to Apple Event for opening a document
 void opennxApp::MacOpenFile(const wxString& filename)
 {
-    ::myLogTrace(MYTRACETAG, wxT("MacOpen '%s'"), filename.c_str());
+    myLogTrace(MYTRACETAG, wxT("MacOpen '%s'"), filename.c_str());
     m_sSessionName = filename;
     if (MODE_MAC_WAITOPEN == m_eMode) {
-        ::myLogTrace(MYTRACETAG, wxT("MacOpen finishing wait"));
+        myLogTrace(MYTRACETAG, wxT("MacOpen finishing wait"));
         m_eMode = MODE_CLIENT;
         return;
     }
     if (NULL != m_pLoginDialog) {
-        ::myLogTrace(MYTRACETAG, wxT("MacOpen modifying selection in LoginDialog"));
+        myLogTrace(MYTRACETAG, wxT("MacOpen modifying selection in LoginDialog"));
         m_pLoginDialog->SelectSession(m_sSessionName);
     }
 }

@@ -7,11 +7,11 @@ class pawrapper {
                 << wxFileName::GetPathSeparator() << wxT("pactl.exe");
             m_bConnected=wxFileName::IsFileExecutable(pactlcmd);
             if (m_bConnected) {
-                ::myLogTrace(MYTRACETAG, wxT("PAWrapper: executable \"%s\" found."),
+                myLogTrace(MYTRACETAG, wxT("PAWrapper: executable \"%s\" found."),
                     pactlcmd.c_str());
                 pactlcmd << wxT(" -s 127.0.0.1");
              } else
-                ::myLogTrace(MYTRACETAG, wxT("PAWrapper: executable \"%s\" not found!"),
+                myLogTrace(MYTRACETAG, wxT("PAWrapper: executable \"%s\" not found!"),
                     pactlcmd.c_str());
         }
 
@@ -32,7 +32,7 @@ class pawrapper {
                         Source = tks[1].Trim(false);
                 }
             } else
-                ::myLogTrace(MYTRACETAG, wxT("PAWrapper: couldn't get defaults sterr = %d"),
+                myLogTrace(MYTRACETAG, wxT("PAWrapper: couldn't get defaults sterr = %d"),
                     sterr);
             return ret;
         }
@@ -58,7 +58,7 @@ class pawrapper {
                     }
                 }
             } else
-                ::myLogTrace(MYTRACETAG, wxT("PAWrapper: couldn't list modules sterr = %d"),
+                myLogTrace(MYTRACETAG, wxT("PAWrapper: couldn't list modules sterr = %d"),
                     sterr);
             return ret;
         }
@@ -72,7 +72,7 @@ class pawrapper {
             int sterr = ::wxExecute(cmd, outtxt, wxEXEC_SYNC);
             ret = (sterr == 0);
             if (!ret)
-                ::myLogTrace(MYTRACETAG, wxT("PAWrapper: couldn't load module %s sterr = %d"),
+                myLogTrace(MYTRACETAG, wxT("PAWrapper: couldn't load module %s sterr = %d"),
                     name.c_str(), sterr);
             return ret;
         }
@@ -85,7 +85,7 @@ class pawrapper {
             int sterr = ::wxExecute(cmd, outtxt, wxEXEC_SYNC);
             ret = (sterr == 0);
             if (!ret)
-                ::myLogTrace(MYTRACETAG, wxT("PAWrapper: couldn't load module id %u; sterr = %d"),
+                myLogTrace(MYTRACETAG, wxT("PAWrapper: couldn't load module id %u; sterr = %d"),
                     index, sterr);
             return ret;
         }

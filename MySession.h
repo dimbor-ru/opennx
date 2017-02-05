@@ -63,8 +63,8 @@ public:
 
     // session admin
     wxString sGetCreationTime();
-    wxString sGetPID() { return wxString::Format(_T("%d"), m_lPid); }
-    wxString sGetPort() { return wxString::Format(_T("%d"), m_iPort); }
+    wxString sGetPID() { return wxString::Format(_T("%d"), (int)m_lPid); }
+    wxString sGetPort() { return wxString::Format(_T("%d"), (int)m_iPort); }
     const wxString& sGetHost() { return m_sHost; }
     const wxString& sGetMd5() { return m_sMd5; }
     const wxString& sGetDir() { return m_sDir; }

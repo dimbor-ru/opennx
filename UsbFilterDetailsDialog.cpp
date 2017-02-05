@@ -295,9 +295,9 @@ void UsbFilterDetailsDialog::OnComboboxUsbdevsSelected( wxCommandEvent& event )
     int i = m_pCtrlDevlist->GetSelection();
     if (i != wxNOT_FOUND) {
         SharedUsbDevice dev = m_aUsbForwards[i];
-        m_sVendorID = wxString::Format(wxT("%04X"), dev.m_iVendorID);
-        m_sProductID = wxString::Format(wxT("%04X"), dev.m_iProductID);
-        m_sDeviceClass = wxString::Format(wxT("%02X"), dev.m_iClass);
+        m_sVendorID = wxString::Format(wxT("%04X"), (int)dev.m_iVendorID);
+        m_sProductID = wxString::Format(wxT("%04X"), (int)dev.m_iProductID);
+        m_sDeviceClass = wxString::Format(wxT("%02X"), (int)dev.m_iClass);
         m_sVendor = dev.m_sVendor;
         m_sProduct = dev.m_sProduct;
         m_sSerial = dev.m_sSerial;
