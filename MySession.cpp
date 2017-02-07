@@ -166,12 +166,12 @@ wxString cygPath(const wxString &dir, const wxString &file)
 class RunLog : public wxLogChain
 {
     public:
-        RunLog(wxLog *logger) :wxLogChain(logger) { }
+        RunLog(wxLog *logger) :wxLogChain(logger) { SetVerbose(true); }
 
-        void LogRecord(wxLogLevel level, const wxString & szString, const wxLogRecordInfo & info)
+        void DoLogRecord(wxLogLevel level, const wxString & szString, const wxLogRecordInfo & info)
         {
             PassMessages(level <= minlevel);
-            wxLogChain::LogRecord((level > minlevel) ? minlevel : level, szString, info);
+            wxLogChain::DoLogRecord((level > minlevel) ? minlevel : level, szString, info);
         }
     private:
         static const wxLogLevel minlevel = wxLOG_Message;
