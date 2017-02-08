@@ -28,7 +28,7 @@ opennx_SOURCES = AboutDialog.cpp AsyncProcess.cpp LibOpenSC.cpp \
 	SimpleXauth.cpp ShareProperties.cpp TextViewer.cpp \
 	UnixImageSettingsDialog.cpp UsbFilterDetailsDialog.cpp \
 	UsbIp.cpp VncImageSettingsDialog.cpp VncPropertyDialog.cpp \
-	wxprec.cpp WinShare.cpp X11PropertyDialog.cpp xh_richtext.cpp \
+	wxprec.cpp WinShare.cpp X11PropertyDialog.cpp \
 	MacOSX.c WrappedStatic.cpp SupressibleMessageDialog.cpp \
 	XdmPropertyDialog.cpp
 
@@ -55,7 +55,7 @@ noinst_HEADERS = AboutDialog.h AboutDialog_symbols.h AsyncProcess.h \
 	VncImageSettingsDialog.h VncImageSettingsDialog_symbols.h \
 	VncPropertyDialog.h VncPropertyDialog_symbols.h WinShare.h \
 	X11PropertyDialog.h X11PropertyDialog_symbols.h trace.h tracelogApp.h \
-	watchReaderApp.h watchUsbIpApp.h xh_richtext.h MacUninstallApp.h \
+	watchReaderApp.h watchUsbIpApp.h MacUninstallApp.h \
 	WrappedStatic.h SupressibleMessageDialog.h SupressibleMessageDialog_symbols.h \
 	TraceLogRemote_symbols.h TraceLogRemote.h \
 	opensc/errors.h opensc/opensc.h opensc/scconf.h opensc/types.h opensc/pkcs15.h \
@@ -89,7 +89,7 @@ watchreader_CFLAGS = $(WX_CFLAGS)
 
 watchusbip_SOURCES = watchUsbIpApp.cpp UsbIp.cpp Icon.cpp LibUSB.cpp \
 	md5.c MyValidator.cpp MyXmlConfig.cpp osdep.c pwcrypt.cpp mylog.cpp \
-	UsbFilterDetailsDialog.cpp wxprec.cpp xh_richtext.cpp MyDynlib.cpp
+	UsbFilterDetailsDialog.cpp wxprec.cpp MyDynlib.cpp
 watchusbip_LDADD = $(WX_LIBS) $(X_LIBS) $(X_PRE_LIBS) $(X_EXTRA_LIBS) \
 	$(APP_LDADD)
 watchusbip_CPPFLAGS = $(WX_CPPFLAGS) $(X_CFLAGS) -DAPP_WATCHUSBIP

@@ -180,7 +180,7 @@ am_opennx_OBJECTS = opennx-AboutDialog.$(OBJEXT) \
 	opennx-VncImageSettingsDialog.$(OBJEXT) \
 	opennx-VncPropertyDialog.$(OBJEXT) opennx-wxprec.$(OBJEXT) \
 	opennx-WinShare.$(OBJEXT) opennx-X11PropertyDialog.$(OBJEXT) \
-	opennx-xh_richtext.$(OBJEXT) opennx-MacOSX.$(OBJEXT) \
+	opennx-MacOSX.$(OBJEXT) \
 	opennx-WrappedStatic.$(OBJEXT) \
 	opennx-SupressibleMessageDialog.$(OBJEXT) \
 	opennx-XdmPropertyDialog.$(OBJEXT)
@@ -231,7 +231,7 @@ am_watchusbip_OBJECTS = watchusbip-watchUsbIpApp.$(OBJEXT) \
 	watchusbip-MyXmlConfig.$(OBJEXT) watchusbip-osdep.$(OBJEXT) \
 	watchusbip-pwcrypt.$(OBJEXT) watchusbip-mylog.$(OBJEXT) \
 	watchusbip-UsbFilterDetailsDialog.$(OBJEXT) \
-	watchusbip-wxprec.$(OBJEXT) watchusbip-xh_richtext.$(OBJEXT) \
+	watchusbip-wxprec.$(OBJEXT) \
 	watchusbip-MyDynlib.$(OBJEXT)
 watchusbip_OBJECTS = $(am_watchusbip_OBJECTS)
 watchusbip_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
@@ -655,7 +655,7 @@ opennx_SOURCES = AboutDialog.cpp AsyncProcess.cpp LibOpenSC.cpp \
 	SimpleXauth.cpp ShareProperties.cpp TextViewer.cpp \
 	UnixImageSettingsDialog.cpp UsbFilterDetailsDialog.cpp \
 	UsbIp.cpp VncImageSettingsDialog.cpp VncPropertyDialog.cpp \
-	wxprec.cpp WinShare.cpp X11PropertyDialog.cpp xh_richtext.cpp \
+	wxprec.cpp WinShare.cpp X11PropertyDialog.cpp \
 	MacOSX.c WrappedStatic.cpp SupressibleMessageDialog.cpp \
 	XdmPropertyDialog.cpp
 
@@ -682,7 +682,7 @@ noinst_HEADERS = AboutDialog.h AboutDialog_symbols.h AsyncProcess.h \
 	VncImageSettingsDialog.h VncImageSettingsDialog_symbols.h \
 	VncPropertyDialog.h VncPropertyDialog_symbols.h WinShare.h \
 	X11PropertyDialog.h X11PropertyDialog_symbols.h trace.h tracelogApp.h \
-	watchReaderApp.h watchUsbIpApp.h xh_richtext.h MacUninstallApp.h \
+	watchReaderApp.h watchUsbIpApp.h MacUninstallApp.h \
 	WrappedStatic.h SupressibleMessageDialog.h SupressibleMessageDialog_symbols.h \
 	TraceLogRemote_symbols.h TraceLogRemote.h \
 	opensc/errors.h opensc/opensc.h opensc/scconf.h opensc/types.h opensc/pkcs15.h \
@@ -712,7 +712,7 @@ watchreader_CXXFLAGS = $(WX_CXXFLAGS)
 watchreader_CFLAGS = $(WX_CFLAGS)
 watchusbip_SOURCES = watchUsbIpApp.cpp UsbIp.cpp Icon.cpp LibUSB.cpp \
 	md5.c MyValidator.cpp MyXmlConfig.cpp osdep.c pwcrypt.cpp mylog.cpp \
-	UsbFilterDetailsDialog.cpp wxprec.cpp xh_richtext.cpp MyDynlib.cpp
+	UsbFilterDetailsDialog.cpp wxprec.cpp MyDynlib.cpp
 
 watchusbip_LDADD = $(WX_LIBS) $(X_LIBS) $(X_PRE_LIBS) $(X_EXTRA_LIBS) \
 	$(APP_LDADD)
@@ -1002,7 +1002,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opennx-osdep.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opennx-pwcrypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opennx-wxprec.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opennx-xh_richtext.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pconnect.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pulsetest-MacOSX.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pulsetest-MyDynlib.Po@am__quote@
@@ -1039,7 +1038,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/watchusbip-pwcrypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/watchusbip-watchUsbIpApp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/watchusbip-wxprec.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/watchusbip-xh_richtext.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

@@ -71,7 +71,7 @@
 #include "LibUSB.h"
 #include "LibOpenSC.h"
 #include "osdep.h"
-#include "xh_richtext.h"
+#include <wx/xrc/xh_richtext.h>
 #include "UsbIp.h"
 #include "CardWaiterDialog.h"
 #include "SupressibleMessageDialog.h"
@@ -1057,7 +1057,6 @@ bool opennxApp::realInit()
     wxInitAllImageHandlers();
     wxBitmap::InitStandardHandlers();
     wxXmlResource::Get()->InitAllHandlers();
-    wxXmlResource::Get()->AddHandler(new wxRichTextCtrlXmlHandler());
 
     // This enables socket-I/O from other threads.
     wxSocketBase::Initialize();
