@@ -46,12 +46,8 @@ encodeString(const wxString &s)
 
     if (s.Length()) {
         ret = wxT(":");
-        for (i = 0; i < s.Length(); i++) {
-			wxUniChar chars[2];
-			chars[0] = s[i];
-			chars[1] = i + 1;
-            ret += wxString::Format(wxT("%d:"), chars);
-		}
+        for (i = 0; i < s.Length(); i++)
+            ret += wxString::Format(wxT("%d:"), (int) s[i] + (int) i + 1);
     }
     return ret;
 }
@@ -70,7 +66,7 @@ decodeString(const wxString &s)
             if (p != -1) {
                 long l;
                 val.Left(p).ToLong(&l);
-                ret += wxChar(l - idx++);
+                ret += wxChar((int)l - idx++);
             } else
                 break;
             val.Remove(0, p + 1);
@@ -129,8 +125,7 @@ decryptString(const wxString &s)
     sRet = s;
     sRet.Truncate(s.Length() - 1);
     
-    const char *ch = static_cast<const char*>(sRet.c_str());
-    int n = (ch[0] + sRet.Length()) - 3;
+    int n = ((int)sRet[0] + sRet.Length()) - 3;
     
     for (i = 1; i < sRet.Length(); i++) {
         int j = validChars.Find(sRet[i]);
