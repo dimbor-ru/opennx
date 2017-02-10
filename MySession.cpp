@@ -1465,8 +1465,7 @@ MySession::unhideNXWin()
         HWND h = ::GetTopWindow(0);
         while (h) {
             wxString wclass;
-            int r = GetClassName(h, wclass.GetWriteBuf(40), 38);
-            wclass.UngetWriteBuf();
+            int r = GetClassName(h, wxStringBuffer(wclass,40), 38);
             if ((r > 0) && wclass.Contains(wxT("cygwin/xfree86"))) {
                 DWORD pid;
                 GetWindowThreadProcessId(h, &pid);

@@ -111,6 +111,7 @@ smbc_auth_fn(const char *, const char *, char *, int,
 #else // __UNIX__
 
 // Windows
+#include <windows.h>
 #include <lm.h>
 
 struct share_info_1 {
