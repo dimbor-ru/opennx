@@ -180,8 +180,7 @@ am_opennx_OBJECTS = opennx-AboutDialog.$(OBJEXT) \
 	opennx-VncImageSettingsDialog.$(OBJEXT) \
 	opennx-VncPropertyDialog.$(OBJEXT) opennx-wxprec.$(OBJEXT) \
 	opennx-WinShare.$(OBJEXT) opennx-X11PropertyDialog.$(OBJEXT) \
-	opennx-MacOSX.$(OBJEXT) \
-	opennx-WrappedStatic.$(OBJEXT) \
+	opennx-MacOSX.$(OBJEXT) opennx-WrappedStatic.$(OBJEXT) \
 	opennx-SupressibleMessageDialog.$(OBJEXT) \
 	opennx-XdmPropertyDialog.$(OBJEXT)
 opennx_OBJECTS = $(am_opennx_OBJECTS)
@@ -231,8 +230,7 @@ am_watchusbip_OBJECTS = watchusbip-watchUsbIpApp.$(OBJEXT) \
 	watchusbip-MyXmlConfig.$(OBJEXT) watchusbip-osdep.$(OBJEXT) \
 	watchusbip-pwcrypt.$(OBJEXT) watchusbip-mylog.$(OBJEXT) \
 	watchusbip-UsbFilterDetailsDialog.$(OBJEXT) \
-	watchusbip-wxprec.$(OBJEXT) \
-	watchusbip-MyDynlib.$(OBJEXT)
+	watchusbip-wxprec.$(OBJEXT) watchusbip-MyDynlib.$(OBJEXT)
 watchusbip_OBJECTS = $(am_watchusbip_OBJECTS)
 watchusbip_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
@@ -1893,20 +1891,6 @@ opennx-X11PropertyDialog.obj: X11PropertyDialog.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opennx_CPPFLAGS) $(CPPFLAGS) $(opennx_CXXFLAGS) $(CXXFLAGS) -c -o opennx-X11PropertyDialog.obj `if test -f 'X11PropertyDialog.cpp'; then $(CYGPATH_W) 'X11PropertyDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/X11PropertyDialog.cpp'; fi`
 
-opennx-xh_richtext.o: xh_richtext.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opennx_CPPFLAGS) $(CPPFLAGS) $(opennx_CXXFLAGS) $(CXXFLAGS) -MT opennx-xh_richtext.o -MD -MP -MF $(DEPDIR)/opennx-xh_richtext.Tpo -c -o opennx-xh_richtext.o `test -f 'xh_richtext.cpp' || echo '$(srcdir)/'`xh_richtext.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/opennx-xh_richtext.Tpo $(DEPDIR)/opennx-xh_richtext.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='xh_richtext.cpp' object='opennx-xh_richtext.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opennx_CPPFLAGS) $(CPPFLAGS) $(opennx_CXXFLAGS) $(CXXFLAGS) -c -o opennx-xh_richtext.o `test -f 'xh_richtext.cpp' || echo '$(srcdir)/'`xh_richtext.cpp
-
-opennx-xh_richtext.obj: xh_richtext.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opennx_CPPFLAGS) $(CPPFLAGS) $(opennx_CXXFLAGS) $(CXXFLAGS) -MT opennx-xh_richtext.obj -MD -MP -MF $(DEPDIR)/opennx-xh_richtext.Tpo -c -o opennx-xh_richtext.obj `if test -f 'xh_richtext.cpp'; then $(CYGPATH_W) 'xh_richtext.cpp'; else $(CYGPATH_W) '$(srcdir)/xh_richtext.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/opennx-xh_richtext.Tpo $(DEPDIR)/opennx-xh_richtext.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='xh_richtext.cpp' object='opennx-xh_richtext.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opennx_CPPFLAGS) $(CPPFLAGS) $(opennx_CXXFLAGS) $(CXXFLAGS) -c -o opennx-xh_richtext.obj `if test -f 'xh_richtext.cpp'; then $(CYGPATH_W) 'xh_richtext.cpp'; else $(CYGPATH_W) '$(srcdir)/xh_richtext.cpp'; fi`
-
 opennx-WrappedStatic.o: WrappedStatic.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opennx_CPPFLAGS) $(CPPFLAGS) $(opennx_CXXFLAGS) $(CXXFLAGS) -MT opennx-WrappedStatic.o -MD -MP -MF $(DEPDIR)/opennx-WrappedStatic.Tpo -c -o opennx-WrappedStatic.o `test -f 'WrappedStatic.cpp' || echo '$(srcdir)/'`WrappedStatic.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/opennx-WrappedStatic.Tpo $(DEPDIR)/opennx-WrappedStatic.Po
@@ -2326,20 +2310,6 @@ watchusbip-wxprec.obj: wxprec.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='wxprec.cpp' object='watchusbip-wxprec.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(watchusbip_CPPFLAGS) $(CPPFLAGS) $(watchusbip_CXXFLAGS) $(CXXFLAGS) -c -o watchusbip-wxprec.obj `if test -f 'wxprec.cpp'; then $(CYGPATH_W) 'wxprec.cpp'; else $(CYGPATH_W) '$(srcdir)/wxprec.cpp'; fi`
-
-watchusbip-xh_richtext.o: xh_richtext.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(watchusbip_CPPFLAGS) $(CPPFLAGS) $(watchusbip_CXXFLAGS) $(CXXFLAGS) -MT watchusbip-xh_richtext.o -MD -MP -MF $(DEPDIR)/watchusbip-xh_richtext.Tpo -c -o watchusbip-xh_richtext.o `test -f 'xh_richtext.cpp' || echo '$(srcdir)/'`xh_richtext.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/watchusbip-xh_richtext.Tpo $(DEPDIR)/watchusbip-xh_richtext.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='xh_richtext.cpp' object='watchusbip-xh_richtext.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(watchusbip_CPPFLAGS) $(CPPFLAGS) $(watchusbip_CXXFLAGS) $(CXXFLAGS) -c -o watchusbip-xh_richtext.o `test -f 'xh_richtext.cpp' || echo '$(srcdir)/'`xh_richtext.cpp
-
-watchusbip-xh_richtext.obj: xh_richtext.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(watchusbip_CPPFLAGS) $(CPPFLAGS) $(watchusbip_CXXFLAGS) $(CXXFLAGS) -MT watchusbip-xh_richtext.obj -MD -MP -MF $(DEPDIR)/watchusbip-xh_richtext.Tpo -c -o watchusbip-xh_richtext.obj `if test -f 'xh_richtext.cpp'; then $(CYGPATH_W) 'xh_richtext.cpp'; else $(CYGPATH_W) '$(srcdir)/xh_richtext.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/watchusbip-xh_richtext.Tpo $(DEPDIR)/watchusbip-xh_richtext.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='xh_richtext.cpp' object='watchusbip-xh_richtext.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(watchusbip_CPPFLAGS) $(CPPFLAGS) $(watchusbip_CXXFLAGS) $(CXXFLAGS) -c -o watchusbip-xh_richtext.obj `if test -f 'xh_richtext.cpp'; then $(CYGPATH_W) 'xh_richtext.cpp'; else $(CYGPATH_W) '$(srcdir)/xh_richtext.cpp'; fi`
 
 watchusbip-MyDynlib.o: MyDynlib.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(watchusbip_CPPFLAGS) $(CPPFLAGS) $(watchusbip_CXXFLAGS) $(CXXFLAGS) -MT watchusbip-MyDynlib.o -MD -MP -MF $(DEPDIR)/watchusbip-MyDynlib.Tpo -c -o watchusbip-MyDynlib.o `test -f 'MyDynlib.cpp' || echo '$(srcdir)/'`MyDynlib.cpp
