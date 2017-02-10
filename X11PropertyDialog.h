@@ -88,6 +88,10 @@ public:
 
     void SetConfig(MyXmlConfig *);
 
+#ifdef __WXMSW__
+    bool TransferDataToWindow();
+    bool TransferDataFromWindow();
+#endif
 private:
     /// Creates the controls and sizers
     void CreateControls();

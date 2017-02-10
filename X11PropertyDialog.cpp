@@ -286,4 +286,50 @@ void X11PropertyDialog::OnOkClick( wxCommandEvent& event )
     event.Skip();
 }
 
+#ifdef __WXMSW__
+/* dimbor: on wxWindows 3.0.2 we need to make a sunset by hand
+   for some reason */
+bool X11PropertyDialog::TransferDataToWindow()
+{
+    wxDialog::TransferDataToWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_X11_CONSOLE")))
+        FindWindow(XRCID("ID_RADIOBUTTON_X11_CONSOLE"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_X11_XCLIENTS")))
+        FindWindow(XRCID("ID_RADIOBUTTON_X11_XCLIENTS"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_X11_CUSTOMCMD")))
+        FindWindow(XRCID("ID_RADIOBUTTON_X11_CUSTOMCMD"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_X11_CUSTOMCMD")))
+        FindWindow(XRCID("ID_TEXTCTRL_X11_CUSTOMCMD"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_X11_VDESKTOP")))
+        FindWindow(XRCID("ID_RADIOBUTTON_X11_VDESKTOP"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_X11_WIN_FLOATING")))
+        FindWindow(XRCID("ID_RADIOBUTTON_X11_WIN_FLOATING"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_CHECKBOX_X11_DISABLE_XAGENT")))
+        FindWindow(XRCID("ID_CHECKBOX_X11_DISABLE_XAGENT"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_CHECKBOX_X11_DISABLE_TAINT")))
+        FindWindow(XRCID("ID_CHECKBOX_X11_DISABLE_TAINT"))->GetValidator()->TransferToWindow();
+    return true;
+}
 
+bool X11PropertyDialog::TransferDataFromWindow()
+{
+    wxDialog::TransferDataFromWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_X11_CONSOLE")))
+        FindWindow(XRCID("ID_RADIOBUTTON_X11_CONSOLE"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_X11_XCLIENTS")))
+        FindWindow(XRCID("ID_RADIOBUTTON_X11_XCLIENTS"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_X11_CUSTOMCMD")))
+        FindWindow(XRCID("ID_RADIOBUTTON_X11_CUSTOMCMD"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_X11_CUSTOMCMD")))
+        FindWindow(XRCID("ID_TEXTCTRL_X11_CUSTOMCMD"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_X11_VDESKTOP")))
+        FindWindow(XRCID("ID_RADIOBUTTON_X11_VDESKTOP"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_X11_WIN_FLOATING")))
+        FindWindow(XRCID("ID_RADIOBUTTON_X11_WIN_FLOATING"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_CHECKBOX_X11_DISABLE_XAGENT")))
+        FindWindow(XRCID("ID_CHECKBOX_X11_DISABLE_XAGENT"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_CHECKBOX_X11_DISABLE_TAINT")))
+        FindWindow(XRCID("ID_CHECKBOX_X11_DISABLE_TAINT"))->GetValidator()->TransferFromWindow();
+    return true;
+}
+#endif
