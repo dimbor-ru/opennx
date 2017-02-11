@@ -1,4 +1,4 @@
-%define version 0.6
+%define version 1.0
 %define svnrev 0
 
 # Build-time configuration

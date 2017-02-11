@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"Report-Msgid-Bugs-To: felfert@users.sf.net\n"
+"Report-Msgid-Bugs-To: i@dimbor.ru\n"
 "POT-Creation-Date: 2013-11-25 00:15+0100\n"
 "PO-Revision-Date: 2010-08-27 12:21+0400\n"
 "Last-Translator: Shakirov Lenar <snejok@altlinux.org>\n"
@@ -838,10 +838,6 @@ msgstr "Доступное пространство"
 msgid "Fullscreen"
 msgstr "Полный экран"
 
-#: tmp
-msgid "No decoration"
-msgstr "Без заголовка"
-
 #: MyWizard_symbols.h:53 SessionProperties_symbols.h:53
 msgid "W"
 msgstr "Ш"
@@ -892,8 +888,7 @@ msgstr "Ошибка %d при получении параметров сесс�
 msgid ""
 "Error while fetching session configuration:\n"
 "%s"
-msgstr "Ошибка при получении параметров сессии"
-"%s"
+msgstr "Ошибка при получении параметров сессии%s"
 
 #: PanicDialog_symbols.h:22
 msgid "&Terminate"
@@ -1486,22 +1481,6 @@ msgstr "Удалить"
 #: SessionProperties_symbols.h:94
 msgid "Enable multimedia support"
 msgstr "Включить поддержку мультимедиа"
-
-#: by hands
-msgid "Native Pulseaudio"
-msgstr "Нативный Pulseaudio"
-
-#: by hands
-msgid "Rate"
-msgstr "Частота"
-
-#: by hands
-msgid "No change"
-msgstr "Не изменять"
-
-#: by hands
-msgid "Mono"
-msgstr "Моно"
 
 #: SessionProperties_symbols.h:96
 msgid "Enable USB forwarding"
@@ -2200,6 +2179,21 @@ msgstr "Не удалось сохранить конфигурацию сесс
 #: watchUsbIpApp.cpp:506
 msgid "Could not export USB device"
 msgstr "Не удалось экспортировать USB устройство"
+
+#~ msgid "No decoration"
+#~ msgstr "Без заголовка"
+
+#~ msgid "Native Pulseaudio"
+#~ msgstr "Нативный Pulseaudio"
+
+#~ msgid "Rate"
+#~ msgstr "Частота"
+
+#~ msgid "No change"
+#~ msgstr "Не изменять"
+
+#~ msgid "Mono"
+#~ msgstr "Моно"
 
 #~ msgid "Use RDP image encoding"
 #~ msgstr "Использовать кодирование изображений RDP"
