@@ -678,7 +678,7 @@ MyXmlConfig::sGetSessionParams(const long protocolVersion, bool bNew, const wxSt
                     else if (m_bRunXclients)
                         ret << wxT("default\"");
                     else {
-                        bNeedGeometry = false;
+//                        bNeedGeometry = false;
                         ret << wxT("application\"");
                         ret    << wxT(" --application=\"")
                             << UrlEsc(m_sCommandLine) << wxT("\"");
@@ -835,6 +835,7 @@ MyXmlConfig::sGetSessionParams(const long protocolVersion, bool bNew, const wxSt
             ret << wxT("lan\"");
             break;
     }
+    gw = clientw; gh = clienth;
     if (bNeedGeometry) {
         ret << wxT(" --geometry=\"");
         switch (m_eDisplayType) {
