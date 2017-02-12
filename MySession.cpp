@@ -1543,7 +1543,8 @@ MySession::startXserver()
                 }
                 wxWinCmd << wxT(" -name ") << title << wxT("@") << m_pCfg->sGetServerHost();
             }
-            wxWinCmd << wxT(" -multiplemonitors");
+            /*  Warning from Djelf: format of cmd string at its end
+                always MUST BE  "-name <name@addr> :<display>" */
             wxWinCmd << wxT(" ") << dpyStr;
             break;
         case XARCH_XMING:
