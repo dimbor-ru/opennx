@@ -1475,6 +1475,7 @@ MySession::unhideNXWin()
                     SendMessage(h, WM_USER + 1, 0, 0);
                     // Trigger for worked close button NXWin
                     ::SendMessage(h, stored_nxserver_version, 1, 1);
+                    SetForegroundWindow(h);
                     break;
                 }
             }
