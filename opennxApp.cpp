@@ -71,7 +71,11 @@
 #include "LibUSB.h"
 #include "LibOpenSC.h"
 #include "osdep.h"
+#if wxCHECK_VERSION(3,0,0)
 #include <wx/xrc/xh_richtext.h>
+#else
+#include "xh_richtext.h"
+#endif
 #include "UsbIp.h"
 #include "CardWaiterDialog.h"
 #include "SupressibleMessageDialog.h"
@@ -866,7 +870,12 @@ void opennxApp::OnInitCmdLine(wxCmdLineParser& parser)
     // On Unix, --display is a toolkit option
     wxRegEx re(wxT("^--((exportres)|(cacert)|(caption)|(style)|(dialog)|(message)|(parent)|(session)|(window)|(trace))$"));
 #endif
+
+    #if wxCHECK_VERSION(3,0,0)
     wxArrayString as = argv.GetArguments();
+    #else
+    wxArrayString as(argc, (const wxChar **)argv);
+    #endif
     for (i = 1; i < as.GetCount(); i++) {
         if (re.Matches(as[i])) {
             if ((i + 1) < as.GetCount()) {
@@ -1057,6 +1066,7 @@ bool opennxApp::realInit()
     wxInitAllImageHandlers();
     wxBitmap::InitStandardHandlers();
     wxXmlResource::Get()->InitAllHandlers();
+    wxXmlResource::Get()->AddHandler(new wxRichTextCtrlXmlHandler());
 
     // This enables socket-I/O from other threads.
     wxSocketBase::Initialize();

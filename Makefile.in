@@ -91,11 +91,12 @@ DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(srcdir)/config.h.in $(top_srcdir)/conf/mkinstalldirs \
 	$(srcdir)/opennx.spec.in $(top_srcdir)/res/opennx.rc.in \
 	$(top_srcdir)/opensc/opensc-config.in \
-	$(top_srcdir)/conf/depcomp $(noinst_HEADERS) ABOUT-NLS COPYING \
-	ChangeLog INSTALL conf/compile conf/config.guess \
-	conf/config.rpath conf/config.sub conf/depcomp conf/install-sh \
-	conf/missing conf/mkinstalldirs conf/ltmain.sh \
-	$(top_srcdir)/conf/compile $(top_srcdir)/conf/config.guess \
+	$(top_srcdir)/conf/depcomp $(am__noinst_HEADERS_DIST) \
+	ABOUT-NLS COPYING ChangeLog INSTALL conf/compile \
+	conf/config.guess conf/config.rpath conf/config.sub \
+	conf/depcomp conf/install-sh conf/missing conf/mkinstalldirs \
+	conf/ltmain.sh $(top_srcdir)/conf/compile \
+	$(top_srcdir)/conf/config.guess \
 	$(top_srcdir)/conf/config.rpath $(top_srcdir)/conf/config.sub \
 	$(top_srcdir)/conf/install-sh $(top_srcdir)/conf/ltmain.sh \
 	$(top_srcdir)/conf/missing
@@ -152,37 +153,108 @@ macuninstall_DEPENDENCIES = $(am__DEPENDENCIES_1)
 macuninstall_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(macuninstall_CXXFLAGS) \
 	$(CXXFLAGS) $(macuninstall_LDFLAGS) $(LDFLAGS) -o $@
-am_opennx_OBJECTS = opennx-AboutDialog.$(OBJEXT) \
-	opennx-AsyncProcess.$(OBJEXT) opennx-LibOpenSC.$(OBJEXT) \
-	opennx-CardWaiterDialog.$(OBJEXT) \
-	opennx-ConnectDialog.$(OBJEXT) opennx-ExtHtmlWindow.$(OBJEXT) \
-	opennx-ForeignFrame.$(OBJEXT) opennx-Icon.$(OBJEXT) \
-	opennx-LogDialog.$(OBJEXT) opennx-KeyDialog.$(OBJEXT) \
-	opennx-LibUSB.$(OBJEXT) opennx-LoginDialog.$(OBJEXT) \
-	opennx-mylog.$(OBJEXT) opennx-md5.$(OBJEXT) \
-	opennx-MyIPC.$(OBJEXT) opennx-MyDynlib.$(OBJEXT) \
-	opennx-MySession.$(OBJEXT) opennx-MyValidator.$(OBJEXT) \
-	opennx-MyWizard.$(OBJEXT) opennx-MyXmlConfig.$(OBJEXT) \
-	opennx-opennxApp.$(OBJEXT) opennx-osdep.$(OBJEXT) \
-	opennx-PanicDialog.$(OBJEXT) opennx-pwcrypt.$(OBJEXT) \
-	opennx-ProxyPasswordDialog.$(OBJEXT) \
-	opennx-PulseAudio.$(OBJEXT) opennx-QuitDialog.$(OBJEXT) \
-	opennx-RdpImageSettingsDialog.$(OBJEXT) \
-	opennx-RdpPropertyDialog.$(OBJEXT) \
-	opennx-ResumeDialog.$(OBJEXT) \
-	opennx-ProxyPropertyDialog.$(OBJEXT) \
-	opennx-SessionAdmin.$(OBJEXT) opennx-SessionList.$(OBJEXT) \
-	opennx-SessionProperties.$(OBJEXT) \
-	opennx-SimpleXauth.$(OBJEXT) opennx-ShareProperties.$(OBJEXT) \
-	opennx-TextViewer.$(OBJEXT) \
-	opennx-UnixImageSettingsDialog.$(OBJEXT) \
-	opennx-UsbFilterDetailsDialog.$(OBJEXT) opennx-UsbIp.$(OBJEXT) \
-	opennx-VncImageSettingsDialog.$(OBJEXT) \
-	opennx-VncPropertyDialog.$(OBJEXT) opennx-wxprec.$(OBJEXT) \
-	opennx-WinShare.$(OBJEXT) opennx-X11PropertyDialog.$(OBJEXT) \
-	opennx-MacOSX.$(OBJEXT) opennx-WrappedStatic.$(OBJEXT) \
-	opennx-SupressibleMessageDialog.$(OBJEXT) \
-	opennx-XdmPropertyDialog.$(OBJEXT)
+am__opennx_SOURCES_DIST = AboutDialog.cpp AsyncProcess.cpp \
+	LibOpenSC.cpp CardWaiterDialog.cpp ConnectDialog.cpp \
+	ExtHtmlWindow.cpp ForeignFrame.cpp Icon.cpp LogDialog.cpp \
+	KeyDialog.cpp LibUSB.cpp LoginDialog.cpp mylog.cpp md5.c \
+	MyIPC.cpp MyDynlib.cpp MySession.cpp MyValidator.cpp \
+	MyWizard.cpp MyXmlConfig.cpp opennxApp.cpp osdep.c \
+	PanicDialog.cpp pwcrypt.cpp ProxyPasswordDialog.cpp \
+	PulseAudio.cpp QuitDialog.cpp RdpImageSettingsDialog.cpp \
+	RdpPropertyDialog.cpp ResumeDialog.cpp ProxyPropertyDialog.cpp \
+	SessionAdmin.cpp SessionList.cpp SessionProperties.cpp \
+	SimpleXauth.cpp ShareProperties.cpp TextViewer.cpp \
+	UnixImageSettingsDialog.cpp UsbFilterDetailsDialog.cpp \
+	UsbIp.cpp VncImageSettingsDialog.cpp VncPropertyDialog.cpp \
+	wxprec.cpp WinShare.cpp X11PropertyDialog.cpp xh_richtext.cpp \
+	MacOSX.c WrappedStatic.cpp SupressibleMessageDialog.cpp \
+	XdmPropertyDialog.cpp
+@WX3_FALSE@am_opennx_OBJECTS = opennx-AboutDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-AsyncProcess.$(OBJEXT) \
+@WX3_FALSE@	opennx-LibOpenSC.$(OBJEXT) \
+@WX3_FALSE@	opennx-CardWaiterDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-ConnectDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-ExtHtmlWindow.$(OBJEXT) \
+@WX3_FALSE@	opennx-ForeignFrame.$(OBJEXT) opennx-Icon.$(OBJEXT) \
+@WX3_FALSE@	opennx-LogDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-KeyDialog.$(OBJEXT) opennx-LibUSB.$(OBJEXT) \
+@WX3_FALSE@	opennx-LoginDialog.$(OBJEXT) opennx-mylog.$(OBJEXT) \
+@WX3_FALSE@	opennx-md5.$(OBJEXT) opennx-MyIPC.$(OBJEXT) \
+@WX3_FALSE@	opennx-MyDynlib.$(OBJEXT) \
+@WX3_FALSE@	opennx-MySession.$(OBJEXT) \
+@WX3_FALSE@	opennx-MyValidator.$(OBJEXT) \
+@WX3_FALSE@	opennx-MyWizard.$(OBJEXT) \
+@WX3_FALSE@	opennx-MyXmlConfig.$(OBJEXT) \
+@WX3_FALSE@	opennx-opennxApp.$(OBJEXT) opennx-osdep.$(OBJEXT) \
+@WX3_FALSE@	opennx-PanicDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-pwcrypt.$(OBJEXT) \
+@WX3_FALSE@	opennx-ProxyPasswordDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-PulseAudio.$(OBJEXT) \
+@WX3_FALSE@	opennx-QuitDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-RdpImageSettingsDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-RdpPropertyDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-ResumeDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-ProxyPropertyDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-SessionAdmin.$(OBJEXT) \
+@WX3_FALSE@	opennx-SessionList.$(OBJEXT) \
+@WX3_FALSE@	opennx-SessionProperties.$(OBJEXT) \
+@WX3_FALSE@	opennx-SimpleXauth.$(OBJEXT) \
+@WX3_FALSE@	opennx-ShareProperties.$(OBJEXT) \
+@WX3_FALSE@	opennx-TextViewer.$(OBJEXT) \
+@WX3_FALSE@	opennx-UnixImageSettingsDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-UsbFilterDetailsDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-UsbIp.$(OBJEXT) \
+@WX3_FALSE@	opennx-VncImageSettingsDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-VncPropertyDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-wxprec.$(OBJEXT) opennx-WinShare.$(OBJEXT) \
+@WX3_FALSE@	opennx-X11PropertyDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-xh_richtext.$(OBJEXT) \
+@WX3_FALSE@	opennx-MacOSX.$(OBJEXT) \
+@WX3_FALSE@	opennx-WrappedStatic.$(OBJEXT) \
+@WX3_FALSE@	opennx-SupressibleMessageDialog.$(OBJEXT) \
+@WX3_FALSE@	opennx-XdmPropertyDialog.$(OBJEXT)
+@WX3_TRUE@am_opennx_OBJECTS = opennx-AboutDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-AsyncProcess.$(OBJEXT) \
+@WX3_TRUE@	opennx-LibOpenSC.$(OBJEXT) \
+@WX3_TRUE@	opennx-CardWaiterDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-ConnectDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-ExtHtmlWindow.$(OBJEXT) \
+@WX3_TRUE@	opennx-ForeignFrame.$(OBJEXT) opennx-Icon.$(OBJEXT) \
+@WX3_TRUE@	opennx-LogDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-KeyDialog.$(OBJEXT) opennx-LibUSB.$(OBJEXT) \
+@WX3_TRUE@	opennx-LoginDialog.$(OBJEXT) opennx-mylog.$(OBJEXT) \
+@WX3_TRUE@	opennx-md5.$(OBJEXT) opennx-MyIPC.$(OBJEXT) \
+@WX3_TRUE@	opennx-MyDynlib.$(OBJEXT) opennx-MySession.$(OBJEXT) \
+@WX3_TRUE@	opennx-MyValidator.$(OBJEXT) \
+@WX3_TRUE@	opennx-MyWizard.$(OBJEXT) \
+@WX3_TRUE@	opennx-MyXmlConfig.$(OBJEXT) \
+@WX3_TRUE@	opennx-opennxApp.$(OBJEXT) opennx-osdep.$(OBJEXT) \
+@WX3_TRUE@	opennx-PanicDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-pwcrypt.$(OBJEXT) \
+@WX3_TRUE@	opennx-ProxyPasswordDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-PulseAudio.$(OBJEXT) \
+@WX3_TRUE@	opennx-QuitDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-RdpImageSettingsDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-RdpPropertyDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-ResumeDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-ProxyPropertyDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-SessionAdmin.$(OBJEXT) \
+@WX3_TRUE@	opennx-SessionList.$(OBJEXT) \
+@WX3_TRUE@	opennx-SessionProperties.$(OBJEXT) \
+@WX3_TRUE@	opennx-SimpleXauth.$(OBJEXT) \
+@WX3_TRUE@	opennx-ShareProperties.$(OBJEXT) \
+@WX3_TRUE@	opennx-TextViewer.$(OBJEXT) \
+@WX3_TRUE@	opennx-UnixImageSettingsDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-UsbFilterDetailsDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-UsbIp.$(OBJEXT) \
+@WX3_TRUE@	opennx-VncImageSettingsDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-VncPropertyDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-wxprec.$(OBJEXT) opennx-WinShare.$(OBJEXT) \
+@WX3_TRUE@	opennx-X11PropertyDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-MacOSX.$(OBJEXT) \
+@WX3_TRUE@	opennx-WrappedStatic.$(OBJEXT) \
+@WX3_TRUE@	opennx-SupressibleMessageDialog.$(OBJEXT) \
+@WX3_TRUE@	opennx-XdmPropertyDialog.$(OBJEXT)
 opennx_OBJECTS = $(am_opennx_OBJECTS)
 opennx_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(opennx_CXXFLAGS) \
@@ -223,14 +295,35 @@ watchreader_OBJECTS = $(am_watchreader_OBJECTS)
 watchreader_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(watchreader_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am_watchusbip_OBJECTS = watchusbip-watchUsbIpApp.$(OBJEXT) \
-	watchusbip-UsbIp.$(OBJEXT) watchusbip-Icon.$(OBJEXT) \
-	watchusbip-LibUSB.$(OBJEXT) watchusbip-md5.$(OBJEXT) \
-	watchusbip-MyValidator.$(OBJEXT) \
-	watchusbip-MyXmlConfig.$(OBJEXT) watchusbip-osdep.$(OBJEXT) \
-	watchusbip-pwcrypt.$(OBJEXT) watchusbip-mylog.$(OBJEXT) \
-	watchusbip-UsbFilterDetailsDialog.$(OBJEXT) \
-	watchusbip-wxprec.$(OBJEXT) watchusbip-MyDynlib.$(OBJEXT)
+am__watchusbip_SOURCES_DIST = watchUsbIpApp.cpp UsbIp.cpp Icon.cpp \
+	LibUSB.cpp md5.c MyValidator.cpp MyXmlConfig.cpp osdep.c \
+	pwcrypt.cpp mylog.cpp UsbFilterDetailsDialog.cpp wxprec.cpp \
+	xh_richtext.cpp MyDynlib.cpp
+@WX3_FALSE@am_watchusbip_OBJECTS = watchusbip-watchUsbIpApp.$(OBJEXT) \
+@WX3_FALSE@	watchusbip-UsbIp.$(OBJEXT) \
+@WX3_FALSE@	watchusbip-Icon.$(OBJEXT) \
+@WX3_FALSE@	watchusbip-LibUSB.$(OBJEXT) \
+@WX3_FALSE@	watchusbip-md5.$(OBJEXT) \
+@WX3_FALSE@	watchusbip-MyValidator.$(OBJEXT) \
+@WX3_FALSE@	watchusbip-MyXmlConfig.$(OBJEXT) \
+@WX3_FALSE@	watchusbip-osdep.$(OBJEXT) \
+@WX3_FALSE@	watchusbip-pwcrypt.$(OBJEXT) \
+@WX3_FALSE@	watchusbip-mylog.$(OBJEXT) \
+@WX3_FALSE@	watchusbip-UsbFilterDetailsDialog.$(OBJEXT) \
+@WX3_FALSE@	watchusbip-wxprec.$(OBJEXT) \
+@WX3_FALSE@	watchusbip-xh_richtext.$(OBJEXT) \
+@WX3_FALSE@	watchusbip-MyDynlib.$(OBJEXT)
+@WX3_TRUE@am_watchusbip_OBJECTS = watchusbip-watchUsbIpApp.$(OBJEXT) \
+@WX3_TRUE@	watchusbip-UsbIp.$(OBJEXT) watchusbip-Icon.$(OBJEXT) \
+@WX3_TRUE@	watchusbip-LibUSB.$(OBJEXT) watchusbip-md5.$(OBJEXT) \
+@WX3_TRUE@	watchusbip-MyValidator.$(OBJEXT) \
+@WX3_TRUE@	watchusbip-MyXmlConfig.$(OBJEXT) \
+@WX3_TRUE@	watchusbip-osdep.$(OBJEXT) \
+@WX3_TRUE@	watchusbip-pwcrypt.$(OBJEXT) \
+@WX3_TRUE@	watchusbip-mylog.$(OBJEXT) \
+@WX3_TRUE@	watchusbip-UsbFilterDetailsDialog.$(OBJEXT) \
+@WX3_TRUE@	watchusbip-wxprec.$(OBJEXT) \
+@WX3_TRUE@	watchusbip-MyDynlib.$(OBJEXT)
 watchusbip_OBJECTS = $(am_watchusbip_OBJECTS)
 watchusbip_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
@@ -298,10 +391,11 @@ SOURCES = $(bin2hdr_SOURCES) $(macfindreader_SOURCES) \
 	$(EXTRA_watchreader_SOURCES) $(watchusbip_SOURCES)
 DIST_SOURCES = $(bin2hdr_SOURCES) $(macfindreader_SOURCES) \
 	$(mactestkbd_SOURCES) $(macuninstall_SOURCES) \
-	$(opennx_SOURCES) $(EXTRA_opennx_SOURCES) $(pconnect_SOURCES) \
-	$(pulsetest_SOURCES) $(testxauth_SOURCES) $(tracelog_SOURCES) \
-	$(EXTRA_tracelog_SOURCES) $(watchreader_SOURCES) \
-	$(EXTRA_watchreader_SOURCES) $(watchusbip_SOURCES)
+	$(am__opennx_SOURCES_DIST) $(EXTRA_opennx_SOURCES) \
+	$(pconnect_SOURCES) $(pulsetest_SOURCES) $(testxauth_SOURCES) \
+	$(tracelog_SOURCES) $(EXTRA_tracelog_SOURCES) \
+	$(watchreader_SOURCES) $(EXTRA_watchreader_SOURCES) \
+	$(am__watchusbip_SOURCES_DIST)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -346,6 +440,39 @@ man1dir = $(mandir)/man1
 NROFF = nroff
 MANS = $(man_MANS)
 DATA = $(cups_DATA) $(data_DATA) $(key_DATA)
+am__noinst_HEADERS_DIST = AboutDialog.h AboutDialog_symbols.h \
+	AsyncProcess.h LibOpenSC.h CardWaiterDialog.h \
+	CardWaiterDialog_symbols.h ConnectDialog.h \
+	ConnectDialog_symbols.h debugleak.h DebugStringGrabber.h \
+	ExtHtmlWindow.h ForeignFrame.h ForeignFrame_symbols.h Icon.h \
+	KeyDialog.h KeyDialog_symbols.h LibUSB.h LogDialog.h \
+	LogDialog_symbols.h LoginDialog.h mylog.h \
+	LoginDialog_symbols.h md5.h memres.h MyIPC.h MyDynlib.h \
+	MySession.h MyValidator.h MyWizard.h MyWizard_symbols.h \
+	MyXmlConfig.h opennxApp.h osdep.h PanicDialog.h \
+	PanicDialog_symbols.h PulseAudio.h pwcrypt.h QuitDialog.h \
+	QuitDialog_symbols.h ProxyPasswordDialog.h \
+	ProxyPasswordDialog_symbols.h ProxyPropertyDialog.h \
+	pulseTest.h ProxyPropertyDialog_symbols.h \
+	RdpImageSettingsDialog.h RdpImageSettingsDialog_symbols.h \
+	RdpPropertyDialog.h RdpPropertyDialog_symbols.h ResumeDialog.h \
+	ResumeDialog_symbols.h SessionAdmin.h SessionAdmin_symbols.h \
+	SessionList.h SimpleXauth.h SessionProperties.h \
+	SessionProperties_symbols.h ShareProperties.h \
+	ShareProperties_symbols.h TextViewer.h TextViewer_symbols.h \
+	TraceLogFrame.h TraceLogFrame_symbols.h \
+	UnixImageSettingsDialog.h UnixImageSettingsDialog_symbols.h \
+	UsbFilterDetailsDialog.h UsbFilterDetailsDialog_symbols.h \
+	UsbIp.h VncImageSettingsDialog.h \
+	VncImageSettingsDialog_symbols.h VncPropertyDialog.h \
+	VncPropertyDialog_symbols.h WinShare.h X11PropertyDialog.h \
+	X11PropertyDialog_symbols.h trace.h tracelogApp.h \
+	watchReaderApp.h watchUsbIpApp.h xh_richtext.h \
+	MacUninstallApp.h WrappedStatic.h SupressibleMessageDialog.h \
+	SupressibleMessageDialog_symbols.h TraceLogRemote_symbols.h \
+	TraceLogRemote.h opensc/errors.h opensc/opensc.h \
+	opensc/scconf.h opensc/types.h opensc/pkcs15.h libsmbclient.h \
+	XdmPropertyDialog.h XdmPropertyDialog_symbols.h
 HEADERS = $(noinst_HEADERS)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
@@ -641,51 +768,97 @@ EXTRA_PROGRAMS = tracelog$(EXEEXT) watchreader$(EXEEXT) \
 	watchusbip$(EXEEXT) macfindreader$(EXEEXT) macuninstall$(EXEEXT) \
 	mactestkbd$(EXEEXT) testxauth$(EXEEXT)
 
-opennx_SOURCES = AboutDialog.cpp AsyncProcess.cpp LibOpenSC.cpp \
-	CardWaiterDialog.cpp ConnectDialog.cpp ExtHtmlWindow.cpp \
-	ForeignFrame.cpp Icon.cpp LogDialog.cpp KeyDialog.cpp LibUSB.cpp \
-	LoginDialog.cpp mylog.cpp md5.c MyIPC.cpp MyDynlib.cpp MySession.cpp \
-	MyValidator.cpp MyWizard.cpp MyXmlConfig.cpp opennxApp.cpp \
-	osdep.c PanicDialog.cpp pwcrypt.cpp ProxyPasswordDialog.cpp \
-	PulseAudio.cpp QuitDialog.cpp RdpImageSettingsDialog.cpp \
-	RdpPropertyDialog.cpp ResumeDialog.cpp ProxyPropertyDialog.cpp \
-	SessionAdmin.cpp SessionList.cpp SessionProperties.cpp \
-	SimpleXauth.cpp ShareProperties.cpp TextViewer.cpp \
-	UnixImageSettingsDialog.cpp UsbFilterDetailsDialog.cpp \
-	UsbIp.cpp VncImageSettingsDialog.cpp VncPropertyDialog.cpp \
-	wxprec.cpp WinShare.cpp X11PropertyDialog.cpp \
-	MacOSX.c WrappedStatic.cpp SupressibleMessageDialog.cpp \
-	XdmPropertyDialog.cpp
+@WX3_FALSE@opennx_SOURCES = AboutDialog.cpp AsyncProcess.cpp LibOpenSC.cpp \
+@WX3_FALSE@	CardWaiterDialog.cpp ConnectDialog.cpp ExtHtmlWindow.cpp \
+@WX3_FALSE@	ForeignFrame.cpp Icon.cpp LogDialog.cpp KeyDialog.cpp LibUSB.cpp \
+@WX3_FALSE@	LoginDialog.cpp mylog.cpp md5.c MyIPC.cpp MyDynlib.cpp MySession.cpp \
+@WX3_FALSE@	MyValidator.cpp MyWizard.cpp MyXmlConfig.cpp opennxApp.cpp \
+@WX3_FALSE@	osdep.c PanicDialog.cpp pwcrypt.cpp ProxyPasswordDialog.cpp \
+@WX3_FALSE@	PulseAudio.cpp QuitDialog.cpp RdpImageSettingsDialog.cpp \
+@WX3_FALSE@	RdpPropertyDialog.cpp ResumeDialog.cpp ProxyPropertyDialog.cpp \
+@WX3_FALSE@	SessionAdmin.cpp SessionList.cpp SessionProperties.cpp \
+@WX3_FALSE@	SimpleXauth.cpp ShareProperties.cpp TextViewer.cpp \
+@WX3_FALSE@	UnixImageSettingsDialog.cpp UsbFilterDetailsDialog.cpp \
+@WX3_FALSE@	UsbIp.cpp VncImageSettingsDialog.cpp VncPropertyDialog.cpp \
+@WX3_FALSE@	wxprec.cpp WinShare.cpp X11PropertyDialog.cpp xh_richtext.cpp \
+@WX3_FALSE@	MacOSX.c WrappedStatic.cpp SupressibleMessageDialog.cpp \
+@WX3_FALSE@	XdmPropertyDialog.cpp
 
-noinst_HEADERS = AboutDialog.h AboutDialog_symbols.h AsyncProcess.h \
-	LibOpenSC.h CardWaiterDialog.h CardWaiterDialog_symbols.h \
-	ConnectDialog.h ConnectDialog_symbols.h debugleak.h \
-	DebugStringGrabber.h ExtHtmlWindow.h ForeignFrame.h \
-	ForeignFrame_symbols.h Icon.h KeyDialog.h KeyDialog_symbols.h \
-	LibUSB.h LogDialog.h LogDialog_symbols.h LoginDialog.h mylog.h \
-	LoginDialog_symbols.h md5.h memres.h MyIPC.h MyDynlib.h MySession.h \
-	MyValidator.h MyWizard.h MyWizard_symbols.h MyXmlConfig.h opennxApp.h \
-	osdep.h  PanicDialog.h PanicDialog_symbols.h PulseAudio.h pwcrypt.h \
-	QuitDialog.h QuitDialog_symbols.h ProxyPasswordDialog.h \
-	ProxyPasswordDialog_symbols.h ProxyPropertyDialog.h pulseTest.h \
-	ProxyPropertyDialog_symbols.h RdpImageSettingsDialog.h \
-	RdpImageSettingsDialog_symbols.h RdpPropertyDialog.h \
-	RdpPropertyDialog_symbols.h ResumeDialog.h ResumeDialog_symbols.h \
-	SessionAdmin.h SessionAdmin_symbols.h SessionList.h SimpleXauth.h \
-	SessionProperties.h SessionProperties_symbols.h ShareProperties.h \
-	ShareProperties_symbols.h TextViewer.h TextViewer_symbols.h \
-	TraceLogFrame.h TraceLogFrame_symbols.h UnixImageSettingsDialog.h \
-	UnixImageSettingsDialog_symbols.h UsbFilterDetailsDialog.h \
-	UsbFilterDetailsDialog_symbols.h UsbIp.h \
-	VncImageSettingsDialog.h VncImageSettingsDialog_symbols.h \
-	VncPropertyDialog.h VncPropertyDialog_symbols.h WinShare.h \
-	X11PropertyDialog.h X11PropertyDialog_symbols.h trace.h tracelogApp.h \
-	watchReaderApp.h watchUsbIpApp.h MacUninstallApp.h \
-	WrappedStatic.h SupressibleMessageDialog.h SupressibleMessageDialog_symbols.h \
-	TraceLogRemote_symbols.h TraceLogRemote.h \
-	opensc/errors.h opensc/opensc.h opensc/scconf.h opensc/types.h opensc/pkcs15.h \
-	libsmbclient.h \
-	XdmPropertyDialog.h XdmPropertyDialog_symbols.h
+@WX3_TRUE@opennx_SOURCES = AboutDialog.cpp AsyncProcess.cpp LibOpenSC.cpp \
+@WX3_TRUE@	CardWaiterDialog.cpp ConnectDialog.cpp ExtHtmlWindow.cpp \
+@WX3_TRUE@	ForeignFrame.cpp Icon.cpp LogDialog.cpp KeyDialog.cpp LibUSB.cpp \
+@WX3_TRUE@	LoginDialog.cpp mylog.cpp md5.c MyIPC.cpp MyDynlib.cpp MySession.cpp \
+@WX3_TRUE@	MyValidator.cpp MyWizard.cpp MyXmlConfig.cpp opennxApp.cpp \
+@WX3_TRUE@	osdep.c PanicDialog.cpp pwcrypt.cpp ProxyPasswordDialog.cpp \
+@WX3_TRUE@	PulseAudio.cpp QuitDialog.cpp RdpImageSettingsDialog.cpp \
+@WX3_TRUE@	RdpPropertyDialog.cpp ResumeDialog.cpp ProxyPropertyDialog.cpp \
+@WX3_TRUE@	SessionAdmin.cpp SessionList.cpp SessionProperties.cpp \
+@WX3_TRUE@	SimpleXauth.cpp ShareProperties.cpp TextViewer.cpp \
+@WX3_TRUE@	UnixImageSettingsDialog.cpp UsbFilterDetailsDialog.cpp \
+@WX3_TRUE@	UsbIp.cpp VncImageSettingsDialog.cpp VncPropertyDialog.cpp \
+@WX3_TRUE@	wxprec.cpp WinShare.cpp X11PropertyDialog.cpp \
+@WX3_TRUE@	MacOSX.c WrappedStatic.cpp SupressibleMessageDialog.cpp \
+@WX3_TRUE@	XdmPropertyDialog.cpp
+
+@WX3_FALSE@noinst_HEADERS = AboutDialog.h AboutDialog_symbols.h AsyncProcess.h \
+@WX3_FALSE@	LibOpenSC.h CardWaiterDialog.h CardWaiterDialog_symbols.h \
+@WX3_FALSE@	ConnectDialog.h ConnectDialog_symbols.h debugleak.h \
+@WX3_FALSE@	DebugStringGrabber.h ExtHtmlWindow.h ForeignFrame.h \
+@WX3_FALSE@	ForeignFrame_symbols.h Icon.h KeyDialog.h KeyDialog_symbols.h \
+@WX3_FALSE@	LibUSB.h LogDialog.h LogDialog_symbols.h LoginDialog.h mylog.h \
+@WX3_FALSE@	LoginDialog_symbols.h md5.h memres.h MyIPC.h MyDynlib.h MySession.h \
+@WX3_FALSE@	MyValidator.h MyWizard.h MyWizard_symbols.h MyXmlConfig.h opennxApp.h \
+@WX3_FALSE@	osdep.h  PanicDialog.h PanicDialog_symbols.h PulseAudio.h pwcrypt.h \
+@WX3_FALSE@	QuitDialog.h QuitDialog_symbols.h ProxyPasswordDialog.h \
+@WX3_FALSE@	ProxyPasswordDialog_symbols.h ProxyPropertyDialog.h pulseTest.h \
+@WX3_FALSE@	ProxyPropertyDialog_symbols.h RdpImageSettingsDialog.h \
+@WX3_FALSE@	RdpImageSettingsDialog_symbols.h RdpPropertyDialog.h \
+@WX3_FALSE@	RdpPropertyDialog_symbols.h ResumeDialog.h ResumeDialog_symbols.h \
+@WX3_FALSE@	SessionAdmin.h SessionAdmin_symbols.h SessionList.h SimpleXauth.h \
+@WX3_FALSE@	SessionProperties.h SessionProperties_symbols.h ShareProperties.h \
+@WX3_FALSE@	ShareProperties_symbols.h TextViewer.h TextViewer_symbols.h \
+@WX3_FALSE@	TraceLogFrame.h TraceLogFrame_symbols.h UnixImageSettingsDialog.h \
+@WX3_FALSE@	UnixImageSettingsDialog_symbols.h UsbFilterDetailsDialog.h \
+@WX3_FALSE@	UsbFilterDetailsDialog_symbols.h UsbIp.h \
+@WX3_FALSE@	VncImageSettingsDialog.h VncImageSettingsDialog_symbols.h \
+@WX3_FALSE@	VncPropertyDialog.h VncPropertyDialog_symbols.h WinShare.h \
+@WX3_FALSE@	X11PropertyDialog.h X11PropertyDialog_symbols.h trace.h tracelogApp.h \
+@WX3_FALSE@	watchReaderApp.h watchUsbIpApp.h xh_richtext.h MacUninstallApp.h \
+@WX3_FALSE@	WrappedStatic.h SupressibleMessageDialog.h SupressibleMessageDialog_symbols.h \
+@WX3_FALSE@	TraceLogRemote_symbols.h TraceLogRemote.h \
+@WX3_FALSE@	opensc/errors.h opensc/opensc.h opensc/scconf.h opensc/types.h opensc/pkcs15.h \
+@WX3_FALSE@	libsmbclient.h \
+@WX3_FALSE@	XdmPropertyDialog.h XdmPropertyDialog_symbols.h
+
+@WX3_TRUE@noinst_HEADERS = AboutDialog.h AboutDialog_symbols.h AsyncProcess.h \
+@WX3_TRUE@	LibOpenSC.h CardWaiterDialog.h CardWaiterDialog_symbols.h \
+@WX3_TRUE@	ConnectDialog.h ConnectDialog_symbols.h debugleak.h \
+@WX3_TRUE@	DebugStringGrabber.h ExtHtmlWindow.h ForeignFrame.h \
+@WX3_TRUE@	ForeignFrame_symbols.h Icon.h KeyDialog.h KeyDialog_symbols.h \
+@WX3_TRUE@	LibUSB.h LogDialog.h LogDialog_symbols.h LoginDialog.h mylog.h \
+@WX3_TRUE@	LoginDialog_symbols.h md5.h memres.h MyIPC.h MyDynlib.h MySession.h \
+@WX3_TRUE@	MyValidator.h MyWizard.h MyWizard_symbols.h MyXmlConfig.h opennxApp.h \
+@WX3_TRUE@	osdep.h  PanicDialog.h PanicDialog_symbols.h PulseAudio.h pwcrypt.h \
+@WX3_TRUE@	QuitDialog.h QuitDialog_symbols.h ProxyPasswordDialog.h \
+@WX3_TRUE@	ProxyPasswordDialog_symbols.h ProxyPropertyDialog.h pulseTest.h \
+@WX3_TRUE@	ProxyPropertyDialog_symbols.h RdpImageSettingsDialog.h \
+@WX3_TRUE@	RdpImageSettingsDialog_symbols.h RdpPropertyDialog.h \
+@WX3_TRUE@	RdpPropertyDialog_symbols.h ResumeDialog.h ResumeDialog_symbols.h \
+@WX3_TRUE@	SessionAdmin.h SessionAdmin_symbols.h SessionList.h SimpleXauth.h \
+@WX3_TRUE@	SessionProperties.h SessionProperties_symbols.h ShareProperties.h \
+@WX3_TRUE@	ShareProperties_symbols.h TextViewer.h TextViewer_symbols.h \
+@WX3_TRUE@	TraceLogFrame.h TraceLogFrame_symbols.h UnixImageSettingsDialog.h \
+@WX3_TRUE@	UnixImageSettingsDialog_symbols.h UsbFilterDetailsDialog.h \
+@WX3_TRUE@	UsbFilterDetailsDialog_symbols.h UsbIp.h \
+@WX3_TRUE@	VncImageSettingsDialog.h VncImageSettingsDialog_symbols.h \
+@WX3_TRUE@	VncPropertyDialog.h VncPropertyDialog_symbols.h WinShare.h \
+@WX3_TRUE@	X11PropertyDialog.h X11PropertyDialog_symbols.h trace.h tracelogApp.h \
+@WX3_TRUE@	watchReaderApp.h watchUsbIpApp.h MacUninstallApp.h \
+@WX3_TRUE@	WrappedStatic.h SupressibleMessageDialog.h SupressibleMessageDialog_symbols.h \
+@WX3_TRUE@	TraceLogRemote_symbols.h TraceLogRemote.h \
+@WX3_TRUE@	opensc/errors.h opensc/opensc.h opensc/scconf.h opensc/types.h opensc/pkcs15.h \
+@WX3_TRUE@	libsmbclient.h \
+@WX3_TRUE@	XdmPropertyDialog.h XdmPropertyDialog_symbols.h
 
 pconnect_SOURCES = pconnect.c
 pconnect_LDADD = $(WS2LIB) $(RESLIB)
@@ -708,9 +881,13 @@ watchreader_LDADD = $(WATCHREADER_RES) $(WX_LIBS) $(X_LIBS) \
 watchreader_CPPFLAGS = $(WX_CPPFLAGS) $(X_CFLAGS) -DAPP_WATCHREADER
 watchreader_CXXFLAGS = $(WX_CXXFLAGS)
 watchreader_CFLAGS = $(WX_CFLAGS)
-watchusbip_SOURCES = watchUsbIpApp.cpp UsbIp.cpp Icon.cpp LibUSB.cpp \
-	md5.c MyValidator.cpp MyXmlConfig.cpp osdep.c pwcrypt.cpp mylog.cpp \
-	UsbFilterDetailsDialog.cpp wxprec.cpp MyDynlib.cpp
+@WX3_FALSE@watchusbip_SOURCES = watchUsbIpApp.cpp UsbIp.cpp Icon.cpp LibUSB.cpp \
+@WX3_FALSE@	md5.c MyValidator.cpp MyXmlConfig.cpp osdep.c pwcrypt.cpp mylog.cpp \
+@WX3_FALSE@	UsbFilterDetailsDialog.cpp wxprec.cpp xh_richtext.cpp MyDynlib.cpp
+
+@WX3_TRUE@watchusbip_SOURCES = watchUsbIpApp.cpp UsbIp.cpp Icon.cpp LibUSB.cpp \
+@WX3_TRUE@	md5.c MyValidator.cpp MyXmlConfig.cpp osdep.c pwcrypt.cpp mylog.cpp \
+@WX3_TRUE@	UsbFilterDetailsDialog.cpp wxprec.cpp MyDynlib.cpp
 
 watchusbip_LDADD = $(WX_LIBS) $(X_LIBS) $(X_PRE_LIBS) $(X_EXTRA_LIBS) \
 	$(APP_LDADD)
@@ -1000,6 +1177,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opennx-osdep.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opennx-pwcrypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opennx-wxprec.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opennx-xh_richtext.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pconnect.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pulsetest-MacOSX.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pulsetest-MyDynlib.Po@am__quote@
@@ -1036,6 +1214,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/watchusbip-pwcrypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/watchusbip-watchUsbIpApp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/watchusbip-wxprec.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/watchusbip-xh_richtext.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -1891,6 +2070,20 @@ opennx-X11PropertyDialog.obj: X11PropertyDialog.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opennx_CPPFLAGS) $(CPPFLAGS) $(opennx_CXXFLAGS) $(CXXFLAGS) -c -o opennx-X11PropertyDialog.obj `if test -f 'X11PropertyDialog.cpp'; then $(CYGPATH_W) 'X11PropertyDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/X11PropertyDialog.cpp'; fi`
 
+opennx-xh_richtext.o: xh_richtext.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opennx_CPPFLAGS) $(CPPFLAGS) $(opennx_CXXFLAGS) $(CXXFLAGS) -MT opennx-xh_richtext.o -MD -MP -MF $(DEPDIR)/opennx-xh_richtext.Tpo -c -o opennx-xh_richtext.o `test -f 'xh_richtext.cpp' || echo '$(srcdir)/'`xh_richtext.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/opennx-xh_richtext.Tpo $(DEPDIR)/opennx-xh_richtext.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='xh_richtext.cpp' object='opennx-xh_richtext.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opennx_CPPFLAGS) $(CPPFLAGS) $(opennx_CXXFLAGS) $(CXXFLAGS) -c -o opennx-xh_richtext.o `test -f 'xh_richtext.cpp' || echo '$(srcdir)/'`xh_richtext.cpp
+
+opennx-xh_richtext.obj: xh_richtext.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opennx_CPPFLAGS) $(CPPFLAGS) $(opennx_CXXFLAGS) $(CXXFLAGS) -MT opennx-xh_richtext.obj -MD -MP -MF $(DEPDIR)/opennx-xh_richtext.Tpo -c -o opennx-xh_richtext.obj `if test -f 'xh_richtext.cpp'; then $(CYGPATH_W) 'xh_richtext.cpp'; else $(CYGPATH_W) '$(srcdir)/xh_richtext.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/opennx-xh_richtext.Tpo $(DEPDIR)/opennx-xh_richtext.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='xh_richtext.cpp' object='opennx-xh_richtext.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opennx_CPPFLAGS) $(CPPFLAGS) $(opennx_CXXFLAGS) $(CXXFLAGS) -c -o opennx-xh_richtext.obj `if test -f 'xh_richtext.cpp'; then $(CYGPATH_W) 'xh_richtext.cpp'; else $(CYGPATH_W) '$(srcdir)/xh_richtext.cpp'; fi`
+
 opennx-WrappedStatic.o: WrappedStatic.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opennx_CPPFLAGS) $(CPPFLAGS) $(opennx_CXXFLAGS) $(CXXFLAGS) -MT opennx-WrappedStatic.o -MD -MP -MF $(DEPDIR)/opennx-WrappedStatic.Tpo -c -o opennx-WrappedStatic.o `test -f 'WrappedStatic.cpp' || echo '$(srcdir)/'`WrappedStatic.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/opennx-WrappedStatic.Tpo $(DEPDIR)/opennx-WrappedStatic.Po
@@ -2310,6 +2503,20 @@ watchusbip-wxprec.obj: wxprec.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='wxprec.cpp' object='watchusbip-wxprec.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(watchusbip_CPPFLAGS) $(CPPFLAGS) $(watchusbip_CXXFLAGS) $(CXXFLAGS) -c -o watchusbip-wxprec.obj `if test -f 'wxprec.cpp'; then $(CYGPATH_W) 'wxprec.cpp'; else $(CYGPATH_W) '$(srcdir)/wxprec.cpp'; fi`
+
+watchusbip-xh_richtext.o: xh_richtext.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(watchusbip_CPPFLAGS) $(CPPFLAGS) $(watchusbip_CXXFLAGS) $(CXXFLAGS) -MT watchusbip-xh_richtext.o -MD -MP -MF $(DEPDIR)/watchusbip-xh_richtext.Tpo -c -o watchusbip-xh_richtext.o `test -f 'xh_richtext.cpp' || echo '$(srcdir)/'`xh_richtext.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/watchusbip-xh_richtext.Tpo $(DEPDIR)/watchusbip-xh_richtext.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='xh_richtext.cpp' object='watchusbip-xh_richtext.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(watchusbip_CPPFLAGS) $(CPPFLAGS) $(watchusbip_CXXFLAGS) $(CXXFLAGS) -c -o watchusbip-xh_richtext.o `test -f 'xh_richtext.cpp' || echo '$(srcdir)/'`xh_richtext.cpp
+
+watchusbip-xh_richtext.obj: xh_richtext.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(watchusbip_CPPFLAGS) $(CPPFLAGS) $(watchusbip_CXXFLAGS) $(CXXFLAGS) -MT watchusbip-xh_richtext.obj -MD -MP -MF $(DEPDIR)/watchusbip-xh_richtext.Tpo -c -o watchusbip-xh_richtext.obj `if test -f 'xh_richtext.cpp'; then $(CYGPATH_W) 'xh_richtext.cpp'; else $(CYGPATH_W) '$(srcdir)/xh_richtext.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/watchusbip-xh_richtext.Tpo $(DEPDIR)/watchusbip-xh_richtext.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='xh_richtext.cpp' object='watchusbip-xh_richtext.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(watchusbip_CPPFLAGS) $(CPPFLAGS) $(watchusbip_CXXFLAGS) $(CXXFLAGS) -c -o watchusbip-xh_richtext.obj `if test -f 'xh_richtext.cpp'; then $(CYGPATH_W) 'xh_richtext.cpp'; else $(CYGPATH_W) '$(srcdir)/xh_richtext.cpp'; fi`
 
 watchusbip-MyDynlib.o: MyDynlib.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(watchusbip_CPPFLAGS) $(CPPFLAGS) $(watchusbip_CXXFLAGS) $(CXXFLAGS) -MT watchusbip-MyDynlib.o -MD -MP -MF $(DEPDIR)/watchusbip-MyDynlib.Tpo -c -o watchusbip-MyDynlib.o `test -f 'MyDynlib.cpp' || echo '$(srcdir)/'`MyDynlib.cpp

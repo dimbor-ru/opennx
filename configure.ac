@@ -228,6 +228,11 @@ case $target_os in
         _wx_required=xrc,xml,richtext,qa,html,adv,core,net
         ;;
 esac
+
+# Check for WX3
+AM_PATH_WXCONFIG(3.0.0,wx3=1,wx3=0)
+AM_CONDITIONAL([WX3], [test ${wx3} = 1])
+
 AM_PATH_WXCONFIG(2.8.0,wxWidgets=1,wxWidgets=0,[$_wx_required], $WXPARAMS)
 test ${wxWidgets} = 0 && AC_MSG_ERROR(Could not find wxWidgets library)
 WX_PREFIX=`$WX_CONFIG_WITH_ARGS --prefix`

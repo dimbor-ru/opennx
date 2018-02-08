@@ -168,11 +168,19 @@ class RunLog : public wxLogChain
     public:
         RunLog(wxLog *logger) :wxLogChain(logger) { SetVerbose(true); }
 
+#if wxCHECK_VERSION(3,0,0)
         void DoLogRecord(wxLogLevel level, const wxString & szString, const wxLogRecordInfo & info)
         {
             PassMessages(level <= minlevel);
             wxLogChain::DoLogRecord((level > minlevel) ? minlevel : level, szString, info);
         }
+#else
+        void DoLog(wxLogLevel level, const wxChar *szString, time_t t)
+        {
+            PassMessages(level <= minlevel);
+            wxLogChain::DoLog((level > minlevel) ? minlevel : level, szString, t);
+        }
+#endif
     private:
         static const wxLogLevel minlevel = wxLOG_Message;
 };
@@ -311,7 +319,11 @@ class SessionWatch : public wxThreadHelper
             m_pHandler = handler;
             m_sLog = logfile;
             m_sSearch = search;
+            #if wxCHECK_VERSION(3,0,0)
             if (CreateThread() == wxTHREAD_NO_ERROR)
+            #else
+            if (Create() == wxTHREAD_NO_ERROR)
+            #endif
                 GetThread()->Run();
         }
 
@@ -363,7 +375,11 @@ class MyHTTP : public wxHTTP {
         {
             wxSocketInputStream *inp_stream;
             wxString new_path;
+            #if wxCHECK_VERSION(3,0,0)
             m_lastError = wxPROTO_CONNERR;
+            #else
+            m_perr = wxPROTO_CONNERR;
+            #endif
             if (!m_addr)
                 return NULL;
 
@@ -379,7 +395,11 @@ class MyHTTP : public wxHTTP {
                 return NULL;
 #endif
 
+            #if wxCHECK_VERSION(3,0,0)
             if (!BuildRequest(path, m_postBuffer.IsEmpty() ? "GET" : "POST"))
+            #else
+            if (!BuildRequest(path, m_post_buf.empty() ? wxHTTP_GET : wxHTTP_POST))
+            #endif
                 return NULL;
 
             inp_stream = new wxSocketInputStream(*this);
@@ -391,6 +411,7 @@ class MyHTTP : public wxHTTP {
         }
 
     protected:
+        #if wxCHECK_VERSION(3,0,0)
         bool BuildRequest(const wxString& path, const wxString& method)
         {
             bool ret = wxHTTP::BuildRequest(path, method);
@@ -398,6 +419,15 @@ class MyHTTP : public wxHTTP {
             ParseHeaders();
             return ret;
         }
+        #else
+        bool BuildRequest(const wxString& path, const wxHTTP_Req req)
+        {
+            bool ret = wxHTTP::BuildRequest(path, req);
+            myLogTrace(MYTRACETAG, wxT("calling ParseHeaders()"));
+            ParseHeaders();
+            return ret;
+        }
+        #endif
 
 };
 
@@ -832,7 +862,7 @@ MySession::OnSshEvent(wxCommandEvent &event)
                 wxLogNull logdummy;
                 wxFileName fn;
                 fn.Assign(m_sTempDir, wxT("keylog"));
-                if (fn.FileExists())
+                if (fn.IsFileWritable())
                     ::wxRemoveFile(fn.GetFullPath());
             }
             m_pDlg->SetStatusText(_("Sending username"));
@@ -2049,7 +2079,7 @@ MySession::setTurboPath(bool enable)
 MySession::cleanupOldSessions()
 {
     wxDir ud;
-    myLogTrace(MYTRACETAG, wxT("Cleaning up old session datav in %s"), m_sUserDir);
+    myLogTrace(MYTRACETAG, wxT("Cleaning up old session datav in %s"), m_sUserDir.wx_str());
     if (ud.Open(m_sUserDir)) {
         SessionCleaner sc(m_sUserDir);
         ud.Traverse(sc);
@@ -2324,7 +2354,7 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
         m_pDlg = &dlg;
         dlg.Show(true);
         dlg.SetStatusText(wxString::Format(_("Connecting to %s ..."),
-                    m_pCfg->sGetServerHost().c_str()));
+                    m_pCfg->sGetServerHost().wc_str()));
         if (m_pCfg->bGetEnableMultimedia()) {
             m_bEsdRunning = false; m_bNativePARunning = false;
             dlg.SetStatusText(_("Preparing multimedia service ..."));
@@ -2418,7 +2448,7 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
             }
 #endif
             dlg.SetStatusText(wxString::Format(_("Connecting to %s ..."),
-                        m_pCfg->sGetServerHost().c_str()));
+                        m_pCfg->sGetServerHost().wc_str()));
         }
 
         if (dlg.bGetAbort()) {
@@ -2432,7 +2462,7 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
             if (!prepareCups())
                 wxLogWarning(_("Could not start CUPS printing"));
             dlg.SetStatusText(wxString::Format(_("Connecting to %s ..."),
-                        m_pCfg->sGetServerHost().c_str()));
+                        m_pCfg->sGetServerHost().wc_str()));
         }
 
         MyIPC nxssh;

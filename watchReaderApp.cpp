@@ -141,7 +141,11 @@ void watchReaderApp::OnInitCmdLine(wxCmdLineParser& parser)
     // On Unix, --display is a toolkit option
     wxRegEx re(wxT("^--((reader)|(pid)|(trace))$"));
 #endif
+    #if wxCHECK_VERSION(3,0,0)
     wxArrayString as = argv.GetArguments();
+    #else
+    wxArrayString as(argc, (const wxChar **)argv);
+    #endif
     for (i = 1; i < as.GetCount(); i++) {
         if (re.Matches(as[i])) {
             if ((i + 1) < as.GetCount()) {

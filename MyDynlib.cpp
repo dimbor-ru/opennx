@@ -55,7 +55,7 @@ ENABLE_TRACE;
 
 bool MyDynamicLibrary::Load(const wxString& name, int flags /* = wxDL_DEFAULT */)
 {
-    myLogTrace(MYTRACETAG, wxT("Load(%s, 0x%0x)"), name, flags);
+    myLogTrace(MYTRACETAG, wxT("Load(%s, 0x%0x)"), name.c_str(), flags);
 #ifdef __WXMSW__
     return wxDynamicLibrary::Load(name, flags);
 #else
@@ -64,7 +64,7 @@ bool MyDynamicLibrary::Load(const wxString& name, int flags /* = wxDL_DEFAULT */
         wxStringTokenizer t(ldpath, wxT(":"));
         while (t.HasMoreTokens()) {
             wxString abslib = t.GetNextToken() + wxFileName::GetPathSeparator() + name;
-            myLogTrace(MYTRACETAG, wxT("Trying to load(%s 0x%0x)"), abslib, flags);
+            myLogTrace(MYTRACETAG, wxT("Trying to load(%s 0x%0x)"), abslib.c_str(), flags);
             if (wxDynamicLibrary::Load(abslib, flags))
                 return true;
 #ifdef __WXMAC__
