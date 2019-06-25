@@ -31,19 +31,14 @@
 # endif
 #endif
 
-#if !wxCHECK_VERSION(3, 0, 0)
-
+// Macro for get Variadic MultiByte param from wsString object
+#if wxCHECK_VERSION(2,9,0)
+# define VMB(xxx) ((const char*) xxx.mb_str().data())
+#else
+# define VMB(xxx) (xxx.c_str())
+#endif
 extern void myLogDebug(const wxChar *szFormat, ...);
 extern void myLogTrace(const wxChar *mask, const wxChar *szFormat, ...) WX_ATTRIBUTE_PRINTF_2;
 extern void myLogTrace(wxTraceMask mask, const wxChar *szFormat, ...) WX_ATTRIBUTE_PRINTF_2;
 
-#else // !wxCHECK_VERSION(3, 0, 0)
-
-void logit(const wxChar *szString, time_t WXUNUSED(t));
-#define myLogDebug(...) logit(wxString::Format(__VA_ARGS__), time(NULL))
-void myLogTrace_(const wxChar *mask, const wxChar *szFormat);
-void myLogTrace_(wxTraceMask mask, const wxChar *szFormat);
-#define myLogTrace(m, ...) myLogTrace_(m, wxString::Format(__VA_ARGS__))
-
-#endif // !wxCHECK_VERSION(3, 0, 0)
 #endif // _MYLOG_H_

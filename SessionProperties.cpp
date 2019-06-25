@@ -102,7 +102,7 @@ wxString wxGetLibCheckRes(const wxString& libname)
             }
             if (!libfound)
                 ret.Append(wxString::Format(_T(" %s not found in [DY]LD_LIBRARY_PATH=%s."),
-                    libname.c_str(),ldpath.c_str()));
+                    VMB(libname), VMB(ldpath)));
         } else
             ret.Append(wxT(" Environment variable [DY]LD_LIBRARY_PATH is empty."));
 #endif
@@ -714,19 +714,19 @@ bool SessionProperties::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const
                             case SharedResource::SHARE_UNKNOWN:
                                 break;
                             case SharedResource::SHARE_SMB_DISK:
-                                myLogTrace(MYTRACETAG, wxT("%s"), sg[i].toString().c_str());
+                                myLogTrace(MYTRACETAG, wxT("%s"), VMB(sg[i].toString()));
                                 lidx = m_pCtrlSmbShares->InsertItem(0, sg[i].m_sShareName, 1);
                                 m_pCtrlSmbShares->SetItem(lidx, 1, sg[i].m_sAlias);
                                 m_pCtrlSmbShares->SetItem(lidx, 2, comment);
                                 break;
                             case SharedResource::SHARE_SMB_PRINTER:
-                                myLogTrace(MYTRACETAG, wxT("%s"), sg[i].toString().c_str());
+                                myLogTrace(MYTRACETAG, wxT("%s"), VMB(sg[i].toString()));
                                 lidx = m_pCtrlSmbShares->InsertItem(0, sg[i].m_sShareName, 2);
                                 m_pCtrlSmbShares->SetItem(lidx, 1, sg[i].m_sDriver);
                                 m_pCtrlSmbShares->SetItem(lidx, 2, comment);
                                 break;
                             case SharedResource::SHARE_CUPS_PRINTER:
-                                myLogTrace(MYTRACETAG, wxT("%s"), sg[i].toString().c_str());
+                                myLogTrace(MYTRACETAG, wxT("%s"), VMB(sg[i].toString()));
                                 lidx = m_pCtrlSmbShares->InsertItem(0, sg[i].m_sShareName, 3);
                                 m_pCtrlSmbShares->SetItem(lidx, 1, sg[i].m_sDriver);
                                 m_pCtrlSmbShares->SetItem(lidx, 2, comment);
@@ -736,7 +736,7 @@ bool SessionProperties::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const
                     }
                 }
                 if (0 > lidx) {
-                    myLogTrace(MYTRACETAG, wxT("Broken '%s'"), sg[i].toString().c_str());
+                    myLogTrace(MYTRACETAG, wxT("Broken '%s'"), VMB(sg[i].toString()));
                     lidx = m_pCtrlSmbShares->InsertItem(0, sg[i].m_sShareName, 0);
                     m_pCtrlSmbShares->SetItem(lidx, 1, sg[i].m_sAlias);
                     m_pCtrlSmbShares->SetItem(lidx, 2, comment);
@@ -866,7 +866,7 @@ SessionProperties::InstallOnCharHandlers(wxWindow *w /* = NULL*/)
 #endif
                 wxLogError(wxT("Detected %s (name=%s) window without validator!"),
                         (w->IsKindOf(CLASSINFO(wxTextCtrl)) ? wxT("wxTextCtrl") : wxT("wxSpinCtrl")),
-                        (w->GetName().IsEmpty() ? wxEmptyString : w->GetName().c_str()));
+                        (w->GetName().IsEmpty() ? "" : VMB(w->GetName())));
             }
         } else {
             if (!w->GetChildren().IsEmpty())
@@ -1212,7 +1212,7 @@ void SessionProperties::CreateControls()
     m_pHtmlWindow->SetBorders(0);
 
     wxString version = _("Version") + wxString::Format(wxT(" <B>%s</B>"),
-            ::wxGetApp().GetVersion().c_str());
+                                                VMB(::wxGetApp().GetVersion()));
 #ifdef __WXDEBUG__
     version += wxT(" (DEBUG)");
 #else
@@ -1338,8 +1338,8 @@ SessionProperties::readKbdLayouts()
                     m_aKbdLayoutTable.Add(kl);
                     break;
                 default:
-                    wxLogError(_("Invalid line='%s'"), line.c_str());
-                    wxLogError(_("Invalid entry in %s"), kbdCfg.c_str());
+                    wxLogError(_("Invalid line='%s'"), VMB(line));
+                    wxLogError(_("Invalid entry in %s"), VMB(kbdCfg));
                     break;
             }
         }
@@ -1482,10 +1482,11 @@ void SessionProperties::OnCheckboxSmbClick( wxCommandEvent& event )
         wxString wstr = wxT("");
         wxString sharedir = wxT("/var/lib/samba/usershares");
         if ( IsFileStickyBitSet(sharedir.fn_str()) == 0)
-            wstr.Append(wxString::Format(wxT(" %s - sticky bit should be set;"),sharedir.c_str()));
+            wstr.Append(wxString::Format(wxT(" %s - sticky bit should be set;"), 
+                            VMB(sharedir)));
         if (!wstr.IsEmpty()) {
             wstr.Prepend(wxT("Some system settings may be incorrect:"));
-            wxLogWarning(wstr.c_str());
+            wxLogWarning(VMB(wstr));
         }
 #endif
         UpdateDialogConstraints(true);
@@ -1495,7 +1496,7 @@ void SessionProperties::OnCheckboxSmbClick( wxCommandEvent& event )
         wxString checkres = wxGetLibCheckRes(wxT("libsmbclient.so"));
         if (!checkres.IsEmpty())
             errstr.Append(checkres);
-        wxLogWarning(errstr.c_str());
+        wxLogWarning(VMB(errstr));
         wxDynamicCast(event.GetEventObject(), wxCheckBox)->SetValue(false);
     }
 }
@@ -1661,10 +1662,10 @@ void SessionProperties::OnDeleteClick( wxCommandEvent& event )
 {
     wxUnusedVar(event);
     if (wxMessageBox(wxString::Format(_("Really delete Session '%s' ?"),
-                    m_pCfg->sGetName().c_str()), _("Delete Session"),
+                    VMB(m_pCfg->sGetName())), _("Delete Session"),
                 wxICON_QUESTION|wxYES_NO|wxNO_DEFAULT) == wxYES) {
         ::wxGetApp().RemoveDesktopEntry(m_pCfg);
-        myLogTrace(MYTRACETAG, wxT("Removing '%s'"), m_pCfg->sGetFileName().c_str());
+        myLogTrace(MYTRACETAG, wxT("Removing '%s'"), VMB(m_pCfg->sGetFileName()));
         ::wxRemoveFile(m_pCfg->sGetFileName());
         EndModal(wxID_CLEAR);
     }
@@ -1939,7 +1940,7 @@ void SessionProperties::OnCheckboxCupsenableClick( wxCommandEvent& event )
             errstr.Append(checkres);
     }
     if (!wxFileName::IsFileExecutable(m_sCupsPath))
-        errstr.Append(wxString::Format(_T(" %s must be executable (755);"),m_sCupsPath.c_str()));
+        errstr.Append(wxString::Format(_T(" %s must be executable (755);"),VMB(m_sCupsPath)));
     wxString libdirs = wxT("/usr/lib:/usr/lib64:/usr/libexec");
     wxString ippexec = wxT("");
     wxStringTokenizer t(libdirs, wxT(":"));
@@ -1953,13 +1954,14 @@ void SessionProperties::OnCheckboxCupsenableClick( wxCommandEvent& event )
     if (ippexec.IsEmpty()) {
         errstr.Append(wxT(" ipp backend not found;"));
     } else if (!wxFileName::IsFileExecutable(ippexec)) {
-        errstr.Append(wxString::Format(_T(" CUPS printing support cannot be enabled. Please ensure that permissions for %s are set to 755."),ippexec.c_str()));
+        errstr.Append(wxString::Format(_T(" CUPS printing support cannot be enabled. Please ensure that permissions for %s are set to 755."),
+                        VMB(ippexec)));
     }
     if (errstr.IsEmpty()) {
         UpdateDialogConstraints(true);
         CheckChanged();
     } else {
-        wxLogWarning(errstr.c_str());
+        wxLogWarning(VMB(errstr));
         wxDynamicCast(event.GetEventObject(), wxCheckBox)->SetValue(false);
         m_bUseCups = false;
     }

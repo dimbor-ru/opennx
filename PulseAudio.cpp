@@ -382,7 +382,7 @@ class pawrapper {
                 if (name.IsSameAs(m_sStr)) {
                     m_bFound = true;
                     myLogTrace(MYTRACETAG, wxT("Found module[%u] %s %s"),
-                        i->index, name.c_str(), args.c_str());
+                        i->index, VMB(name), VMB(args));
                     m_asIndexes.Add(wxString::Format(wxT("%d"),i->index));
                     m_asArgs.Add(args);
                 }
@@ -521,7 +521,7 @@ bool PulseAudio::AutoSpawn()
                 return true;
         }
 #  else
-        myLogTrace(MYTRACETAG, wxT("PulseAudio::AutoSpawn: checking '%s'"), pidfile.c_str());
+        myLogTrace(MYTRACETAG, wxT("PulseAudio::AutoSpawn: checking '%s'"), VMB(pidfile));
         wxFileInputStream sPid(pidfile);
         if (sPid.IsOk()) {
             myLogTrace(MYTRACETAG, wxT("PulseAudio::AutoSpawn: PID file exists"));
@@ -535,7 +535,7 @@ bool PulseAudio::AutoSpawn()
         }
 #  endif
 
-        myLogTrace(MYTRACETAG, wxT("PulseAudio::AutoSpawn: trying to start '%s'"), pacmd.c_str());
+        myLogTrace(MYTRACETAG, wxT("PulseAudio::AutoSpawn: trying to start '%s'"), VMB(pacmd));
 #  ifdef __WXMSW__
         wxProcess *nxpa = wxProcess::Open(pacmd,
                                         wxEXEC_ASYNC|wxEXEC_MAKE_GROUP_LEADER);
@@ -636,7 +636,7 @@ int PulseAudio::FoundModuleIDs(wxString modname, wxString s_argstpl,
         return 0;
     wxArrayString argstpl = ::wxStringTokenize(s_argstpl);
     myLogTrace(MYTRACETAG, wxT("Found modules named %s (argstpl=%d): idx/args_args count  = %d/%d"),
-                modname.c_str(),(int)argstpl.GetCount(),(int)indexes.GetCount(),
+                VMB(modname),(int)argstpl.GetCount(),(int)indexes.GetCount(),
                 (int)args_args.GetCount());
     a_indexes.Empty(); a_args.Empty(); int c = 0;
     for (int i = 0; i < indexes.GetCount(); i++)
@@ -648,21 +648,22 @@ int PulseAudio::FoundModuleIDs(wxString modname, wxString s_argstpl,
         wxArrayString margs = ::wxStringTokenize(args_args[i]);
 #ifdef PA_ADEBUG
         myLogTrace(MYTRACETAG, wxT("Checking mod[%s], in args = '%s';  count = %d "),
-                    indexes[i].c_str(), args_args[i].c_str(),(int)margs.GetCount());
+                    VMB(indexes[i]), VMB(args_args[i]),(int)margs.GetCount());
 #endif
         if (HardAccordance && (argstpl.GetCount() != margs.GetCount()))
             continue;
         bool Accordance = true;
         for (int j = 0; j < argstpl.GetCount(); j++) {
 #ifdef PA_ADEBUG
-            myLogTrace(MYTRACETAG, wxT("Checking template '%s'"),argstpl[j].c_str());
+            myLogTrace(MYTRACETAG, wxT("Checking template '%s'"), VMB(argstpl[j]));
 #endif
             re.Compile(argstpl[j], wxRE_ADVANCED);
             bool rfound = false;
             for (int k = 0; k < margs.GetCount(); k++) {
                 rfound = re.Matches(margs[k]);
 #ifdef PA_ADEBUG
-                myLogTrace(MYTRACETAG, wxT("Checking arg '%s' -> res = %d"),margs[k].c_str(), rfound);
+                myLogTrace(MYTRACETAG, wxT("Checking arg '%s' -> res = %d"),
+                                                        VMB(margs[k]), rfound);
 #endif
                 if (rfound)
                     break;
@@ -676,7 +677,7 @@ int PulseAudio::FoundModuleIDs(wxString modname, wxString s_argstpl,
         }
     }
     myLogTrace(MYTRACETAG, wxT("Matches %d modules named %s: idxs/args = %d/%d"),
-                c,modname.c_str(),(int)a_indexes.GetCount(),(int)a_args.GetCount());
+                c, VMB(modname), (int)a_indexes.GetCount(),(int)a_args.GetCount());
     return c;
 #else
     wxUnusedVar(modname,s_argstpl,HardAccordance);
@@ -696,7 +697,8 @@ bool PulseAudio::UnloadExistingModules(wxString modname, wxString s_argstpl,
         for (int i = 0; i < mis.GetCount(); i++) {
             long  mid; mis[i].ToLong(&mid);
             res0 = pa->unloadmodule(mid);
-            myLogTrace(MYTRACETAG, wxT("unloading %s module[%d] -> res = %d"),modname.c_str(), (int)mid, (int)res);
+            myLogTrace(MYTRACETAG, wxT("unloading %s module[%d] -> res = %d"),
+                        VMB(modname), (int)mid, (int)res);
             res = res ? res0 : res;
         }
     }
@@ -718,7 +720,8 @@ bool PulseAudio::ActivateEsound(int port)
     UnloadExistingModules(wxT("module-native-protocol-tcp"),ma);
     ma.Append(wxString::Format(wxT(" listen=127.0.0.1 auth-anonymous=1"), port));
     bool res = pa->loadmodule(mname,ma);
-    myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d"),mname.c_str(), res);
+    myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d"),
+                                        VMB(mname), res);
     return res;
 #else
     wxUnusedVar(port);
@@ -743,14 +746,14 @@ bool PulseAudio::ActivateNative(int port, int rrate, bool mono)
     ma.Append(wxString::Format(wxT(" listen=127.0.0.1 auth-anonymous=1")));
     bool res = pa->loadmodule(mname,ma);
     myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
-                    mname.c_str(),(int)res,ma.c_str());
+                    VMB(mname), (int)res, VMB(ma));
     if (!res || (rrate == 0 ))
         return res;
 #ifndef __WXMSW__
     wxString dsi,dso; dsi.Empty(); dso.Empty();
     pa->getdefaults(dsi,dso);
     myLogTrace(MYTRACETAG, wxT("Get defaults: Sink ='%s'; Source ='%s'"),
-                    dsi.c_str(),dso.c_str());
+                    VMB(dsi), VMB(dso));
     if ((dsi.IsEmpty()) || (dso.IsEmpty()))
         return true; // modules for resample are optional now
 #else
@@ -768,13 +771,13 @@ bool PulseAudio::ActivateNative(int port, int rrate, bool mono)
     ma.Append(wxT(" record=0"));
     IsSink = pa->loadmodule(mname,ma);
     myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
-                mname.c_str(),(int)IsSink,ma.c_str());
+                VMB(mname), (int)IsSink, VMB(ma));
     ma = wxT("source_name=input");
     UnloadExistingModules(mname,ma);
     ma.Append(wxT(" playback=0"));
     IsSource = pa->loadmodule(mname,ma);
     myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
-                mname.c_str(),(int)IsSource,ma.c_str());
+                VMB(mname), (int)IsSource, VMB(ma));
     res = (IsSink || IsSource);
     return res;
 #endif
@@ -786,22 +789,22 @@ bool PulseAudio::ActivateNative(int port, int rrate, bool mono)
     ma = wxT("sink_name=ts_sender") + ma_fake;
     res = pa->loadmodule(mname_fake,ma);
     myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
-                    mname_fake.c_str(),(int)res,ma.c_str());
+                    VMB(mname_fake), (int)res, VMB(ma));
 
     ma = wxT("source=") + dso + wxT(" sink=ts_sender");
     res = pa->loadmodule(mname_conn,ma);
     myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
-                    mname_conn.c_str(),(int)res,ma.c_str());
+                    VMB(mname_conn), (int)res, VMB(ma));
 
     ma = wxT("sink_name=ts_receiver") + ma_fake;
     res = pa->loadmodule(mname_fake,ma);
     myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
-                    mname_fake.c_str(),(int)res,ma.c_str());
+                    VMB(mname_fake), (int)res, VMB(ma));
 
     ma = wxT("source=ts_receiver.monitor sink=") + dsi;
     res = pa->loadmodule(mname_conn,ma);
     myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
-                    mname_conn.c_str(),(int)res,ma.c_str());
+                    VMB(mname_conn), (int)res, VMB(ma));
     return true;
 #endif
 #else

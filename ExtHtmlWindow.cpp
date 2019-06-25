@@ -59,7 +59,7 @@ void extHtmlWindow::OnLinkClicked(const wxHtmlLinkInfo& link)
         return;
     }
 #ifdef __WXMSW__
-    ShellExecute((HWND)GetHandle(), wxT("open"), href.c_str(), NULL, NULL, SW_SHOWNORMAL);
+    ShellExecute((HWND)GetHandle(), wxT("open"), href.mb_str(), NULL, NULL, SW_SHOWNORMAL);
 #else
     ::wxLaunchDefaultBrowser(href, wxBROWSER_NEW_WINDOW);
 #endif

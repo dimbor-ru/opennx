@@ -1191,7 +1191,7 @@ void WizardPageFinish::OnWizardpageFinishPageChanged( wxWizardEvent& event )
     //cfgName.Replace(_T(" "), _T("&nbsp;"));
     m_pCtrlHeader->SetLabel(wxString::Format(
                 _("Congratulations. The connection to '%s' will be saved as '%s'. You may further configure your session by running the Advanced Configuration dialog."),
-                cfg->sGetServerHost().c_str(), cfgName.c_str()));
+                VMB(cfg->sGetServerHost()), VMB(cfgName)));
     m_pCtrlHeader->Wrap(9999);
     Layout();
     event.Skip();
@@ -1344,7 +1344,7 @@ void WizardPageFinish::OnWizardpageFinishPageChanging( wxWizardEvent& event )
 {
     if (event.GetDirection()) {
         MyXmlConfig *cfg = wxDynamicCast(GetParent(), MyWizard)->pGetConfig();
-        myLogTrace(MYTRACETAG, _T("MyWizard: creating new config %s"), cfg->sGetFileName().c_str());
+        myLogTrace(MYTRACETAG, _T("MyWizard: creating new config %s"), VMB(cfg->sGetFileName()));
         cfg->SaveToFile();
         TransferDataFromWindow();
         if (m_bShowAdvancedConfig) {
@@ -1356,7 +1356,7 @@ void WizardPageFinish::OnWizardpageFinishPageChanging( wxWizardEvent& event )
                 case wxID_CANCEL:
                     break;
                 case wxID_CLEAR:
-                    myLogTrace(MYTRACETAG, _T("deleting '%s'"), fn.c_str());
+                    myLogTrace(MYTRACETAG, _T("deleting '%s'"), VMB(fn));
                     ::wxRemoveFile(fn);
                     // actually we were not cancelled but we want to behave
                     // as if we were, because the just created session has
@@ -1367,7 +1367,7 @@ void WizardPageFinish::OnWizardpageFinishPageChanging( wxWizardEvent& event )
                 case wxID_OK:
                     if (!cfg->SaveToFile())
                         wxMessageBox(wxString::Format(_("Could not save session to\n%s"),
-                                    fn.c_str()), _("Error saving - OpenNX"), wxICON_ERROR | wxOK);
+                                    VMB(fn)), _("Error saving - OpenNX"), wxICON_ERROR | wxOK);
                     wxConfigBase::Get()->Write(wxT("Config/UserNxDir"), d.GetsUserNxDir());
                     wxConfigBase::Get()->Write(wxT("Config/SystemNxDir"), d.GetsSystemNxDir());
 #ifdef SUPPORT_USBIP

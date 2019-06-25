@@ -79,26 +79,26 @@ class RmRfTraverser : public wxDirTraverser
         {
             int n = m_aFiles.GetCount() - 1;
             while (n >= 0) {
-                myLogTrace(MYTRACETAG, wxT("Removing file %s"), m_aFiles[n].c_str());
+                myLogTrace(MYTRACETAG, wxT("Removing file %s"), VMB(m_aFiles[n]));
                 ::wxRemoveFile(m_aFiles[n--]);
             }
             n = m_aDirs.GetCount() - 1;
             while (n >= 0) {
-                myLogTrace(MYTRACETAG, wxT("Removing dir %s"), m_aDirs[n].c_str());
+                myLogTrace(MYTRACETAG, wxT("Removing dir %s"), VMB(m_aDirs[n]));
                 ::wxRmdir(m_aDirs[n--]);
             }
         }
 
         virtual wxDirTraverseResult OnFile(const wxString& filename)
         {
-            myLogTrace(MYTRACETAG, wxT("going to delete file %s"), filename.c_str());
+            myLogTrace(MYTRACETAG, wxT("going to delete file %s"), VMB(filename));
             m_aFiles.Add(filename);
             return wxDIR_CONTINUE;
         }
 
         virtual wxDirTraverseResult OnDir(const wxString& dirpath)
         {
-            myLogTrace(MYTRACETAG, wxT("going to delete dir %s"), dirpath.c_str());
+            myLogTrace(MYTRACETAG, wxT("going to delete dir %s"), VMB(dirpath));
             m_aDirs.Add(dirpath);
             return wxDIR_CONTINUE;
         }
@@ -212,8 +212,10 @@ void SessionList::ScanDir()
                 m_re->GetMatch(tmp,5).ToLong(&port);
                 myLogTrace(MYTRACETAG,
                         wxT("State='%s', Type='%s', Host='%s', Port=%d, MD5='%s'"),
-                        m_re->GetMatch(tmp,2).c_str(), m_re->GetMatch(tmp,3).c_str(),
-                        m_re->GetMatch(tmp,4).c_str(), (int)port, md5.c_str());
+                        VMB(m_re->GetMatch(tmp,2)),
+                        VMB(m_re->GetMatch(tmp,3)),
+                        VMB(m_re->GetMatch(tmp,4)),
+                        (int)port, VMB(md5));
                 // Create new hash entry
                 MySession s(m_dirName + wxFileName::GetPathSeparator() + tmp,
                         m_re->GetMatch(tmp,2), m_re->GetMatch(tmp,3),
@@ -251,7 +253,7 @@ void SessionList::ScanDir()
                 }
             } else {
                 wxString md5 = it->second.sGetMd5();
-                myLogTrace(MYTRACETAG, wxT("Session '%s' disappeared"), md5.c_str());
+                myLogTrace(MYTRACETAG, wxT("Session '%s' disappeared"), VMB(md5));
                 finished = false;
                 if (m_pAdminHandler) {
                     wxCommandEvent ev(wxEVT_SESSIONLIST_ACTION, wxID_ANY);
@@ -285,7 +287,7 @@ SessionList::CleanupDir(wxString &dir)
 {
     if (!dir.IsEmpty()) {
         {
-            myLogTrace(MYTRACETAG, wxT("CleanupDir '%s'"), dir.c_str());
+            myLogTrace(MYTRACETAG, wxT("CleanupDir '%s'"), VMB(dir));
             wxDir d(dir);
             RmRfTraverser t;
             d.Traverse(t);

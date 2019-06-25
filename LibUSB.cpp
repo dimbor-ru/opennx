@@ -172,7 +172,7 @@ void USB::adddev(MyDynamicLibrary *dll, struct usb_device *dev, unsigned char dc
         d.m_sSerial = readSysfs(d.m_iBusNum, d.m_iDevNum, wxT("serial"));
     }
 
-    myLogTrace(MYTRACETAG, wxT("Device found: %s"), d.toString().c_str());
+    myLogTrace(MYTRACETAG, wxT("Device found: %s"), VMB(d.toString()));
     m_aDevices.Add(d);
     pfnusb_close(udev);
 #else

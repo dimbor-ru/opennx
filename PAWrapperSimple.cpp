@@ -8,11 +8,11 @@ class pawrapper {
             m_bConnected=wxFileName::IsFileExecutable(pactlcmd);
             if (m_bConnected) {
                 myLogTrace(MYTRACETAG, wxT("PAWrapper: executable \"%s\" found."),
-                    pactlcmd.c_str());
+                    VMB(pactlcmd));
                 pactlcmd << wxT(" -s 127.0.0.1");
              } else
                 myLogTrace(MYTRACETAG, wxT("PAWrapper: executable \"%s\" not found!"),
-                    pactlcmd.c_str());
+                    VMB(pactlcmd));
         }
 
 
@@ -73,7 +73,7 @@ class pawrapper {
             ret = (sterr == 0);
             if (!ret)
                 myLogTrace(MYTRACETAG, wxT("PAWrapper: couldn't load module %s sterr = %d"),
-                    name.c_str(), sterr);
+                    VMB(name), sterr);
             return ret;
         }
 

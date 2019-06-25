@@ -208,7 +208,7 @@ AsyncProcess::Print(const wxString &s, bool doLog)
     wxOutputStream *os = GetOutputStream();
     if (os) {
         if (doLog)
-            myLogTrace(MYTRACETAG, wxT("Sending: '%s'"), s.c_str());
+            myLogTrace(MYTRACETAG, wxT("Sending: '%s'"), VMB(s));
         else
             myLogTrace(MYTRACETAG, wxT("Sending (hidden): '************'"));
         wxString sbuf = s +  (s.IsEmpty() ? wxT("NullCommand\n") : wxT("\n")) ;
@@ -249,7 +249,7 @@ AsyncProcess::Start()
 
     if (!m_sCmd.IsEmpty()) {
         wxString cwd = ::wxGetCwd();
-        myLogTrace(MYTRACETAG, wxT("Starting '%s'"), m_sCmd.c_str());
+        myLogTrace(MYTRACETAG, wxT("Starting '%s'"), VMB(m_sCmd));
         if (!m_sDir.IsEmpty())
             wxFileName::SetCwd(m_sDir);
         m_sOutBuf.Empty();

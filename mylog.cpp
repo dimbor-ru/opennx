@@ -45,16 +45,16 @@
 #if !wxCHECK_VERSION(3, 0, 0)
 static
 #endif
-void logit(const wxChar *szString, time_t WXUNUSED(t))
+void logit(const char *szString, time_t WXUNUSED(t))
 {
-    wxString str;
 #ifdef __WXMSW__
-    wxLog::TimeStamp(&str);
-#endif
-    str << szString;
-
-#ifdef __WXMSW__
-    OutputDebugStringA((const char *)str.mb_str());
+    char *str = szString;
+    char str[1536];
+    wxString ts;
+    wxLog::TimeStamp(&ts);
+    strncpy(str, VMB(ts), 1536);
+    strncpy(str + strlen(str), szString, 1536 - strlen(str));
+    OutputDebugStringA(str);
 #else
 # ifdef HAVE_SYSLOG_H
     static bool initial = true;
@@ -62,35 +62,20 @@ void logit(const wxChar *szString, time_t WXUNUSED(t))
         initial = false;
         openlog("opennx", LOG_CONS|LOG_PID, LOG_USER);
     }
-    syslog(LOG_DEBUG, "%s", (const char *)str.mb_str());
+    syslog(LOG_DEBUG, "%s", szString);
 # else
-    fprintf(stderr, "%s\n", (const char *)str.mb_str());
+    fprintf(stderr, "%s\n", szString);
     fflush(stderr);
 # endif
 #endif
 }
 
-#if wxCHECK_VERSION(3, 0, 0)
-void myLogTrace_(const wxChar *mask, const wxChar *szFormat)
-{
-    if ((wxLog::IsAllowedTraceMask(mask))  ||  (wxLog::IsAllowedTraceMask(wxT("All")))) {
-        wxString msg;
-        msg << _T("(") << mask << _T(") ") << szFormat;
-        logit(msg, time(NULL));
-    }
-}
-
-void myLogTrace_(wxTraceMask mask, const wxChar * szFormat)
-{
-    if ((wxLog::GetTraceMask() & mask) == mask)
-        logit(szFormat, time(NULL));
-}
-
-#else //wxCHECK_VERSION(3, 0, 0)
 
 static void myVLogDebug(const wxChar *szFormat, va_list argptr)
 {
-    logit(wxString::FormatV(szFormat, argptr), time(NULL));
+    wxString msg;
+    msg << wxString::FormatV(szFormat, argptr);
+    logit(VMB(msg), time(NULL));
 }
 
 void myLogDebug(const wxChar *szFormat, ...)
@@ -106,7 +91,7 @@ static void myVLogTrace(const wxChar *mask, const wxChar *szFormat, va_list argp
     if ((wxLog::IsAllowedTraceMask(mask))  ||  (wxLog::IsAllowedTraceMask(wxT("All")))) {
         wxString msg;
         msg << _T("(") << mask << _T(") ") << wxString::FormatV(szFormat, argptr);
-        logit(msg, time(NULL));
+        logit(VMB(msg), time(NULL));
     }
 }
 
@@ -120,8 +105,11 @@ void myLogTrace(const wxChar *mask, const wxChar *szFormat, ...)
 
 static void myVLogTrace(wxTraceMask mask, const wxChar *szFormat, va_list argptr)
 {
-    if ((wxLog::GetTraceMask() & mask) == mask)
-        logit(wxString::FormatV(szFormat, argptr), time(NULL));
+    if ((wxLog::GetTraceMask() & mask) == mask) {
+        wxString msg;
+        msg << wxString::FormatV(szFormat, argptr);
+        logit(VMB(msg), time(NULL));
+    }
 }
 
 void myLogTrace(wxTraceMask mask, const wxChar *szFormat, ...)
@@ -131,5 +119,3 @@ void myLogTrace(wxTraceMask mask, const wxChar *szFormat, ...)
     myVLogTrace(mask, szFormat, argptr);
     va_end(argptr);
 }
-
-#endif  //wxCHECK_VERSION(3, 0, 0)

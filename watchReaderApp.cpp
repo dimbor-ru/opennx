@@ -79,7 +79,7 @@ watchReaderApp::watchReaderApp()
         // If KDE_LANG is set, then it has precedence over kdeglobals.
         wxString lang;
         if (::wxGetEnv(wxT("KDE_LANG"), &lang)) {
-            myLogDebug(wxT("Overriding LANG from KDE_LANG environment to: '%s'"), lang.c_str());
+            myLogDebug(wxT("Overriding LANG from KDE_LANG environment to: '%s'"), VMB(lang));
             ::wxSetEnv(wxT("LANG"), lang);
         } else {
             // Try to get KDE language settings and override locale accordingly
@@ -98,7 +98,7 @@ watchReaderApp::watchReaderApp()
                     if (lang.Length() < 3)
                         lang << wxT("_") << country.Upper();
                     lang << wxT(".UTF-8");
-                    myLogDebug(wxT("Overriding LANG from kdeglobals to: '%s'"), lang.c_str());
+                    myLogDebug(wxT("Overriding LANG from kdeglobals to: '%s'"), VMB(lang));
                     ::wxSetEnv(wxT("LANG"), lang);
                 }
             }
@@ -179,7 +179,7 @@ bool watchReaderApp::OnCmdLineParsed(wxCmdLineParser& parser)
                 OnCmdLineError(parser);
                 return false;
             }
-            ::myLogDebug(wxT("Trace for '%s' enabled"), tag.c_str());
+            ::myLogDebug(wxT("Trace for '%s' enabled"), VMB(tag));
             wxLog::AddTraceMask(tag);
         }
     }
@@ -244,7 +244,7 @@ bool watchReaderApp::OnInit()
         while (t.HasMoreTokens()) {
             wxString tag = t.GetNextToken();
             if (allTraceTags.Index(tag) != wxNOT_FOUND) {
-                ::myLogDebug(wxT("Trace for '%s' enabled"), tag.c_str());
+                ::myLogDebug(wxT("Trace for '%s' enabled"), VMB(tag));
                 wxLog::AddTraceMask(tag);
             }
         }
@@ -256,7 +256,7 @@ bool watchReaderApp::OnInit()
         // on MacOS, we use the --dialog functionality of opennx
         wxConfigBase::Get()->Read(wxT("Config/SystemNxDir"), &tmp);
         tmp << wxFileName::GetPathSeparator() << wxT("Message.app");
-        myLogTrace(MYTRACETAG, wxT("Executing %s"), tmp.c_str());
+        myLogTrace(MYTRACETAG, wxT("Executing %s"), VMB(tmp));
         ::wxExecute(tmp);
 #else
         myLogTrace(MYTRACETAG, wxT("Showing info dialog"));

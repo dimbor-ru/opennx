@@ -103,7 +103,7 @@ bool pulseTest::OnCmdLineParsed(wxCmdLineParser& parser)
                 OnCmdLineError(parser);
                 return false;
             }
-            ::myLogDebug(wxT("Trace for '%s' enabled"), tag.c_str());
+            ::myLogDebug(wxT("Trace for '%s' enabled"), VMB(tag));
             wxLog::AddTraceMask(tag);
         }
     }
@@ -168,7 +168,7 @@ bool pulseTest::OnInit()
         while (t.HasMoreTokens()) {
             wxString tag = t.GetNextToken();
             if (allTraceTags.Index(tag) != wxNOT_FOUND) {
-                ::myLogDebug(wxT("Trace for '%s' enabled"), tag.c_str());
+                ::myLogDebug(wxT("Trace for '%s' enabled"), VMB(tag));
                 wxLog::AddTraceMask(tag);
             }
         }

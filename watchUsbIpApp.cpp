@@ -173,7 +173,7 @@ class ProcessWatcher : public wxThreadHelper
         // If KDE_LANG is set, then it has precedence over kdeglobals.
         wxString lang;
         if (::wxGetEnv(wxT("KDE_LANG"), &lang)) {
-            myLogDebug(wxT("Overriding LANG from KDE_LANG environment to: '%s'"), lang.c_str());
+            myLogDebug(wxT("Overriding LANG from KDE_LANG environment to: '%s'"), VMB(lang));
             ::wxSetEnv(wxT("LANG"), lang);
         } else {
             // Try to get KDE language settings and override locale accordingly
@@ -192,7 +192,7 @@ class ProcessWatcher : public wxThreadHelper
                     if (lang.Length() < 3)
                         lang << wxT("_") << country.Upper();
                     lang << wxT(".UTF-8");
-                    myLogDebug(wxT("Overriding LANG from kdeglobals to: '%s'"), lang.c_str());
+                    myLogDebug(wxT("Overriding LANG from kdeglobals to: '%s'"), VMB(lang));
                     ::wxSetEnv(wxT("LANG"), lang);
                 }
             }
@@ -245,7 +245,7 @@ bool watchUsbIpApp::OnCmdLineParsed(wxCmdLineParser& parser)
                 OnCmdLineError(parser);
                 return false;
             }
-            myLogDebug(wxT("Trace for '%s' enabled"), tag.c_str());
+            myLogDebug(wxT("Trace for '%s' enabled"), VMB(tag));
             wxLog::AddTraceMask(tag);
         }
     }
@@ -262,7 +262,7 @@ bool watchUsbIpApp::OnInit()
         while (t.HasMoreTokens()) {
             wxString tag = t.GetNextToken();
             if (allTraceTags.Index(tag) != wxNOT_FOUND) {
-                myLogDebug(wxT("Trace for '%s' enabled"), tag.c_str());
+                myLogDebug(wxT("Trace for '%s' enabled"), VMB(tag));
                 wxLog::AddTraceMask(tag);
             }
         }
@@ -492,7 +492,7 @@ void watchUsbIpApp::OnHotplug(HotplugEvent &event)
                 if (!found) {
                     a.Add(dev);
                     m_pSessionCfg->aSetUsbForwards(a);
-                    myLogTrace(MYTRACETAG, wxT("saving to %s"), m_pSessionCfg->sGetFileName().c_str());
+                    myLogTrace(MYTRACETAG, wxT("saving to %s"), VMB(m_pSessionCfg->sGetFileName()));
                     if (!m_pSessionCfg->SaveToFile())
                         wxLogError(_("Could not save session config"));
                 }

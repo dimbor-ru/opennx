@@ -62,7 +62,7 @@ public:
         const wxChar *lastSpace = NULL;
         wxString line;
 
-        const wxChar *lineStart = text.c_str();
+        const wxChar *lineStart = text.mb_str();
         for ( const wxChar *p = lineStart; ; p++ )
         {
             if ( IsStartOfNewLine() )

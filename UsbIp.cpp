@@ -66,7 +66,7 @@ WX_DEFINE_OBJARRAY(ArrayOfUsbIpDevices);
 wxString UsbIpDevice::toString() const {
     wxString ret = wxString::Format(wxT("%s %d-%d %04X/%04X %s"),
             m_sUsbIpBusId.c_str(), m_iUsbBusnum, m_iUsbDevnum,
-            m_iVendorID, m_iProductID, m_sDriver.c_str());
+            m_iVendorID, m_iProductID, VMB(m_sDriver));
     return ret;
 }
 
@@ -125,7 +125,7 @@ bool UsbIp::Connect(const wxString &socketPath)
 #else
     wxUNIXaddress addr;
     addr.Filename(socketPath);
-    myLogTrace(MYTRACETAG, wxT("Connecting to %s"), socketPath.c_str());
+    myLogTrace(MYTRACETAG, wxT("Connecting to %s"), VMB(socketPath));
     m_pSocketClient->Connect(addr, false);
     // It's a local unix socket and the server must be running already,
     // so 5 secs should be more than enough.
@@ -410,7 +410,7 @@ void UsbIp::parse(const wxString &line)
         long code;
         if (cs.ToLong(&code)) {
             if (200 != code)
-                myLogTrace(MYTRACETAG, wxT("Got Line: '%s'"), line.c_str());
+                myLogTrace(MYTRACETAG, wxT("Got Line: '%s'"), VMB(line));
             switch (code) {
                 case 100:
                     if (m_eState == Initializing)

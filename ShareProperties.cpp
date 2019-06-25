@@ -430,7 +430,7 @@ void ShareProperties::askForDefault(ArrayOfShareGroups &sg, ShareGroup &g)
     if (g.m_bDefault)
         return;
     wxString msg =
-        wxString::Format(_("Do you want to make\n%s\nthe default printer?"), g.m_sShareName.c_str());
+        wxString::Format(_("Do you want to make\n%s\nthe default printer?"), VMB(g.m_sShareName));
     wxMessageDialog d(this, msg, _("Default printer"), wxYES_NO|wxICON_QUESTION);
     if (d.ShowModal() == wxID_YES) {
         for (size_t i = 0; i < sg.GetCount(); i++)

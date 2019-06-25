@@ -170,14 +170,14 @@ void LoginDialog::ReadConfigDirectory()
         delete m_pCurrentCfg;
     m_pCurrentCfg = NULL;
     m_pCtrlSessionName->Clear();
-    myLogTrace(MYTRACETAG, wxT("ReadConfigDirectory: LastSession='%s'"), m_sLastSessionFilename.c_str());
+    myLogTrace(MYTRACETAG, wxT("ReadConfigDirectory: LastSession='%s'"), VMB(m_sLastSessionFilename));
     if (m_sLastSessionFilename.StartsWith(wxT("http://")) ||
             m_sLastSessionFilename.StartsWith(wxT("https://")) ||
             m_sLastSessionFilename.StartsWith(wxT("ftp://")) ||
             ((m_aConfigFiles.Index(m_sLastSessionFilename) == wxNOT_FOUND) &&
              (wxFile::Exists(m_sLastSessionFilename)))) {
         m_aConfigFiles.Add(m_sLastSessionFilename);
-        myLogTrace(MYTRACETAG, wxT("ReadConfigDirectory: Adding '%s'"), m_sLastSessionFilename.c_str());
+        myLogTrace(MYTRACETAG, wxT("ReadConfigDirectory: Adding '%s'"), VMB(m_sLastSessionFilename));
     }
     for (i = 0; i < m_aConfigFiles.GetCount(); i++) {
         MyXmlConfig cfg(m_aConfigFiles[i]);
@@ -202,12 +202,12 @@ void LoginDialog::ReadConfigDirectory()
         }
     }
     if (m_pCurrentCfg) {
-        myLogTrace(MYTRACETAG, wxT("SS1='%s'"), m_sSessionName.c_str());
+        myLogTrace(MYTRACETAG, wxT("SS1='%s'"), VMB(m_sSessionName));
         m_pCtrlSessionName->SetStringSelection(m_sSessionName);
         wxCommandEvent event;
         OnComboboxSessionSelected(event);
     } else {
-        myLogTrace(MYTRACETAG, wxT("SS2='%s'"), m_sLastSessionFilename.c_str());
+        myLogTrace(MYTRACETAG, wxT("SS2='%s'"), VMB(m_sLastSessionFilename));
         // Last session name might be a plain session name (backward compatibility)
         m_pCtrlSessionName->SetStringSelection(m_sLastSessionFilename);
         wxCommandEvent event;
@@ -220,7 +220,7 @@ void LoginDialog::SelectSession(wxString name)
 {
     MyXmlConfig cfg(name);
     if (cfg.IsValid()) {
-        m_pCtrlSessionName->Append(cfg.sGetName(), (void *)name.c_str());
+        m_pCtrlSessionName->Append(cfg.sGetName(), VMB(name);
         m_pCtrlSessionName->SetStringSelection(cfg.sGetName());
         wxCommandEvent event;
         OnComboboxSessionSelected(event);
@@ -402,7 +402,7 @@ void LoginDialog::OnButtonConfigureClick( wxCommandEvent& event )
                 m_pCurrentCfg = new MyXmlConfig(fn);
                 break;
             case wxID_CLEAR:
-                myLogTrace(MYTRACETAG, wxT("deleting '%s'"), fn.c_str());
+                myLogTrace(MYTRACETAG, wxT("deleting '%s'"), VMB(fn));
                 ::wxRemoveFile(fn);
                 ReadConfigDirectory();
                 break;
@@ -412,7 +412,7 @@ void LoginDialog::OnButtonConfigureClick( wxCommandEvent& event )
                 m_pCtrlUseSmartCard->SetValue(m_bUseSmartCard);
                 if (!m_pCurrentCfg->SaveToFile())
                     wxMessageBox(wxString::Format(_("Could not save session to\n%s"),
-                                m_pCurrentCfg->sGetFileName().c_str()), _("Error saving - OpenNX"),
+                                VMB(m_pCurrentCfg->sGetFileName())), _("Error saving - OpenNX"),
                             wxICON_ERROR | wxOK);
                 wxConfigBase::Get()->Write(wxT("Config/UserNxDir"), d.GetsUserNxDir());
                 wxConfigBase::Get()->Write(wxT("Config/SystemNxDir"), d.GetsSystemNxDir());
@@ -478,7 +478,7 @@ void LoginDialog::OnComboboxSessionSelected( wxCommandEvent& event )
             msg = _("An old session configuration has been detected.\nThe session '%s' has been converted but could not be saved.\nPlease verify the custom image compression settings.");
         }
         wxString cfgid(wxT("oldcfg."));
-        SupressibleMessageDialog d(this, wxString::Format(msg, m_pCurrentCfg->sGetName().c_str()),
+        SupressibleMessageDialog d(this, wxString::Format(msg, VMB(m_pCurrentCfg->sGetName())),
                 _("Warning - OpenNX"), wxOK|wxICON_EXCLAMATION);
         d.ShowConditional(cfgid.Append(msg.Left(15)), wxID_OK);
     }
@@ -538,7 +538,7 @@ void LoginDialog::OnOkClick(wxCommandEvent& event)
         if (m_pCurrentCfg->IsWritable()) {
             if (!m_pCurrentCfg->SaveToFile())
                 wxMessageBox(wxString::Format(_("Could not save session to\n%s"),
-                            m_pCurrentCfg->sGetFileName().c_str()), _("Error saving - OpenNX"),
+                            VMB(m_pCurrentCfg->sGetFileName())), _("Error saving - OpenNX"),
                         wxICON_ERROR | wxOK);
 
         }

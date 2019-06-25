@@ -620,7 +620,7 @@ MyXmlConfig::sGetSessionParams(const long protocolVersion, bool bNew, const wxSt
     int dspw, dsph, clientw, clienth, gw, gh;
 
     getDesktopSize(dspw, dsph, clientw, clienth);
-    ret << wxString::Format(wxT(" --session=\"%s\""), m_sName.c_str());
+    ret << wxString::Format(wxT(" --session=\"%s\""), VMB(m_sName));
     ret << wxT(" --type=\"");
     switch (m_eSessionType) {
         case STYPE_SHADOW:
@@ -1203,7 +1203,7 @@ MyXmlConfig::LoadFromFile(const wxString &filename)
         }
         delete f;
     }
-    myLogTrace(MYTRACETAG, wxT("Reading %s"), filename.c_str());
+    myLogTrace(MYTRACETAG, wxT("Reading %s"), VMB(filename));
     wxFileInputStream fis(filename);
     if (loadFromStream(fis, false)) {
         m_sName = wxFileName(filename).GetName();
@@ -1258,7 +1258,7 @@ MyXmlConfig::LoadFromURL(const wxString &filename)
     curl_easy_setopt(c, CURLOPT_WRITEDATA, &mos);
     curl_easy_setopt(c, CURLOPT_ERRORBUFFER, ebuf);
     curl_easy_setopt(c, CURLOPT_WRITEFUNCTION, CurlWriteCallback);
-    myLogTrace(MYTRACETAG, wxT("Fetching %s"), filename.c_str());
+    myLogTrace(MYTRACETAG, wxT("Fetching %s"), VMB(filename));
     CURLcode r = curl_easy_perform(c);
     if (0 == r) {
         off_t len = mos.TellO();
@@ -1268,7 +1268,7 @@ MyXmlConfig::LoadFromURL(const wxString &filename)
                 curl_easy_getinfo(c, CURLINFO_RESPONSE_CODE, &rcode);
             }
             if (200 == rcode) {
-                myLogTrace(MYTRACETAG, wxT("Fetching %s"), filename.c_str());
+                myLogTrace(MYTRACETAG, wxT("Fetching %s"), VMB(filename));
                 char * const data = new char[len];
                 mos.CopyTo(data, len);
                 wxMemoryInputStream mis(data, len);
@@ -1292,7 +1292,7 @@ MyXmlConfig::LoadFromURL(const wxString &filename)
         }
     } else {
         wxString msg(ebuf, *wxConvCurrent);
-        wxLogError(_("Error while fetching session configuration:\n%s"), msg.c_str());
+        wxLogError(_("Error while fetching session configuration:\n%s"), VMB(msg));
     }
     curl_easy_cleanup(c);
 # else
@@ -1302,7 +1302,7 @@ MyXmlConfig::LoadFromURL(const wxString &filename)
         if (!url.IsOk())
             return false;
     }
-    myLogTrace(MYTRACETAG, wxT("Fetching %s"), filename.c_str());
+    myLogTrace(MYTRACETAG, wxT("Fetching %s"), VMB(filename));
     wxInputStream *is = url.GetInputStream();
     if (is && loadFromStream(*is, false)) {
         wxURI uri(filename);
@@ -1427,7 +1427,7 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
 
                         tmp = getString(opt, wxT("Clipboard filter"), wxEmptyString);
                         if (!tmp.IsEmpty()) {
-                            myLogTrace(MYTRACETAG, wxT("read: Clipboard filter '%s'"), tmp.c_str());
+                            myLogTrace(MYTRACETAG, wxT("read: Clipboard filter '%s'"), VMB(tmp));
                             if (tmp.CmpNoCase(wxT("primary")) == 0) {
                                 m_iClipFilter = 0;
                             }
@@ -2526,7 +2526,7 @@ MyXmlConfig::SaveToFile()
         if (secondline++) {
             // Replace 1st line with non-standard NXclient doctype
             len -= (secondline - data);
-            myLogTrace(MYTRACETAG, wxT("Writing '%s'"), m_sFileName.c_str());
+            myLogTrace(MYTRACETAG, wxT("Writing '%s'"), VMB(m_sFileName));
             wxFile f;
             if (!f.Create(m_sFileName, true, wxS_IRUSR|wxS_IWUSR)) {
                 delete data;

@@ -171,7 +171,7 @@ IMPLEMENT_APP(opennxApp);
         // If KDE_LANG is set, then it has precedence over kdeglobals.
         wxString lang;
         if (::wxGetEnv(wxT("KDE_LANG"), &lang)) {
-            myLogDebug(wxT("Overriding LANG from KDE_LANG environment to: '%s'"), lang.c_str());
+            myLogDebug(wxT("Overriding LANG from KDE_LANG environment to: '%s'"), VMB(lang));
             ::wxSetEnv(wxT("LANG"), lang);
         } else {
             // Try to get KDE language settings and override locale accordingly
@@ -190,7 +190,7 @@ IMPLEMENT_APP(opennxApp);
                     if (lang.Length() < 3)
                         lang << wxT("_") << country.Upper();
                     lang << wxT(".UTF-8");
-                    myLogDebug(wxT("Overriding LANG from kdeglobals to: '%s'"), lang.c_str());
+                    myLogDebug(wxT("Overriding LANG from kdeglobals to: '%s'"), VMB(lang));
                     ::wxSetEnv(wxT("LANG"), lang);
                 }
             }
@@ -274,10 +274,10 @@ opennxApp::CreateDesktopEntry(MyXmlConfig *cfg)
 #ifdef __WXMSW__
     TCHAR dtPath[MAX_PATH];
     if (SHGetSpecialFolderPath(NULL, dtPath, CSIDL_DESKTOPDIRECTORY, FALSE)) {
-        wxString linkPath = wxString::Format(wxT("%s\\%s.lnk"), dtPath, cfg->sGetName().c_str());
+        wxString linkPath = wxString::Format(wxT("%s\\%s.lnk"), dtPath, VMB(cfg->sGetName()));
         wxString targetPath = GetSelfPath();
         wxString desc = _("Launch NX Session");
-        wxString args = wxString::Format(wxT("--session=\"%s\""), cfg->sGetFileName().c_str());
+        wxString args = wxString::Format(wxT("--session=\"%s\""), VMB(cfg->sGetFileName()));
         HRESULT hres;
         IShellLink* psl;
 
@@ -285,10 +285,10 @@ opennxApp::CreateDesktopEntry(MyXmlConfig *cfg)
                 IID_IShellLink, (LPVOID *) &psl);
         if (SUCCEEDED(hres)) {
             IPersistFile* ppf;
-            psl->SetPath(targetPath.c_str());
-            psl->SetWorkingDirectory(appDir.c_str());
-            psl->SetDescription(desc.c_str());
-            psl->SetArguments(args.c_str());
+            psl->SetPath(targetPath.mb_str());
+            psl->SetWorkingDirectory(appDir.mb_str());
+            psl->SetDescription(desc.mb_str());
+            psl->SetArguments(args.mb_str());
             psl->SetIconLocation(targetPath, 1);
             hres = psl->QueryInterface(IID_IPersistFile, (LPVOID*)&ppf);
             if (SUCCEEDED(hres)) {
@@ -330,7 +330,7 @@ opennxApp::CreateDesktopEntry(MyXmlConfig *cfg)
         if (::wxDirExists(path)) {
             wxFile f;
             wxString fn = path + wxT("/") + cfg->sGetName() + wxT(".desktop");
-            myLogTrace(MYTRACETAG, wxT("Creating '%s'"), fn.c_str());
+            myLogTrace(MYTRACETAG, wxT("Creating '%s'"), VMB(fn));
             if (f.Create(fn, true,
                         wxS_IRUSR|wxS_IWUSR|wxS_IXUSR|wxS_IRGRP|wxS_IROTH)) {
                 f.Write(dtEntry);
@@ -354,8 +354,8 @@ opennxApp::RemoveDesktopEntry(MyXmlConfig *cfg)
     TCHAR dtPath[MAX_PATH];
     if (SHGetSpecialFolderPath(NULL, dtPath, CSIDL_DESKTOPDIRECTORY, FALSE)) {
         wxString lpath = wxString::Format(wxT("%s\\%s.lnk"),
-                dtPath, cfg->sGetName().c_str());
-        myLogTrace(MYTRACETAG, wxT("Removing '%s'"), lpath.c_str());
+                dtPath, VMB(cfg->sGetName()));
+        myLogTrace(MYTRACETAG, wxT("Removing '%s'"), VMB(lpath));
         ::wxRemoveFile(lpath);
     }
 #endif
@@ -368,7 +368,9 @@ opennxApp::RemoveDesktopEntry(MyXmlConfig *cfg)
 
     while (*p) {
         ::wxRemoveFile(wxString::Format(wxT("%s/%s/%s.desktop"),
-                    ::wxGetHomeDir().c_str(), *p,cfg->sGetName().c_str()));
+                    VMB(::wxGetHomeDir()),
+                    *p,
+                    VMB(cfg->sGetName())));
         p++;
     }
 # endif
@@ -384,7 +386,7 @@ opennxApp::CheckDesktopEntry(MyXmlConfig *cfg)
     TCHAR dtPath[MAX_PATH];
     if (SHGetSpecialFolderPath(NULL, dtPath, CSIDL_DESKTOPDIRECTORY, FALSE)) {
         wxString lpath = wxString::Format(wxT("%s\\%s.lnk"),
-                dtPath, cfg->sGetName().c_str());
+                dtPath, VMB(cfg->sGetName()));
         return wxFileName::FileExists(lpath);
     }
 #endif
@@ -397,7 +399,8 @@ opennxApp::CheckDesktopEntry(MyXmlConfig *cfg)
 
     while (*p) {
         ret |= wxFileName::FileExists((wxString::Format(wxT("%s/%s/%s.desktop"),
-                    ::wxGetHomeDir().c_str(), *p,cfg->sGetName().c_str())));
+                    VMB(::wxGetHomeDir()), *p,
+                    VMB(cfg->sGetName()))));
         p++;
     }
 # endif
@@ -460,7 +463,8 @@ opennxApp::setSelfPath()
             }
             if (!found) {
                 tmp = argv[0];
-                wxLogError(_("Could not find %s in PATH"), tmp.c_str());
+                wxLogError(_("Could not find %s in PATH"),
+                                VMB(tmp));
                 return false;
             }
         }
@@ -470,13 +474,13 @@ opennxApp::setSelfPath()
     while (true) {
         struct stat st;
         if (lstat(tmp.fn_str(), &st) != 0) {
-            wxLogSysError(_("Could not stat %s"), tmp.c_str());
+            wxLogSysError(_("Could not stat %s"), VMB(tmp));
             return false;
         }
         if (S_ISLNK(st.st_mode)) {
             ret = readlink(tmp.fn_str(), ldst, PATH_MAX);
             if (ret == -1) {
-                wxLogSysError(_("Could not read link %s"), tmp.c_str());
+                wxLogSysError(_("Could not read link %s"), VMB(tmp));
                 return false;
             }
             ldst[ret] = '\0';
@@ -546,7 +550,9 @@ opennxApp::preInit()
         if (wxConfigBase::Get()->Read(wxT("Config/SystemNxDir"), &cfgsysdir)) {
             if (!thissysdir.IsSameAs(cfgsysdir)) {
                 if (!m_bNoGui) {
-                    wxString msg(wxString::Format(_("Your System NX directory setting (%s)\nappears to be incorrect.\nDo you want to change it to the correct default value\n(%s)?"), cfgsysdir.c_str(), thissysdir.c_str()));
+                    wxString msg(wxString::Format(_("Your System NX directory setting (%s)\nappears to be incorrect.\nDo you want to change it to the correct default value\n(%s)?"),
+                                    VMB(cfgsysdir),
+                                    VMB(thissysdir)));
                     int response = wxMessageBox(msg, _("Update System NX directory? - OpenNX"), wxYES_NO|wxICON_QUESTION);
                     if (wxYES == response) {
                         wxConfigBase::Get()->Write(wxT("Config/SystemNxDir"), thissysdir);
@@ -598,7 +604,8 @@ opennxApp::preInit()
                 for (i = 0; candidates[i]; i++) {
                     if (wxFileName::FileExists(candidates[i])) {
                         tmp = candidates[i];
-                        wxLogWarning(_("Found a CUPS daemon binary in %s, however it is not executable.\nIn order to use CUPS printing, you need to fix its permissions."), tmp.c_str());
+                        wxLogWarning(_("Found a CUPS daemon binary in %s, however it is not executable.\nIn order to use CUPS printing, you need to fix its permissions."),
+                                        VMB(tmp));
                         break;
                     }
                 }
@@ -683,7 +690,8 @@ opennxApp::preInit()
         }
     }
 # endif
-    ::myLogDebug(wxT("%s='%s'"), LD_LIBRARY_PATH, ldpath.c_str());
+    ::myLogDebug(wxT("%s='%s'"), LD_LIBRARY_PATH,
+                    VMB(ldpath));
     if (!::wxSetEnv(LD_LIBRARY_PATH, ldpath)) {
         wxLogSysError(wxT("Cannot set LD_LIBRARY_PATH"));
         return false;
@@ -696,7 +704,8 @@ opennxApp::preInit()
         while (t.HasMoreTokens()) {
             wxString tag = t.GetNextToken();
             if (allTraceTags.Index(tag) != wxNOT_FOUND) {
-                ::myLogDebug(wxT("Trace for '%s' enabled"), tag.c_str());
+                ::myLogDebug(wxT("Trace for '%s' enabled"),
+                                VMB(tag));
                 wxLog::AddTraceMask(tag);
             }
         }
@@ -1031,7 +1040,8 @@ bool opennxApp::OnCmdLineParsed(wxCmdLineParser& parser)
                 OnCmdLineError(parser);
                 return false;
             }
-            ::myLogDebug(wxT("Trace for '%s' enabled"), tag.c_str());
+            ::myLogDebug(wxT("Trace for '%s' enabled"),
+                            VMB(tag));
             wxLog::AddTraceMask(tag);
         }
     }
@@ -1345,21 +1355,25 @@ bool opennxApp::OnInit()
                         break;
                     }
                     myLogTrace(MYTRACETAG, wxT("possibly exported USB device: %04x/%04x %s"),
-                            af[i].m_iVendorID, af[i].m_iProductID, af[i].toShortString().c_str());
+                            af[i].m_iVendorID, af[i].m_iProductID,
+                            VMB(af[i].toShortString()));
                     for (j = 0; j < ad.GetCount(); j++)
                         if (af[i].MatchHotplug(ad[j])) {
-                            myLogTrace(MYTRACETAG, wxT("Match on USB dev %s"), ad[j].toString().c_str());
+                            myLogTrace(MYTRACETAG, wxT("Match on USB dev %s"),
+                                       VMB(ad[j].toString()));
                             for (k = 0; k < aid.GetCount(); k++) {
                                 if (aid[k].GetUsbBusID().IsSameAs(ad[j].GetBusID())) {
                                     wxString exBusID = aid[k].GetUsbIpBusID();
                                     myLogTrace(MYTRACETAG, wxT("Exporting usbup-busid %s (libusb-busid %s)"),
-                                            exBusID.c_str(), ad[j].GetBusID().c_str());
+                                            VMB(exBusID),
+                                            VMB(ad[j].GetBusID()));
                                     if (!usbip.WaitForSession(usessionTO)) {
                                         wxLogError(_("USBIP tunnel registration timeout"));
                                         m_bRequireStartUsbIp = false;
                                     }
                                     if (!usbip.ExportDevice(exBusID))
-                                        wxLogError(_("Unable to export USB device %s"), af[i].toShortString().c_str());
+                                        wxLogError(_("Unable to export USB device %s"),
+                                            VMB(af[i].toShortString()));
                                 }
                             }
                         }
@@ -1393,13 +1407,15 @@ bool opennxApp::OnInit()
             m_pSessionCfg->sSetFileName(cfgname);
             m_pSessionCfg->SaveToFile();
         }
-        myLogTrace(MYTRACETAG, wxT("cfgfile='%s'"), cfgname.c_str());
+        myLogTrace(MYTRACETAG, wxT("cfgfile='%s'"),
+                        VMB(cfgname));
         watchcmd << wxT(" -s ") << m_sSessionID << wxT(" -p ")
             << m_nNxSshPID << wxT(" -c \"") << cfgname << wxT("\"");
 #ifdef __WXDEBUG__
         watchcmd << wxT(" --trace=UsbIp,watchUsbIpApp");
 #endif
-        myLogTrace(MYTRACETAG, wxT("starting %s"), watchcmd.c_str());
+        myLogTrace(MYTRACETAG, wxT("starting %s"),
+                    VMB(watchcmd));
         {
             wxLogNull noerrors;
             ::wxExecute(watchcmd);
@@ -1424,7 +1440,8 @@ bool opennxApp::OnInit()
 #endif
             wxString watchcmd = fn.GetShortPath();
             watchcmd << wxT(" -r ") << m_iReader << wxT(" -p ") << m_nNxSshPID;
-            myLogTrace(MYTRACETAG, wxT("executing %s"), watchcmd.c_str());
+            myLogTrace(MYTRACETAG, wxT("executing %s"),
+                        VMB(watchcmd));
             ::wxExecute(watchcmd);
         }
     }
@@ -1462,7 +1479,7 @@ void opennxApp::SetSessionCfg(MyXmlConfig &cfg)
 /// Respond to Apple Event for opening a document
 void opennxApp::MacOpenFile(const wxString& filename)
 {
-    myLogTrace(MYTRACETAG, wxT("MacOpen '%s'"), filename.c_str());
+    myLogTrace(MYTRACETAG, wxT("MacOpen '%s'"), VMB(filename));
     m_sSessionName = filename;
     if (MODE_MAC_WAITOPEN == m_eMode) {
         myLogTrace(MYTRACETAG, wxT("MacOpen finishing wait"));

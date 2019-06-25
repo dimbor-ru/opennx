@@ -267,7 +267,7 @@ void ResumeDialog::OnListctrlSessionsSelected( wxListEvent& event )
     info.SetColumn(7);
     m_pCtrlSessions->GetItem(info);
     m_sSelectedId = info.GetText();
-    myLogTrace(MYTRACETAG, wxT("Selected session ID=%s"), m_sSelectedId.c_str());
+    myLogTrace(MYTRACETAG, wxT("Selected session ID=%s"), VMB(m_sSelectedId));
     event.Skip();
 }
 
