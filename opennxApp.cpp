@@ -38,6 +38,9 @@
 #ifdef __UNIX__
 #include <unistd.h>
 #endif
+#if wxCHECK_VERSION(3,0,0)
+#include <wx/debug.h>
+#endif
 #include <wx/cmdline.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/image.h>
@@ -1048,6 +1051,18 @@ bool opennxApp::OnCmdLineParsed(wxCmdLineParser& parser)
     return true;
 }
 
+#if wxCHECK_VERSION(3,0,0)
+// hide wx assertions like far2l project
+static void MyWxAssertHandler(const wxString& file,
+    int line, const wxString& func,
+    const wxString& cond, const wxString& msg)
+{
+    myLogTrace(MYTRACETAG, wxT("MyWxAssertHandler: file='%ls' line=%d func='%ls' cond='%ls' msg='%ls'\n"),
+        file.wc_str(), line, func.wc_str(), cond.wc_str(), msg.wc_str());
+}
+
+#endif
+
 // 'Main program' equivalent: the program execution "starts" here
 bool opennxApp::realInit()
 {
@@ -1067,6 +1082,10 @@ bool opennxApp::realInit()
         return false;
 #ifdef __WXMAC__
     wxFileName::MacRegisterDefaultTypeAndCreator(wxT("nxs"), 'TEXT', 'OPNX');
+#endif
+
+#if wxCHECK_VERSION(3,0,0)
+    wxSetAssertHandler(MyWxAssertHandler);
 #endif
 
     wxHelpProvider::Set(new wxSimpleHelpProvider);
