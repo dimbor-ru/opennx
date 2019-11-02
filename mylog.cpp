@@ -48,7 +48,6 @@ static
 void logit(const char *szString, time_t WXUNUSED(t))
 {
 #ifdef __WXMSW__
-    char *str = szString;
     char str[1536];
     wxString ts;
     wxLog::TimeStamp(&ts);
