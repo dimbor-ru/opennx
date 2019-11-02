@@ -288,10 +288,10 @@ opennxApp::CreateDesktopEntry(MyXmlConfig *cfg)
                 IID_IShellLink, (LPVOID *) &psl);
         if (SUCCEEDED(hres)) {
             IPersistFile* ppf;
-            psl->SetPath(targetPath.mb_str());
-            psl->SetWorkingDirectory(appDir.mb_str());
-            psl->SetDescription(desc.mb_str());
-            psl->SetArguments(args.mb_str());
+            psl->SetPath(targetPath.wc_str());
+            psl->SetWorkingDirectory(appDir.wc_str());
+            psl->SetDescription(desc.wc_str());
+            psl->SetArguments(args.wc_str());
             psl->SetIconLocation(targetPath, 1);
             hres = psl->QueryInterface(IID_IPersistFile, (LPVOID*)&ppf);
             if (SUCCEEDED(hres)) {
