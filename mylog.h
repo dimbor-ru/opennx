@@ -32,8 +32,12 @@
 #endif
 
 // Macro for get Variadic MultiByte param from wsString object
-#if wxCHECK_VERSION(2,9,0)
-# define VMB(xxx) ((const char*) xxx.mb_str().data())
+#if wxCHECK_VERSION(3,0,0)
+#ifdef __WXMSW__
+# define VMB(xxx) (static_cast<const wchar_t*>(xxx.wc_str()))
+#else
+# define VMB(xxx) ((const char*) (xxx.ToUTF8()))
+#endif
 #else
 # define VMB(xxx) (xxx.c_str())
 #endif

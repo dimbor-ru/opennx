@@ -48,12 +48,7 @@ static
 void logit(const char *szString, time_t WXUNUSED(t))
 {
 #ifdef __WXMSW__
-    char str[1536];
-    wxString ts;
-    wxLog::TimeStamp(&ts);
-    strncpy(str, VMB(ts), 1536);
-    strncpy(str + strlen(str), szString, 1536 - strlen(str));
-    OutputDebugStringA(str);
+    OutputDebugStringA(szString);
 #else
 # ifdef HAVE_SYSLOG_H
     static bool initial = true;
@@ -74,7 +69,7 @@ static void myVLogDebug(const wxChar *szFormat, va_list argptr)
 {
     wxString msg;
     msg << wxString::FormatV(szFormat, argptr);
-    logit(VMB(msg), time(NULL));
+    logit(msg.ToUTF8(), time(NULL));
 }
 
 void myLogDebug(const wxChar *szFormat, ...)
@@ -90,7 +85,7 @@ static void myVLogTrace(const wxChar *mask, const wxChar *szFormat, va_list argp
     if ((wxLog::IsAllowedTraceMask(mask))  ||  (wxLog::IsAllowedTraceMask(wxT("All")))) {
         wxString msg;
         msg << _T("(") << mask << _T(") ") << wxString::FormatV(szFormat, argptr);
-        logit(VMB(msg), time(NULL));
+        logit(msg.ToUTF8(), time(NULL));
     }
 }
 
@@ -107,7 +102,7 @@ static void myVLogTrace(wxTraceMask mask, const wxChar *szFormat, va_list argptr
     if ((wxLog::GetTraceMask() & mask) == mask) {
         wxString msg;
         msg << wxString::FormatV(szFormat, argptr);
-        logit(VMB(msg), time(NULL));
+        logit(msg.ToUTF8(), time(NULL));
     }
 }
 

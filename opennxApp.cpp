@@ -167,6 +167,10 @@ IMPLEMENT_APP(opennxApp);
         m_sVersion.Append(wxT(".0"));
     m_sVersion.Append(wxT(".")).Append(wxT(SVNREV));
 
+# if wxCHECK_VERSION(3,0,0)
+    m_locale.Init(wxLocale::GetSystemLanguage());
+# endif
+
     // Language overrides from KDE - only applied if running inside a KDE session. 
     if (inKdeSession != 0) {
         wxLogNull dummy;

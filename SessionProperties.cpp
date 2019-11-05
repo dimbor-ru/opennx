@@ -866,7 +866,11 @@ SessionProperties::InstallOnCharHandlers(wxWindow *w /* = NULL*/)
 #endif
                 wxLogError(wxT("Detected %s (name=%s) window without validator!"),
                         (w->IsKindOf(CLASSINFO(wxTextCtrl)) ? wxT("wxTextCtrl") : wxT("wxSpinCtrl")),
+#ifdef __WXMSW__
+                        (w->GetName().IsEmpty() ? wxT("") : VMB(w->GetName())));
+#else
                         (w->GetName().IsEmpty() ? "" : VMB(w->GetName())));
+#endif
             }
         } else {
             if (!w->GetChildren().IsEmpty())

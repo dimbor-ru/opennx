@@ -1145,7 +1145,11 @@ MySession::printSsh(const wxString &s, bool doLog /* = true */, const wxString &
 {
     if (m_pNxSsh) {
         myLogTrace(MYTRACETAG, wxT("%ssending '%s'"), VMB(reason),
+#ifdef __WXMSW__
+                                            (doLog ? VMB(s) : wxT("********")));
+#else
                                             (doLog ? VMB(s) : "********"));
+#endif
         m_pNxSsh->Print(s, doLog);
     }
 }
@@ -1641,7 +1645,7 @@ MySession::startXserver()
     }
 
     wxLogInfo(wxT("Executing %s"), VMB(wxWinCmd));
-    int r = CreateDetachedProcess(VMB(wxWinCmd));
+    int r = CreateDetachedProcess(wxWinCmd.ToUTF8());
     if (r != 0) {
         wxLogError(_("Could not execute %s: %s\n"), VMB(wxWinCmd), wxSysErrorMsg(r));
         return false;
@@ -1748,7 +1752,7 @@ MySession::startProxy()
                 wxLogInfo(wxT("Executing %s"), VMB(pcmd));
 #ifdef __WXMSW__
                 if (m_eXarch == XARCH_XMING)
-                CreateDetachedProcess(VMB(pcmd));
+                CreateDetachedProcess(pcmd.ToUTF8());
                 if (m_iXserverPID)
                     AllowSetForegroundWindow(m_iXserverPID);
 #else
@@ -2189,7 +2193,7 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
 #else
         std::ofstream *log = new std::ofstream();
 #endif
-        log->open(VMB(logfn));
+        log->open(logfn.ToUTF8());
         new RunLog(new wxLogStream(log));
 
         logfn = m_sTempDir +
@@ -2199,7 +2203,7 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
 #else
         log = new std::ofstream();
 #endif
-        log->open(VMB(logfn));
+        log->open(logfn.ToUTF8());
         m_pSshLog = new wxLogStream(log);
         wxLog::SetLogLevel(wxLOG_Max);
 
