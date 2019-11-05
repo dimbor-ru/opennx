@@ -122,7 +122,7 @@ SessionList::SessionList(wxString dir, wxEvtHandler* h)
     if (m_re->Compile(wxT("(([TF])-)?([SC])-(.*)-([[:digit:]]+)-([[:xdigit:]]{32})$"), wxRE_ADVANCED))
         m_reValid = true;
     if (m_reValid && (!m_dirName.IsEmpty())) {
-        Create();
+        CreateThread();
         m_thread->Run();
     }
 }
@@ -144,7 +144,7 @@ void SessionList::SetDir(wxString dir)
     m_dirName = dir;
     if (m_reValid && (!m_dirName.IsEmpty())) {
         if (m_thread == NULL) {
-            Create();
+            CreateThread();
             m_thread->Run();
         } else {
             m_csDir.Enter();

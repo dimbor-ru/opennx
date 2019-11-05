@@ -1332,16 +1332,16 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
 
     wxXmlNode *cfgnode = cfg.GetRoot();
     if (cfgnode && (cfgnode->GetName() == wxT("NXClientSettings"))) {
-        if (!(cfgnode->GetPropVal(wxT("application"), wxEmptyString) == wxT("nxclient")))
+        if (!(cfgnode->GetAttribute(wxT("application"), wxEmptyString) == wxT("nxclient")))
             return false;
-        if (!(cfgnode->GetPropVal(wxT("version"), wxEmptyString) == wxT("1.3")))
+        if (!(cfgnode->GetAttribute(wxT("version"), wxEmptyString) == wxT("1.3")))
             return false;
         cfgnode = cfgnode->GetChildren();
         while (cfgnode) {
             if (cfgnode->GetName() == wxT("group")) {
 
                 // Tab "Advanced"
-                if (cfgnode->GetPropVal(wxT("name"), wxEmptyString) == wxT("Advanced")) {
+                if (cfgnode->GetAttribute(wxT("name"), wxEmptyString) == wxT("Advanced")) {
                     wxXmlNode *opt = cfgnode->GetChildren();
                     while (opt) {
 
@@ -1463,7 +1463,7 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                 }
 
                 // Tab "Environment"
-                if (cfgnode->GetPropVal(wxT("name"), wxEmptyString) == wxT("Environment")) {
+                if (cfgnode->GetAttribute(wxT("name"), wxEmptyString) == wxT("Environment")) {
                     wxXmlNode *opt = cfgnode->GetChildren();
                     while (opt) {
                         m_sCupsPath = getString(opt, wxT("CUPSD path"), m_sCupsPath);
@@ -1474,7 +1474,7 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                 }
 
                 // Tab "General"
-                if (cfgnode->GetPropVal(wxT("name"), wxEmptyString) == wxT("General")) {
+                if (cfgnode->GetAttribute(wxT("name"), wxEmptyString) == wxT("General")) {
                     wxXmlNode *opt = cfgnode->GetChildren();
                     while (opt) {
 
@@ -1617,12 +1617,12 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                 }
 
                 // Sub-Dialog Custom image compresion
-                if (cfgnode->GetPropVal(wxT("name"), wxEmptyString) == wxT("Images")) {
+                if (cfgnode->GetAttribute(wxT("name"), wxEmptyString) == wxT("Images")) {
                     // First, determine, if we have an old (pre 0.16.173) config file
                     wxXmlNode *opt = cfgnode->GetChildren();
                     m_bOldConfig = false;
                     while (opt) {
-                        wxString key = opt->GetPropVal(wxT("key"), wxEmptyString);
+                        wxString key = opt->GetAttribute(wxT("key"), wxEmptyString);
                         if (key == wxT("Windows Image Compression")) {
                             m_bOldConfig = true;
                             break;
@@ -1700,7 +1700,7 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                 }
 
                 // Main login params
-                if (cfgnode->GetPropVal(wxT("name"), wxEmptyString) == wxT("Login")) {
+                if (cfgnode->GetAttribute(wxT("name"), wxEmptyString) == wxT("Login")) {
                     wxXmlNode *opt = cfgnode->GetChildren();
                     while (opt) {
                         m_bGuestMode = getBool(opt, wxT("Guest Mode"), m_bGuestMode);
@@ -1739,7 +1739,7 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                 }
 
                 // Tab "Services"
-                if (cfgnode->GetPropVal(wxT("name"), wxEmptyString) == wxT("Services")) {
+                if (cfgnode->GetAttribute(wxT("name"), wxEmptyString) == wxT("Services")) {
                     wxXmlNode *opt = cfgnode->GetChildren();
                     while (opt) {
                         m_bEnableMultimedia = getBool(opt, wxT("Audio"), m_bEnableMultimedia);
@@ -1768,7 +1768,7 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                     continue;
                 }
 
-                if (cfgnode->GetPropVal(wxT("name"), wxEmptyString) == wxT("VNC Session")) {
+                if (cfgnode->GetAttribute(wxT("name"), wxEmptyString) == wxT("VNC Session")) {
                     wxXmlNode *opt = cfgnode->GetChildren();
                     while (opt) {
                         tmp = getString(opt, wxT("Display"));
@@ -1790,7 +1790,7 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                     continue;
                 }
 
-                if (cfgnode->GetPropVal(wxT("name"), wxEmptyString) == wxT("Windows Session")) {
+                if (cfgnode->GetAttribute(wxT("name"), wxEmptyString) == wxT("Windows Session")) {
                     wxXmlNode *opt = cfgnode->GetChildren();
                     while (opt) {
                         m_sRdpApplication = getString(opt, wxT("Application"),
@@ -1826,17 +1826,17 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                     continue;
                 }
 
-                if (cfgnode->GetPropVal(wxT("name"), wxEmptyString) == wxT("share chosen")) {
+                if (cfgnode->GetAttribute(wxT("name"), wxEmptyString) == wxT("share chosen")) {
                     wxXmlNode *opt = cfgnode->GetChildren();
                     while (opt) {
-                        wxString key = opt->GetPropVal(wxT("key"), wxEmptyString);
+                        wxString key = opt->GetAttribute(wxT("key"), wxEmptyString);
                         if (key == wxT("Share number")) {
                             m_iUsedShareGroups = getLong(opt, wxT("Share number"),
                                     m_iUsedShareGroups);
                         } else if (key == wxT("default printer")) {
                             // Ignoring this key, because it is set in the share as well.
                         } else
-                            m_aUsedShareGroups.Add(opt->GetPropVal(wxT("value"), wxEmptyString));
+                            m_aUsedShareGroups.Add(opt->GetAttribute(wxT("value"), wxEmptyString));
                         opt = opt->GetNext();
                     }
                     cfgnode = cfgnode->GetNext();
@@ -1845,12 +1845,12 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
 
                 // When we reach here, we got an "unknown" group name. This is usually
                 // either a mounted share description or an UsbForward entry.
-                if (cfgnode->GetPropVal(wxT("name"), wxEmptyString).StartsWith(wxT("UsbForward"))) {
+                if (cfgnode->GetAttribute(wxT("name"), wxEmptyString).StartsWith(wxT("UsbForward"))) {
                     SharedUsbDevice dev;
                     wxXmlNode *opt = cfgnode->GetChildren();
                     int optcount = 0;
                     while (opt) {
-                        wxString key = opt->GetPropVal(wxT("key"), wxEmptyString);
+                        wxString key = opt->GetAttribute(wxT("key"), wxEmptyString);
                         if (key == wxT("Vendor")) {
                             optcount++;
                             dev.m_sVendor = getString(opt, wxT("Vendor"), wxEmptyString);
@@ -1910,11 +1910,11 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                 {
                     int shareOptions = 0;
                     ShareGroup s;
-                    s.m_sGroupName = cfgnode->GetPropVal(wxT("name"), wxEmptyString);
+                    s.m_sGroupName = cfgnode->GetAttribute(wxT("name"), wxEmptyString);
                     s.m_eType = SharedResource::SHARE_UNKNOWN;
                     wxXmlNode *opt = cfgnode->GetChildren();
                     while (opt) {
-                        wxString key = opt->GetPropVal(wxT("key"), wxEmptyString);
+                        wxString key = opt->GetAttribute(wxT("key"), wxEmptyString);
                         if (key == wxT("Alias")) {
                             shareOptions++;
                             s.m_sAlias = getString(opt, wxT("Alias"), wxEmptyString);
@@ -2021,8 +2021,8 @@ MyXmlConfig::sSetUsername(const wxString &s)
 MyXmlConfig::bAddOption(wxXmlNode *group, const wxString &name, const bool val)
 {
     wxXmlNode *n = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("option"));
-    n->AddProperty(new wxXmlProperty(wxT("key"), name, NULL));
-    n->AddProperty(new wxXmlProperty(wxT("value"), val ? wxT("true") : wxT("false"), NULL));
+    n->AddAttribute(new wxXmlAttribute(wxT("key"), name, NULL));
+    n->AddAttribute(new wxXmlAttribute(wxT("value"), val ? wxT("true") : wxT("false"), NULL));
     group->AddChild(n);
 }
 
@@ -2030,8 +2030,8 @@ MyXmlConfig::bAddOption(wxXmlNode *group, const wxString &name, const bool val)
 MyXmlConfig::iAddOptionBool(wxXmlNode *group, const wxString &name, const bool val)
 {
     wxXmlNode *n = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("option"));
-    n->AddProperty(new wxXmlProperty(wxT("key"), name, NULL));
-    n->AddProperty(new wxXmlProperty(wxT("value"), wxString::Format(wxT("%d"), val ? 1 : 0), NULL));
+    n->AddAttribute(new wxXmlAttribute(wxT("key"), name, NULL));
+    n->AddAttribute(new wxXmlAttribute(wxT("value"), wxString::Format(wxT("%d"), val ? 1 : 0), NULL));
     group->AddChild(n);
 }
 
@@ -2039,8 +2039,8 @@ MyXmlConfig::iAddOptionBool(wxXmlNode *group, const wxString &name, const bool v
 MyXmlConfig::iAddOption(wxXmlNode *group, const wxString &name, const long val)
 {
     wxXmlNode *n = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("option"));
-    n->AddProperty(new wxXmlProperty(wxT("key"), name, NULL));
-    n->AddProperty(new wxXmlProperty(wxT("value"), wxString::Format(wxT("%d"), (int)val), NULL));
+    n->AddAttribute(new wxXmlAttribute(wxT("key"), name, NULL));
+    n->AddAttribute(new wxXmlAttribute(wxT("value"), wxString::Format(wxT("%d"), (int)val), NULL));
     group->AddChild(n);
 }
 
@@ -2048,8 +2048,8 @@ MyXmlConfig::iAddOption(wxXmlNode *group, const wxString &name, const long val)
 MyXmlConfig::sAddOption(wxXmlNode *group, const wxString &name, const wxString &val)
 {
     wxXmlNode *n = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("option"));
-    n->AddProperty(new wxXmlProperty(wxT("key"), name, NULL));
-    n->AddProperty(new wxXmlProperty(wxT("value"), val, NULL));
+    n->AddAttribute(new wxXmlAttribute(wxT("key"), name, NULL));
+    n->AddAttribute(new wxXmlAttribute(wxT("value"), val, NULL));
     group->AddChild(n);
 }
 
@@ -2057,7 +2057,7 @@ MyXmlConfig::sAddOption(wxXmlNode *group, const wxString &name, const wxString &
 MyXmlConfig::AddGroup(wxXmlNode *parent, const wxString &name)
 {
     wxXmlNode *n = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("group"));
-    n->AddProperty(new wxXmlProperty(wxT("name"), name, NULL));
+    n->AddAttribute(new wxXmlAttribute(wxT("name"), name, NULL));
     parent->AddChild(n);
     return n;
 }
@@ -2077,8 +2077,8 @@ MyXmlConfig::SaveToFile()
        )
         return false;
     r = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("NXClientSettings"));
-    r->AddProperty(new wxXmlProperty(wxT("application"), wxT("nxclient"), NULL));
-    r->AddProperty(new wxXmlProperty(wxT("version"), wxT("1.3"), NULL));
+    r->AddAttribute(new wxXmlAttribute(wxT("application"), wxT("nxclient"), NULL));
+    r->AddAttribute(new wxXmlAttribute(wxT("version"), wxT("1.3"), NULL));
     cfg.SetRoot(r);
 
     // SessionProperties, Tab "General"
@@ -2582,8 +2582,8 @@ bool MyXmlConfig::getBool(wxXmlNode *opt, const wxString &key, bool defval)
     bool val = defval;
 
     if (opt->GetName() == wxT("option")) {
-        if (opt->GetPropVal(wxT("key"), wxEmptyString) == key) {
-            wxString tmp = opt->GetPropVal(wxT("value"), wxEmptyString);
+        if (opt->GetAttribute(wxT("key"), wxEmptyString) == key) {
+            wxString tmp = opt->GetAttribute(wxT("value"), wxEmptyString);
             if (!tmp.IsEmpty())
                 val = ((tmp == STR_TRUE) || (tmp == STR_ONE));
         }
@@ -2596,8 +2596,8 @@ long MyXmlConfig::getLong(wxXmlNode *opt, const wxString &key, long defval)
     long val = defval;
 
     if (opt->GetName() == wxT("option")) {
-        if (opt->GetPropVal(wxT("key"), wxEmptyString) == key) {
-            wxString tmp = opt->GetPropVal(wxT("value"), wxEmptyString);
+        if (opt->GetAttribute(wxT("key"), wxEmptyString) == key) {
+            wxString tmp = opt->GetAttribute(wxT("value"), wxEmptyString);
             if (tmp.IsNumber())
                 tmp.ToLong(&val, 0);
         }
@@ -2610,8 +2610,8 @@ bool MyXmlConfig::getLongBool(wxXmlNode *opt, const wxString &key, bool defval)
     long val = defval ? 1 : 0;
 
     if (opt->GetName() == wxT("option")) {
-        if (opt->GetPropVal(wxT("key"), wxEmptyString) == key) {
-            wxString tmp = opt->GetPropVal(wxT("value"), wxEmptyString);
+        if (opt->GetAttribute(wxT("key"), wxEmptyString) == key) {
+            wxString tmp = opt->GetAttribute(wxT("value"), wxEmptyString);
             if (tmp.IsNumber())
                 tmp.ToLong(&val, 0);
         }
@@ -2624,8 +2624,8 @@ wxString MyXmlConfig::getString(wxXmlNode *opt, const wxString &key, const wxStr
     wxString tmp = defval;
 
     if (opt->GetName() == wxT("option")) {
-        if (opt->GetPropVal(wxT("key"), wxEmptyString) == key)
-            tmp = opt->GetPropVal(wxT("value"), defval);
+        if (opt->GetAttribute(wxT("key"), wxEmptyString) == key)
+            tmp = opt->GetAttribute(wxT("value"), defval);
     }
     return tmp;
 }
@@ -2635,9 +2635,9 @@ wxString *MyXmlConfig::getStringNew(wxXmlNode *opt, const wxString &key, wxStrin
     wxString *val = defval;
 
     if (opt->GetName() == wxT("option")) {
-        if (opt->GetPropVal(wxT("key"), wxEmptyString) == key) {
-            if (opt->HasProp(wxT("value"))) {
-                val = new wxString(opt->GetPropVal(wxT("value"), defval ? *defval : wxT("")));
+        if (opt->GetAttribute(wxT("key"), wxEmptyString) == key) {
+            if (opt->HasAttribute(wxT("value"))) {
+                val = new wxString(opt->GetAttribute(wxT("value"), defval ? *defval : wxT("")));
                 if (val && val->IsEmpty() && (!defval)) {
                     delete val;
                     val = NULL;

@@ -101,7 +101,7 @@ CardWaitThread::CardWaitThread(wxEvtHandler *handler)
     , m_bFirstLoopDone(false)
     , m_iFoundID(-1)
 {
-    if (Create(
+    if (CreateThread(
 #ifdef __OPENBSD__
             32768
 #endif

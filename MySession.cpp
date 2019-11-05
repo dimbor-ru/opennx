@@ -397,7 +397,7 @@ class MyHTTP : public wxHTTP {
 #endif
 
             #if wxCHECK_VERSION(3,0,0)
-            if (!BuildRequest(path, m_postBuffer.IsEmpty() ? "GET" : "POST"))
+            if (!BuildRequest(path, m_postBuffer.IsEmpty() ? wxT("GET") : wxT("POST")))
             #else
             if (!BuildRequest(path, m_post_buf.empty() ? wxHTTP_GET : wxHTTP_POST))
             #endif

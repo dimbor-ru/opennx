@@ -93,7 +93,7 @@ wxBitmap CreateBitmapFromFile(const wxString &filename, int width, int height)
     if (ft) {
         wxString mt;
         if (ft->GetMimeType(&mt)) {
-            int t = -1;
+            wxBitmapType t = wxBITMAP_TYPE_INVALID;
 
             if (mt == _T("image/png"))
                 t = wxBITMAP_TYPE_PNG;
@@ -112,7 +112,7 @@ wxBitmap CreateBitmapFromFile(const wxString &filename, int width, int height)
             if (mt == _T("image/pnm"))
                 t = wxBITMAP_TYPE_PNM;
 
-            if (t != -1) {
+            if (t != wxBITMAP_TYPE_INVALID) {
                 wxBitmap rbm;
                 wxFileSystem fs;
                 wxFSFile *f = fs.OpenFile(::wxGetApp().GetResourcePrefix() + filename);
