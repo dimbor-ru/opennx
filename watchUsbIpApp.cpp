@@ -49,7 +49,7 @@
 
 #include "watchUsbIpApp.h"
 #include "Icon.h"
-#include "xh_richtext.h"
+#include <wx/xrc/xh_richtext.h>
 #include "MyXmlConfig.h"
 #include "UsbFilterDetailsDialog.h"
 #include "UsbIp.h"

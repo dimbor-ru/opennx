@@ -56,11 +56,7 @@ DECLARE_DYNAMIC_CLASS(myRichTextCtrl);
 
     public:
 
-#if wxCHECK_VERSION(3,0,0)
     bool DoLoadFile(const wxString& filename, wxRichTextFileType fileType = wxRICHTEXT_TYPE_XML)
-#else
-    bool DoLoadFile(const wxString& filename, int fileType = wxRICHTEXT_TYPE_XML)
-#endif
     {
         bool success = false;
         wxFileSystem fs;
@@ -68,11 +64,7 @@ DECLARE_DYNAMIC_CLASS(myRichTextCtrl);
         if (f) {
             wxInputStream *is = f->GetStream();
             if (is->IsOk()) {
-                #if wxCHECK_VERSION(3,0,0)
                 success = GetBuffer().LoadFile(*is, (wxRichTextFileType)fileType);
-                #else
-                success = GetBuffer().LoadFile(*is, fileType);
-                #endif
                 if (success)
                     m_filename = filename;
             }
@@ -169,9 +161,7 @@ void TextViewer::CreateControls()
     ////@end TextViewer content construction
 
     m_pRichTextCtrl->GetBuffer().AddHandler(new wxRichTextXMLHandler());
-#if wxCHECK_VERSION(2,8,8)
     m_pRichTextCtrl->SetHandlerFlags(wxRICHTEXT_HANDLER_CONVERT_FACENAMES);
-#endif
  
     ////@begin TextViewer content initialisation
     ////@end TextViewer content initialisation

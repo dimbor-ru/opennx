@@ -262,11 +262,7 @@ AsyncProcess::Start()
         if (ret) {
             myLogTrace(MYTRACETAG, wxT(">Create()"));
             if (IsRunning())
-            #if wxCHECK_VERSION(3, 0, 0)
                 CreateThread();
-            #else
-                Create();
-            #endif
             myLogTrace(MYTRACETAG, wxT("<Create()"));
             if (IsRunning())
                 m_thread->Run();

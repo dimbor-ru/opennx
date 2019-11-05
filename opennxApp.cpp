@@ -38,9 +38,7 @@
 #ifdef __UNIX__
 #include <unistd.h>
 #endif
-#if wxCHECK_VERSION(3,0,0)
 #include <wx/debug.h>
-#endif
 #include <wx/cmdline.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/image.h>
@@ -74,11 +72,7 @@
 #include "LibUSB.h"
 #include "LibOpenSC.h"
 #include "osdep.h"
-#if wxCHECK_VERSION(3,0,0)
 #include <wx/xrc/xh_richtext.h>
-#else
-#include "xh_richtext.h"
-#endif
 #include "UsbIp.h"
 #include "CardWaiterDialog.h"
 #include "SupressibleMessageDialog.h"
@@ -167,9 +161,7 @@ IMPLEMENT_APP(opennxApp);
         m_sVersion.Append(wxT(".0"));
     m_sVersion.Append(wxT(".")).Append(wxT(SVNREV));
 
-# if wxCHECK_VERSION(3,0,0)
     m_locale.Init(wxLocale::GetSystemLanguage());
-# endif
 
     // Language overrides from KDE - only applied if running inside a KDE session. 
     if (inKdeSession != 0) {
@@ -887,11 +879,7 @@ void opennxApp::OnInitCmdLine(wxCmdLineParser& parser)
     wxRegEx re(wxT("^--((exportres)|(cacert)|(caption)|(style)|(dialog)|(message)|(parent)|(session)|(window)|(trace))$"));
 #endif
 
-    #if wxCHECK_VERSION(3,0,0)
     wxArrayString as = argv.GetArguments();
-    #else
-    wxArrayString as(argc, (const wxChar **)argv);
-    #endif
     for (i = 1; i < as.GetCount(); i++) {
         if (re.Matches(as[i])) {
             if ((i + 1) < as.GetCount()) {
@@ -1055,7 +1043,6 @@ bool opennxApp::OnCmdLineParsed(wxCmdLineParser& parser)
     return true;
 }
 
-#if wxCHECK_VERSION(3,0,0)
 // hide wx assertions like far2l project
 static void MyWxAssertHandler(const wxString& file,
     int line, const wxString& func,
@@ -1065,7 +1052,6 @@ static void MyWxAssertHandler(const wxString& file,
         file.wc_str(), line, func.wc_str(), cond.wc_str(), msg.wc_str());
 }
 
-#endif
 
 // 'Main program' equivalent: the program execution "starts" here
 bool opennxApp::realInit()
@@ -1088,9 +1074,7 @@ bool opennxApp::realInit()
     wxFileName::MacRegisterDefaultTypeAndCreator(wxT("nxs"), 'TEXT', 'OPNX');
 #endif
 
-#if wxCHECK_VERSION(3,0,0)
     wxSetAssertHandler(MyWxAssertHandler);
-#endif
 
     wxHelpProvider::Set(new wxSimpleHelpProvider);
 

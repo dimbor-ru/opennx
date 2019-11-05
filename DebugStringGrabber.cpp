@@ -67,7 +67,7 @@ DebugStringGrabber::DebugStringGrabber(wxEvtHandler *handler, pid_t filterPID)
     m_pData->FilterPID = filterPID;
     m_pData->hDataReady = NULL;
     m_pData->bTerminate = false;
-    if (Create(
+    if (CreateThread(
 #ifdef __OPENBSD__
             32768
 #endif

@@ -16,7 +16,6 @@ EXTRA_PROGRAMS = tracelog$(EXEEXT) watchreader$(EXEEXT) \
 	watchusbip$(EXEEXT) macfindreader$(EXEEXT) macuninstall$(EXEEXT) \
 	mactestkbd$(EXEEXT) testxauth$(EXEEXT)
 
-if WX3
 opennx_SOURCES = AboutDialog.cpp AsyncProcess.cpp LibOpenSC.cpp \
 	CardWaiterDialog.cpp ConnectDialog.cpp ExtHtmlWindow.cpp \
 	ForeignFrame.cpp Icon.cpp LogDialog.cpp KeyDialog.cpp LibUSB.cpp \
@@ -62,53 +61,6 @@ noinst_HEADERS = AboutDialog.h AboutDialog_symbols.h AsyncProcess.h \
 	opensc/errors.h opensc/opensc.h opensc/scconf.h opensc/types.h opensc/pkcs15.h \
 	libsmbclient.h \
 	XdmPropertyDialog.h XdmPropertyDialog_symbols.h
-else
-opennx_SOURCES = AboutDialog.cpp AsyncProcess.cpp LibOpenSC.cpp \
-	CardWaiterDialog.cpp ConnectDialog.cpp ExtHtmlWindow.cpp \
-	ForeignFrame.cpp Icon.cpp LogDialog.cpp KeyDialog.cpp LibUSB.cpp \
-	LoginDialog.cpp mylog.cpp md5.c MyIPC.cpp MyDynlib.cpp MySession.cpp \
-	MyValidator.cpp MyWizard.cpp MyXmlConfig.cpp opennxApp.cpp \
-	osdep.c PanicDialog.cpp pwcrypt.cpp ProxyPasswordDialog.cpp \
-	PulseAudio.cpp QuitDialog.cpp RdpImageSettingsDialog.cpp \
-	RdpPropertyDialog.cpp ResumeDialog.cpp ProxyPropertyDialog.cpp \
-	SessionAdmin.cpp SessionList.cpp SessionProperties.cpp \
-	SimpleXauth.cpp ShareProperties.cpp TextViewer.cpp \
-	UnixImageSettingsDialog.cpp UsbFilterDetailsDialog.cpp \
-	UsbIp.cpp VncImageSettingsDialog.cpp VncPropertyDialog.cpp \
-	wxprec.cpp WinShare.cpp X11PropertyDialog.cpp xh_richtext.cpp \
-	MacOSX.c WrappedStatic.cpp SupressibleMessageDialog.cpp \
-	XdmPropertyDialog.cpp
-
-noinst_HEADERS = AboutDialog.h AboutDialog_symbols.h AsyncProcess.h \
-	LibOpenSC.h CardWaiterDialog.h CardWaiterDialog_symbols.h \
-	ConnectDialog.h ConnectDialog_symbols.h debugleak.h \
-	DebugStringGrabber.h ExtHtmlWindow.h ForeignFrame.h \
-	ForeignFrame_symbols.h Icon.h KeyDialog.h KeyDialog_symbols.h \
-	LibUSB.h LogDialog.h LogDialog_symbols.h LoginDialog.h mylog.h \
-	LoginDialog_symbols.h md5.h memres.h MyIPC.h MyDynlib.h MySession.h \
-	MyValidator.h MyWizard.h MyWizard_symbols.h MyXmlConfig.h opennxApp.h \
-	osdep.h  PanicDialog.h PanicDialog_symbols.h PulseAudio.h pwcrypt.h \
-	QuitDialog.h QuitDialog_symbols.h ProxyPasswordDialog.h \
-	ProxyPasswordDialog_symbols.h ProxyPropertyDialog.h pulseTest.h \
-	ProxyPropertyDialog_symbols.h RdpImageSettingsDialog.h \
-	RdpImageSettingsDialog_symbols.h RdpPropertyDialog.h \
-	RdpPropertyDialog_symbols.h ResumeDialog.h ResumeDialog_symbols.h \
-	SessionAdmin.h SessionAdmin_symbols.h SessionList.h SimpleXauth.h \
-	SessionProperties.h SessionProperties_symbols.h ShareProperties.h \
-	ShareProperties_symbols.h TextViewer.h TextViewer_symbols.h \
-	TraceLogFrame.h TraceLogFrame_symbols.h UnixImageSettingsDialog.h \
-	UnixImageSettingsDialog_symbols.h UsbFilterDetailsDialog.h \
-	UsbFilterDetailsDialog_symbols.h UsbIp.h \
-	VncImageSettingsDialog.h VncImageSettingsDialog_symbols.h \
-	VncPropertyDialog.h VncPropertyDialog_symbols.h WinShare.h \
-	X11PropertyDialog.h X11PropertyDialog_symbols.h trace.h tracelogApp.h \
-	watchReaderApp.h watchUsbIpApp.h xh_richtext.h MacUninstallApp.h \
-	WrappedStatic.h SupressibleMessageDialog.h SupressibleMessageDialog_symbols.h \
-	TraceLogRemote_symbols.h TraceLogRemote.h \
-	opensc/errors.h opensc/opensc.h opensc/scconf.h opensc/types.h opensc/pkcs15.h \
-	libsmbclient.h \
-	XdmPropertyDialog.h XdmPropertyDialog_symbols.h
-endif
 
 pconnect_SOURCES = pconnect.c
 pconnect_LDADD = $(WS2LIB) $(RESLIB)
@@ -135,15 +87,9 @@ watchreader_CPPFLAGS = $(WX_CPPFLAGS) $(X_CFLAGS) -DAPP_WATCHREADER
 watchreader_CXXFLAGS = $(WX_CXXFLAGS)
 watchreader_CFLAGS = $(WX_CFLAGS)
 
-if WX3
 watchusbip_SOURCES = watchUsbIpApp.cpp UsbIp.cpp Icon.cpp LibUSB.cpp \
 	md5.c MyValidator.cpp MyXmlConfig.cpp osdep.c pwcrypt.cpp mylog.cpp \
 	UsbFilterDetailsDialog.cpp wxprec.cpp MyDynlib.cpp
-else
-watchusbip_SOURCES = watchUsbIpApp.cpp UsbIp.cpp Icon.cpp LibUSB.cpp \
-	md5.c MyValidator.cpp MyXmlConfig.cpp osdep.c pwcrypt.cpp mylog.cpp \
-	UsbFilterDetailsDialog.cpp wxprec.cpp xh_richtext.cpp MyDynlib.cpp
-endif
 
 watchusbip_LDADD = $(WX_LIBS) $(X_LIBS) $(X_PRE_LIBS) $(X_EXTRA_LIBS) \
 	$(APP_LDADD)

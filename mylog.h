@@ -32,14 +32,10 @@
 #endif
 
 // Macro for get Variadic MultiByte param from wsString object
-#if wxCHECK_VERSION(3,0,0)
 #ifdef __WXMSW__
 # define VMB(xxx) (static_cast<const wchar_t*>(xxx.wc_str()))
 #else
 # define VMB(xxx) ((const char*) (xxx.ToUTF8()))
-#endif
-#else
-# define VMB(xxx) (xxx.c_str())
 #endif
 extern void myLogDebug(const wxChar *szFormat, ...);
 extern void myLogTrace(const wxChar *mask, const wxChar *szFormat, ...) WX_ATTRIBUTE_PRINTF_2;

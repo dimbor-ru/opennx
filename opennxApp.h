@@ -74,10 +74,8 @@ class opennxApp : public wxApp
         virtual bool OnCmdLineParsed(wxCmdLineParser& parser);
         virtual int OnExit();
         int FilterEvent(wxEvent& event);
-#if wxCHECK_VERSION(3,0,0)
 #ifndef __WXMSW__
         wxLocale m_locale;
-#endif
 #endif
 
     private:

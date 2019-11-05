@@ -42,9 +42,6 @@
 // Since those are available in debug builds only, we use
 // our own framework here in order enable tracing even in
 // releas builds.
-#if !wxCHECK_VERSION(3, 0, 0)
-static
-#endif
 void logit(const char *szString, time_t WXUNUSED(t))
 {
 #ifdef __WXMSW__
