@@ -116,7 +116,6 @@ private:
     void parseSessions(bool moreAllowed);
     void parseResources();
     void initversion(const wxString &s = wxEmptyString);
-    bool prepareCups();
     bool isCupsRunning();
     void printSsh(const wxString &s, bool doLog = true, const wxString &reason = wxT(""));
     void cleanupOldSessions();

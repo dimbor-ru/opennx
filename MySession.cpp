@@ -1354,7 +1354,6 @@ MySession::startSharing()
     m_sSessionDisplay.ToLong(&smbport);
     cupsport += CUPS_PORT_OFFSET;
     smbport += SMB_PORT_OFFSET;
-    wxString cupspw = decodeString(wxConfigBase::Get()->Read(wxT("Config/CupsPasswd"), wxEmptyString));
     for (size_t i = 0; i < sg.GetCount(); i++) {
         if (used.Index(sg[i].m_sGroupName) == wxNOT_FOUND)
             continue;
@@ -1417,7 +1416,8 @@ MySession::startSharing()
                     << wxT(" --port=\"") << cupsport << wxT("\"") 
                     << wxT(" --session_id=\"") << m_sSessionID.Right(32) << wxT("\"") 
                     << wxT(" --printer=\"") << MyXmlConfig::UrlEsc(sn) << wxT("\"") 
-                    << wxT(" --password=\"") << cupspw << wxT("\"")
+                    << wxT(" --password=\"")
+                    << MyXmlConfig::UrlEsc(sg[i].m_sPassword) << wxT("\"")
                     << wxT(" --model=\"cups%20printer\"");
                 if (sg[i].m_bDefault)
                     shcmd << wxT(" --defaultprinter=\"1\"");
@@ -1632,7 +1632,7 @@ MySession::startXserver()
 MySession::startProxy()
 {
     myLogTrace(MYTRACETAG, wxT("MySession::startProxy() called"));
-    long cupsport = wxConfigBase::Get()->Read(wxT("Config/CupsPort"), -1);
+    long cupsport = m_pCfg->iGetCupsPort();
     wxString popts;
     if (m_lProtocolVersion >= 0x00030000)
         popts << wxT("nx/");
@@ -1790,197 +1790,13 @@ MySession::getActiveCupsPrinters()
     bool
 MySession::isCupsRunning()
 {
-    if (m_bCupsRunning)
-        return true;
-    long cupsport = wxConfigBase::Get()->Read(wxT("Config/CupsPort"), -1);
-    bool ret = false;
-    if (cupsport > 0) {
-        // Try connecting to cupsd
-        wxHTTP http;
-        wxString cupspw = decodeString(wxConfigBase::Get()->Read(wxT("Config/CupsPasswd"), wxEmptyString));
-        if (!cupspw.IsEmpty()) {
-            http.SetUser(::wxGetUserId());
-            http.SetPassword(cupspw);
-        }
-        http.Connect(wxT("127.0.0.1"), cupsport);
-        wxInputStream *is = http.GetInputStream(wxT("/"));
-        int res = http.GetResponse();
-        wxString svr = http.GetHeader(wxT("server"));
-        myLogTrace(MYTRACETAG, wxT("isCupsRunning RC=%d SVR=%s"), res, VMB(svr));
-        if ((res == 200) && svr.Contains(wxT("CUPS")))
-            ret = true;
-        delete is;
+    bool ret = m_bCupsRunning;
+    if (!ret) {
+        CupsClient cc;
+        ret = cc.IsAvailable();
+        m_bCupsRunning = ret;
     }
-    m_bCupsRunning = ret;
     myLogTrace(MYTRACETAG, wxT("isCupsRunning returning %s"), (ret ? "true" : "false"));
-    return ret;
-}
-
-    bool
-MySession::prepareCups()
-{
-    long cupsport = wxConfigBase::Get()->Read(wxT("Config/CupsPort"), -1);
-    if (cupsport == -1) {
-        cupsport = getFirstFreePort(20000);
-        if (0 == cupsport) {
-            wxLogWarning(_("Could not assign a free port for CUPS printing"));
-            return false;
-        }
-        wxConfigBase::Get()->Write(wxT("Config/CupsPort"), cupsport);
-    }
-    myLogTrace(MYTRACETAG, wxT("Check for cupsd running at port %d"), (int)cupsport);
-    if (isCupsRunning())
-        return true;
-
-    // If connecting to cupsd failed, we select the port again, because we might
-    // have connected to another user's cupsd and thus authentication might
-    // have failed. In that case, we must start our own new instance of cupsd.
-    cupsport = getFirstFreePort(20000);
-    if (0 == cupsport) {
-        wxLogWarning(_("Could not assign a free port for CUPS printing"));
-        return false;
-    }
-    wxConfigBase::Get()->Write(wxT("Config/CupsPort"), cupsport);
-
-    wxString tmp;
-    wxString sCupsDir = m_sUserDir;
-    sCupsDir << wxFileName::GetPathSeparator() << wxT("cups");
-
-    wxFileName::Mkdir(sCupsDir, 0700, wxPATH_MKDIR_FULL);
-    sCupsDir << wxFileName::GetPathSeparator();
-    wxFileName::Mkdir(sCupsDir + wxT("spool"), 0700, wxPATH_MKDIR_FULL);
-    wxFileName::Mkdir(sCupsDir + wxT("cache"), 0700, wxPATH_MKDIR_FULL);
-    wxFileName::Mkdir(sCupsDir + wxT("certs"), 0700, wxPATH_MKDIR_FULL);
-    wxFileName::Mkdir(sCupsDir + wxT("spool") +
-            wxFileName::GetPathSeparator() + wxT("tmp"), 0700, wxPATH_MKDIR_FULL);
-#ifdef __UNIX__
-    wxString sSysPPDDir=wxT("/etc/cups/ppd/");
-    wxString sUserPPDDir=sCupsDir+wxT("ppd/");
-    wxFileName::Mkdir(sUserPPDDir, 0755, wxPATH_MKDIR_FULL);
-#endif
-    {
-        CupsClient cl;
-        if (cl.IsAvailable()) {
-            ArrayOfShares sa = cl.GetShares();
-            if (sa.GetCount() > 0) {
-                wxFileOutputStream fos(sCupsDir + wxT("printers.conf"));
-                wxTextOutputStream tos(fos);
-                for (size_t i = 0; i < sa.GetCount(); i++) {
-                    tos << wxT("<Printer ") << sa[i].name << wxT(">") << endl;
-                    tos << wxT("  Info ") << sa[i].description << endl;
-                    tos << wxT("  Location local computer") << endl;
-                    tos << wxT("  DeviceURI http://localhost:") << m_pCfg->iGetCupsPort()
-                        << wxT("/printers/") << sa[i].name << endl;
-                    tos << wxT("  State Idle") << endl;
-                    tos << wxT("  Accepting Yes") << endl;
-                    tos << wxT("  JobSheets none none") << endl;
-                    tos << wxT("  QuotaPeriod 0") << endl;
-                    tos << wxT("  PageLimit 0") << endl;
-                    tos << wxT("  KLimit 0") << endl;
-                    tos << wxT("</Printer>") << endl;
-#ifdef __UNIX__
-                    wxString sPPDFName=sSysPPDDir+sa[i].name+wxT(".ppd");
-                    if (::wxFileExists(sPPDFName)) {
-                        wxString sLName=sUserPPDDir+sa[i].name;
-                        ::wxCopyFile(sPPDFName,sLName+wxT("_nxdl.ppd"),true);
-                    }
-#endif
-                }
-            }
-        } else
-            return false;
-    }
-
-    tmp = m_sSysDir;
-    tmp << wxFileName::GetPathSeparator() << wxT("share")
-        << wxFileName::GetPathSeparator() << wxT("cups")
-        << wxFileName::GetPathSeparator();
-    ::wxCopyFile(tmp + wxT("mime.convs"), sCupsDir + wxT("mime.convs"));
-    ::wxCopyFile(tmp + wxT("mime.types"), sCupsDir + wxT("mime.types"));
-    {
-        wxFileOutputStream fos(sCupsDir + wxT("cupsd.conf"));
-        wxTextOutputStream tos(fos);
-#ifdef __WXDEBUG__
-        tos << wxT("LogLevel debug") << endl;
-#else
-        tos << wxT("LogLevel info") << endl;
-#endif
-        tos << wxT("Port ") << (int)cupsport << endl;
-        tos << wxT("Browsing Off") << endl;
-        tos << wxT("ServerName localhost") << endl;
-        tos << wxT("ServerTokens full") << endl;
-        tos << wxT("<Location />") << endl;
-        tos << wxT("  Order Deny,Allow") << endl;
-        tos << wxT("  Deny From All") << endl;
-        tos << wxT("  Require user ") << ::wxGetUserId() << endl;
-        tos << wxT("  AuthType BasicDigest") << endl;
-        tos << wxT("  Allow from 127.0.0.0/8") << endl;
-        tos << wxT("</Location>") << endl;
-        tos << wxT("<Location /printers>") << endl;
-        tos << wxT("  Order Deny,Allow") << endl;
-        tos << wxT("  Deny From All") << endl;
-        tos << wxT("  Require user root") << endl;
-        tos << wxT("  AuthType none") << endl;
-        tos << wxT("  Allow from 127.0.0.0/8") << endl;
-        tos << wxT("</Location>") << endl;
-#ifdef __UNIX__
-        tos << wxT("<Location /ppd>") << endl;
-        tos << wxT("  Order Deny,Allow") << endl;
-        tos << wxT("  Deny From All") << endl;
-        tos << wxT("  Allow from 127.0.0.0/8") << endl;
-        tos << wxT("</Location>") << endl;
-#endif
-    }
-    {
-        wxFileOutputStream fos(sCupsDir + wxT("cups-files.conf"));
-        wxTextOutputStream tos(fos);
-        tos << wxT("CacheDir ") << sCupsDir << wxT("cache") << endl;
-        tos << wxT("StateDir ") << sCupsDir << wxT("certs") << endl;
-        tos << wxT("TempDir ") << sCupsDir << wxT("spool")
-            << (wchar_t)wxFileName::GetPathSeparator() << wxT("tmp") << endl;
-        tos << wxT("RequestRoot ") << sCupsDir << wxT("spool") << endl;
-        tos << wxT("ServerRoot ") << m_sUserDir
-            << (wchar_t)wxFileName::GetPathSeparator() << wxT("cups") << endl;
-        tos << wxT("ErrorLog ") << sCupsDir << wxT("error_log") << endl;
-        tos << wxT("PageLog ") << sCupsDir << wxT("page_log") << endl;
-        tos << wxT("AccessLog ") << sCupsDir << wxT("access_log") << endl;
-        tos << wxT("PidFile ") << sCupsDir << wxT("cupsd.pid") << endl;
-    }
-    {
-        wxFileOutputStream fos(sCupsDir + wxT("passwd.md5"));
-        wxTextOutputStream tos(fos);
-#ifdef __WXMSW__
-        tos << ::wxGetUserId() << wxT(":") << ::wxGetUserId();
-#else
-        struct group *g = getgrgid(getgid());
-        wxString sGroupId = wxConvLocal.cMB2WX(g->gr_name);
-        tos << ::wxGetUserId() << wxT(":") << sGroupId;
-#endif
-        wxDateTime now = wxDateTime::Now();
-        wxString cupspw = decodeString(wxConfigBase::Get()->Read(wxT("Config/CupsPasswd"), wxEmptyString));
-        if (cupspw.IsEmpty()) {
-            cupspw << ::wxGetUserId()
-                << wxT("NX")
-                << now.FormatISODate()
-                << wxT("T")
-                << now.FormatISOTime();
-            cupspw = md5sum(cupspw).Left(16);
-            wxConfigBase::Get()->Write(wxT("Config/CupsPasswd"), encodeString(cupspw));
-        }
-        tos << wxT(":") << md5sum(::wxGetUserId()+ wxT(":CUPS:") + cupspw) << endl;
-    }
-    wxString cmd = m_pCfg->sGetCupsPath();
-    cmd << wxT(" -c ") << sCupsDir << wxT("cupsd.conf");
-    myLogTrace(MYTRACETAG, wxT("Starting '%s'"), VMB(cmd));
-    if (::wxExecute(cmd, wxEXEC_ASYNC) <= 0)
-        return false;
-    bool ret = false;
-    for (int i=1; i<41; i++) { // multiple pooling for catching of lazy started cupsd
-        wxThread::Sleep(500);
-        ret = isCupsRunning();
-        if (ret)
-            break;
-        }
     return ret;
 }
 
@@ -2436,8 +2252,6 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
         }
         if (getActiveCupsPrinters().GetCount() > 0) {
             dlg.SetStatusText(_("Preparing CUPS service ..."));
-            if (!prepareCups())
-                wxLogWarning(_("Could not start CUPS printing"));
             dlg.SetStatusText(wxString::Format(_("Connecting to %s ..."),
                         VMB(m_pCfg->sGetServerHost())));
         }

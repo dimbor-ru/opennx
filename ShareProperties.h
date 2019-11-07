@@ -136,6 +136,8 @@ private:
     wxPanel* m_pCtrlCupsOptions;
     wxRadioButton* m_pCtrlCupsPrivate;
     wxRadioButton* m_pCtrlCupsPublic;
+    wxTextCtrl* m_pCtrlCupsPrintUsername;
+    wxTextCtrl* m_pCtrlCupsPrintPassword;
     wxPanel* m_pCtrlUsbOptions;
     wxPanel* m_pCtrlSmbDiskOptions;
     wxTextCtrl* m_pCtrlMountPoint;
@@ -151,6 +153,8 @@ private:
     wxString m_sSmbDriver;
     wxString m_sSmbPrintPassword;
     wxString m_sSmbPrintUsername;
+    wxString m_sCupsPrintPassword;
+    wxString m_sCupsPrintUsername;
 ////@end ShareProperties member variables
 
     int m_iCurrentShare;

@@ -137,6 +137,8 @@ bool ShareProperties::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const w
     m_pCtrlCupsOptions = NULL;
     m_pCtrlCupsPrivate = NULL;
     m_pCtrlCupsPublic = NULL;
+    m_pCtrlCupsPrintUsername = NULL;
+    m_pCtrlCupsPrintPassword = NULL;
     m_pCtrlUsbOptions = NULL;
     m_pCtrlSmbDiskOptions = NULL;
     m_pCtrlMountPoint = NULL;
@@ -183,6 +185,8 @@ void ShareProperties::CreateControls()
     m_pCtrlCupsOptions = XRCCTRL(*this, "ID_PANEL_CUPSOPTIONS", wxPanel);
     m_pCtrlCupsPrivate = XRCCTRL(*this, "ID_RADIOBUTTON_CUPS_PRIVATE", wxRadioButton);
     m_pCtrlCupsPublic = XRCCTRL(*this, "ID_RADIOBUTTON_CUPS_PUBLIC", wxRadioButton);
+    m_pCtrlCupsPrintUsername = XRCCTRL(*this, "ID_TEXTCTRL_CUPSPRINT_USERNAME", wxTextCtrl);
+    m_pCtrlCupsPrintPassword = XRCCTRL(*this, "ID_TEXTCTRL_CUPSPRINT_PASSWORD", wxTextCtrl);
     m_pCtrlUsbOptions = XRCCTRL(*this, "ID_PANEL_USBIP", wxPanel);
     m_pCtrlSmbDiskOptions = XRCCTRL(*this, "ID_PANEL_SMBOPTIONS", wxPanel);
     m_pCtrlMountPoint = XRCCTRL(*this, "ID_TEXTCTRL_SHARE_MOUNTPOINT", wxTextCtrl);
@@ -201,6 +205,10 @@ void ShareProperties::CreateControls()
         FindWindow(XRCID("ID_COMBOBOX_CUPSDRIVER"))->SetValidator( wxGenericValidator(& m_sCupsDriver) );
     if (FindWindow(XRCID("ID_RADIOBUTTON_CUPS_PUBLIC")))
         FindWindow(XRCID("ID_RADIOBUTTON_CUPS_PUBLIC"))->SetValidator( wxGenericValidator(& m_bCupsPublic) );
+    if (FindWindow(XRCID("ID_TEXTCTRL_CUPSPRINT_USERNAME")))
+        FindWindow(XRCID("ID_TEXTCTRL_CUPSPRINT_USERNAME"))->SetValidator( MyValidator(& m_sCupsPrintUsername) );
+    if (FindWindow(XRCID("ID_TEXTCTRL_CUPSPRINT_PASSWORD")))
+        FindWindow(XRCID("ID_TEXTCTRL_CUPSPRINT_PASSWORD"))->SetValidator( MyValidator(& m_sCupsPrintPassword) );
     if (FindWindow(XRCID("ID_TEXTCTRL_SHARE_MOUNTPOINT")))
         FindWindow(XRCID("ID_TEXTCTRL_SHARE_MOUNTPOINT"))->SetValidator( MyValidator(& m_sMountPoint) );
     if (FindWindow(XRCID("ID_TEXTCTRL_SHARE_USERNAME")))
@@ -230,7 +238,7 @@ void ShareProperties::CreateControls()
     m_pCtrlCupsOptions->Show(true);
     InvalidateBestSize();
     Layout();
-    m_pCtrlCupsOptions->SetMinSize(m_pCtrlSmbDiskOptions->GetBestSize());
+    m_pCtrlCupsOptions->SetMinSize(m_pCtrlCupsOptions->GetBestSize());
     GetBestSize(&w, &h);
     if (w > minw)
         minw = w;
@@ -242,7 +250,7 @@ void ShareProperties::CreateControls()
     m_pCtrlSmbPrintOptions->Show(false);
     InvalidateBestSize();
     Layout();
-    m_pCtrlSmbDiskOptions->SetMinSize(m_pCtrlSmbPrintOptions->GetBestSize());
+    m_pCtrlSmbDiskOptions->SetMinSize(m_pCtrlSmbDiskOptions->GetBestSize());
     GetBestSize(&w, &h);
     if (w > minw)
         minw = w;
@@ -291,6 +299,10 @@ void ShareProperties::CreateControls()
                 m_pCtrlSmbDiskOptions->Show(false);
                 m_pCtrlCupsOptions->GetSizer()->Layout();
                 m_pCtrlCupsOptions->Show(true);
+                m_sCupsPrintUsername = sg.m_sUsername;
+                if (m_sCupsPrintUsername.IsEmpty())
+                    m_sCupsPrintUsername = ::wxGetUserId();
+                m_sCupsPrintPassword = sg.m_sPassword;
                 if (sg.m_bPublic)
                     m_pCtrlCupsPublic->SetValue(true);
                 else
@@ -490,6 +502,8 @@ void ShareProperties::OnOkClick( wxCommandEvent& event )
                 sg[m_iCurrentShare].m_sUsername = ::wxGetUserId();
                 sg[m_iCurrentShare].m_sDriver = m_sCupsDriver;
                 sg[m_iCurrentShare].m_bPublic = m_bCupsPublic;
+                sg[m_iCurrentShare].m_sUsername = m_sCupsPrintUsername;
+                sg[m_iCurrentShare].m_sPassword = m_sCupsPrintPassword;
                 if (nPrinters > 0)
                     askForDefault(sg, sg[m_iCurrentShare]);
                 break;
@@ -522,9 +536,10 @@ void ShareProperties::OnOkClick( wxCommandEvent& event )
                     askForDefault(sg, g);
                 break;
             case SharedResource::SHARE_CUPS_PRINTER:
-                g.m_sUsername = ::wxGetUserId();
                 g.m_sDriver = wxT("cups driver");
                 g.m_bPublic = m_bCupsPublic;
+                g.m_sUsername = m_sCupsPrintUsername;
+                g.m_sPassword = m_sCupsPrintPassword;
                 if (nPrinters > 0)
                     askForDefault(sg, g);
                 break;

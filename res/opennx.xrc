@@ -2621,6 +2621,62 @@ this share.</label>
                                 </object>
                             </object>
                         </object>
+                        <object class="sizeritem">
+                            <flag>wxGROW|wxALL</flag>
+                            <border>5</border>
+                            <object class="wxStaticLine" name="wxID_STATIC">
+                                <style>wxLI_HORIZONTAL</style>
+                            </object>
+                        </object>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_LEFT|wxALL</flag>
+                            <border>5</border>
+                            <object class="wxStaticText" name="wxID_STATIC">
+                                <label>The remote system will need to provide security
+credentials to your local client. Please specify
+username and password with which you configured
+this share.</label>
+                            </object>
+                        </object>
+                        <object class="sizeritem">
+                            <flag>wxGROW|wxALL</flag>
+                            <border>0</border>
+                            <object class="wxFlexGridSizer">
+                                <cols>2</cols>
+                                <rows>2</rows>
+                                <vgap>0</vgap>
+                                <hgap>5</hgap>
+                                <growablecols>1</growablecols>
+                                <object class="sizeritem">
+                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                    <border>5</border>
+                                    <object class="wxStaticText" name="wxID_STATIC">
+                                        <label>Username</label>
+                                    </object>
+                                </object>
+                                <object class="sizeritem">
+                                    <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                    <border>5</border>
+                                    <object class="wxTextCtrl" name="ID_TEXTCTRL_CUPSPRINT_USERNAME">
+                                    </object>
+                                </object>
+                                <object class="sizeritem">
+                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                    <border>5</border>
+                                    <object class="wxStaticText" name="wxID_STATIC">
+                                        <label>Password</label>
+                                    </object>
+                                </object>
+                                <object class="sizeritem">
+                                    <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                    <border>5</border>
+                                    <option>1</option>
+                                    <object class="wxTextCtrl" name="ID_TEXTCTRL_CUPSPRINT_PASSWORD">
+                                        <style>wxTE_PASSWORD</style>
+                                    </object>
+                                </object>
+                            </object>
+                        </object>
                     </object>
                 </object>
             </object>
