@@ -271,12 +271,7 @@ dist-hook:
 # Platform specific special targets
 debprep: distcheck
 	tar xfz $(PACKAGE)-$(VERSION).tar.gz
-	cd $(PACKAGE)-$(VERSION) && ./getnxsrcpkg nxcomp nxproxy nxssh
-	cd $(PACKAGE)-$(VERSION) && tar xzf nxcomp-*.tar.gz
-	cd $(PACKAGE)-$(VERSION) && tar xzf nxproxy-*.tar.gz
-	cd $(PACKAGE)-$(VERSION) && tar xzf nxssh-*.tar.gz
-	$(RM) $(PACKAGE)-$(VERSION)/*.tar.gz
-	$(RM) $(PACKAGE)-$(VERSION)/nxssh/scard/Ssh.bin
+	cd $(PACKAGE)-$(VERSION) && ./getnxsrcpkg
 	cd $(PACKAGE)-$(VERSION) && perl debian/mkchangelog.pl $(VERSION) \
 		< ChangeLog > debian/changelog
 
