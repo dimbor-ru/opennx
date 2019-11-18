@@ -138,20 +138,7 @@ opennx_CFLAGS = $(WX_CFLAGS)
 GETTEXTIZE = $(shell which gettextize)
 
 bootstrap:
-#   Update ChangeLog from SVN
-#	svn2cl -i --break-before-msg --authors=conf/authors.xml
-# 	Convince gettextize not to modify EXTRA_DIST
-#	test -f conf/config.rpath || touch conf/config.rpath
-# 	Convince gettextize not to modify AC_CONFIG_FILES
-#	test -f po/Makefile.in.in || touch po/Makefile.in.in
-#	Tweak gettextize
-#	Stupid gettextize uses /dev/tty for interactively getting a
-#	confirm of it's "oh so incredibly important notes".
-#	YES, i've read them at least a dozen times and now, i REALLY
-#	don't want to hit RETURN anymore!
-#	test -n "$(GETTEXTIZE)" && \
-#		sed -e 's@/dev/tty@/dev/null@' "$(GETTEXTIZE)" | bash -s -- -f --no-changelog
-#	test -e conf/mkinstalldirs || touch conf/mkinstalldirs
+#   TODO: Needed here to update ChangeLog from git repo?
 	autoreconf -if
 
 bundle:
