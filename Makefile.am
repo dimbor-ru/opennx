@@ -218,9 +218,6 @@ data_DATA = share/keyboards
 keydir = $(datadir)/keys
 key_DATA = $(top_srcdir)/share/keys/*
 
-cupsdir = $(datadir)/cups
-cups_DATA = $(top_srcdir)/share/cups/*
-
 install-data-local:
 	$(MAKE) -C po stamp-po install-data-yes
 	$(INSTALL) -d $(DESTDIR)$(datadir)/icons
