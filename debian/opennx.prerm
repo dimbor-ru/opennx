@@ -47,10 +47,11 @@ case "$1" in
             done
         done
         xdg-icon-resource forceupdate
-        for l in smbclient cups opensc  ; do
-            rm -f /usr/lib/opennx/lib/lib$l.so
+        DTM=$(dpkg-architecture -qDEB_TARGET_MULTIARCH)
+	     rm -f /usr/lib/$DTM/opennx/share
+        for l in smbclient cups opensc pulse ; do
+            rm -f /usr/lib/$DTM/opennx/lib/lib$l.so
         done
-        # USBIP delgroup --quiet opennx
     ;;
 
     failed-upgrade)

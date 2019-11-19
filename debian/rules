@@ -1,102 +1,45 @@
 #!/usr/bin/make -f
-# -*- makefile -*-
-# Sample debian/rules that uses debhelper.
-# This file was originally written by Joey Hess and Craig Small.
-# As a special exception, when this file is copied by dh-make into a
-# dh-make output file, you may use that output file without restriction.
-# This special exception was added by Craig Small in version 0.37 of dh-make.
 
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+export DH_VERBOSE=1
 
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export DEB_CFLAGS_MAINT_APPEND  = -Wall -Os
+export DEB_CPPFLAGS_MAINT_APPEND  = -Wall -Os
 
-# These are used for cross-compiling and for saving the configure script
-# from having to guess our platform (since we know it already)
-DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
-DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
-ifneq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
-CROSS= --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE)
-else
-CROSS= --build $(DEB_BUILD_GNU_TYPE)
-endif
+include /usr/share/dpkg/architecture.mk
+export LIBDIR = /usr/lib/$(DEB_HOST_MULTIARCH)
+export INCLUDEDIR = /usr/include/$(DEB_HOST_MULTIARCH)
 
+CONFIGURE_FLAGS = --prefix=/usr \
+    --bindir=$(LIBDIR)/opennx/bin \
+    --includedir=$(INCLUDEDIR)
 
-export CFLAGS = -Os
-export CXXFLAGS = -Os
-prefix = /usr/lib/opennx
+CONFIGURE_FLAGS_2 = --datadir=/usr/share/opennx --localedir=/usr/share/locale
 
-config.status: configure
-	dh_testdir
-ifneq "$(wildcard /usr/share/misc/config.sub)" ""
-	cp -f /usr/share/misc/config.sub config.sub
-endif
-ifneq "$(wildcard /usr/share/misc/config.guess)" ""
-	cp -f /usr/share/misc/config.guess config.guess
-endif
-	./configure $(CROSS) --prefix=$(prefix) --datarootdir=/usr/share/opennx
-	cd nxssh && ./configure --prefix=$(prefix) --with-opensc --enable-opensc-dynamic
+%:
+	dh $@ --with autoreconf
 
+override_dh_auto_configure:
+	./configure $(CONFIGURE_FLAGS) $(CONFIGURE_FLAGS_2)
+	./getnxsrcpkg
+	cd nxssh && autoreconf -fi && ./configure $(CONFIGURE_FLAGS)
 
-build: build-stamp
+override_dh_auto_build:
+	dh_auto_build
+	cd nxssh && $(MAKE)
 
-build-stamp: config.status
-	dh_testdir
-	$(MAKE) -C nxssh
-	touch $@
+override_dh_auto_install:
+	dh_auto_install
+	install -c nxssh/nxssh debian/opennx$(LIBDIR)/opennx/bin
+	sed -i -e 's/\/usr\/NX/\/usr\/lib\/'$(DEB_HOST_MULTIARCH)'\/opennx/g' \
+	  debian/opennx/usr/share/opennx/applnk/xdg/*.desktop
+	install -d debian/opennx$(LIBDIR)/opennx/lib
+	cd debian/opennx$(LIBDIR)/opennx && \
+	  ln -s lib lib64
+	install -d debian/opennx/usr/bin
+	cd debian/opennx/usr/bin && \
+	  ln -s ../lib/$(DEB_HOST_MULTIARCH)/opennx/bin/opennx opennx
 
-clean:
-	dh_testdir
-	dh_testroot
-	rm -f build-stamp
-	test ! -f Makefile || $(MAKE) distclean
-	rm -f config.sub config.guess
-	dh_clean
-
-install: build
-	dh_testdir
-	dh_testroot
-	dh_prep
-	dh_installdirs
-	$(MAKE) DESTDIR=$(CURDIR)/debian/opennx install
-	cd debian/opennx/usr/bin && ln -s ../lib/opennx/bin/opennx nxclient
-	cd debian/opennx/usr/lib/opennx && ln -s ../../share/opennx share
-	cp -a nxssh/nxssh debian/opennx/usr/lib/opennx/bin
-	cd debian/opennx/usr && ln -s lib/opennx NX
-
-# Build architecture-independent files here.
-binary-indep: install
-# We have nothing to do by default.
-
-# Build architecture-dependent files here.
-binary-arch: install
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs ChangeLog
-	dh_installdocs
-#	dh_installexamples
-#	dh_install
-#	dh_installmenu
-#	dh_installdebconf
-#	dh_installlogrotate
-#	dh_installemacsen
-#	dh_installpam
-#	dh_installmime
-#	dh_python
-#	dh_installinit
-#	dh_installcron
-#	dh_installinfo
-	dh_installman
-	dh_link
-	dh_strip
-	dh_compress
-	dh_fixperms
-#	dh_perl
-#	dh_makeshlibs
-	dh_installdeb
-	dh_shlibdeps -l$(CURDIR)/debian/opennx/usr/lib/opennx/lib
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf nxssh

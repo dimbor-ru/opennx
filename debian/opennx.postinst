@@ -18,15 +18,16 @@
 
 case "$1" in
     configure|triggered)
-        # USBIP only
-        #if ! getent group opennx >/dev/null ; then
-        #    addgroup --quiet --system opennx
-        #fi
+        DTM=$(dpkg-architecture -qDEB_TARGET_MULTIARCH)
+        if [ ! -f /usr/bin/nxclient ] ; then
+	         ln -snf /usr/lib/$DTM/opennx/bin/opennx /usr/bin/nxclient
+        fi
+	     ln -snf /usr/share/opennx /usr/lib/$DTM/opennx/share
         for l in smbclient cups opensc pulse ; do
             lp=`/sbin/ldconfig -p|awk '/lib'$l'[\.-]/ {print $4}'|head -1`
             if test -n "$lp" ; then
                 bn=`echo $l|sed -e 's/[-0-9]//g'`
-                ln -snf $lp /usr/lib/opennx/lib/lib$l.so
+                ln -snf $lp /usr/lib/$DTM/opennx/lib/lib$l.so
             fi
         done
         # Install icons
