@@ -32,7 +32,9 @@ Depends:
  libx11-6,
  libxau6,
  libxmu6,
- xdg-utils
+ xdg-utils,
+ libssl1.0.2 (>= 1.0.2d),
+ zlib1g
 Recommends: libopensc2, libsmbclient, cups, wx3.0-i18n, libjpeg-turbo, pulseaudio
 Description: Open Source NX client
  OpenNX is an OSS replacement for Nomachine's NX client.
