@@ -112,11 +112,6 @@ bool AboutDialog::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const wxStr
 
     wxString version = _("Version") + wxString::Format(wxT(" <B>%s</B>"),
         ::wxGetApp().GetVersion().c_str());
-#ifdef __WXDEBUG__
-    version += wxT(" (DEBUG)");
-#else
-    version += wxT(" (RELEASE)");
-#endif
 
     wxString content = ::wxGetApp().LoadFileFromResource(wxT("res/about.html"));
     content.Replace(wxT("<VERSION>"), version);

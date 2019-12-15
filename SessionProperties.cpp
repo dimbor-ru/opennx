@@ -1217,11 +1217,6 @@ void SessionProperties::CreateControls()
 
     wxString version = _("Version") + wxString::Format(wxT(" <B>%s</B>"),
                                                 VMB(::wxGetApp().GetVersion()));
-#ifdef __WXDEBUG__
-    version += wxT(" (DEBUG)");
-#else
-    version += wxT(" (RELEASE)");
-#endif
 
     wxString content = ::wxGetApp().LoadFileFromResource(wxT("res/about.html"));
     content.Replace(wxT("<VERSION>"), version);
