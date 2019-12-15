@@ -49,6 +49,7 @@ case "$1" in
         xdg-icon-resource forceupdate
         DTM=$(dpkg-architecture -qDEB_TARGET_MULTIARCH)
 	     rm -f /usr/lib/$DTM/opennx/share
+	     rm -f /usr/lib/$DTM/opennx/bin/nxproxy
         for l in smbclient cups opensc pulse ; do
             rm -f /usr/lib/$DTM/opennx/lib/lib$l.so
         done

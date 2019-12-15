@@ -23,6 +23,7 @@ case "$1" in
 	         ln -snf /usr/lib/$DTM/opennx/bin/opennx /usr/bin/nxclient
         fi
 	     ln -snf /usr/share/opennx /usr/lib/$DTM/opennx/share
+	     ln -snf /usr/bin/nxproxy /usr/lib/$DTM/opennx/bin/nxproxy
         for l in smbclient cups opensc pulse ; do
             lp=`/sbin/ldconfig -p|awk '/lib'$l'[\.-]/ {print $4}'|head -1`
             if test -n "$lp" ; then
