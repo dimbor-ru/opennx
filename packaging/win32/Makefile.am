@@ -57,7 +57,10 @@ nativesetup: .setupdir .dlldeps .stripsetup
 	"$(ISCC)" "$(srcdir)/opennx.iss" -dBUILDXMING=$(BUILDXMING)
 
 crosssetup: .setupdir .dlldeps .stripsetup isccwrap.sh
-	"$(ISCC)" "$(srcdir)/opennx.iss" -dBUILDXMING=$(BUILDXMING)
+	for edfn in $(EXTRA_DIST) ; do \
+		$(INSTALL_DATA) $(abs_srcdir)/$$edfn ./ ; \
+	done
+	"$(ISCC)" "opennx.iss" -dBUILDXMING=$(BUILDXMING)
 
 setup: $(SETUP)
 

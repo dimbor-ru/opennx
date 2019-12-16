@@ -1,5 +1,6 @@
 IURAR = innounp041.rar
 IUDIR = innounp%200.41
+INXCSN = NXClientCE-3.5.0-9-r15.5.exe
 
 tmpinstall: '{app}'
 	mkdir -p dist/bin dist/lib dist/share
@@ -29,9 +30,8 @@ unrar.available:
 	touch $@
 
 nxsetup.exe:
-	$(PERL) getnxsetup
+	$(WGET) -O $@ -q 'http://unixforum.org/up/nxman/$(INXCSN)'
 
 CLEANFILES = -r dist '{app}' install_script.iss unrar.available
 DISTCLEANFILES = $(IURAR) innounp.exe nxsetup.exe
-EXTRA_DIST = getnxsetup
 MAINTAINERCLEANFILES = Makefile.in

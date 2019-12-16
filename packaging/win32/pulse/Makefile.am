@@ -19,4 +19,4 @@ $(OURPA): $(OURPA).tar.gz
 	$(vunpack__$(AM_DEFAULT_VERBOSITY)$(V))tar xzf $(OURPA).tar.gz
 
 $(OURPA).tar.gz:
-	$(WGET) -nc $(shell grep $(subsrc).tar.gz urls.txt)
+	$(WGET) -O $@ -q 'http://unixforum.org/up/nxman/opennx/$(OURPA).tar.gz'

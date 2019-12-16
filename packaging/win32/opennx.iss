@@ -18,7 +18,7 @@ AppVersion={#=APPFULLVER}
 AppVerName={#=APPFULLVERNAME}
 AppPublisher=OpenNX Community Edition
 AppPublisherURL=Community from http://unixforum.org
-AppCopyright=(C) 2011 The OpenNX Team
+AppCopyright=(C) 2011 The OpenNX Team, CE 2020
 ;VersionInfoVersion={#=APPFULLVER}
 DefaultDirName={pf}\{#=APPNAME}
 DefaultGroupName={#=APPNAME}
