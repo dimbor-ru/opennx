@@ -621,7 +621,12 @@ PulseAudio::~PulseAudio()
 
 bool PulseAudio::IsAvailable()
 {
-    myLogTrace(MYTRACETAG, wxT("IsAvailable:%s"), m_bPulseAvailable ? wxT("true") : wxT("false"));
+    myLogTrace(MYTRACETAG, wxT("IsAvailable:%s"),
+#   ifdef __WXMSW__
+ 		m_bPulseAvailable ? wxT("true") : wxT("false"));
+#   else
+ 		m_bPulseAvailable ? "true" : "false");
+#   endif
     return m_bPulseAvailable;
 }
 

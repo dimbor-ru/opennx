@@ -260,7 +260,7 @@ ArrayOfUSBDevices USB::GetDevices() {
 }
 
 bool USB::IsAvailable() {
-    myLogTrace(MYTRACETAG, wxT("USB::IsAvailable() = %s"), m_bAvailable ? wxT("true") : wxT("false"));
+    myLogTrace(MYTRACETAG, wxT("USB::IsAvailable() = %s"), m_bAvailable ? "true" : "false");
     return m_bAvailable;
 }
 

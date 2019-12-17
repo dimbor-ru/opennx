@@ -857,7 +857,11 @@ SessionProperties::InstallOnCharHandlers(wxWindow *w /* = NULL*/)
                     wxDynamicCast(v, MyValidator)->SetKeyTyped(this);
                 else
                     wxLogError(wxT("Detected %s window with validator other than MyValidator!"),
+#ifdef __WXMSW__
                             w->IsKindOf(CLASSINFO(wxTextCtrl)) ? wxT("wxTextCtrl") : wxT("wxSpinCtrl"));
+#else
+                            w->IsKindOf(CLASSINFO(wxTextCtrl)) ? "wxTextCtrl" : "wxSpinCtrl");
+#endif
             } else {
 #ifdef __WXMAC__
                 // wxWidgets on MacOSX generates additional windows
@@ -865,10 +869,11 @@ SessionProperties::InstallOnCharHandlers(wxWindow *w /* = NULL*/)
                     continue;
 #endif
                 wxLogError(wxT("Detected %s (name=%s) window without validator!"),
-                        (w->IsKindOf(CLASSINFO(wxTextCtrl)) ? wxT("wxTextCtrl") : wxT("wxSpinCtrl")),
 #ifdef __WXMSW__
+                        (w->IsKindOf(CLASSINFO(wxTextCtrl)) ? wxT("wxTextCtrl") : wxT("wxSpinCtrl")),
                         (w->GetName().IsEmpty() ? wxT("") : VMB(w->GetName())));
 #else
+                        (w->IsKindOf(CLASSINFO(wxTextCtrl)) ? "wxTextCtrl" : "wxSpinCtrl"),
                         (w->GetName().IsEmpty() ? "" : VMB(w->GetName())));
 #endif
             }
