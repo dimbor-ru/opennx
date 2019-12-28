@@ -3,8 +3,7 @@
 All these years, the classic nx was not as dead as it seemed ;)
 It is used in production and develops as fast as it can.
 
-I am very grateful to the developers of the [ArcticaProject/nx-libs]
-(https://github.com/ArcticaProject/nx-libs) for maintaining backward
+I am very grateful to the developers of the [ArcticaProject/nx-libs](https://github.com/ArcticaProject/nx-libs) for maintaining backward
 compatibility and the opportunity to use their libraries instead
 of self-assembly.
 
@@ -27,7 +26,7 @@ On Windows pulseaudio6 binarys are included;
 
 - ...
 
-It worked with our own freenx-server
+It worked with our own [freenx-server](https://github.com/dimbor-ru/freenx-server)
 And with classic nxserver 3.x.x compatibility remained.
 
 Debian package home-maded for Devuan ASCII now. There is a suspicion that
