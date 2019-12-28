@@ -27,15 +27,15 @@ BEGIN
         BLOCK "000004b0"
         BEGIN
             VALUE "Comments", "\0"
-            VALUE "CompanyName", "InnoviData GmbH\0"
+            VALUE "CompanyName", "unixforum.org community\0"
             VALUE "FileDescription", "opennx\0"
             VALUE "FileVersion", @RC_VERSION_STR@
             VALUE "InternalName", "opennx\0"
-            VALUE "LegalCopyright", "Copyright © 2011 InnoviData GmbH\0"
+            VALUE "LegalCopyright", "Copyright © 2011 InnoviData GmbH, 2019 unixforum.org community\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "opennx.exe\0"
             VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "InnoviData opennx\0"
+            VALUE "ProductName", "unixforum.org opennx\0"
             VALUE "ProductVersion", @RC_VERSION_STR@
             VALUE "SpecialBuild", "\0"
         END
