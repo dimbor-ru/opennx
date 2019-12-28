@@ -2,9 +2,6 @@
 # prerm script for opennx
 #
 # see: dh_installdeb(1)
-
-set -e
-
 # summary of how this script can be called:
 #        * <prerm> `remove'
 #        * <old-prerm> `upgrade' <new-version>
