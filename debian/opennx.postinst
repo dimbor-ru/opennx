@@ -58,7 +58,7 @@ case "$1" in
         xdg-icon-resource forceupdate
         # Install menu entries
         cd /usr/share/opennx/applnk/xdg
-        xdg-desktop-menu install --mode system *.directory *.desktop
+        xdg-desktop-menu install --novendor --mode system *.directory *.desktop
         ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
