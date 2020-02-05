@@ -837,7 +837,7 @@ MySession::OnSshEvent(wxCommandEvent &event)
                     ::wxRemoveFile(fn.GetFullPath());
             }
             m_pDlg->SetStatusText(_("Sending username"));
-            printSsh(m_pCfg->sGetSessionUser());
+            //printSsh(m_pCfg->sGetSessionUser());
             break;
         case MyIPC::ActionSendPassword:
             m_pDlg->SetStatusText(_("Authenticating"));
@@ -877,6 +877,21 @@ MySession::OnSshEvent(wxCommandEvent &event)
                     m_eConnectState = STATE_SHELLMODE;
                     break;
                 case STATE_SHELLMODE:
+                    scmd = wxT("SET SHELL_MODE SHELL\n");
+                    scmd << wxT("SET AUTH_MODE PASSWORD\n");
+                    scmd << wxT("login\n");
+                    scmd << m_pCfg->sGetSessionUser();
+                    printSsh(scmd);
+                    m_eConnectState = STATE_LOGIN;
+                    break;
+                // Do not delete it!
+                // Sending multiple messages at the same time does not
+                // correspond to the exchange protocol, but these messages
+                // are always sent in that order.
+                // FreeNX understands and correctly processes this.
+                // This does not give much startup acceleration, but still
+                // gives.
+                /*
                     printSsh(wxT("SET SHELL_MODE SHELL"));
                     m_eConnectState = STATE_AUTHMODE;
                     break;
@@ -887,6 +902,7 @@ MySession::OnSshEvent(wxCommandEvent &event)
                 case STATE_LOGIN:
                     printSsh(wxT("login"));
                     break;
+                */
                 case STATE_LIST_RESOURCES:
                     m_pDlg->SetStatusText(_("Query server-side features"));
                     printSsh(wxT("resourcelist"));
