@@ -1,6 +1,6 @@
 IURAR = innounp041.rar
 IUDIR = innounp%200.41
-INXCSN = NXClientCE-3.5.0-9-r15.5.exe
+INXCSN = NXClientCE-3.5.0-9-r15.6.exe
 
 tmpinstall: '{app}'
 	mkdir -p dist/bin dist/lib dist/share

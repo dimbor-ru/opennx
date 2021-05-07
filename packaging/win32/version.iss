@@ -14,7 +14,7 @@
 #define ExeFullVersion(Str FileName) \
        Local[0] = GetFileVersion(FileName), Local[0]
        
-#define APPVERSION "1.0.0-r15.5"
+#define APPVERSION "1.0.0-r15.6"
 #ifdef APPNAME
 # ifdef APPVERSION
 #  define APPVERNAME APPNAME + ' ' + APPVERSION
