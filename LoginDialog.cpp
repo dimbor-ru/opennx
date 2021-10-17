@@ -81,6 +81,8 @@ BEGIN_EVENT_TABLE( LoginDialog, wxDialog )
     ////@begin LoginDialog event table entries
     EVT_INIT_DIALOG( LoginDialog::OnInitDialog )
 
+    EVT_TEXT( XRCID("ID_TEXTCTRL_USERNAME"), LoginDialog::OnTextctrlUsernameUpdated )
+
     EVT_COMBOBOX( XRCID("ID_COMBOBOX_SESSION"), LoginDialog::OnComboboxSessionSelected )
 
     EVT_CHECKBOX( XRCID("ID_CHECKBOX_SMARTCARD"), LoginDialog::OnCheckboxSmartcardClick )
@@ -464,7 +466,10 @@ void LoginDialog::OnComboboxSessionSelected( wxCommandEvent& event )
                 m_pCtrlUsername->Enable(true);
             }
             m_pCtrlUseSmartCard->SetValue(::wxGetApp().NxSmartCardSupport() && cfg.bGetUseSmartCard());
+            m_sSessionName = cfg.sGetName();
         }
+        SetTitle(wxT("OpenNX - ") + m_sUsername + (m_sSessionName.IsEmpty() ? wxT("")
+            : wxT("@") + m_sSessionName));
     }
     m_pCtrlUseSmartCard->Enable(m_pCurrentCfg && m_pCurrentCfg->IsWritable());
     m_pCtrlGuestLogin->Enable(m_pCurrentCfg && m_pCurrentCfg->IsWritable());
@@ -484,6 +489,18 @@ void LoginDialog::OnComboboxSessionSelected( wxCommandEvent& event )
     }
     if (!m_bGuestLogin)
         SetInitialFocus();
+    event.Skip();
+}
+
+/*!
+ * wxEVT_COMMAND_TEXT_UPDATED event handler for ID_TEXTCTRL_USERNAME
+ */
+
+void LoginDialog::OnTextctrlUsernameUpdated( wxCommandEvent& event )
+{
+    wxString un = m_pCtrlUsername->GetValue();
+    SetTitle(wxT("OpenNX - ") + un + (m_sSessionName.IsEmpty() ? wxT("")
+        : wxT("@") + m_sSessionName));
     event.Skip();
 }
 

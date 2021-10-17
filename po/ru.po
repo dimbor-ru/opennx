@@ -143,8 +143,8 @@ msgid "Warning - OpenNX"
 msgstr "Предупреждение - OpenNX"
 
 #: LoginDialog.h:56 LoginDialog_symbols.h:22
-msgid "Login - OpenNX"
-msgstr "Имя пользователя - OpenNX"
+msgid "OpenNX - "
+msgstr "OpenNX - "
 
 #: LoginDialog_symbols.h:23 XdmPropertyDialog_symbols.h:23
 msgid "Login"

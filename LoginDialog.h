@@ -53,7 +53,7 @@ class MyXmlConfig;
 ////@begin control identifiers
 #define ID_DIALOG_LOGIN 10000
 #define SYMBOL_LOGINDIALOG_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX
-#define SYMBOL_LOGINDIALOG_TITLE _("Login - OpenNX")
+#define SYMBOL_LOGINDIALOG_TITLE _("OpenNX - ")
 #define SYMBOL_LOGINDIALOG_IDNAME ID_DIALOG_LOGIN
 #define SYMBOL_LOGINDIALOG_SIZE wxSize(200, 150)
 #define SYMBOL_LOGINDIALOG_POSITION wxDefaultPosition
@@ -104,6 +104,9 @@ private:
 
     /// wxEVT_INIT_DIALOG event handler for ID_DIALOG_LOGIN
     void OnInitDialog( wxInitDialogEvent& event );
+
+    /// wxEVT_COMMAND_TEXT_UPDATED event handler for ID_TEXTCTRL_USERNAME
+    void OnTextctrlUsernameUpdated( wxCommandEvent& event );
 
     /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_COMBOBOX_SESSION
     void OnComboboxSessionSelected( wxCommandEvent& event );
