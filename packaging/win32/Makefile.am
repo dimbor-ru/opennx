@@ -2,10 +2,10 @@ SUBDIRS = xming nx cygnx pulse
 
 FNT1DIR = dejavu-fonts-ttf-2.32
 FNT1BALL = $(FNT1DIR).tar.bz2
-FNT1URL = http://sourceforge.net/projects/dejavu/files/$(FNT1BALL)
+FNT1URL = https://unixforum.org/up/nxman/opennx/$(FNT1BALL)
 FNT2DIR = font-misc-misc-1.1.0
 FNT2BALL = $(FNT2DIR).tar.bz2
-FNT2URL = ftp://ftp.gwdg.de/pub/x11/x.org/pub/X11R7.5/src/font/$(FNT2BALL)
+FNT2URL = https://unixforum.org/up/nxman/opennx/$(FNT2BALL)
 
 .setupdir: $(FNT1DIR) .miscfonts
 	$(RM) -rf setupdir
