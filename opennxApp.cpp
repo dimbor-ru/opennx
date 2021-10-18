@@ -853,6 +853,8 @@ void opennxApp::OnInitCmdLine(wxCmdLineParser& parser)
             _("Dialog mode proxy."));
     parser.AddOption(wxEmptyString, wxT("message"),
             _("Specify message for dialog mode."));
+    parser.AddSwitch(wxEmptyString, wxT("nologin"),
+            _("Ultimately don't login to the specified session automatically."));
     parser.AddOption(wxEmptyString, wxT("parent"),
             _("Specify parent PID for dialog mode."), wxCMD_LINE_VAL_NUMBER);
     parser.AddOption(wxEmptyString, wxT("session"),
@@ -1018,13 +1020,17 @@ bool opennxApp::OnCmdLineParsed(wxCmdLineParser& parser)
         m_bAutoLogin = true;
     if (parser.Found(wxT("autoresume")))
         m_bAutoResume = true;
+    if (parser.Found(wxT("nologin")))
+        m_bAutoLogin = false;
     if (parser.Found(wxT("killerrors")))
         m_bKillErrors = true;
     if (parser.Found(wxT("waittest")))
         m_bTestCardWaiter = true;
     (void)parser.Found(wxT("session"), &m_sSessionName);
-    if (parser.Found(wxT("session")))
+    if (parser.Found(wxT("session")) && !parser.Found(wxT("nologin")))
         m_eMode = MODE_CLIENT_AUTOLOGIN;
+    if (parser.Found(wxT("nologin")))
+        m_bAutoLogin = false;
     wxString traceTags;
     if (parser.Found(wxT("trace"), &traceTags)) {
         CheckAllTrace(traceTags);
