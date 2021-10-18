@@ -1283,8 +1283,12 @@ bool opennxApp::realInit()
     } else {
         if (!m_sSessionName.IsEmpty()) {
             MyXmlConfig cfg(m_sSessionName);
-            if (cfg.IsValid())
+            if (cfg.IsValid()) {
                 m_sSessionName = cfg.sGetFileName();
+                if (m_eMode == MODE_CLIENT_AUTOLOGIN &&
+                                               cfg.sGetUsername().IsEmpty())
+                    m_eMode = MODE_CLIENT;
+            }
         }
     }
 
