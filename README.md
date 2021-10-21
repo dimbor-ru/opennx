@@ -32,6 +32,6 @@ And with classic nxserver 3.x.x compatibility remained.
 Debian package home-maded for Devuan ASCII now. There is a suspicion that
 under Debian Stretch everything will be fine.
 
-Windows installer can be downloaded at [unixforum.org](https://unixforum.org/up/nxman/OpenNXCE-1.0.0-r15.6.exe)
+Windows installer can be downloaded at [unixforum.org](https://unixforum.org/up/nxman/OpenNXCE-1.0.1-r15.6.exe)
 
-dimbor. 2019.
+dimbor. 2021.
