@@ -1498,6 +1498,14 @@ remote VNC server</label>
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
             <object class="sizeritem">
+                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                <border>5</border>
+                <object class="wxCheckBox" name="ID_CHECKBOX_RDP_ROOTLESS">
+                    <label>Rootless</label>
+                    <checked>0</checked>
+                </object>
+            </object>
+            <object class="sizeritem">
                 <flag>wxGROW|wxALL</flag>
                 <border>5</border>
                 <object class="wxFlexGridSizer">

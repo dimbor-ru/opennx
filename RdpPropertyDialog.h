@@ -135,6 +135,7 @@ private:
     wxTextCtrl* m_pCtrlUsername;
     wxTextCtrl* m_pCtrlPassword;
     wxCheckBox* m_pCtrlRememberPassword;
+    wxCheckBox* m_pCtrlRootless;
     wxRadioButton* m_pCtrlRunApplication;
     wxTextCtrl* m_pCtrlApplicationString;
 private:
@@ -144,6 +145,7 @@ private:
     wxString m_sRunCommand;
     bool m_bAutoLogin;
     bool m_bRememberPassword;
+    bool m_bRootless;
     bool m_bShowWinLogon;
     bool m_bUseNxAuth;
     bool m_bRunDesktop;

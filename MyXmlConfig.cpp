@@ -247,6 +247,7 @@ MyXmlConfig::init()
     m_bProxyPassRemember = false;
     m_bRdpCache = true;
     m_bRdpRememberPassword = false;
+    m_bRdpRootless = true;
     m_bRdpRunApplication = false;
     m_bRememberPassword = false;
     m_bRemoveOldSessionFiles = true;
@@ -380,6 +381,7 @@ MyXmlConfig::operator =(const MyXmlConfig &other)
     m_bProxyPassRemember = other.m_bProxyPassRemember;
     m_bRdpCache = other.m_bRdpCache;
     m_bRdpRememberPassword = other.m_bRdpRememberPassword;
+    m_bRdpRootless = other.m_bRdpRootless;
     m_bRdpRunApplication = other.m_bRdpRunApplication;
     m_bRememberPassword = other.m_bRememberPassword;
     m_bRemoveOldSessionFiles = other.m_bRemoveOldSessionFiles;
@@ -746,6 +748,9 @@ MyXmlConfig::sGetSessionParams(const long protocolVersion, bool bNew, const wxSt
                     << (((-1 == m_iRdpImageEncoding) || (4 == m_iRdpImageEncoding)) ? m_iRdpJpegQuality : -1)
                     << wxT("\"");
             }
+            if (m_bRdpRootless)
+                ret << wxT(" --rootless=\"1\" --virtualdesktop=\"0\"");
+            break;
             break;
         case STYPE_VNC:
             ret << wxT("vnc\"")
@@ -874,7 +879,8 @@ MyXmlConfig::sGetSessionParams(const long protocolVersion, bool bNew, const wxSt
         if ((m_eDesktopType != DTYPE_CUSTOM) || (m_bVirtualDesktop)) {
             dspw2 = gw; dsph2 =gh;
         }
-        if ((m_eSessionType == STYPE_VNC) && (m_bVncRootless)) {
+        if ((m_eSessionType == STYPE_VNC) || (m_eSessionType == STYPE_WINDOWS))
+        {
             dspw2 = clientw; dsph2 =clienth;
         }
         ret << wxT(" --screeninfo=\"") << dspw2 << wxT("x") << dsph2 << wxT("x")
@@ -1111,6 +1117,7 @@ MyXmlConfig::operator ==(const MyXmlConfig &other)
     if (m_bProxyPassRemember != other.m_bProxyPassRemember) return false;
     if (m_bRdpCache != other.m_bRdpCache) return false;
     if (m_bRdpRememberPassword != other.m_bRdpRememberPassword) return false;
+    if (m_bRdpRootless != other.m_bRdpRootless) return false;
     if (m_bRdpRunApplication != other.m_bRdpRunApplication) return false;
     if (m_bRememberPassword != other.m_bRememberPassword) return false;
     if (m_bRemoveOldSessionFiles != other.m_bRemoveOldSessionFiles) return false;
@@ -1826,6 +1833,8 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                         m_sRdpPassword = getPassword(opt, wxT("Password"), m_sRdpPassword);
                         m_bRdpRememberPassword = getBool(opt, wxT("Remember"),
                                 m_bRdpRememberPassword);
+                        m_bRdpRootless = getBool(opt, wxT("Rootless"),
+                                m_bRdpRootless);
                         m_bRdpRunApplication = getBool(opt, wxT("Run application"),
                                 m_bRdpRunApplication);
                         m_sRdpHostName = getString(opt, wxT("Server"), m_sRdpHostName);
@@ -2443,6 +2452,7 @@ MyXmlConfig::SaveToFile()
 
     g = AddGroup(r, wxT("Windows Session"));
     bAddOption(g, wxT("Remember"), m_bRdpRememberPassword);
+    bAddOption(g, wxT("Rootless"), m_bRdpRootless);
     bAddOption(g, wxT("Run application"), m_bRdpRunApplication);
     iAddOption(g, wxT("Authentication"), m_iRdpAuthType);
     switch (m_iRdpColors) {

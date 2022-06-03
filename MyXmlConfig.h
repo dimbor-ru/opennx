@@ -217,6 +217,7 @@ class MyXmlConfig
         bool bGetProxyPassRemember() { return m_bProxyPassRemember; }
         bool bGetRdpCache() { return m_bRdpCache; }
         bool bGetRdpRememberPassword() { return m_bRdpRememberPassword; }
+        bool bGetRdpRootless() { return m_bRdpRootless; }
         bool bGetRdpRunApplication() { return m_bRdpRunApplication; }
         bool bGetRememberPassword() { return m_bRememberPassword || m_bGuestMode; }
         bool bGetRemoveOldSessionFiles() { return m_bRemoveOldSessionFiles; }
@@ -318,6 +319,7 @@ class MyXmlConfig
         void bSetProxyPassRemember(const bool b) { m_bProxyPassRemember = b; }
         void bSetRdpCache(const bool b) { m_bRdpCache = b; }
         void bSetRdpRememberPassword(const bool b) { m_bRdpRememberPassword = b; }
+        void bSetRdpRootless(const bool b) { m_bRdpRootless = b; }
         void bSetRdpRunApplication(const bool b) { m_bRdpRunApplication = b; }
         void bSetRememberPassword(const bool b) { m_bRememberPassword = b; }
         void bSetRemoveOldSessionFiles(const bool b) { m_bRemoveOldSessionFiles = b; }
@@ -450,6 +452,7 @@ class MyXmlConfig
         bool m_bProxyPassRemember;
         bool m_bRdpCache;
         bool m_bRdpRememberPassword;
+        bool m_bRdpRootless;
         bool m_bRdpRunApplication;
         bool m_bWritable;
         bool m_bRememberPassword;

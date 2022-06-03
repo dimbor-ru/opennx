@@ -118,12 +118,14 @@ bool RdpPropertyDialog::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const
     m_pCtrlUsername = NULL;
     m_pCtrlPassword = NULL;
     m_pCtrlRememberPassword = NULL;
+    m_pCtrlRootless = NULL;
     m_pCtrlRunApplication = NULL;
     m_pCtrlApplicationString = NULL;
 ////@end RdpPropertyDialog member initialisation
     wxASSERT_MSG(m_pCfg, _T("RdpPropertyDialog::Create: No configuration"));
     if (m_pCfg) {
         m_bRememberPassword = m_pCfg->bGetRdpRememberPassword();
+        m_bRootless = m_pCfg->bGetRdpRootless();
         m_bRunApplication = m_pCfg->bGetRdpRunApplication();
         m_bRunDesktop = !m_bRunApplication;
         m_sHostname = m_pCfg->sGetRdpHostName();
@@ -177,6 +179,7 @@ void RdpPropertyDialog::CreateControls()
     m_pCtrlUsername = XRCCTRL(*this, "ID_TEXTCTRL_RDP_USERNAME", wxTextCtrl);
     m_pCtrlPassword = XRCCTRL(*this, "ID_TEXTCTRL_RDP_PASSWORD", wxTextCtrl);
     m_pCtrlRememberPassword = XRCCTRL(*this, "ID_CHECKBOX_RDP_REMEMBER_PWD", wxCheckBox);
+    m_pCtrlRootless = XRCCTRL(*this, "ID_CHECKBOX_RDP_ROOTLESS", wxCheckBox);
     m_pCtrlRunApplication = XRCCTRL(*this, "ID_RADIOBUTTON_RDP_RUNAPP", wxRadioButton);
     m_pCtrlApplicationString = XRCCTRL(*this, "ID_TEXTCTRL_RDP_APPLICATION", wxTextCtrl);
     // Set validators
@@ -196,6 +199,8 @@ void RdpPropertyDialog::CreateControls()
         FindWindow(XRCID("ID_TEXTCTRL_RDP_PASSWORD"))->SetValidator( wxGenericValidator(& m_sPassword) );
     if (FindWindow(XRCID("ID_CHECKBOX_RDP_REMEMBER_PWD")))
         FindWindow(XRCID("ID_CHECKBOX_RDP_REMEMBER_PWD"))->SetValidator( wxGenericValidator(& m_bRememberPassword) );
+    if (FindWindow(XRCID("ID_CHECKBOX_RDP_ROOTLESS")))
+        FindWindow(XRCID("ID_CHECKBOX_RDP_ROOTLESS"))->SetValidator( wxGenericValidator(& m_bRootless) );
     if (FindWindow(XRCID("ID_RADIOBUTTON_RDP_DESKTOP")))
         FindWindow(XRCID("ID_RADIOBUTTON_RDP_DESKTOP"))->SetValidator( wxGenericValidator(& m_bRunDesktop) );
     if (FindWindow(XRCID("ID_RADIOBUTTON_RDP_RUNAPP")))
@@ -318,6 +323,7 @@ void RdpPropertyDialog::OnOkClick( wxCommandEvent& event )
     if (m_pCfg) {
         TransferDataFromWindow();
         m_pCfg->bSetRdpRememberPassword(m_bRememberPassword);
+        m_pCfg->bSetRdpRootless(m_bRootless);
         m_pCfg->bSetRdpRunApplication(m_bRunApplication);
         m_pCfg->sSetRdpHostName(m_sHostname);
         m_pCfg->sSetRdpUsername(m_sUsername);
