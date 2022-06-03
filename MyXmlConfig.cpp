@@ -994,11 +994,6 @@ MyXmlConfig::sGetXserverParams(bool forNXWin)
             case MyXmlConfig::DPTYPE_640x480:
                 ret << wxT(" -screen 0 640x480");
                 break;
-            case MyXmlConfig::DPTYPE_800x600:
-                // fall thru
-            default:
-                ret << wxT(" -screen 0 800x600");
-                break;
             case MyXmlConfig::DPTYPE_1024x768:
                 ret << wxT(" -screen 0 1024x768");
                 break;
@@ -1027,6 +1022,11 @@ MyXmlConfig::sGetXserverParams(bool forNXWin)
                 // Fall thru
             case MyXmlConfig::DPTYPE_REMOTE:
                 ret << wxT(" -screen 0 ") << m_iDisplayWidth << wxT("x") << m_iDisplayHeight;
+                break;
+            case MyXmlConfig::DPTYPE_800x600:
+                // fall thru
+            default:
+                ret << wxT(" -screen 0 800x600");
                 break;
         }
     } else {

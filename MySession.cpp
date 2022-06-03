@@ -1553,7 +1553,16 @@ MySession::startXserver()
             wxWinCmd << wxT(" -nolisten tcp");
             wxWinCmd << getXfontPath(m_eXarch);
             wxWinCmd << m_pCfg->sGetXserverParams(true);
-            if ((m_pCfg->eGetDesktopType() == MyXmlConfig::DTYPE_CUSTOM) && (!m_pCfg->bGetVirtualDesktop()))
+            if ( ( (m_pCfg->eGetDesktopType() == MyXmlConfig::DTYPE_CUSTOM) &&
+                   (!m_pCfg->bGetVirtualDesktop())
+                 ) ||
+                 ( (m_pCfg->eGetSessionType() == MyXmlConfig::STYPE_WINDOWS) &&
+                   (m_pCfg->bGetRdpRootless())
+                 ) ||
+                 ( (m_pCfg->eGetSessionType() == MyXmlConfig::STYPE_VNC) &&
+                   (m_pCfg->bGetVncRootless())
+                 )
+               )
                 wxWinCmd << wxT(" -multiwindow ");
             else if (m_pCfg->eGetDisplayType()==MyXmlConfig::DPTYPE_NODECORATION)
                 wxWinCmd << wxT(" -nodecoration");
