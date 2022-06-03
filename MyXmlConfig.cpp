@@ -858,6 +858,21 @@ MyXmlConfig::sGetSessionParams(const long protocolVersion, bool bNew, const wxSt
             case DPTYPE_1024x768:
                 gw = 1024; gh = 768;
                 break;
+            case DPTYPE_1280x1024:
+                gw = 1280; gh = 1024;
+                break;
+            case DPTYPE_1400x1050:
+                gw = 1400; gh = 1050;
+                break;
+            case DPTYPE_1440x900:
+                gw = 1440; gh = 900;
+                break;
+            case DPTYPE_1680x1050:
+                gw = 1680; gh = 1050;
+                break;
+            case DPTYPE_1920x1080:
+                gw = 1920; gh = 1080;
+                break;
             case DPTYPE_AVAILABLE:
             case DPTYPE_NODECORATION:
                 gw = clientw; gh = clienth;
@@ -986,6 +1001,21 @@ MyXmlConfig::sGetXserverParams(bool forNXWin)
                 break;
             case MyXmlConfig::DPTYPE_1024x768:
                 ret << wxT(" -screen 0 1024x768");
+                break;
+            case MyXmlConfig::DPTYPE_1280x1024:
+                ret << wxT(" -screen 0 1280x1024");
+                break;
+            case MyXmlConfig::DPTYPE_1400x1050:
+                ret << wxT(" -screen 0 1400x1050");
+                break;
+            case MyXmlConfig::DPTYPE_1440x900:
+                ret << wxT(" -screen 0 1440x900");
+                break;
+            case MyXmlConfig::DPTYPE_1680x1050:
+                ret << wxT(" -screen 0 1680x1050");
+                break;
+            case MyXmlConfig::DPTYPE_1920x1080:
+                ret << wxT(" -screen 0 1920x1080");
                 break;
             case MyXmlConfig::DPTYPE_AVAILABLE:
                 ret << wxT(" -screen 0 ") << clientw << wxT("x") << clienth;
@@ -1554,6 +1584,16 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                             m_eDisplayType = DPTYPE_800x600;
                         if (tmp == wxT("1024x768"))
                             m_eDisplayType = DPTYPE_1024x768;
+                        if (tmp == wxT("1280x1024"))
+                            m_eDisplayType = DPTYPE_1280x1024;
+                        if (tmp == wxT("1400x1050"))
+                            m_eDisplayType = DPTYPE_1400x1050;
+                        if (tmp == wxT("1440x900"))
+                            m_eDisplayType = DPTYPE_1440x900;
+                        if (tmp == wxT("1680x1050"))
+                            m_eDisplayType = DPTYPE_1680x1050;
+                        if (tmp == wxT("1920x1080"))
+                            m_eDisplayType = DPTYPE_1920x1080;
                         if (tmp == wxT("available"))
                             m_eDisplayType = DPTYPE_AVAILABLE;
                         if (tmp == wxT("fullscreen"))
@@ -2174,6 +2214,21 @@ MyXmlConfig::SaveToFile()
             break;
         case DPTYPE_1024x768:
             optval = wxT("1024x768");
+            break;
+        case DPTYPE_1280x1024:
+            optval = wxT("1280x1024");
+            break;
+        case DPTYPE_1400x1050:
+            optval = wxT("1400x1050");
+            break;
+        case DPTYPE_1440x900:
+            optval = wxT("1440x900");
+            break;
+        case DPTYPE_1680x1050:
+            optval = wxT("1680x1050");
+            break;
+        case DPTYPE_1920x1080:
+            optval = wxT("1920x1080");
             break;
         case DPTYPE_AVAILABLE:
             optval = wxT("available");

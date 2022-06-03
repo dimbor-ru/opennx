@@ -415,6 +415,11 @@
                                                                     <item>640x480</item>
                                                                     <item>800x600</item>
                                                                     <item>1024x768</item>
+                                                                    <item>1280x1024</item>
+                                                                    <item>1400x1050</item>
+                                                                    <item>1440x900</item>
+                                                                    <item>1680x1050</item>
+                                                                    <item>1920x1080</item>
                                                                     <item>Available Area</item>
                                                                     <item>Fullscreen</item>
                                                                     <item>Custom</item>
@@ -3237,6 +3242,11 @@ this share.</label>
                                     <item>640x480</item>
                                     <item>800x600</item>
                                     <item>1024x768</item>
+                                    <item>1280x1024</item>
+                                    <item>1400x1050</item>
+                                    <item>1440x900</item>
+                                    <item>1680x1050</item>
+                                    <item>1920x1080</item>
                                     <item>Available Area</item>
                                     <item>Fullscreen</item>
                                     <item>Custom</item>

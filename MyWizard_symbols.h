@@ -58,3 +58,8 @@
 #define ID_WIZARD_SYMBOL_36 _("Enable SSL encryption of all traffic")
 #define ID_WIZARD_SYMBOL_37 _("Create shortcut on desktop")
 #define ID_WIZARD_SYMBOL_38 _("Show the Advanced Configuration dialog")
+#define ID_WIZARD_SYMBOL_39 _("1280x1024")
+#define ID_WIZARD_SYMBOL_40 _("1400x1050")
+#define ID_WIZARD_SYMBOL_41 _("1440x900")
+#define ID_WIZARD_SYMBOL_42 _("1680x1050")
+#define ID_WIZARD_SYMBOL_43 _("1920x1080")
