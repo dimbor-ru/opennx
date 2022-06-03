@@ -739,21 +739,30 @@ bool PulseAudio::ActivateNative(int port, int rrate, bool mono)
     if (!m_bPulseAvailable)
         return false;
 #ifdef WITH_PULSEAUDIO
-    wxString mname = wxT("module-native-protocol-tcp");
     UnloadExistingModules(wxT("module-esound-protocol-tcp"),wxT(""));
+    wxString mname = wxT("module-native-protocol-tcp");
     wxString ma = wxString::Format(wxT("port=%d"), port);
-    UnloadExistingModules(mname,ma);
+    wxArrayString mis,mas; bool res;
+    bool bNativeModulePort = (FoundModuleIDs(mname,ma,mis,mas) > 0);
     wxString mname_fake = wxT("module-null-sink");
     wxString mname_conn = wxT("module-loopback");
-    wxString deltpl = wxT("(sink|sink_name|source)=(ts_sender|ts_receiver)");
-    UnloadExistingModules(mname_conn,deltpl);
-    UnloadExistingModules(mname_fake,deltpl);
-    ma.Append(wxString::Format(wxT(" listen=127.0.0.1 auth-anonymous=1")));
-    bool res = pa->loadmodule(mname,ma);
-    myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
+    if (!bNativeModulePort) {
+        ma.Append(wxString::Format(wxT(" listen=127.0.0.1 auth-anonymous=1")));
+        res = pa->loadmodule(mname,ma);
+        myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
                     VMB(mname), (int)res, VMB(ma));
-    if (!res || (rrate == 0 ))
+    }
+    if (!res)
         return res;
+    wxString ma_fake = wxString::Format(wxT(" rate=%d channels=%s"),rrate,
+                                        mono ?wxT("1"):wxT("2"));
+    if ((rrate == 0) || (FoundModuleIDs(mname_fake,ma_fake,mis,mas) == 0)) {
+        wxString deltpl = wxT("(sink|sink_name|source)=(ts_sender|ts_receiver)");
+        UnloadExistingModules(mname_conn,deltpl);
+        UnloadExistingModules(mname_fake,deltpl);
+        if (rrate == 0)
+            return res;
+    }
 #ifndef __WXMSW__
     wxString dsi,dso; dsi.Empty(); dso.Empty();
     pa->getdefaults(dsi,dso);
@@ -788,28 +797,33 @@ bool PulseAudio::ActivateNative(int port, int rrate, bool mono)
 #endif
 
 #ifndef __WXMSW__
-    wxString ma_fake = wxString::Format(wxT(" rate=%d channels=%s"),rrate,
-                                        mono ?wxT("1"):wxT("2"));
-
     ma = wxT("sink_name=ts_sender") + ma_fake;
-    res = pa->loadmodule(mname_fake,ma);
-    myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
+    if (!FoundModuleIDs(mname_fake,wxT("sink_name=ts_sender"),mis,mas)) {
+        res = pa->loadmodule(mname_fake,ma);
+        myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
                     VMB(mname_fake), (int)res, VMB(ma));
+    }
 
     ma = wxT("source=") + dso + wxT(" sink=ts_sender");
-    res = pa->loadmodule(mname_conn,ma);
-    myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
+    if (!FoundModuleIDs(mname_conn,wxT("sink=ts_sender"),mis,mas)) {
+        res = pa->loadmodule(mname_conn,ma);
+        myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
                     VMB(mname_conn), (int)res, VMB(ma));
+    }
 
     ma = wxT("sink_name=ts_receiver") + ma_fake;
-    res = pa->loadmodule(mname_fake,ma);
-    myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
+    if (!FoundModuleIDs(mname_fake,wxT("sink_name=ts_receiver"),mis,mas)) {
+        res = pa->loadmodule(mname_fake,ma);
+        myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
                     VMB(mname_fake), (int)res, VMB(ma));
+    }
 
     ma = wxT("source=ts_receiver.monitor sink=") + dsi;
-    res = pa->loadmodule(mname_conn,ma);
-    myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
+    if (!FoundModuleIDs(mname_conn,wxT("source=ts_receiver.monitor"),mis,mas)) {
+        res = pa->loadmodule(mname_conn,ma);
+        myLogTrace(MYTRACETAG, wxT("loading %s module -> res = %d (args = '%s')"),
                     VMB(mname_conn), (int)res, VMB(ma));
+    }
     return true;
 #endif
 #else
