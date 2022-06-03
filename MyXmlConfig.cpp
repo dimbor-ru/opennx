@@ -260,6 +260,7 @@ MyXmlConfig::init()
     m_bWritable = true;
     m_bVirtualDesktop = false;
     m_bVncRememberPassword = false;
+    m_bVncRootless = true;
     m_bVncUseNxAuth = false;
     m_bDisableDirectDraw = false;
     m_bDisableDeferredUpdates = false;
@@ -392,6 +393,7 @@ MyXmlConfig::operator =(const MyXmlConfig &other)
     // Don't copy readonly flag
     m_bVirtualDesktop = other.m_bVirtualDesktop;
     m_bVncRememberPassword = other.m_bVncRememberPassword;
+    m_bVncRootless = other.m_bVncRootless;
     m_bVncUseNxAuth = other.m_bVncUseNxAuth;
     m_bDisableDirectDraw = other.m_bDisableDirectDraw;
     m_bDisableDeferredUpdates = other.m_bDisableDeferredUpdates;
@@ -756,6 +758,8 @@ MyXmlConfig::sGetSessionParams(const long protocolVersion, bool bNew, const wxSt
                     << (((-1 == m_iVncImageEncoding) || (4 == m_iVncImageEncoding)) ? m_iVncJpegQuality : -1)
                     << wxT("\"");
             }
+            if (m_bVncRootless)
+                ret << wxT(" --rootless=\"1\" --virtualdesktop=\"0\"");
             break;
     }
     ret << wxT(" --cache=\"");
@@ -869,6 +873,9 @@ MyXmlConfig::sGetSessionParams(const long protocolVersion, bool bNew, const wxSt
         int dspw2 = dspw, dsph2 = dsph;
         if ((m_eDesktopType != DTYPE_CUSTOM) || (m_bVirtualDesktop)) {
             dspw2 = gw; dsph2 =gh;
+        }
+        if ((m_eSessionType == STYPE_VNC) && (m_bVncRootless)) {
+            dspw2 = clientw; dsph2 =clienth;
         }
         ret << wxT(" --screeninfo=\"") << dspw2 << wxT("x") << dsph2 << wxT("x")
             << ::wxDisplayDepth() << (m_bDisableRender ? wxEmptyString : wxT("+render"))
@@ -1117,6 +1124,7 @@ MyXmlConfig::operator ==(const MyXmlConfig &other)
     // Don't compare readonly flag
     if (m_bVirtualDesktop != other.m_bVirtualDesktop) return false;
     if (m_bVncRememberPassword != other.m_bVncRememberPassword) return false;
+    if (m_bVncRootless != other.m_bVncRootless) return false;
     if (m_bVncUseNxAuth != other.m_bVncUseNxAuth) return false;
     if (m_bDisableDirectDraw != other.m_bDisableDirectDraw) return false;
     if (m_bDisableDeferredUpdates != other.m_bDisableDeferredUpdates) return false;
@@ -1783,6 +1791,8 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                         m_sVncPassword = getPassword(opt, wxT("Password"), m_sVncPassword);
                         m_bVncRememberPassword = getBool(opt, wxT("Remember"),
                                 m_bVncRememberPassword);
+                        m_bVncRootless = getBool(opt, wxT("Rootless"),
+                                m_bVncRootless);
                         m_sVncHostName = getString(opt, wxT("Server"), m_sVncHostName);
                         opt = opt->GetNext();
                     }
@@ -2459,6 +2469,7 @@ MyXmlConfig::SaveToFile()
     sAddOption(g, wxT("Application"), m_sRdpApplication);
 
     g = AddGroup(r, wxT("VNC Session"));
+    bAddOption(g, wxT("Rootless"), m_bVncRootless);
     bAddOption(g, wxT("Remember"), m_bVncRememberPassword);
     sAddOption(g, wxT("Server"), m_sVncHostName);
     optval = m_bVncRememberPassword ? encodeString(m_sVncPassword) : wxT("");

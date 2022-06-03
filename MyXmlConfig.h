@@ -228,6 +228,7 @@ class MyXmlConfig
         bool bGetUseSmartCard() { return m_bUseSmartCard; }
         bool bGetVirtualDesktop() { return m_bVirtualDesktop; }
         bool bGetVncRememberPassword() { return m_bVncRememberPassword; }
+        bool bGetVncRootless() { return m_bVncRootless; }
         bool bGetVncUseNxAuth() { return m_bVncUseNxAuth; }
         bool bGetEnableUSBIP() { return m_bEnableUSBIP; }
         bool bGetDisableDirectDraw() { return m_bDisableDirectDraw; }
@@ -328,6 +329,7 @@ class MyXmlConfig
         void bSetUseSmartCard(const bool b) { m_bUseSmartCard = b; }
         void bSetVirtualDesktop(const bool b) { m_bVirtualDesktop = b; }
         void bSetVncRememberPassword(const bool b) { m_bVncRememberPassword = b; }
+        void bSetVncRootless(const bool b) { m_bVncRootless = b; }
         void bSetVncUseNxAuth(const bool b) { m_bVncUseNxAuth = b; }
         void bSetEnableUSBIP(const bool b) { m_bEnableUSBIP = b; }
         void bSetDisableDirectDraw(const bool b) { m_bDisableDirectDraw = b; }
@@ -461,6 +463,7 @@ class MyXmlConfig
         bool m_bValid;
         bool m_bVirtualDesktop;
         bool m_bVncRememberPassword;
+        bool m_bVncRootless;
         bool m_bVncUseNxAuth;
         bool m_bDisableDirectDraw;
         bool m_bGrabKeyboard;

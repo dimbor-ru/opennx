@@ -112,6 +112,7 @@ bool VncPropertyDialog::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const
     wxASSERT_MSG(m_pCfg, _T("VncPropertyDialog::Create: No configuration"));
     if (m_pCfg) {
         m_bRememberPassword = m_pCfg->bGetVncRememberPassword();
+        m_bRootless = m_pCfg->bGetVncRootless();
         m_iDisplayNumber = m_pCfg->iGetVncDisplayNumber();
         m_sHostname = m_pCfg->sGetVncHostName();
         m_sPassword = m_pCfg->sGetVncPassword();
@@ -147,6 +148,7 @@ void VncPropertyDialog::CreateControls()
         wxLogError(wxT("Missing wxXmlResource::Get()->Load() in OnInit()?"));
     m_pCtrlPassword = XRCCTRL(*this, "ID_TEXTCTRL_VNC_PASSWD", wxTextCtrl);
     m_pCtrlRememberPassword = XRCCTRL(*this, "ID_CHECKBOX_VNC_REMEMBER_PWD", wxCheckBox);
+    m_pCtrlRootless = XRCCTRL(*this, "ID_CHECKBOX_VNC_ROOTLESS", wxCheckBox);
     // Set validators
     if (FindWindow(XRCID("ID_TEXTCTRL_VNC_HOST")))
         FindWindow(XRCID("ID_TEXTCTRL_VNC_HOST"))->SetValidator( wxTextValidator(wxFILTER_NONE, & m_sHostname) );
@@ -156,6 +158,8 @@ void VncPropertyDialog::CreateControls()
         FindWindow(XRCID("ID_TEXTCTRL_VNC_PASSWD"))->SetValidator( wxGenericValidator(& m_sPassword) );
     if (FindWindow(XRCID("ID_CHECKBOX_VNC_REMEMBER_PWD")))
         FindWindow(XRCID("ID_CHECKBOX_VNC_REMEMBER_PWD"))->SetValidator( wxGenericValidator(& m_bRememberPassword) );
+    if (FindWindow(XRCID("ID_CHECKBOX_VNC_ROOTLESS")))
+        FindWindow(XRCID("ID_CHECKBOX_VNC_ROOTLESS"))->SetValidator( wxGenericValidator(& m_bRootless) );
 ////@end VncPropertyDialog content construction
 
     if (!m_bStorePasswords)
@@ -209,6 +213,7 @@ void VncPropertyDialog::OnOkClick( wxCommandEvent& event )
     if (m_pCfg) {
         TransferDataFromWindow();
         m_pCfg->bSetVncRememberPassword(m_bRememberPassword);
+        m_pCfg->bSetVncRootless(m_bRootless);
         m_pCfg->iSetVncDisplayNumber(m_iDisplayNumber);
         m_pCfg->sSetVncHostName(m_sHostname);
         m_pCfg->sSetVncPassword(m_sPassword);

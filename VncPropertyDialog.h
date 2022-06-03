@@ -114,11 +114,13 @@ public:
 
 private:
 ////@begin VncPropertyDialog member variables
+    wxCheckBox* m_pCtrlRootless;
     wxTextCtrl* m_pCtrlPassword;
     wxCheckBox* m_pCtrlRememberPassword;
     wxString m_sPassword;
     wxString m_sHostname;
     int m_iDisplayNumber;
+    bool m_bRootless;
     bool m_bRememberPassword;
 ////@end VncPropertyDialog member variables
 

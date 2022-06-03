@@ -1346,6 +1346,14 @@
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
             <object class="sizeritem">
+                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                <border>5</border>
+                <object class="wxCheckBox" name="ID_CHECKBOX_VNC_ROOTLESS">
+                    <label>Rootless</label>
+                    <checked>0</checked>
+                </object>
+            </object>
+            <object class="sizeritem">
                 <flag>wxGROW|wxALL</flag>
                 <border>5</border>
                 <object class="wxStaticBoxSizer" name="wxID_ANY">
@@ -1389,7 +1397,7 @@ remote VNC computer connected to the NX server</label>
                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                 <border>5</border>
                                 <object class="wxTextCtrl" name="ID_TEXTCTRL_VNC_DPY">
-                                    <size>10,-1d</size>
+                                    <size>30,-1d</size>
                                 </object>
                             </object>
                         </object>

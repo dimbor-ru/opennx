@@ -30,3 +30,4 @@
 #define ID_DIALOG_SETTINGS_VNC_SYMBOL_8 _("Remember my password")
 #define ID_DIALOG_SETTINGS_VNC_SYMBOL_9 _("&OK")
 #define ID_DIALOG_SETTINGS_VNC_SYMBOL_10 _("&Cancel")
+#define ID_DIALOG_SETTINGS_VNC_SYMBOL_11 _("Rootless mode")
