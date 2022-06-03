@@ -221,4 +221,38 @@ void VncPropertyDialog::OnOkClick( wxCommandEvent& event )
     event.Skip();
 }
 
+#ifdef __WXMSW__
+/* dimbor: on wxWindows 3.0.2 we need to make a sunset by hand
+   for some reason */
+bool VncPropertyDialog::TransferDataToWindow()
+{
+    wxDialog::TransferDataToWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_VNC_HOST")))
+        FindWindow(XRCID("ID_TEXTCTRL_VNC_HOST"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_VNC_DPY")))
+        FindWindow(XRCID("ID_TEXTCTRL_VNC_DPY"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_VNC_PASSWD")))
+        FindWindow(XRCID("ID_TEXTCTRL_VNC_PASSWD"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_CHECKBOX_VNC_REMEMBER_PWD")))
+        FindWindow(XRCID("ID_CHECKBOX_VNC_REMEMBER_PWD"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_CHECKBOX_VNC_ROOTLESS")))
+        FindWindow(XRCID("ID_CHECKBOX_VNC_ROOTLESS"))->GetValidator()->TransferToWindow();
+    return true;
+}
 
+bool VncPropertyDialog::TransferDataFromWindow()
+{
+    wxDialog::TransferDataFromWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_VNC_HOST")))
+        FindWindow(XRCID("ID_TEXTCTRL_VNC_HOST"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_VNC_DPY")))
+        FindWindow(XRCID("ID_TEXTCTRL_VNC_DPY"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_VNC_PASSWD")))
+        FindWindow(XRCID("ID_TEXTCTRL_VNC_PASSWD"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_CHECKBOX_VNC_REMEMBER_PWD")))
+        FindWindow(XRCID("ID_CHECKBOX_VNC_REMEMBER_PWD"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_CHECKBOX_VNC_ROOTLESS")))
+        FindWindow(XRCID("ID_CHECKBOX_VNC_ROOTLESS"))->GetValidator()->TransferFromWindow();
+    return true;
+}
+#endif

@@ -340,4 +340,66 @@ void RdpPropertyDialog::OnOkClick( wxCommandEvent& event )
     event.Skip();
 }
 
+#ifdef __WXMSW__
+/* dimbor: on wxWindows 3.0.2 we need to make a sunset by hand
+   for some reason */
+bool RdpPropertyDialog::TransferDataToWindow()
+{
+    wxDialog::TransferDataToWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_RDP_HOST")))
+        FindWindow(XRCID("ID_TEXTCTRL_RDP_HOST"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_RDP_DOMAIN")))
+        FindWindow(XRCID("ID_TEXTCTRL_RDP_DOMAIN"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_RDP_WINLOGON")))
+        FindWindow(XRCID("ID_RADIOBUTTON_RDP_WINLOGON"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_RDP_NXAUTH")))
+        FindWindow(XRCID("ID_RADIOBUTTON_RDP_NXAUTH"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_RDP_AUTOLOGIN")))
+        FindWindow(XRCID("ID_RADIOBUTTON_RDP_AUTOLOGIN"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_RDP_USERNAME")))
+        FindWindow(XRCID("ID_TEXTCTRL_RDP_USERNAME"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_RDP_PASSWORD")))
+        FindWindow(XRCID("ID_TEXTCTRL_RDP_PASSWORD"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_CHECKBOX_RDP_REMEMBER_PWD")))
+        FindWindow(XRCID("ID_CHECKBOX_RDP_REMEMBER_PWD"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_CHECKBOX_RDP_ROOTLESS")))
+        FindWindow(XRCID("ID_CHECKBOX_RDP_ROOTLESS"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_RDP_DESKTOP")))
+        FindWindow(XRCID("ID_RADIOBUTTON_RDP_DESKTOP"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_RDP_RUNAPP")))
+        FindWindow(XRCID("ID_RADIOBUTTON_RDP_RUNAPP"))->GetValidator()->TransferToWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_RDP_APPLICATION")))
+        FindWindow(XRCID("ID_TEXTCTRL_RDP_APPLICATION"))->GetValidator()->TransferToWindow();
+    return true;
+}
 
+bool RdpPropertyDialog::TransferDataFromWindow()
+{
+    wxDialog::TransferDataFromWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_RDP_HOST")))
+        FindWindow(XRCID("ID_TEXTCTRL_RDP_HOST"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_RDP_DOMAIN")))
+        FindWindow(XRCID("ID_TEXTCTRL_RDP_DOMAIN"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_RDP_WINLOGON")))
+        FindWindow(XRCID("ID_RADIOBUTTON_RDP_WINLOGON"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_RDP_NXAUTH")))
+        FindWindow(XRCID("ID_RADIOBUTTON_RDP_NXAUTH"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_RDP_AUTOLOGIN")))
+        FindWindow(XRCID("ID_RADIOBUTTON_RDP_AUTOLOGIN"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_RDP_USERNAME")))
+        FindWindow(XRCID("ID_TEXTCTRL_RDP_USERNAME"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_RDP_PASSWORD")))
+        FindWindow(XRCID("ID_TEXTCTRL_RDP_PASSWORD"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_CHECKBOX_RDP_REMEMBER_PWD")))
+        FindWindow(XRCID("ID_CHECKBOX_RDP_REMEMBER_PWD"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_CHECKBOX_RDP_ROOTLESS")))
+        FindWindow(XRCID("ID_CHECKBOX_RDP_ROOTLESS"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_RDP_DESKTOP")))
+        FindWindow(XRCID("ID_RADIOBUTTON_RDP_DESKTOP"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_RADIOBUTTON_RDP_RUNAPP")))
+        FindWindow(XRCID("ID_RADIOBUTTON_RDP_RUNAPP"))->GetValidator()->TransferFromWindow();
+    if (FindWindow(XRCID("ID_TEXTCTRL_RDP_APPLICATION")))
+        FindWindow(XRCID("ID_TEXTCTRL_RDP_APPLICATION"))->GetValidator()->TransferFromWindow();
+    return true;
+}
+#endif
