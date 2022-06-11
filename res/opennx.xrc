@@ -2427,7 +2427,7 @@ local computer.</label>
                             <flag>wxGROW|wxALL</flag>
                             <border>5</border>
                             <object class="wxStaticText" name="wxID_STATIC">
-                                <label>Please choose a printer driver:</label>
+                                <label>CUPS printer driver:</label>
                             </object>
                         </object>
                         <object class="sizeritem">
@@ -2436,19 +2436,12 @@ local computer.</label>
                             <object class="wxComboBox" name="ID_COMBOBOX_SMBDRIVER">
                                 <style>wxCB_DROPDOWN</style>
                                 <content>
-                                    <item>deskjet</item>
-                                    <item>deskjet2</item>
-                                    <item>dymo</item>
-                                    <item>epson24</item>
-                                    <item>epson9</item>
-                                    <item>laserjet</item>
-                                    <item>okidata24</item>
-                                    <item>okidata9</item>
-                                    <item>stcolor</item>
-                                    <item>stcolor2</item>
-                                    <item>stphoto</item>
-                                    <item>stphoto2</item>
+                                    <item>Brother ?</item>
+                                    <item>HP Color LaserJet ?</item>
+                                    <item>HP LaserJet ?</item>
+                                    <item>Kyocera ?</item>
                                 </content>
+                            <tooltip>A distinctive part of the model (lpinfo -m)</tooltip>
                             </object>
                         </object>
                         <object class="sizeritem">
@@ -2570,7 +2563,7 @@ this share.</label>
                             <flag>wxGROW|wxALL</flag>
                             <border>5</border>
                             <object class="wxStaticText" name="wxID_STATIC">
-                                <label>Please choose a printer driver:</label>
+                                <label>Enter CUPS printer driver:</label>
                             </object>
                         </object>
                         <object class="sizeritem">
@@ -2578,10 +2571,13 @@ this share.</label>
                             <border>5</border>
                             <object class="wxComboBox" name="ID_COMBOBOX_CUPSDRIVER">
                                 <style>wxCB_DROPDOWN</style>
-                                <enabled>0</enabled>
                                 <content>
-                                    <item>cups driver</item>
+                                    <item>Brother ?</item>
+                                    <item>HP Color LaserJet ?</item>
+                                    <item>HP LaserJet ?</item>
+                                    <item>Kyocera ?</item>
                                 </content>
+                            <tooltip>A distinctive part of the model (lpinfo -m)</tooltip>
                             </object>
                         </object>
                         <object class="sizeritem">

@@ -361,14 +361,14 @@ void ShareProperties::CreateControls()
                     m_pCtrlSmbPrintOptions->Show(false);
                     m_pCtrlCupsOptions->Show(false);
                     m_pCtrlSmbDiskOptions->Show(true);
-                    m_sMountPoint = wxT("$(SHARES)/") + res->name;
+                    m_sMountPoint = res->name;
                     Layout();
                     break;
                 case SharedResource::SHARE_SMB_PRINTER:
                     m_pCtrlSmbDiskOptions->Show(false);
                     m_pCtrlCupsOptions->Show(false);
                     m_pCtrlSmbPrintOptions->Show(true);
-                    m_sSmbDriver = wxT("laserjet");
+                    m_sSmbDriver = wxT("HP LaserJet ?");
                     Layout();
                     break;
                 case SharedResource::SHARE_CUPS_PRINTER:
@@ -408,12 +408,12 @@ void ShareProperties::OnComboboxShareLocalnameSelected( wxCommandEvent& event )
             m_pCtrlCupsOptions->Show(false);
             m_pCtrlSmbPrintOptions->Show(false);
             m_pCtrlSmbDiskOptions->Show(true);
-            m_sMountPoint = wxT("$(SHARES)/") + res->name;
+            m_sMountPoint = res->name;
             m_pCtrlMountPoint->SetValue(m_sMountPoint);
             Layout();
             break;
         case SharedResource::SHARE_SMB_PRINTER:
-            m_sSmbDriver = wxT("laserjet");
+            m_sSmbDriver = wxT("HP LaserJet ?");
             m_pCtrlSmbDriver->SetValue(m_sSmbDriver);
             m_pCtrlCupsOptions->Show(false);
             m_pCtrlSmbDiskOptions->Show(false);
@@ -423,7 +423,7 @@ void ShareProperties::OnComboboxShareLocalnameSelected( wxCommandEvent& event )
             Layout();
             break;
         case SharedResource::SHARE_CUPS_PRINTER:
-            m_sCupsDriver = wxT("cups driver");
+            m_sCupsDriver = wxT("HP LaserJet ?");
             m_pCtrlSmbPrintOptions->Show(false);
             m_pCtrlSmbDiskOptions->Show(false);
             m_pCtrlCupsOptions->GetSizer()->Layout();
