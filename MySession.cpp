@@ -1985,7 +1985,7 @@ MySession::Create(MyXmlConfig &cfgpar, const wxString password, wxWindow *parent
         fn.SetName(wxT("nxssh"));
 #endif
         wxString nxsshcmd = fn.GetShortPath();
-        nxsshcmd << wxT(" -nx -x -2")
+        nxsshcmd << wxT(" -nx -x -2 -4")
             << wxT(" -p ") << m_pCfg->iGetServerPort()
             << wxT(" -o 'RhostsAuthentication no'")
             << wxT(" -o 'PasswordAuthentication no'")
