@@ -1281,6 +1281,7 @@ MySession::parseSessions(bool moreAllowed)
                         case ResumeDialog::Refresh:
                             wxLogInfo(wxT("REFRESH"));
                             m_eConnectState = STATE_LIST_SESSIONS;
+                            printSsh(wxEmptyString);
                             break;
                         case ResumeDialog::Terminate:
                             wxLogInfo(wxT("TERMINATE"));
