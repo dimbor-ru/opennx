@@ -970,7 +970,7 @@ MySession::OnSshEvent(wxCommandEvent &event)
                 case STATE_FINISH:
                     if (m_bGotError) {
                         m_eConnectState = STATE_ABORT;
-                        printSsh(wxT("bye"), true, wxT("Mainloop: Got error, "));
+                        printSsh(wxT("quit"), true, wxT("Mainloop: Got error, "));
                     }
                     break;
             }
@@ -1318,7 +1318,7 @@ MySession::parseSessions(bool moreAllowed)
                     }
                     break;
                 case wxID_CANCEL:
-                    printSsh(wxT("bye"), true, wxT("ResumeDialog returned CANCEL, "));
+                    printSsh(wxT("quit"), true, wxT("ResumeDialog returned CANCEL, "));
                     m_eConnectState = STATE_ABORT;
                     break;
             }
@@ -1328,7 +1328,7 @@ MySession::parseSessions(bool moreAllowed)
             m_eConnectState = STATE_ABORT;
             m_bGotError = true;
             m_bAbort = true;
-            printSsh(wxT("bye"), true, wxT("No sessions to attach, "));
+            printSsh(wxT("quit"), true, wxT("No sessions to attach, "));
             wxMessageDialog d(m_pParent,
                     _("There are no sessions which can be attached to."),
                     _("Error - OpenNX"), wxOK);
@@ -1338,7 +1338,7 @@ MySession::parseSessions(bool moreAllowed)
             if (moreAllowed)
                 m_eConnectState = STATE_START_SESSION;
             else {
-                printSsh(wxT("bye"), true, wxT("No more sessions allowed, "));
+                printSsh(wxT("quit"), true, wxT("No more sessions allowed, "));
                 wxMessageDialog d(m_pParent,
                         _("You have reached your session limit. No more sessions allowed"),
                         _("Error - OpenNX"), wxOK);
