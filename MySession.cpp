@@ -939,6 +939,7 @@ MySession::OnSshEvent(wxCommandEvent &event)
                     printSsh(scmd);
                     m_eConnectState = STATE_FINISH;
                     break;
+                case STATE_ATTACH_VIEW_SESSION:
                 case STATE_ATTACH_SESSION:
                     m_pDlg->SetStatusText(_("Attaching to session"));
                     scmd = wxT("attachsession");
@@ -947,6 +948,8 @@ MySession::OnSshEvent(wxCommandEvent &event)
                         << wxT("\" --id=\"") << m_sResumeId << wxT("\"")
                         // TODO: Check, since which version this is supported
                         << wxT(" --resize=\"1\"");
+                    if (m_eConnectState == STATE_ATTACH_VIEW_SESSION)
+                        scmd << wxT(" --shadowviewonly=\"1\"");
                     printSsh(scmd);
                     m_eConnectState = STATE_FINISH;
                     break;
@@ -1296,14 +1299,16 @@ MySession::parseSessions(bool moreAllowed)
                             m_sResumeId = d.GetSelectedId();
                             m_sResumePort = d.GetSelectedPort();
                             m_eConnectState = m_bIsShadow ? STATE_ATTACH_SESSION : STATE_RESUME_SESSION;
-			    printSsh(wxEmptyString);
+                            printSsh(wxEmptyString);
                             break;
                         case ResumeDialog::Takeover:
                             wxLogInfo(wxT("TAKEOVER"));
                             m_sResumeName = d.GetSelectedName();
                             m_sResumeType = d.GetSelectedType();
                             m_sResumeId = d.GetSelectedId();
-                            m_eConnectState = STATE_RESUME_SESSION;
+                            if (m_bIsShadow)
+                                m_sResumePort = d.GetSelectedPort();
+                            m_eConnectState = m_bIsShadow ? STATE_ATTACH_VIEW_SESSION : STATE_RESUME_SESSION;
                             printSsh(wxEmptyString);
                             break;
                         case ResumeDialog::New:

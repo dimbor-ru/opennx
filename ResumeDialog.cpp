@@ -219,6 +219,7 @@ ResumeDialog::SetAttachMode(bool b)
 {
     m_bShadow = b;
     m_pCtrlResume->SetLabel(b ? _("&Attach") : _("&Resume"));
+    m_pCtrlTakeover->SetLabel(b ? _("&View") : _("&Takeover"));
 }
 
 /*!
@@ -241,7 +242,7 @@ void ResumeDialog::OnListctrlSessionsSelected( wxListEvent& event )
             m_pCtrlTerminate->Enable(true);
         } else {
             m_pCtrlResume->Enable(true);
-            m_pCtrlTakeover->Enable(false);
+            m_pCtrlTakeover->Enable(true);
             m_pCtrlTerminate->Enable(false);
         }
     } else {
