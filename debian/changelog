@@ -1,3 +1,12 @@
+opennx (1.0.3) UNRELEASED; urgency=low
+
+  * Add forced view only shadow mode (freenx>=2.1.1)
+  * Repair of shadow sessions list refreshing
+  * nxssh force use ipv4 only
+  * Enter model of ipp printer manualy (freenx>=2.0)
+
+ -- Dmitry Borisov <i@dimbor.ru>  Sun, 19 Jun 2022 11:57:17 +0300
+
 opennx (1.0.2) UNRELEASED; urgency=low
 
   * Change rdp and vnc modes
