@@ -156,6 +156,7 @@ private:
     int m_iXserverPID;
     long m_lEsdPort;
     long m_lProtocolVersion;
+    long m_lSrvProtocolVersion;
     unsigned long m_nSessionPushLength;
     wxLog *m_pSshLog;
     MyIPC *m_pNxSsh;

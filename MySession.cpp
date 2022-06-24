@@ -463,6 +463,7 @@ MySession::MySession(const MySession &src)
     m_rePID.Compile(wxT("([[:digit:]]+)"));
     m_iReader = src.m_iReader;
     m_lProtocolVersion = src.m_lProtocolVersion;
+    m_lSrvProtocolVersion = src.m_lSrvProtocolVersion;
     m_sProtocolVersion = src.m_sProtocolVersion;
 }
 
@@ -498,6 +499,7 @@ MySession & MySession::operator =(const MySession &src)
     m_bTouched = src.m_bTouched;
     m_rePID.Compile(wxT("([[:digit:]]+)"));
     m_lProtocolVersion = src.m_lProtocolVersion;
+    m_lSrvProtocolVersion = src.m_lSrvProtocolVersion;
     m_sProtocolVersion = src.m_sProtocolVersion;
     return *this;
 }
@@ -1110,11 +1112,12 @@ MySession::OnSshEvent(wxCommandEvent &event)
     void
 MySession::initversion(const wxString &s /* = wxEmptyString */)
 {
+    wxString s02; wxString s1 = s.BeforeFirst(wxT('-'), &s02);
     m_lProtocolVersion = 0;
     if (!::wxGetEnv(wxT("NX_PROTOCOL_VERSION"), &m_sProtocolVersion))
         m_sProtocolVersion = wxT(NX_PROTOCOL_VERSION);
-    if (!s.IsEmpty())
-        m_sProtocolVersion = s;
+    if (!s1.IsEmpty())
+        m_sProtocolVersion = s1;
     wxStringTokenizer t(m_sProtocolVersion, wxT("."));
     int digits = 0;
     while (t.HasMoreTokens()) {
@@ -1127,6 +1130,19 @@ MySession::initversion(const wxString &s /* = wxEmptyString */)
     while (digits++ < 3)
         m_lProtocolVersion = (m_lProtocolVersion << 8);
     myLogTrace(MYTRACETAG, wxT("protocol version: %08x"), (int)m_lProtocolVersion);
+    wxString s3; wxString s2 = s02.BeforeFirst(wxT('-'), &s3);
+    m_lSrvProtocolVersion = 0;
+    if (s3 != wxT("CE"))
+        return;
+    digits = 0; t.SetString(s2, wxT("."));
+    while (t.HasMoreTokens()) {
+        long n;
+        t.GetNextToken().ToLong(&n);
+        m_lSrvProtocolVersion = (m_lSrvProtocolVersion << 8) + n;
+        if (++digits > 3)
+            break;
+    }
+    myLogTrace(MYTRACETAG, wxT("server protocol version: %08x"), (int)m_lSrvProtocolVersion);
 }
 
     void
