@@ -743,6 +743,22 @@ void WizardPageDesktop::UpdateDialogConstraints(bool getValues)
                 m_pCtrlDisplayType->SetSelection(m_iPseudoDisplayTypeIndex);
             }
             break;
+        case MyXmlConfig::STYPE_ADMIN:
+            if (m_iPseudoDesktopTypeIndex != -1) {
+                m_pCtrlDesktopType->Delete(m_iPseudoDesktopTypeIndex);
+                m_iPseudoDesktopTypeIndex = -1;
+            }
+            m_iPseudoDesktopTypeIndex = m_pCtrlDesktopType->Append(_("Any"), (void *)MyXmlConfig::DTYPE_ANY);
+            m_pCtrlDesktopType->SetSelection(m_iPseudoDesktopTypeIndex);
+            m_iDesktopType = MyXmlConfig::DTYPE_ANY;
+            m_iDesktopTypeDialog = 0;
+            m_pCtrlDesktopType->Enable(false);
+            m_pCtrlDesktopSettings->Enable(false);
+            if (m_iPseudoDisplayTypeIndex == -1) {
+                m_iPseudoDisplayTypeIndex = m_pCtrlDisplayType->Append(_("As on server"), (void *)MyXmlConfig::DPTYPE_REMOTE);
+                m_pCtrlDisplayType->SetSelection(m_iPseudoDisplayTypeIndex);
+            }
+            break;
     }
     switch (m_iDisplayType) {
         case MyXmlConfig::DPTYPE_CUSTOM:
@@ -1306,6 +1322,9 @@ void WizardPageDesktop::OnWizardpageDesktopPageChanging( wxWizardEvent& event )
                 cfg->eSetDesktopType(MyXmlConfig::DTYPE_RFB);
                 break;
             case MyXmlConfig::STYPE_SHADOW:
+                cfg->eSetDesktopType(MyXmlConfig::DTYPE_ANY);
+                break;
+            case MyXmlConfig::STYPE_ADMIN:
                 cfg->eSetDesktopType(MyXmlConfig::DTYPE_ANY);
                 break;
             default:

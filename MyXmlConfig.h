@@ -107,6 +107,7 @@ class MyXmlConfig
             STYPE_WINDOWS,
             STYPE_VNC,
             STYPE_SHADOW,
+            STYPE_ADMIN,
         } SessionType;
 
         typedef enum {

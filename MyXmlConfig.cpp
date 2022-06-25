@@ -1631,6 +1631,10 @@ MyXmlConfig::loadFromStream(wxInputStream &is, bool isPush)
                             m_eSessionType = STYPE_SHADOW;
                             m_bValid = true;
                         }
+                        if (tmp.CmpNoCase(wxT("admin")) == 0) {
+                            m_eSessionType = STYPE_ADMIN;
+                            m_bValid = true;
+                        }
                         // this is 0/1 in NX but getBool can handle that
                         m_bUseCustomImageEncoding = getBool(opt,
                                 wxT("Use default image encoding"), m_bUseCustomImageEncoding);
@@ -2260,6 +2264,9 @@ MyXmlConfig::SaveToFile()
             break;
         case STYPE_SHADOW:
             optval = wxT("shadow");
+            break;
+        case STYPE_ADMIN:
+            optval = wxT("admin");
             break;
     }
     sAddOption(g, wxT("Session"), optval);

@@ -291,6 +291,7 @@
                                                                     <item>Windows</item>
                                                                     <item>VNC</item>
                                                                     <item>Shadow</item>
+                                                                    <item>Admin</item>
                                                                 </content>
                                                             </object>
                                                         </object>
@@ -3177,6 +3178,7 @@ this share.</label>
                                     <item>Windows</item>
                                     <item>VNC</item>
                                     <item>Shadow</item>
+                                    <item>Admin</item>
                                 </content>
                             </object>
                         </object>

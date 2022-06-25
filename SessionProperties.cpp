@@ -995,6 +995,30 @@ void SessionProperties::UpdateDialogConstraints(bool getValues)
             m_pCtrlUsbEnable->Enable(false);
 #endif
             break;
+        case MyXmlConfig::STYPE_ADMIN:
+            if (m_iPseudoDesktopTypeIndex != -1) {
+                m_pCtrlDesktopType->Delete(m_iPseudoDesktopTypeIndex);
+                m_iPseudoDesktopTypeIndex = -1;
+            }
+            m_iPseudoDesktopTypeIndex = m_pCtrlDesktopType->Append(_("Any"), (void *)MyXmlConfig::DTYPE_ANY);
+            m_pCtrlDesktopType->SetSelection(m_iPseudoDesktopTypeIndex);
+            m_iDesktopType = MyXmlConfig::DTYPE_ANY;
+            m_iDesktopTypeDialog = getValues ? 0 : m_iPseudoDesktopTypeIndex;
+            m_pCtrlDesktopType->Enable(false);
+            m_pCtrlDesktopSettings->Enable(false);
+            if (m_iPseudoDisplayTypeIndex == -1) {
+                m_iPseudoDisplayTypeIndex = m_pCtrlDisplayType->Append(_("As on server"), (void *)MyXmlConfig::DPTYPE_REMOTE);
+                m_pCtrlDisplayType->SetSelection(m_iPseudoDisplayTypeIndex);
+            }
+            m_pCtrlCupsEnable->Enable(false);
+            m_pCtrlSmbEnable->Enable(false);
+            m_bUseCups = false;
+            m_bEnableSmbSharing = false;
+            m_bEnableUSBIP = false;
+#ifdef SUPPORT_USBIP
+            m_pCtrlUsbEnable->Enable(false);
+#endif
+            break;
     }
     switch (m_iDisplayType) {
         case MyXmlConfig::DPTYPE_CUSTOM:
