@@ -531,6 +531,10 @@ opennxApp::preInit()
     if (!setSelfPath())
         return false;
 
+#if defined(__LINUX__)
+    wxSetEnv("GTK_IM_MODULE", "gtk-im-context-simple");
+#endif
+
     wxString appver;
     wxString thisver(wxT(PACKAGE_VERSION));
     thisver.Append(wxT(".")).Append(wxT(SVNREV));
