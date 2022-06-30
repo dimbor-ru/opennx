@@ -1,5 +1,4 @@
 IURAR = innounp041.rar
-IUDIR = innounp%200.41
 INXCSN = NXClientCE-3.5.0-9-r15.6.exe
 
 tmpinstall: '{app}'
@@ -17,7 +16,7 @@ tmpinstall: '{app}'
 	$(WINE) innounp.exe -x -q -y nxsetup.exe
 
 $(IURAR):
-	$(WGET) -O $@ -q 'http://sourceforge.net/projects/innounp/files/innounp/$(IUDIR)/$(IURAR)/download'
+	$(WGET) -O $@ 'https://unixforum.org/up/nxman/opennx/$(IURAR)'
 
 innounp.exe: unrar.available $(IURAR)
 	$(UNRAR) e -o+ -idcd $(IURAR) $@
