@@ -7,13 +7,14 @@ Build-Depends:
  autotools-dev,
  automake, libtool,
  wx-common,
- libwxgtk3.0-dev,
+ libwxgtk3.0-dev | libwxgtk3.0-gtk3-dev,
  libxmu-dev,
- libjpeg62-turbo-dev,
+ libjpeg62-turbo-dev | libjpeg-turbo8-dev,
  libpng-dev,
  libaudiofile-dev,
  zip,
- libpulse-dev
+ libpulse-dev,
+ libssl-dev
 Standards-Version: 4.2.1
 Homepage: https://unixforum.org/viewforum.php?f=89
 
@@ -28,12 +29,12 @@ Depends:
  libsm6,
  libstdc++6,
  libwxbase3.0-0v5 (>= 3.0.4),
- libwxgtk3.0-0v5 (>= 3.0.4),
+ libwxgtk3.0-0v5 | libwxgtk3.0-gtk3-0v5 (>= 3.0.4),
  libx11-6,
  libxau6,
  libxmu6,
  xdg-utils,
- libssl1.0.2 (>= 1.0.2d) | libssl1.1,
+ libssl1.0.2 (>= 1.0.2d) | libssl1.1 | libssl3,
  zlib1g
 Recommends: libopensc2, libsmbclient, cups, wx3.0-i18n, libjpeg-turbo, pulseaudio
 Description: Open Source NX client
