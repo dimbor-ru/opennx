@@ -1,3 +1,11 @@
+opennx (1.0.4) UNRELEASED; urgency=low
+
+  * Add installation and build dependencies for modern systems
+  * Small fixes
+  * Add dummy Admin session type
+
+ -- Dmitry Borisov <i@dimbor.ru>  Mon, 05 Sep 2022 00:35:06 +0300
+
 opennx (1.0.3) UNRELEASED; urgency=low
 
   * Add forced view only shadow mode (freenx>=2.1.1)
