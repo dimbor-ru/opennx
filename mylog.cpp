@@ -93,20 +93,3 @@ void myLogTrace(const wxChar *mask, const wxChar *szFormat, ...)
     myVLogTrace(mask, szFormat, argptr);
     va_end(argptr);
 }
-
-static void myVLogTrace(wxTraceMask mask, const wxChar *szFormat, va_list argptr)
-{
-    if ((wxLog::GetTraceMask() & mask) == mask) {
-        wxString msg;
-        msg << wxString::FormatV(szFormat, argptr);
-        logit(msg.ToUTF8(), time(NULL));
-    }
-}
-
-void myLogTrace(wxTraceMask mask, const wxChar *szFormat, ...)
-{
-    va_list argptr;
-    va_start(argptr, szFormat);
-    myVLogTrace(mask, szFormat, argptr);
-    va_end(argptr);
-}

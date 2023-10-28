@@ -39,6 +39,5 @@
 #endif
 extern void myLogDebug(const wxChar *szFormat, ...);
 extern void myLogTrace(const wxChar *mask, const wxChar *szFormat, ...) WX_ATTRIBUTE_PRINTF_2;
-extern void myLogTrace(wxTraceMask mask, const wxChar *szFormat, ...) WX_ATTRIBUTE_PRINTF_2;
 
 #endif // _MYLOG_H_
