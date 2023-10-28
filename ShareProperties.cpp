@@ -161,7 +161,11 @@ bool ShareProperties::Create( wxWindow* parent, wxWindowID WXUNUSED(id), const w
     return TRUE;
 }
 
+#if wxCHECK_VERSION(3,1,0)
+static int cmpshares(SharedResource **a, SharedResource **b)
+#else
 static int cmpshares(_wxObjArrayArrayOfShares **a, _wxObjArrayArrayOfShares **b)
+#endif
 {
     return (*a)->name.Cmp((*b)->name);
 }
