@@ -1,3 +1,10 @@
+opennx (1.0.5) UNRELEASED; urgency=low
+
+  * Unused code delete
+  * Build witch wx3.2 on linux
+
+ -- Dmitry Borisov <i@dimbor.ru>  Sat, 28 Oct 2023 13:04:36 +0300
+
 opennx (1.0.4) UNRELEASED; urgency=low
 
   * Add installation and build dependencies for modern systems
